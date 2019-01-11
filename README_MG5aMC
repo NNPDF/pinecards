@@ -1,0 +1,13 @@
+the current development branch of MG5_aMC is
+https://code.launchpad.net/~mg5core1/mg5amcnlo/2.6.5
+
+It can be downloaded using bazaar (it may be already installed on your machine)
+http://bazaar.canonical.com/en/
+with the command
+bzr branch lp:~mg5core1/mg5amcnlo/2.6.5
+
+Once downloaded, from inside the 2.6.5 directory, you can run 
+bzr pull
+to import recent changes
+
+

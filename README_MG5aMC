@@ -10,4 +10,11 @@ Once downloaded, from inside the 2.6.5 directory, you can run
 bzr pull
 to import recent changes
 
+A procedure analogous to what written above can be used for the EW-capable
+branch, which is
+https://code.launchpad.net/~maddevelopers/mg5amcnlo/3.0.2
+and can be downloaded with
+
+bzr branch lp:~maddevelopers/mg5amcnlo/3.0.2 
+
 

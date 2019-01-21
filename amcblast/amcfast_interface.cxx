@@ -69,7 +69,7 @@ namespace amcfast {
   }
 
   // Declare grids
-  std::vector<appl::grid*> grid_obs;
+  std::vector<appl::grid> grid_obs;
 
   // Declare the input and output grids
   std::string grid_filename_in;
@@ -143,7 +143,7 @@ void amcfast::init() {
   if(file_exists(grid_filename_in)) {
     std::cout << "aMCfast INFO: Reading existing APPLgrid from file " << grid_filename_in << " ..." << std::endl;
     // Open the existing grid
-    grid_obs.push_back(new appl::grid(grid_filename_in));
+    grid_obs.emplace_back(grid_filename_in);
   }
   // If the grid does not exist, book it after having defined all the
   // relevant parameters.
@@ -257,16 +257,16 @@ void amcfast::init() {
       exit(-10);
     }
     // Create a grid with the binning given in the "obsbins[Nbins+1]" array
-    grid_obs.push_back(new appl::grid(Nbins,    obsbins.data(),
+    grid_obs.emplace_back(Nbins,    obsbins.data(),
                                       NQ2,      Q2min,         Q2max, Q2order,
 				      Nx,       xmin,          xmax,  xorder,
-				      filename, leading_order, nloops));
+				      filename, leading_order, nloops);
     // Use the reweighting function
-    grid_obs[grid_obs.size()-1]->reweight(true);
+    grid_obs[grid_obs.size()-1].reweight(true);
     // The grid is an aMC@NLO type
-    grid_obs[grid_obs.size()-1]->amcatnlo();
+    grid_obs[grid_obs.size()-1].amcatnlo();
     // Add documentation
-    grid_obs[grid_obs.size()-1]->addDocumentation(Banner());
+    grid_obs[grid_obs.size()-1].addDocumentation(Banner());
   }
 
   // Compute all the bin widths of the h-th histogram
@@ -339,7 +339,7 @@ void amcfast::fill() {
     // Fill the grid with the values of the observables
     // W0
     weight.at(ilumi) = W0[0];
-    grid_obs[nh]->fill_grid(x1,x2,scale2,obs,&weight[0],0);
+    grid_obs[nh].fill_grid(x1,x2,scale2,obs,&weight[0],0);
     weight.at(ilumi) = 0;
   }
   // n-body contribution without Born (corresponding to xsec12 in aMC@NLO)
@@ -373,15 +373,15 @@ void amcfast::fill() {
 
       // W0
       weight.at(ilumi) = W0[k];
-      grid_obs[nh]->fill_grid(x1,x2,scale2,obs,&weight[0],0);
+      grid_obs[nh].fill_grid(x1,x2,scale2,obs,&weight[0],0);
       weight.at(ilumi) = 0;
       // WR
       weight.at(ilumi) = WR[k];
-      grid_obs[nh]->fill_grid(x1,x2,scale2,obs,&weight[0],1);
+      grid_obs[nh].fill_grid(x1,x2,scale2,obs,&weight[0],1);
       weight.at(ilumi) = 0;
       // WF
       weight.at(ilumi) = WF[k];
-      grid_obs[nh]->fill_grid(x1,x2,scale2,obs,&weight[0],2);
+      grid_obs[nh].fill_grid(x1,x2,scale2,obs,&weight[0],2);
       weight.at(ilumi) = 0;
     }
   }
@@ -413,7 +413,7 @@ void amcfast::fill() {
 
     // WB
     weight.at(ilumi) = WB[1];
-    grid_obs[nh]->fill_grid(x1,x2,scale2,obs,&weight[0],3);
+    grid_obs[nh].fill_grid(x1,x2,scale2,obs,&weight[0],3);
     weight.at(ilumi) = 0;
   }
 }
@@ -431,7 +431,7 @@ void amcfast::fill_ref() {
   // Histogram number
   int nh = appl_common_histokin_.obs_num - 1;
 
-  grid_obs[nh]->getReference()->Fill(obs,www);
+  grid_obs[nh].getReference()->Fill(obs,www);
 }
 
 //
@@ -451,12 +451,12 @@ void amcfast::fill_ref_out() {
   int nh = appl_common_histokin_.obs_num - 1;
 
   // Apply normalization
-  grid_obs[nh]->getReference()->Scale(norm);
+  grid_obs[nh].getReference()->Scale(norm);
 
   // Rescale the reference histogram bins by the respective width
   for(unsigned i=0; i<binwidths[nh].size(); i++) {
-    double bin = grid_obs[nh]->getReference()->GetBinContent(i+1) / binwidths[nh][i];
-    grid_obs[nh]->getReference()->SetBinContent(i+1,bin); // Reference histogram doesn't get the bin corrections
+    double bin = grid_obs[nh].getReference()->GetBinContent(i+1) / binwidths[nh][i];
+    grid_obs[nh].getReference()->SetBinContent(i+1,bin); // Reference histogram doesn't get the bin corrections
   }
 }
 
@@ -480,14 +480,14 @@ void amcfast::term() {
   grid_filename_out = "grid_obs_" + ss.str() + "_out.root";
 
   // Normalize the grid by conversion factor and number of runs
-  *grid_obs[nh] *= conv / n_runs;
-  grid_obs[nh]->getReference()->Scale(n_runs/conv); // Normalize the reference histogram back
+  grid_obs[nh] *= conv / n_runs;
+  grid_obs[nh].getReference()->Scale(n_runs/conv); // Normalize the reference histogram back
 
   // Set run() to one for the combinantion.
-  grid_obs[nh]->run() = 1;
+  grid_obs[nh].run() = 1;
 
   // Write grid to file
-  grid_obs[nh]->Write(grid_filename_out);
+  grid_obs[nh].Write(grid_filename_out);
 }
 
 //

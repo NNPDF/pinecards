@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Usage
+if [[ $# -le 0 || $# -ge 3 || -n $( echo $* | egrep -- "--help|-h" ) ]]; then
+    echo
+    echo "amcfast-shower: grid production from an event file"
+    echo "                http://projects.hepforge.org/amcfast/"
+    echo
+    echo "Usage: amcfast-shower <aMCfast event file> | <PDF set> (optional)"
+    echo "Options:"
+    echo "  --help | -h    : this help"
+    echo
+    exit
+fi
+
+# Check that the event file exists
+if [ ! -f $1 ]; then
+    echo "Event file not found!"
+    echo
+    exit
+fi
+
+# Check that if a PDF set has been provided
+if [ -z $2 ]; then
+    PDFSET="none"
+    echo "No PDF set provided."
+    echo "The grid will be filled up using the weights of the event file"
+
+else
+    PDFSET=$2
+    echo "No PDF set provided."
+    echo "The grid will be filled up using the weights recontruscted with" $PDFSET
+fi
+
+# Run "amcfast-psgrid" on the event file the first time to set up the grids
+amcfast-psgrid $1 "none"
+
+# Number of generated grids
+NGRIDS=$(ls -l grid_obs_*_out.root | wc -l)
+
+# Optimize grids
+for ((j=0; j<$NGRIDS; j++))
+  do
+    applgrid-combine -o grid_obs_"$j"_in.root --optimise grid_obs_"$j"_out.root
+done
+
+# Cleaning
+rm *_out.root
+
+# Run "amcfast-psgrid" on the event file the second time to produce the file grids
+amcfast-psgrid $1 $PDFSET
+
+# Cleaning and renaming
+for ((j=0; j<$NGRIDS; j++))
+  do
+    rm grid_obs_"$j"_in.root
+    mv grid_obs_"$j"_out.root aMCfast_obs_"$j".root
+done

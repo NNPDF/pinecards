@@ -54,4 +54,4 @@ lib = static_library(
     pic : true
 )
 
-executable('amcfast-psgrid', 'amcfast-psgrid.cxx', link_with : lib)
+executable('amcfast-psgrid', 'amcfast-psgrid.cxx', install : true, link_with : lib)

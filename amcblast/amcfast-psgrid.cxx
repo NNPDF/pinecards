@@ -1,6 +1,6 @@
 /*
-  This code is part of the aMCfast library but it is compiled separately and the 
-  executable "amcfast-psgrid" created. Such an executable takes the aMCfast event 
+  This code is part of the aMCfast library but it is compiled separately and the
+  executable "amcfast-psgrid" created. Such an executable takes the aMCfast event
   file "aMCfast_obs.event" produced by MG5_aMC@NLO as an input and produces as many
   interpolation grids as observables defined in the event file.
 
@@ -393,7 +393,7 @@ void fill_grids(string eventfile) {
 		}
 		else {
 		  cout << "aMCfast ERROR: Invalid weight ID" << endl;
-		  cout << "t = " << t << endl; 
+		  cout << "t = " << t << endl;
 		  exit(-10);
 		}
 
@@ -408,15 +408,15 @@ void fill_grids(string eventfile) {
 	  }
 	  else {
 	    cout << "aMCfast ERROR: Unexpected line in the event file" << endl;
-	    cout << "Should be <applgrid>, while " << line << " found" << endl; 
+	    cout << "Should be <applgrid>, while " << line << " found" << endl;
 	    exit(-10);
 	  }
 
 	  //if(enable_reconstruction) {
 	  //  if(abs((reco_weight-appl_common_histokin_.www_histo)/reco_weight)>1e-2) {
 	  //    cout << "aMCfast WARNING: weight reconstruction of the " << ievent << "-th event failed" << endl;
-	  //    cout << "expected weight      = " << appl_common_histokin_.www_histo << endl; 
-	  //    cout << "reconstructed weight = " << reco_weight << endl; 
+	  //    cout << "expected weight      = " << appl_common_histokin_.www_histo << endl;
+	  //    cout << "reconstructed weight = " << reco_weight << endl;
 	  //  }
 	  //}
 
@@ -438,13 +438,13 @@ void fill_grids(string eventfile) {
   // found in the initialization stage.
   if(ievent != nevents) {
     cout << "aMCfast ERROR: Event number mismatch" << endl;
-    cout << "expected number = " << nevents << endl; 
-    cout << "found number    = " << ievent << endl; 
+    cout << "expected number = " << nevents << endl;
+    cout << "found number    = " << ievent << endl;
     exit(-10);
   }
 
   // Restore precision and field width
-  cout << setprecision(16); 
+  cout << setprecision(16);
   cout << setw(16);
   return;
 }

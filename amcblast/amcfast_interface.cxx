@@ -29,7 +29,7 @@
 extern "C" double alphasPDF_(const double&);
 extern "C" void evolvePDF_(const double&, const double&, double*);
 
-// External hook functions for aMC@NLO control 
+// External hook functions for aMC@NLO control
 extern void (*appl_initptr)();
 extern void (*appl_fillptr)();
 extern void (*appl_fillrefptr)();
@@ -51,17 +51,17 @@ extern "C" bool setup_amcfast_() {
   return true;
 }
 
-namespace amcfast {  
+namespace amcfast {
 
   // Initialise the hook functions
   bool amcfast_ready = setup_amcfast_();
-  
+
   // Parton luminosity
   double lhapdf_lumi(double, double, double, int);
-  
+
   // Check if a file exists
-  bool file_exists(const std::string& s) {   
-    if(std::FILE* testfile=std::fopen(s.c_str(),"r")) { 
+  bool file_exists(const std::string& s) {
+    if(std::FILE* testfile=std::fopen(s.c_str(),"r")) {
       std::fclose(testfile);
       return true;
     }
@@ -70,11 +70,11 @@ namespace amcfast {
 
   // Declare grids
   std::vector<appl::grid*> grid_obs;
-  
+
   // Declare the input and output grids
   std::string grid_filename_in;
   std::string grid_filename_out;
-  
+
   // Bin width
   std::vector< std::vector<double> > binwidths;
 
@@ -132,7 +132,7 @@ namespace amcfast {
 //
 void amcfast::init() {
   // Grid Initialization and definition of the observables.
-  // Construct the input file name according to its position in the 
+  // Construct the input file name according to its position in the
   // vector "grid_obs".
   std::ostringstream ss;
   ss << grid_obs.size();
@@ -140,7 +140,7 @@ void amcfast::init() {
 
   // Check that the grid file exists. If so read the grid from the file,
   // otherwise create a new grid from scratch.
-  if(file_exists(grid_filename_in)) { 
+  if(file_exists(grid_filename_in)) {
     std::cout << "aMCfast INFO: Reading existing APPLgrid from file " << grid_filename_in << " ..." << std::endl;
     // Open the existing grid
     grid_obs.push_back(new appl::grid(grid_filename_in));
@@ -219,9 +219,9 @@ void amcfast::init() {
     }
 
     // Use a name for the PDF combination type ending with .config.
-    // This will configure from a file with the same format as the 
-    // aMC@NLO initial_states_map.dat file unless a serialised 
-    // vector including the combinations is also passed to the 
+    // This will configure from a file with the same format as the
+    // aMC@NLO initial_states_map.dat file unless a serialised
+    // vector including the combinations is also passed to the
     // constructor, as is the case here.
     // Assign to the luminosity file the timestamp in order to avoid
     // conflicts between multiple applgrid files generated with this
@@ -229,7 +229,7 @@ void amcfast::init() {
     time_t rawtime;
     struct tm * timeinfo;
     const int TZ = 16;
-    char t[TZ];  
+    char t[TZ];
     time(&rawtime);
     timeinfo = localtime(&rawtime);
     strftime(t, TZ, "%Y%m%d%H%M%S", timeinfo);
@@ -250,7 +250,7 @@ void amcfast::init() {
       std::cout << "aMCfast ERROR: mismatch in the lower limit of the histogram:" << std::endl;
       std::cout << "It is " << obsbins[0] << ", it should be " << obsmin << std::endl;
       exit(-10);
-    } 
+    }
     if(fabs(obsbins[Nbins]-obsmax) >= 1e-5) {
       std::cout << "aMCfast ERROR: mismatch in the upper limit of the histogram" << std::endl;
       std::cout << "It is " << obsbins[Nbins] << ", it should be " << obsmax << std::endl;
@@ -258,7 +258,7 @@ void amcfast::init() {
     }
     // Create a grid with the binning given in the "obsbins[Nbins+1]" array
     grid_obs.push_back(new appl::grid(Nbins,    obsbins,
-                                      NQ2,      Q2min,         Q2max, Q2order,  
+                                      NQ2,      Q2min,         Q2max, Q2order,
 				      Nx,       xmin,          xmax,  xorder,
 				      filename, leading_order, nloops));
     // Use the reweighting function
@@ -421,7 +421,7 @@ void amcfast::fill() {
 //
 // Fill the APPLgrid reference histogram.
 //
-void amcfast::fill_ref() {    
+void amcfast::fill_ref() {
   // Event weights to fill the histograms
   double www = appl_common_histokin_.www_histo;
 
@@ -437,7 +437,7 @@ void amcfast::fill_ref() {
 //
 // Final normalization of the APPLgrid reference histogram.
 //
-void amcfast::fill_ref_out() { 
+void amcfast::fill_ref_out() {
   // Normalization factor
   double norm = appl_common_histokin_.norm_histo;
 
@@ -459,11 +459,11 @@ void amcfast::fill_ref_out() {
     grid_obs[nh]->getReference()->SetBinContent(i+1,bin); // Reference histogram doesn't get the bin corrections
   }
 }
-  
+
 //
 // Write out the grids
 //
-void amcfast::term() { 
+void amcfast::term() {
   // Conversion factor from natural units to pb
   double conv = 389379660;
 
@@ -479,11 +479,11 @@ void amcfast::term() {
   ss << nh;
   grid_filename_out = "grid_obs_" + ss.str() + "_out.root";
 
-  // Normalize the grid by conversion factor and number of runs 
+  // Normalize the grid by conversion factor and number of runs
   *grid_obs[nh] *= conv / n_runs;
   grid_obs[nh]->getReference()->Scale(n_runs/conv); // Normalize the reference histogram back
 
-  // Set run() to one for the combinantion.  
+  // Set run() to one for the combinantion.
   grid_obs[nh]->run() = 1;
 
   // Write grid to file
@@ -516,7 +516,7 @@ void amcfast::reco() {
 
   // Get value of the strong coupling
   double g;
-  if(muR != 0) g = std::sqrt(4 * M_PI * LHAPDF::alphasPDF(muR)); 
+  if(muR != 0) g = std::sqrt(4 * M_PI * LHAPDF::alphasPDF(muR));
   else         g = 0;
 
   // Compute the partonic luminosities
@@ -528,7 +528,7 @@ void amcfast::reco() {
   xsec11 = pdflumi * appl_common_weights_.W0[0] * std::pow(g,2*bpow+2);
 
   // Counter Events.
-  // Soft (k=1), Collinear (k=2) and Soft-Collinear (k=3)    
+  // Soft (k=1), Collinear (k=2) and Soft-Collinear (k=3)
   for(int k=1; k<4; k++) {
     double QES = std::sqrt(appl_common_weights_.muQES2[k]);
     double muR = std::sqrt(appl_common_weights_.muR2[k]);
@@ -545,7 +545,7 @@ void amcfast::reco() {
 
     // Get value of the strong coupling
     double g;
-    if(muR != 0) g = std::sqrt(4 * M_PI * LHAPDF::alphasPDF(muR)); 
+    if(muR != 0) g = std::sqrt(4 * M_PI * LHAPDF::alphasPDF(muR));
     else         g = 0;
 
     // Compute the partonic luminosities
@@ -590,36 +590,36 @@ void amcfast::reco() {
     std::cout << "xsec_ref = " << xsec_ref << std::endl;
     exit(-10);
   }
-  return; 
+  return;
 }
 
 //
 // PDF luminosity based on LHAPDF and the information on the appl_common.inc block
 //
-double amcfast::lhapdf_lumi(double x1bj, double x2bj, double qpdf, int k) {  
+double amcfast::lhapdf_lumi(double x1bj, double x2bj, double qpdf, int k) {
   // Conversion factor from natural units to pb
   double const conv = 389379660;
   // initialization
   double pdflumi = 0;
-    
+
   // Check
   if(k<0 || k>3) {
     std::cout << "aMCfast ERROR: Invalid value of k = " << k << std::endl;
     exit(-10);
   }
-    
+
   // Return zero if the Bjorken's x is equal to zero
   if(x1bj == 0 || x2bj == 0 ) return 0;
-    
+
   // Select luminosity
   int ilumi = appl_common_weights_.flavmap[k] - 1;
   // Check physical range
   if(ilumi < 0 || ilumi >= appl_common_lumi_.nlumi) {
-    std::cout << "aMCfast ERROR: Invalid value of flavor map" << std::endl; 
-    std::cout << "flavmap[k], nlumi = " << ilumi << " " << appl_common_lumi_.nlumi << std::endl; 
+    std::cout << "aMCfast ERROR: Invalid value of flavor map" << std::endl;
+    std::cout << "flavmap[k], nlumi = " << ilumi << " " << appl_common_lumi_.nlumi << std::endl;
     exit(-10);
   }
-    
+
   // Call the PDFs
   for(int iproc=0; iproc<appl_common_lumi_.nproc[ilumi]; iproc++) {
     // Get PDF flavors ID

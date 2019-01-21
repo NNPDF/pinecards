@@ -1,12 +1,12 @@
 // is -*- c++ -*-
 //
-//   @file    amcatnlo_common.h        
-//            aMC@NLO - APPLgrid commom block interface   
-//                   
-//            c++ implementation of from appl_common.inc 
+//   @file    amcatnlo_common.h
+//            aMC@NLO - APPLgrid commom block interface
+//
+//            c++ implementation of from appl_common.inc
 //            from amcatnlo: Template/NLO/SubProcess/appl_common.inc
-//  
-//   Copyright (C) 2013 M.Sutton (sutt@cern.ch)    
+//
+//   Copyright (C) 2013 M.Sutton (sutt@cern.ch)
 //
 //   $Id: amcatnlo.h, v0.0   Thu  4 Jul 2013 09:51:20 CEST sutt $
 
@@ -22,16 +22,16 @@ const int __max_nproc__ = 121;
   Common blocks for NLO mode of aMC@NLO
 */
 
-// Information defined at the generation (configuration) step, that does 
+// Information defined at the generation (configuration) step, that does
 // not vary event by event
 typedef struct {
   int bpower; // Born level alphas order
 } __amcatnlo_common_fixed__;
 
-// Map of the PDF combinations from aMC@NLO - structure for each 
+// Map of the PDF combinations from aMC@NLO - structure for each
 // "subprocess" i, has some number nproc[i] pairs of parton
 // combinations. To be used together with the info in appl_flavmap.
-typedef struct { 
+typedef struct {
   int lumimap[__max_nproc__][__max_nproc__][2]; // (paired) subprocesses per combination
   int nproc[__max_nproc__];                     // number of separate (pairwise) subprocesses for this combination
   int nlumi;                                    // overall number of combinations ( 0 < nlumi <= __mxpdflumi__ )
@@ -39,7 +39,7 @@ typedef struct {
 
 // Event weights, kinematics, etc. that are different event by event
 typedef struct {
-  double  x1[4],x2[4]; 
+  double  x1[4],x2[4];
   double  muF2[4],muR2[4],muQES2[4];
   double  W0[4],WR[4],WF[4],WB[4];
   int     flavmap[4];
@@ -80,4 +80,4 @@ extern "C" __amcatnlo_common_grid__     appl_common_grid_;
 extern "C" __amcatnlo_common_histokin__ appl_common_histokin_;
 extern "C" __amcatnlo_common_reco__     appl_common_reco_;
 
-#endif  // AMCATNLO_COMMON_H 
+#endif  // AMCATNLO_COMMON_H

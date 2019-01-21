@@ -1,4 +1,4 @@
-project('amcblast', 'cpp', version : '2.0.0')
+project('amcblast', 'cpp', default_options : 'cpp_std=c++11', version : '2.0.0')
 
 install_headers('amcatnlo_common.h', 'amcfast_interface.h', subdir : 'amcfast')
 

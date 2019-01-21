@@ -242,7 +242,7 @@ void amcfast::init() {
     double obsmax = appl_common_histokin_.obs_max;
 
     // Create array with the bin edges
-    double obsbins[Nbins+1];
+    std::vector<double> obsbins(Nbins+1);
     for(int i=0; i<=Nbins; i++) obsbins[i] = appl_common_histokin_.obs_bins[i];
 
     // Check if the actual lower and upper limits of the histogram are correct
@@ -257,7 +257,7 @@ void amcfast::init() {
       exit(-10);
     }
     // Create a grid with the binning given in the "obsbins[Nbins+1]" array
-    grid_obs.push_back(new appl::grid(Nbins,    obsbins,
+    grid_obs.push_back(new appl::grid(Nbins,    obsbins.data(),
                                       NQ2,      Q2min,         Q2max, Q2order,
 				      Nx,       xmin,          xmax,  xorder,
 				      filename, leading_order, nloops));

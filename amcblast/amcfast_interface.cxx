@@ -39,7 +39,7 @@ extern void (*appl_recoptr)();
 
 // Hook functions
 extern "C" bool setup_amcfast_() {
-  std::cout << "aMCfast INFO: Setting up hook functions ..." << std::endl;
+  std::cout << "aMCfast INFO: Setting up hook functions ...\n";
 
   appl_initptr       = amcfast::init;
   appl_fillptr       = amcfast::fill;
@@ -141,18 +141,18 @@ void amcfast::init() {
   // Check that the grid file exists. If so read the grid from the file,
   // otherwise create a new grid from scratch.
   if(file_exists(grid_filename_in)) {
-    std::cout << "aMCfast INFO: Reading existing APPLgrid from file " << grid_filename_in << " ..." << std::endl;
+    std::cout << "aMCfast INFO: Reading existing APPLgrid from file " << grid_filename_in << " ...\n";
     // Open the existing grid
     grid_obs.emplace_back(grid_filename_in);
   }
   // If the grid does not exist, book it after having defined all the
   // relevant parameters.
   else {
-    std::cout << "aMCfast INFO: Booking grid from scratch with name " << grid_filename_in << " ..." << std::endl;
+    std::cout << "aMCfast INFO: Booking grid from scratch with name " << grid_filename_in << " ...\n";
 
     // leading_order: power of alphas of Born events
     int const leading_order = appl_common_fixed_.bpower;
-    //std::cout << "aMCfast INFO: bpower = " << leading_order << std::endl;
+    //std::cout << "aMCfast INFO: bpower = " << leading_order << "\n";
 
     // Number of loops in the APPLgrid formalism.
     // Here we store four grids, W0, WR, WF and W0, in the notation of arXiv:1110.4738.
@@ -188,17 +188,16 @@ void amcfast::init() {
     if(appl_common_grid_.xorder > 0)  xorder  = appl_common_grid_.xorder;
 
     // Report of the grid parameters
-    std::cout << std::endl;
-    std::cout << "aMCfast INFO: Report of the grid parameters:" << std::endl;
-    std::cout << "- Q2 grid:" << std::endl;
-    std::cout << "  * interpolation range: [ " << Q2min << " : " << Q2max << " ] GeV^2" << std::endl;
-    std::cout << "  * number of nodes: " << NQ2 << std::endl;
-    std::cout << "  * interpolation order: " << Q2order << std::endl;
-    std::cout << "- x grid:" << std::endl;
-    std::cout << "  * interpolation range: [ " << xmin << " : " << xmax << " ]" << std::endl;
-    std::cout << "  * number of nodes: " << Nx << std::endl;
-    std::cout << "  * interpolation order: " << xorder << std::endl;
-    std::cout << std::endl;
+    std::cout << "\n"
+                 "aMCfast INFO: Report of the grid parameters:\n"
+                 "- Q2 grid:\n"
+                 "  * interpolation range: [ " << Q2min << " : " << Q2max << " ] GeV^2\n"
+                 "  * number of nodes: " << NQ2 << "\n"
+                 "  * interpolation order: " << Q2order << "\n"
+                 "- x grid:\n"
+                 "  * interpolation range: [ " << xmin << " : " << xmax << " ]\n"
+                 "  * number of nodes: " << Nx << "\n"
+                 "  * interpolation order: " << xorder << "\n\n";
 
     // Set up the APPLgrid PDF luminosities
     std::vector<int> pdf_luminosities;
@@ -247,13 +246,13 @@ void amcfast::init() {
 
     // Check if the actual lower and upper limits of the histogram are correct
     if(fabs(obsbins[0]-obsmin) >= 1e-5) {
-      std::cout << "aMCfast ERROR: mismatch in the lower limit of the histogram:" << std::endl;
-      std::cout << "It is " << obsbins[0] << ", it should be " << obsmin << std::endl;
+      std::cout << "aMCfast ERROR: mismatch in the lower limit of the histogram:\n"
+                   "It is " << obsbins[0] << ", it should be " << obsmin << std::endl;
       exit(-10);
     }
     if(fabs(obsbins[Nbins]-obsmax) >= 1e-5) {
-      std::cout << "aMCfast ERROR: mismatch in the upper limit of the histogram" << std::endl;
-      std::cout << "It is " << obsbins[Nbins] << ", it should be " << obsmax << std::endl;
+      std::cout << "aMCfast ERROR: mismatch in the upper limit of the histogram\n"
+                   "It is " << obsbins[Nbins] << ", it should be " << obsmax << std::endl;
       exit(-10);
     }
     // Create a grid with the binning given in the "obsbins[Nbins+1]" array
@@ -495,7 +494,7 @@ void amcfast::term() {
 // by the APPLgrid information and LHAPDF.
 //
 void amcfast::reco() {
-  std::cout << "aMCfast INFO: Entering reco() function ..." << std::endl;
+  std::cout << "aMCfast INFO: Entering reco() function ...\n";
   // Initialization
   double xsec11 = 0;
   double xsec12 = 0;
@@ -575,9 +574,9 @@ void amcfast::reco() {
   if(xsec_ref == 0) {
     if(xsec == 0) diff = 0;
     else {
-      std::cout << "aMCfast ERROR: Failed reconstruction of original event weight (1)" << std::endl;
-      std::cout << "xsec     = " << xsec     << std::endl;
-      std::cout << "xsec_ref = " << xsec_ref << std::endl;
+      std::cout << "aMCfast ERROR: Failed reconstruction of original event weight (1)\n"
+                   "xsec     = " << xsec     << "\n"
+                   "xsec_ref = " << xsec_ref << std::endl;
       exit(-10);
     }
   }
@@ -585,9 +584,9 @@ void amcfast::reco() {
 
   // Check the accuracy
   if(diff > 1e-5) {
-    std::cout << "aMCfast ERROR: Failed reconstruction of original event weight (2)" << std::endl;
-    std::cout << "xsec     = " << xsec     << std::endl;
-    std::cout << "xsec_ref = " << xsec_ref << std::endl;
+    std::cout << "aMCfast ERROR: Failed reconstruction of original event weight (2)\n"
+                 "xsec     = " << xsec     << "\n"
+                 "xsec_ref = " << xsec_ref << std::endl;
     exit(-10);
   }
   return;
@@ -604,7 +603,7 @@ double amcfast::lhapdf_lumi(double x1bj, double x2bj, double qpdf, int k) {
 
   // Check
   if(k<0 || k>3) {
-    std::cout << "aMCfast ERROR: Invalid value of k = " << k << std::endl;
+    std::cout << "aMCfast ERROR: Invalid value of k = " << k << "\n";
     exit(-10);
   }
 
@@ -615,8 +614,8 @@ double amcfast::lhapdf_lumi(double x1bj, double x2bj, double qpdf, int k) {
   int ilumi = appl_common_weights_.flavmap[k] - 1;
   // Check physical range
   if(ilumi < 0 || ilumi >= appl_common_lumi_.nlumi) {
-    std::cout << "aMCfast ERROR: Invalid value of flavor map" << std::endl;
-    std::cout << "flavmap[k], nlumi = " << ilumi << " " << appl_common_lumi_.nlumi << std::endl;
+    std::cout << "aMCfast ERROR: Invalid value of flavor map\n"
+                 "flavmap[k], nlumi = " << ilumi << " " << appl_common_lumi_.nlumi << std::endl;
     exit(-10);
   }
 
@@ -628,8 +627,8 @@ double amcfast::lhapdf_lumi(double x1bj, double x2bj, double qpdf, int k) {
     // Check LHAPDF conventions are satisfied
     // Assume always working in nf=5 scheme at most
     if(flav1 < (-5) || flav2 < (-5) || flav2 > (+5) || flav2 > (+5)) {
-      std::cout << "aMCfast ERROR: Invalid value of PDF flavor indices" << std::endl;
-      std::cout << "flav1, flav2 = " << flav1 << " " << flav2 << std::endl;
+      std::cout << "aMCfast ERROR: Invalid value of PDF flavor indices\n"
+                   "flav1, flav2 = " << flav1 << " " << flav2 << std::endl;
       exit(-10);
     }
     // Compute the luminosity

@@ -105,6 +105,7 @@ fi
 AC_SUBST(LHAPDF_CXXFLAGS)
 AM_CONDITIONAL(USE_LHAPDF, [test $LHAPDF_MAJOR_VERSION -gt 5 ] )
 
+AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
 
 AC_CONFIG_FILES([bin/Makefile bin/applgrid-config])
 

@@ -451,11 +451,12 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
       /// I ask you!! what's the point of a template if it doesn't actually instantiate
       /// it's pathetic!
 
-      TVectorT<double>* _combinations = (TVectorT<double>*)gridfilep->Get( label.c_str() );
+      std::unique_ptr<TVectorT<double>> _combinations{
+        dynamic_cast <TVectorT<double>*> (gridfilep->Get( label.c_str() ))};
 
       label += "N"; /// add an N for each order, N-LO, NN-LO etc
 
-      if ( _combinations==0 ) throw exception(std::cerr << "grid::grid() cannot read pdf combination " << namevec[i] << std::endl );
+      if ( !_combinations ) throw exception(std::cerr << "grid::grid() cannot read pdf combination " << namevec[i] << std::endl );
 
       std::vector<int> combinations(_combinations->GetNoElements());
 

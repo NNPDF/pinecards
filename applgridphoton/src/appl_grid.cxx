@@ -313,9 +313,10 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   //  Directory d(dirname);
   //  d.push();
 
-  TFileString* _tagsp = (TFileString*)gridfilep->Get((dirname+"/Tags").c_str());  
+  std::unique_ptr<TFileString> _tagsp{
+    dynamic_cast <TFileString*> (gridfilep->Get((dirname+"/Tags").c_str()))};
 
-  if ( _tagsp==0 ) { 
+  if ( !_tagsp ) {
     std::cout << std::endl;
     throw exception(std::cerr << "grid::grid() cannot get tags: " << filename << std::endl ); 
   }

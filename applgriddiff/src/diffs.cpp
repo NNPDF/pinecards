@@ -137,7 +137,24 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
         }
     }
 
-    return false;
+    auto const& name1 = obj1.GetName();
+    auto const& name2 = obj1.GetName();
+
+    for (auto const& bin : differing_bins)
+    {
+        int const x = std::get<0>(bin);
+        int const y = std::get<1>(bin);
+        int const z = std::get<2>(bin);
+
+        std::cout << std::scientific
+            << std::setprecision(std::numeric_limits<Double_t>::max_digits10 - 1)
+            << "--- " << name1 << " (" << x << ", " << y << ", " << z << ") = "
+            << obj1.GetBinContent(x, y, z) << '\n'
+            << "+++ " << name2 << " (" << x << ", " << y << ", " << z << ") = "
+            << obj2.GetBinContent(x, y, z) << '\n';
+    }
+
+    return !differing_bins.empty();
 }
 
 template <typename T>
@@ -149,16 +166,30 @@ bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
         return true;
     }
 
+    std::vector<int> differing_indices;
+
     for (int i = 0; i != obj1.GetNoElements(); ++i)
     {
         if (obj1[i] != obj2[i])
         {
-            // TODO: print message
-            return true;
+            differing_indices.push_back(i);
         }
     }
 
-    return false;
+    auto const& name1 = obj1.GetName();
+    auto const& name2 = obj1.GetName();
+
+    for (auto const& index : differing_indices)
+    {
+        std::cout << std::scientific
+            << std::setprecision(std::numeric_limits<Double_t>::max_digits10 - 1)
+            << "--- " << name1 << " (" << index << ") = "
+            << obj1[index] << '\n'
+            << "+++ " << name2 << " (" << index << ") = "
+            << obj2[index] << '\n';
+    }
+
+    return !differing_indices.empty();
 }
 
 bool dispatch_and_diff(TObject& obj1, TObject& obj2)

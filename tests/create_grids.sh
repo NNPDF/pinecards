@@ -74,7 +74,7 @@ quit
 EOF
 
 # run MG5_aMC
-"${mg5}" -f proccard -l CRITICAL
+"${mg5}" -f proccard #-l CRITICAL
 cp "${output}"/Events/run_02/*.root "${cwd}"/
 
 # exit the temporary directory and remove it

@@ -1,6 +1,7 @@
 #include "applgriddiff.hpp"
 
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -28,7 +29,7 @@ bool diff_directory(TDirectory& dir1, TDirectory& dir2)
 
     if (dir1_names.size() != dir2_names.size())
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
         return true;
     }
 
@@ -37,9 +38,11 @@ bool diff_directory(TDirectory& dir1, TDirectory& dir2)
 
     if (!std::equal(dir1_names.begin(), dir1_names.end(), dir2_names.begin()))
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
         return true;
     }
+
+    bool diff = false;
 
     for (auto const& name : dir1_names)
     {
@@ -53,40 +56,39 @@ bool diff_directory(TDirectory& dir1, TDirectory& dir2)
 
             if ((obj1 == nullptr) && (obj2 == nullptr))
             {
-                // TODO: print message
+                std::cout << "???\n";
                 continue;
             }
 
-            if (dispatch_and_diff(*obj1, *obj2))
-            {
-                return true;
-            }
+            diff &= dispatch_and_diff(*obj1, *obj2);
         }
         else
         {
-            // TODO: print warning that we are ignoring TFileString objects?
-            return false;
+            std::cout << ">>> ignoring unknown TFileString objects\n";
         }
     }
 
-    return false;
+    return diff;
 }
 
 bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
 {
     if (obj1.GetNbinsX() != obj2.GetNbinsX())
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
+
         return true;
     }
     else if (obj1.GetNbinsX() != obj2.GetNbinsX())
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
+
         return true;
     }
     else if (obj1.GetNbinsX() != obj2.GetNbinsX())
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
+
         return true;
     }
 
@@ -96,7 +98,8 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
     {
         if (obj1.GetXaxis()->GetBinLowEdge(x) != obj2.GetXaxis()->GetBinLowEdge(x))
         {
-            // TODO: print message
+            std::cout << ">>> files have different structures\n";
+
             return true;
         }
     }
@@ -105,7 +108,8 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
     {
         if (obj1.GetYaxis()->GetBinLowEdge(y) != obj2.GetYaxis()->GetBinLowEdge(y))
         {
-            // TODO: print message
+            std::cout << ">>> files have different structures\n";
+
             return true;
         }
     }
@@ -114,12 +118,18 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
     {
         if (obj1.GetZaxis()->GetBinLowEdge(z) != obj2.GetZaxis()->GetBinLowEdge(z))
         {
-            // TODO: print message
+            std::cout << ">>> files have different structures\n";
+
             return true;
         }
     }
 
     std::vector<std::tuple<int, int, int>> differing_bins;
+
+    auto const& name1 = obj1.GetName();
+    auto const& name2 = obj1.GetName();
+
+    std::size_t non_zero = 0;
 
     for (int x = 0; x != obj1.GetNbinsX() + 1; ++x)
     {
@@ -127,9 +137,16 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
         {
             for (int z = 0; z != obj1.GetNbinsZ() + 1; ++z)
             {
-                if (obj1.GetBinContent(x, y, z) != obj2.GetBinContent(x, y, z))
+                auto const one = obj1.GetBinContent(x, y, z);
+                auto const two = obj2.GetBinContent(x, y, z);
+
+                if (one != two)
                 {
                     differing_bins.emplace_back(x, y, z);
+                }
+                else if (one != decltype (one) ())
+                {
+                    ++non_zero;
                 }
 
                 // TODO: are the more properties that need to be compared?
@@ -137,8 +154,16 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
         }
     }
 
-    auto const& name1 = obj1.GetName();
-    auto const& name2 = obj1.GetName();
+    if (differing_bins.empty())
+    {
+        return false;
+    }
+
+    std::size_t const total_bins =
+        (obj1.GetNbinsX() + 1) * (obj1.GetNbinsY() + 1) * (obj1.GetNbinsZ() + 1);
+
+    std::cout << ">>> THx summary: " << differing_bins.size() << '/' << total_bins
+        << '/' << non_zero << " (# different / # elements / # equal and non-zero)\n";
 
     for (auto const& bin : differing_bins)
     {
@@ -154,27 +179,43 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
             << obj2.GetBinContent(x, y, z) << '\n';
     }
 
-    return !differing_bins.empty();
+    return true;
 }
 
 template <typename T>
 bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
 {
-    if (obj1.GetNoElements() != obj2.GetNoElements())
+    int const elements = obj1.GetNoElements();
+
+    if (elements != obj2.GetNoElements())
     {
-        // TODO: print message
+        std::cout << ">>> files have different structures\n";
+
         return true;
     }
 
-    std::vector<int> differing_indices;
+    std::vector<std::size_t> differing_indices;
+    std::size_t non_zero = 0;
 
-    for (int i = 0; i != obj1.GetNoElements(); ++i)
+    for (int i = 0; i != elements; ++i)
     {
         if (obj1[i] != obj2[i])
         {
             differing_indices.push_back(i);
         }
+        else if (obj1[i] == T())
+        {
+            ++non_zero;
+        }
     }
+
+    if (differing_indices.empty())
+    {
+        return false;
+    }
+
+    std::cout << ">>> TVectorT<..> summary: " << differing_indices.size() << '/' << elements
+        << '/' << non_zero << " (# different / # elements / # equal and non-zero)\n";
 
     auto const& name1 = obj1.GetName();
     auto const& name2 = obj1.GetName();
@@ -183,13 +224,11 @@ bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
     {
         std::cout << std::scientific
             << std::setprecision(std::numeric_limits<Double_t>::max_digits10 - 1)
-            << "--- " << name1 << " (" << index << ") = "
-            << obj1[index] << '\n'
-            << "+++ " << name2 << " (" << index << ") = "
-            << obj2[index] << '\n';
+            << "--- " << name1 << " (" << index << ") = " << obj1[index] << '\n'
+            << "+++ " << name2 << " (" << index << ") = " << obj2[index] << '\n';
     }
 
-    return !differing_indices.empty();
+    return true;
 }
 
 bool dispatch_and_diff(TObject& obj1, TObject& obj2)
@@ -197,11 +236,8 @@ bool dispatch_and_diff(TObject& obj1, TObject& obj2)
     auto const& name1 = std::string(obj1.ClassName());
     auto const& name2 = std::string(obj2.ClassName());
 
-    if (name1 != name2)
-    {
-        // TODO: print message
-        return true;
-    }
+    // if this function is called with two objects of two different types the program is wrong
+    assert( name1 == name2 );
 
     auto const& name = name1;
 
@@ -233,13 +269,9 @@ bool dispatch_and_diff(TObject& obj1, TObject& obj2)
 
         return diff_vector_t(vector1, vector2);
     }
-    else
-    {
-        // in that case the implementation is incomplete
-        assert( false );
-    }
 
-    return false;
+    // in that case the implementation is incomplete
+    assert( false );
 }
 
 // --------------------------------- TEMPLATE INSTATIATIONS ----------------------------------------

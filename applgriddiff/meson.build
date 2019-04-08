@@ -1,11 +1,13 @@
-project('applgriddiff', 'cpp', default_options : [ 'cpp_std=c++11' ])
+project(
+    'applgriddiff',
+    'cpp',
+    default_options : [ 'cpp_std=c++14', 'warning_level=3' ],
+    meson_version : '>=0.49.0',
+    version : '0.0.1'
+)
 
 # root dependency
-root_config = find_program('root-config')
-root_cxxflags = run_command(root_config, '--cflags', check : true).stdout().split()
-root_ldflags = run_command(root_config, '--libs', check : true).stdout().split()
-add_project_arguments(root_cxxflags, language : 'cpp')
-add_project_link_arguments(root_ldflags, language : 'cpp')
+root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist' ])
 
 incdir = include_directories('include')
 
@@ -14,4 +16,10 @@ srcs = [
     'src/main.cpp'
 ]
 
-executable('applgriddiff', srcs, include_directories : incdir, install : true)
+executable(
+    'applgriddiff',
+    srcs,
+    include_directories : incdir,
+    install : true,
+    dependencies : root_dep
+)

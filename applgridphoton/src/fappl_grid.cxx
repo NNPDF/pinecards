@@ -50,7 +50,7 @@ void bookgrid_(int& id, const int& Nobs, const double* binlims)
     _grid.insert(  std::map<int,appl::grid*>::value_type( id, new appl::grid( Nobs, binlims,
 									      2,    10, 1000, 1,
 									      12,  1e-5, 1, 3, 
-									      "nlojet", 1, 3, "f3") ) ) ;									 
+									      "nlojet", 1, 2, 3, "f3") ) ) ;
     //  _grid->symmetrise(true);
   }
   else throw appl::grid::exception( std::cerr << "grid with id " << id << " already exists" << std::endl );  

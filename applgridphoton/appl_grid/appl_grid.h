@@ -72,27 +72,27 @@ public:
        int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
        int Nobs=20, double obsmin=100.0,  double obsmax=7000.0, 
        std::string genpdf="mcfm_pdf", 
-       int leading_order=0, int nloops=1, 
+       int leading_order=0, int next_to_leading_order = 1, int nloops=1,
        std::string transform="f2");
 
   grid( int Nobs, const double* obsbins,
 	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
         int Nx=50,   double xmin=1e-5,     double xmax=0.9,         int xorder=5, 
 	std::string genpdf="mcfm_pdf",
-	int leading_order=0, int nloops=1, 
+	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
 	std::string transform="f2" );
 
   grid( const std::vector<double>& obs,
 	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5, 
         int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5, 
 	std::string genpdf="mcfm_pdf", 
-	int leading_order=0, int nloops=1, 
+	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
 	std::string transform="f2" );
 
   // build a grid but don't build the internal igrids - these can be added later
   grid( const std::vector<double>& obs,
 	std::string genpdf="nlojet_pdf", 
-	int leading_order=0, int nloops=1, 
+	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
 	std::string transform="f2" );
 
   // copy constructor
@@ -620,6 +620,9 @@ protected:
 
   // order in alpha_s of tree level contribution 
   int  m_leading_order; 
+
+  // order in alpha_s of next-to-leading order level contribution
+  int  m_next_to_leading_order;
 
   // how many orders in the calculation, lo, nlo, nnlo etc 
   int  m_order;

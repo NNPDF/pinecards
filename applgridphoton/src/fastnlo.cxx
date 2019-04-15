@@ -339,7 +339,7 @@ fastnlo::fastnlo( const std::string& filename ) : m_manage_grids(true) {
     ss << " - bin " << irap;
     std::string _docstring = docstring + ss.str(); 
        
-    m_grid[irap] = new appl::grid( ptlims, pdfname, Npow[0], Npow.back()-Npow[0], transform );
+    m_grid[irap] = new appl::grid( ptlims, pdfname, Npow[0], Npow[0] + 1, Npow.back()-Npow[0], transform );
     m_grid[irap]->symmetrise(true);
     m_grid[irap]->setCMSScale(Ecms);
     m_grid[irap]->setDocumentation(_docstring);

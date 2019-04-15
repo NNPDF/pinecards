@@ -106,9 +106,9 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
 		 int Nx,  double xmin,  double xmax,  int xorder,
 		 int Nobs,  double obsmin, double obsmax, 
 		 std::string genpdfname,
-		 int leading_order, int nloops, 
+		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_leading_order(leading_order), m_order(nloops+1), 
+  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false), 
   m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
@@ -142,9 +142,9 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 int NQ2,  double Q2min, double Q2max, int Q2order, 
 		 int Nx,   double xmin, double xmax,   int xorder, 
 		 std::string genpdfname, 
-		 int leading_order, int nloops, 
+		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_leading_order(leading_order), m_order(nloops+1), 
+  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
@@ -179,9 +179,9 @@ appl::grid::grid(const std::vector<double>& obs,
 		 int NQ2, double Q2min, double Q2max, int Q2order,
 		 int Nx,  double xmin,  double xmax,  int xorder, 
 		 std::string genpdfname,
-		 int leading_order, int nloops, 
+		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_leading_order(leading_order), m_order(nloops+1), 
+  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
@@ -222,9 +222,9 @@ appl::grid::grid(const std::vector<double>& obs,
 
 appl::grid::grid(const std::vector<double>& obs, 
 		 std::string genpdfname,
-		 int leading_order, int nloops, 
+		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_leading_order(leading_order), m_order(nloops+1), 
+  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),  
@@ -265,7 +265,7 @@ appl::grid::grid(const std::vector<double>& obs,
 
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
-  m_leading_order(0),  m_order(0),
+  m_leading_order(0),  m_next_to_leading_order(1), m_order(0),
   m_optimised(false),  m_trimmed(false), 
   m_normalised(false),
   m_symmetrise(false), m_transform(""), 
@@ -368,19 +368,20 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_symmetrise = ( (*setup)(2)!=0 ? true : false );  
 
   m_leading_order = int((*setup)(3)+0.5);  
-  m_order         = int((*setup)(4)+0.5);  
+  m_next_to_leading_order = int((*setup)(4)+0.5);
+  m_order         = int((*setup)(5)+0.5);
 
-  if ( setup->GetNoElements()>5 ) m_cmsScale = (*setup)(5);
+  if ( setup->GetNoElements()>6 ) m_cmsScale = (*setup)(6);
   else                            m_cmsScale = 0;
  
-  if ( setup->GetNoElements()>6 ) m_normalised = ( (*setup)(6)!=0 ? true : false );
+  if ( setup->GetNoElements()>7 ) m_normalised = ( (*setup)(7)!=0 ? true : false );
   else                            m_normalised = true;
 
-  if ( setup->GetNoElements()>7 ) m_applyCorrections = ( (*setup)(7)!=0 ? true : false );
+  if ( setup->GetNoElements()>8 ) m_applyCorrections = ( (*setup)(8)!=0 ? true : false );
   else                            m_applyCorrections = false;
 
   int n_userdata = 0;
-  if ( setup->GetNoElements()>10 ) n_userdata = int((*setup)(10)+0.5);
+  if ( setup->GetNoElements()>11 ) n_userdata = int((*setup)(11)+0.5);
 
   //  std::vector<double> _ckmsum;
   std::vector<std::vector<double> > _ckm2;
@@ -390,7 +391,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   /// check whether we need to read in the ckm matrices
 
-  if ( setup->GetNoElements()>8 && (*setup)(8)!=0 ) {
+  if ( setup->GetNoElements()>9 && (*setup)(9)!=0 ) {
 
     std::cout << "grid::grid() read ckm matrices" << std::endl;
     
@@ -425,7 +426,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   }
 
-  if ( setup->GetNoElements()>9 ) m_type = (CALCULATION)int( (*setup)(9)+0.5 );
+  if ( setup->GetNoElements()>10 ) m_type = (CALCULATION)int( (*setup)(10)+0.5 );
   else                            m_type = STANDARD;
 
   //  std::cout << "appl::grid() reading grid calculation type: " << _calculation(m_type) << std::endl;
@@ -591,7 +592,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
 appl::grid::grid(const grid& g) : 
   m_obs_bins(new TH1D(*g.m_obs_bins)), 
-  m_leading_order(g.m_leading_order), m_order(g.m_order), 
+  m_leading_order(g.m_leading_order), m_next_to_leading_order(g.m_next_to_leading_order), m_order(g.m_order),
   m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
   m_normalised(g.m_normalised),
   m_symmetrise(g.m_symmetrise),
@@ -1086,21 +1087,22 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(1) = ( m_optimised  ? 1 : 0 );
   (*setup)(2) = ( m_symmetrise ? 1 : 0 );
   (*setup)(3) =   m_leading_order ;
-  (*setup)(4) =   m_order ;
-  (*setup)(5) =   m_cmsScale ;
-  (*setup)(6) = ( m_normalised ? 1 : 0 );
-  (*setup)(7) = ( m_applyCorrections ? 1 : 0 );
+  (*setup)(4) =   m_next_to_leading_order ;
+  (*setup)(5) =   m_order ;
+  (*setup)(6) =   m_cmsScale ;
+  (*setup)(7) = ( m_normalised ? 1 : 0 );
+  (*setup)(8) = ( m_applyCorrections ? 1 : 0 );
 
-  if ( m_genpdf[0]->getckmsum().size()==0 ) (*setup)(8) = 0;
-  else                                      (*setup)(8) = 1;
+  if ( m_genpdf[0]->getckmsum().size()==0 ) (*setup)(9) = 0;
+  else                                      (*setup)(9) = 1;
 
-  (*setup)(9) = (int)m_type;
+  (*setup)(10) = (int)m_type;
 
-  (*setup)(10) = m_userdata.size();
+  (*setup)(11) = m_userdata.size();
 
   setup->Write("State");
   
-  if ( (*setup)(8) == 1 ) { 
+  if ( (*setup)(9) == 1 ) {
     
     /// no longer write out squared ckm matrix - just use the 3x3
     TVectorT<double>* ckmflat = new TVectorT<double>(9);
@@ -1475,18 +1477,18 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 	  label = "nlo only"; /// for the time being ...
 
 	  // Scale independent contribution
-	  double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order+1, 0,  rscale_factor, fscale_factor,  Escale );
+	  double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
 	  dsigma = dsigma_0;
 
 	  // Renormalization scale dependent contribution
 	  if ( rscale_factor!=1 ) { 
-	    double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0,  rscale_factor, fscale_factor,  Escale );
+	    double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
 	    dsigma += dsigma_R*std::log(rscale_factor*rscale_factor);
 	  }
 
 	  // Factorization scale dependent contribution
 	  if ( fscale_factor!=1 ) { 
-	    double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_leading_order+1, 0,  rscale_factor, fscale_factor,  Escale );
+	    double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
 	    dsigma += dsigma_F*std::log(fscale_factor*fscale_factor);
 	  }
       
@@ -1504,19 +1506,19 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
       else if ( nloops==-2 ) { 
         /// Only the convolution from the W0 grid
         label = "nlo_w0";
-	double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order+1, 0,  rscale_factor, fscale_factor,  Escale );
+	double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_0;
       }
       else if ( nloops==-3 ) {
 	/// Only the convolution from the WR grid
 	label = "nlo_wR";
-	double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0, rscale_factor, fscale_factor,  Escale );
+	double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_next_to_leading_order, 0, rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_R * std::log(rscale_factor*rscale_factor)  ;
       }
       else if ( nloops==-4 ) { 
         /// Only the convolution from the WF grid
         label = "nlo_wF";
-	double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_leading_order+1, 0,  rscale_factor, fscale_factor,  Escale );
+	double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_F * std::log(fscale_factor*fscale_factor) ;
       }
       else { 

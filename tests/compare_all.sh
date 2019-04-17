@@ -17,7 +17,7 @@ for i in "${root}"/refproc/*; do
     for j in "${dir1}"/${process}/*.root; do
         file=$(basename $j)
         file1="${dir1}/${process}/${file}"
-        file2="${dir2}/${process}/amcblast${file#aMCfast}"
+        file2="${dir2}/${process}/${file}"
 
         echo "# comparing \`${file1}\` against \`${file2}\`"
         "${diff}" "${file1}" "${file2}" || true

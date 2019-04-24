@@ -112,6 +112,7 @@ library_include_HEADERS= \
 	$(top_srcdir)/appl_grid/vrapz_pdf.h
 
 AM_CXXFLAGS = $(ROOTARCH) -O2 -DDATADIR=\"@datadir@/$(PACKAGE)\" -Wall -Wextra -fPIC  -I. -I.. -I$(srcdir) $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS) 
+AM_CPPFLAGS = -I$(top_srcdir)
 AM_LDFLAGS = $(ROOTARCH) -O2  $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
 

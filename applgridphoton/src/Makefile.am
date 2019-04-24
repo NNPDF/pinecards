@@ -14,29 +14,16 @@
 #########################################################################
 
 
-ROOTCFLAGS = $(shell root-config --cflags)
-ROOTLIBS   = $(shell root-config --nonew --libs)
-ROOTGLIBS  = $(shell root-config --nonew --glibs)
-ROOTARCH   = $(shell root-config --ldflags)
+ROOTCFLAGS = @ROOTCFLAGS@
+ROOTLIBS   = @ROOTLIBS@
+ROOTGLIBS  = @ROOTGLIBS@
+ROOTARCH   = @ROOTARCH@
 
+HOPPETDIR    = @HOPPETDIR@
+HOPPETCFLAGS = @HOPPETCFLAGS@
+HOPPETLIBS   = @HOPPETLIBS@
 
-if USE_HOPPET 
-  HOPPETDIR    = $(shell hoppet-config --prefix)
-  HOPPETCFLAGS = $(shell hoppet-config --cxxflags)
-  HOPPETLIBS   = $(shell hoppet-config --libs)
-else
-  HOPPETDIR    = 
-  HOPPETCFLAGS = 
-  HOPPETLIBS   = 
-endif
-
-
-if USE_LHAPDF
-  # in preparation for including the lhapdf version 6 interface
-  LHAPDFCFLAGS = $(shell lhapdf-config --cxxflags)
-else
-  LHAPDFCFLAGS = 
-endif
+LHAPDFCFLAGS = @LHAPDFCFLAGS@
 
 
 #FRTLIB   = $(shell gfortran -print-file-name=libgfortran.a)
@@ -129,7 +116,6 @@ library_include_HEADERS= \
 # GSLLIBS=$(shell gsl-config --libs)
 # WDIR = $(shell pwd)
 
-ROOTCINT=rootcint
 AM_CXXFLAGS = $(ROOTARCH) -O2 -DDATADIR=\"@datadir@/$(PACKAGE)\" -Wall -Wextra -fPIC  -I. -I.. -I$(srcdir) $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS) 
 
 AM_LDFLAGS = $(ROOTARCH) -O2  $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
@@ -138,7 +124,7 @@ AM_LDFLAGS = $(ROOTARCH) -O2  $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 AM_FCFLAGS = -c
 AM_FCLIBS  = -lg2c
 AM_SOFLAGS = -shared
-CINT       = rootcint
+CINT       = @ROOTCINT@
 
 bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx

@@ -25,8 +25,6 @@ HOPPETLIBS   = @HOPPETLIBS@
 
 LHAPDFCFLAGS = @LHAPDFCFLAGS@
 
-
-#FRTLIB   = $(shell gfortran -print-file-name=libgfortran.a)
 FRTLLIB  = -lgfortran 
 
 lib_LTLIBRARIES= libAPPLgrid.la libfAPPLgrid.la 
@@ -113,11 +111,7 @@ library_include_HEADERS= \
 	$(top_srcdir)/appl_grid/tsparse_base.h \
 	$(top_srcdir)/appl_grid/vrapz_pdf.h
 
-# GSLLIBS=$(shell gsl-config --libs)
-# WDIR = $(shell pwd)
-
 AM_CXXFLAGS = $(ROOTARCH) -O2 -DDATADIR=\"@datadir@/$(PACKAGE)\" -Wall -Wextra -fPIC  -I. -I.. -I$(srcdir) $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS) 
-
 AM_LDFLAGS = $(ROOTARCH) -O2  $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
 
@@ -130,14 +124,6 @@ bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx
 applgrid_combine_LDADD   = libAPPLgrid.la
 applgrid_combine_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB) 
-
-
-clean-local:
-	rm -rf *.o *.lo *Dict*
-.cxx.o : 
-	$(CXX) $(AM_CXXFLAGS) -c $<
-.c.o : 
-	$(CC) $(AM_CFLAGS) -c $<
 
 TFileStringDict.cxx: TFileString.h TFileString.cxx
 	$(CINT) -f $@ -c $<

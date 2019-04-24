@@ -155,8 +155,6 @@ clean-local:
 .c.o : 
 	$(CC) $(AM_CFLAGS) -c $<
 
-#../appl_grid/$*LinkDef.h
-
 TFileStringDict.cxx: TFileString.h TFileString.cxx
 	$(CINT) -f $@ -c $<
 

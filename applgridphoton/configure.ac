@@ -2,35 +2,12 @@ AC_INIT(APPLgrid, 1.4.70, sutt@cern.ch,applgrid,http://applgrid.hepforge.org)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(amconfig.h:amconfig.in)
-#AC_PROG_FC
-#AC_CHECK_PROGS(FC, [gfortran g77 f77 fort77 f90], no)
-#AC_PROG_FC
-#AC_LANG_PUSH(Fortran)
-#AC_FC_SRCEXT(f90)
-#AC_FC_LIBRARY_LDFLAGS
-#AC_FC_WRAPPERS
-#AC_FC_FREEFORM
-#AC_FC_DUMMY_MAIN
-#AC_LANG_POP(Fortran)
 AC_PROG_CC
 AC_PROG_CXX 
 AM_PROG_LIBTOOL
 AC_HEADER_STDC
 AC_FUNC_UTIME_NULL
 AC_CONFIG_MACRO_DIR([m4])
-## Set Fortran compiler behaviour
-#if test "x$FCFLAGS" == "x"; then 
-#  FCFLAGS="-O2"
-#fi
-## Try to respect users' Fortran compiler variables
-#if test "x$FC" == "x"; then 
-#  if test "x$F77" == "x"; then 
-#FC="$GFORTRAN"
-#FC=gfortran
-#  else
-#    FC="$F77"
-#  fi
-#fi
 
 AH_TEMPLATE([HAVE_CERNROOT],[Define 1 if the cern root package is installed])
 AC_PATH_PROG(ROOTPATH,root,no)

@@ -118,9 +118,7 @@ library_include_HEADERS= \
 	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/sparse.h \
 	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
-	$(top_srcdir)/appl_grid/TFileStringDict.h \
 	$(top_srcdir)/appl_grid/TFileString.h \
-	$(top_srcdir)/appl_grid/TFileVectorDict.h \
 	$(top_srcdir)/appl_grid/TFileVector.h \
 	$(top_srcdir)/appl_grid/tsparse1d.h \
 	$(top_srcdir)/appl_grid/tsparse2d.h \

@@ -154,7 +154,11 @@ clean-local:
 	$(CXX) $(AM_CXXFLAGS) -c $<
 .c.o : 
 	$(CC) $(AM_CFLAGS) -c $<
-%Dict.cxx : %.h %.cxx
-	$(CINT) -f $@ -c $< 
 
 #../appl_grid/$*LinkDef.h
+
+TFileStringDict.cxx: TFileString.h TFileString.cxx
+	$(CINT) -f $@ -c $<
+
+TFileVectorDict.cxx: TFileVector.h TFileVector.cxx
+	$(CINT) -f $@ -c $<

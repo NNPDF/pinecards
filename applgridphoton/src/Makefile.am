@@ -58,13 +58,75 @@ libAPPLgrid_la_SOURCES = \
 	TFileString.cxx		TFileStringDict.cxx  \
 	TFileVector.cxx		TFileVectorDict.cxx  \
 	integral.cxx \
-	*.h
+	appl_igrid.h \
+	axis.h \
+	Cache.h \
+	dis_pdf.h \
+	fappl_grid.h \
+	hoppet_init.h \
+	jetrad_pdf.h \
+	mcfmQQ_pdf.h \
+	mcfmwc_pdf.h \
+	mcfmwjet_pdf.h \
+	mcfmw_pdf.h \
+	mcfmzjet_pdf.h \
+	mcfmz_pdf.h \
+	nlojet_pdf.h \
+	nlojetpp_pdf.h \
+	Sparse3d.h \
+	sparse.h \
+	SparseMatrix3d.h \
+	TFileString.h \
+	TFileVector.h \
+	tsparse1d.h \
+	tsparse2d.h \
+	tsparse3d.h \
+	tsparse_base.h \
+	vrapz_pdf.h
 
 libfAPPLgrid_la_SOURCES = fappl_grid.cxx fappl_fitter.cxx
 
 library_includedir=$(includedir)/appl_grid
 
-library_include_HEADERS=../appl_grid/*.h
+library_include_HEADERS= \
+	$(top_srcdir)/appl_grid/appl_grid.h \
+	$(top_srcdir)/appl_grid/appl_igrid.h \
+	$(top_srcdir)/appl_grid/appl_pdf.h \
+	$(top_srcdir)/appl_grid/appl_timer.h \
+	$(top_srcdir)/appl_grid/axis.h \
+	$(top_srcdir)/appl_grid/basic_pdf.h \
+	$(top_srcdir)/appl_grid/Cache.h \
+	$(top_srcdir)/appl_grid/combination.h \
+	$(top_srcdir)/appl_grid/correction.h \
+	$(top_srcdir)/appl_grid/Directory.h \
+	$(top_srcdir)/appl_grid/dis_pdf.h \
+	$(top_srcdir)/appl_grid/fappl_grid.h \
+	$(top_srcdir)/appl_grid/fastnlo.h \
+	$(top_srcdir)/appl_grid/generic_pdf.h \
+	$(top_srcdir)/appl_grid/hoppet_init.h \
+	$(top_srcdir)/appl_grid/integral.h \
+	$(top_srcdir)/appl_grid/jetrad_pdf.h \
+	$(top_srcdir)/appl_grid/lumi_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmQQ_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmwc_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmwjet_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmw_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmzjet_pdf.h \
+	$(top_srcdir)/appl_grid/mcfmz_pdf.h \
+	$(top_srcdir)/appl_grid/nlojet_pdf.h \
+	$(top_srcdir)/appl_grid/nlojetpp_pdf.h \
+	$(top_srcdir)/appl_grid/Sparse3d.h \
+	$(top_srcdir)/appl_grid/sparse.h \
+	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
+	$(top_srcdir)/appl_grid/TFileStringDict.h \
+	$(top_srcdir)/appl_grid/TFileString.h \
+	$(top_srcdir)/appl_grid/TFileVectorDict.h \
+	$(top_srcdir)/appl_grid/TFileVector.h \
+	$(top_srcdir)/appl_grid/tsparse1d.h \
+	$(top_srcdir)/appl_grid/tsparse2d.h \
+	$(top_srcdir)/appl_grid/tsparse3d.h \
+	$(top_srcdir)/appl_grid/tsparse_base.h \
+	$(top_srcdir)/appl_grid/vrapz_pdf.h
 
 # GSLLIBS=$(shell gsl-config --libs)
 # WDIR = $(shell pwd)

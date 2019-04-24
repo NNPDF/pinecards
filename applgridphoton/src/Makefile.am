@@ -73,7 +73,7 @@ libfAPPLgrid_la_SOURCES = fappl_grid.cxx fappl_fitter.cxx
 
 library_includedir=$(includedir)/appl_grid
 
-library_include_HEADERS= \
+library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/appl_grid.h \
 	$(top_srcdir)/appl_grid/appl_igrid.h \
 	$(top_srcdir)/appl_grid/appl_pdf.h \
@@ -111,19 +111,15 @@ library_include_HEADERS= \
 	$(top_srcdir)/appl_grid/tsparse_base.h \
 	$(top_srcdir)/appl_grid/vrapz_pdf.h
 
-AM_CXXFLAGS = $(ROOTARCH) -O2 -DDATADIR=\"@datadir@/$(PACKAGE)\" -Wall -Wextra -fPIC  -I. -I.. -I$(srcdir) $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS) 
+AM_CXXFLAGS = $(ROOTARCH) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)
-AM_LDFLAGS = $(ROOTARCH) -O2  $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
+AM_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
-
-AM_FCFLAGS = -c
-AM_FCLIBS  = -lg2c
-AM_SOFLAGS = -shared
-CINT       = @ROOTCINT@
+CINT = @ROOTCINT@
 
 bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx
-applgrid_combine_LDADD   = libAPPLgrid.la
+applgrid_combine_LDADD = libAPPLgrid.la
 applgrid_combine_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB) 
 
 TFileStringDict.cxx: TFileString.h TFileString.cxx

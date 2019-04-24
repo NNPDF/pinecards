@@ -52,7 +52,7 @@ private:
   class exception { 
   public:
     exception(const std::string& s) { std::cerr << s << std::endl; }; 
-    exception(std::ostream& s)      { std::cerr << std::endl; };
+    exception(std::ostream&)      { std::cerr << std::endl; }
   };
 
   typedef double (igrid::*transform_t)(double) const;

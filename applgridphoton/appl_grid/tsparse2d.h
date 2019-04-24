@@ -42,7 +42,7 @@ public:
   class exception { 
   public:
     exception(const std::string& s) { cerr << s << std::endl; }; 
-    exception(ostream& s) { cerr << s << std::endl; }; 
+    exception(ostream&) { cerr << s << std::endl; };
   };
 #endif
 

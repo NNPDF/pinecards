@@ -1,4 +1,5 @@
 AC_INIT(APPLgrid, 1.4.70, sutt@cern.ch,applgrid,http://applgrid.hepforge.org)
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(amconfig.h:amconfig.in)
 #AC_PROG_FC

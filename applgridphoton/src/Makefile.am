@@ -123,7 +123,13 @@ applgrid_combine_LDADD = libAPPLgrid.la
 applgrid_combine_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB) 
 
 TFileStringDict.cxx: TFileString.h TFileString.cxx
-	$(CINT) -f $@ -c $<
+	$(AM_V_GEN)$(CINT) -f $@ -c $<
 
 TFileVectorDict.cxx: TFileVector.h TFileVector.cxx
-	$(CINT) -f $@ -c $<
+	$(AM_V_GEN)$(CINT) -f $@ -c $<
+
+MOSTLYCLEANFILES = \
+	TFileStringDict.cxx \
+	TFileStringDict_rdict.pcm \
+	TFileVectorDict.cxx \
+	TFileVectorDict_rdict.pcm

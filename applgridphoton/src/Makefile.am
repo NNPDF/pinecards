@@ -2,15 +2,15 @@
 #
 #   File:         Makefile.am
 #
-#                 Copyright (C) M.Sutton (sutt@cern.ch) 
+#                 Copyright (C) M.Sutton (sutt@cern.ch)
 #
 #   Description:  generate the Makefile for the appl_grid project
-#                 
+#
 #
 #   Created:    M.Sutton (sutt@hep.ucl.ac.uk) Fri  5 Nov 2010 00:05:29 GMT
-#   
-#   $Id: makefile 20 2008-05-05 01:55:42Z sutt $                
-#                   
+#
+#   $Id: makefile 20 2008-05-05 01:55:42Z sutt $
+#
 #########################################################################
 
 
@@ -25,44 +25,62 @@ HOPPETLIBS   = @HOPPETLIBS@
 
 LHAPDFCFLAGS = @LHAPDFCFLAGS@
 
-FRTLLIB  = -lgfortran 
+FRTLLIB = -lgfortran
 
-lib_LTLIBRARIES= libAPPLgrid.la libfAPPLgrid.la 
+CINT = @ROOTCINT@
+
+AM_CXXFLAGS = $(ROOTARCH) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS) $(HOPPETCFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)
+AM_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
+
+lib_LTLIBRARIES = libAPPLgrid.la libfAPPLgrid.la 
 libAPPLgrid_la_SOURCES = \
-	appl_grid.cxx		appl_igrid.cxx       fastnlo.cxx \
-	appl_timer.cxx          appl_pdf.cxx         \
-	nlojet_pdf.cxx		nlojetpp_pdf.cxx     \
-	mcfmw_pdf.cxx		mcfmwjet_pdf.cxx \
-	 mcfmwc_pdf.cxx       \
-	mcfmz_pdf.cxx mcfmzjet_pdf.cxx  \
-	 mcfmQQ_pdf.cxx       \
-	jetrad_pdf.cxx		dis_pdf.cxx          \
-	generic_pdf.cxx         basic_pdf.cxx        \
-	combination.cxx         lumi_pdf.cxx         \
-	SparseMatrix3d.cxx	hoppet_init.cxx	     \
-	TFileString.cxx		TFileStringDict.cxx  \
-	TFileVector.cxx		TFileVectorDict.cxx  \
-	integral.cxx \
-	appl_igrid.h \
-	axis.h \
 	Cache.h \
+	Sparse3d.h \
+	SparseMatrix3d.cxx \
+	SparseMatrix3d.h \
+	TFileString.cxx \
+	TFileString.h \
+	TFileStringDict.cxx \
+	TFileVector.cxx \
+	TFileVector.h \
+	TFileVectorDict.cxx \
+	appl_grid.cxx \
+	appl_igrid.cxx \
+	appl_igrid.h \
+	appl_pdf.cxx \
+	appl_timer.cxx \
+	axis.h \
+	basic_pdf.cxx \
+	combination.cxx \
+	dis_pdf.cxx \
 	dis_pdf.h \
 	fappl_grid.h \
+	fastnlo.cxx \
+	generic_pdf.cxx \
+	hoppet_init.cxx	\
 	hoppet_init.h \
+	integral.cxx \
+	jetrad_pdf.cxx \
 	jetrad_pdf.h \
+	lumi_pdf.cxx \
+	mcfmQQ_pdf.cxx \
 	mcfmQQ_pdf.h \
-	mcfmwc_pdf.h \
-	mcfmwjet_pdf.h \
+	mcfmw_pdf.cxx \
 	mcfmw_pdf.h \
-	mcfmzjet_pdf.h \
+	mcfmwc_pdf.cxx \
+	mcfmwc_pdf.h \
+	mcfmwjet_pdf.cxx \
+	mcfmwjet_pdf.h \
+	mcfmz_pdf.cxx \
 	mcfmz_pdf.h \
+	mcfmzjet_pdf.cxx \
+	mcfmzjet_pdf.h \
+	nlojet_pdf.cxx \
 	nlojet_pdf.h \
+	nlojetpp_pdf.cxx \
 	nlojetpp_pdf.h \
-	Sparse3d.h \
 	sparse.h \
-	SparseMatrix3d.h \
-	TFileString.h \
-	TFileVector.h \
 	tsparse1d.h \
 	tsparse2d.h \
 	tsparse3d.h \
@@ -110,12 +128,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/tsparse3d.h \
 	$(top_srcdir)/appl_grid/tsparse_base.h \
 	$(top_srcdir)/appl_grid/vrapz_pdf.h
-
-AM_CXXFLAGS = $(ROOTARCH) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS)  $(HOPPETCFLAGS)
-AM_CPPFLAGS = -I$(top_srcdir)
-AM_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
-
-CINT = @ROOTCINT@
 
 bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx

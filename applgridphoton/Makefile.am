@@ -1,10 +1,10 @@
-AUTOMAKE_OPTIONS = foreign 
+AUTOMAKE_OPTIONS = foreign
 ACLOCAL_AMFLAGS = -I m4
 
 docdir = $(datadir)/doc/$(PACKAGE)
 dist_doc_DATA = README INSTALL COPYING
 
-sharedir = $(datadir)/${PACKAGE}
+sharedir = $(datadir)/$(PACKAGE)
 
 dist_share_DATA = \
 	$(top_srcdir)/share/basic.config \

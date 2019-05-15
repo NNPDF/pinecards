@@ -22,8 +22,8 @@ AS_IF([test x"${ROOTCONFIG}" = x"no" || test x"${ROOTCINT}" = x"no"],
     AC_SUBST(ROOTLIBS)
     ROOTGLIBS=`root-config --nonew --glibs`
     AC_SUBST(ROOTGLIBS)
-    ROOTARCH=`root-config --ldflags`
-    AC_SUBST(ROOTARCH)
+    ROOTLDFLAGS="`root-config --ldflags` $ROOTLIBS"
+    AC_SUBST(ROOTLDFLAGS)
 ])
 
 AC_PATH_PROG(HOPPETCONFIG,hoppet-config,no)

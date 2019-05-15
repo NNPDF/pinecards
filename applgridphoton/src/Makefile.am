@@ -14,10 +14,10 @@
 #########################################################################
 
 
-ROOTCFLAGS = @ROOTCFLAGS@
-ROOTLIBS   = @ROOTLIBS@
-ROOTGLIBS  = @ROOTGLIBS@
-ROOTARCH   = @ROOTARCH@
+ROOTCFLAGS  = @ROOTCFLAGS@
+ROOTLIBS    = @ROOTLIBS@
+ROOTGLIBS   = @ROOTGLIBS@
+ROOTLDFLAGS = @ROOTLDFLAGS@
 
 HOPPETDIR    = @HOPPETDIR@
 HOPPETCFLAGS = @HOPPETCFLAGS@
@@ -29,9 +29,9 @@ FRTLLIB = -lgfortran
 
 CINT = @ROOTCINT@
 
-AM_CXXFLAGS = $(ROOTARCH) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS) $(HOPPETCFLAGS)
+AM_CXXFLAGS = $(ROOTLDFLAGS) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS) $(HOPPETCFLAGS)
 AM_CPPFLAGS = -I$(top_srcdir)
-AM_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
+AM_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
 lib_LTLIBRARIES = libAPPLgrid.la libfAPPLgrid.la 
 libAPPLgrid_la_SOURCES = \
@@ -132,7 +132,7 @@ library_include_HEADERS = \
 bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx
 applgrid_combine_LDADD = libAPPLgrid.la
-applgrid_combine_LDFLAGS = $(ROOTARCH) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB) 
+applgrid_combine_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB)
 
 TFileStringDict.cxx: TFileString.h TFileString.cxx
 	$(AM_V_GEN)$(CINT) -f $@ -c $<

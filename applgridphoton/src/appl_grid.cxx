@@ -109,8 +109,11 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
   m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false), 
-  m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
+  m_transform(transform), m_genpdfname(genpdfname),
+  m_genpdf(appl::MAXGRIDS),
+  m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
   m_type(STANDARD),
@@ -145,8 +148,11 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
   m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
-  m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
+  m_transform(transform), m_genpdfname(genpdfname),
+  m_genpdf(appl::MAXGRIDS),
+  m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
   m_type(STANDARD),
@@ -182,8 +188,11 @@ appl::grid::grid(const std::vector<double>& obs,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
   m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
-  m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
+  m_transform(transform), m_genpdfname(genpdfname),
+  m_genpdf(appl::MAXGRIDS),
+  m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
   m_type(STANDARD),
@@ -225,8 +234,11 @@ appl::grid::grid(const std::vector<double>& obs,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
   m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
-  m_transform(transform), m_genpdfname(genpdfname), m_cmsScale(0), m_dynamicScale(0),
+  m_transform(transform), m_genpdfname(genpdfname),
+  m_genpdf(appl::MAXGRIDS),
+  m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),  
   m_documentation(""),
   m_type(STANDARD),
@@ -266,9 +278,11 @@ appl::grid::grid(const std::vector<double>& obs,
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_leading_order(0),  m_next_to_leading_order(1), m_order(0),
+  m_grids(appl::MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
   m_normalised(false),
   m_symmetrise(false), m_transform(""), 
+  m_genpdf(appl::MAXGRIDS),
   m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
@@ -593,11 +607,13 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 appl::grid::grid(const grid& g) : 
   m_obs_bins(new TH1D(*g.m_obs_bins)), 
   m_leading_order(g.m_leading_order), m_next_to_leading_order(g.m_next_to_leading_order), m_order(g.m_order),
+  m_grids(appl::MAXGRIDS),
   m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
   m_normalised(g.m_normalised),
   m_symmetrise(g.m_symmetrise),
   m_transform(g.m_transform),
   m_genpdfname(g.m_genpdfname), 
+  m_genpdf(appl::MAXGRIDS),
   m_cmsScale(g.m_cmsScale),
   m_dynamicScale(g.m_dynamicScale),
   m_applyCorrections(g.m_applyCorrections), 
@@ -1910,7 +1926,7 @@ void appl::grid::setRange(double lower, double upper, double xScaleFactor) {
 
   /// copy the igrids for the observable bins in the range 
 
-  igrid** grids[appl::MAXGRIDS];
+  std::vector<igrid**> grids(appl::MAXGRIDS);
 
   /// save old grids
   for ( int iorder=0 ; iorder<m_order ; iorder++ ) grids[iorder] = m_grids[iorder];
@@ -2356,7 +2372,7 @@ std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
   //  s << "appl::grid version " << g.version() << "\t(" << g.subProcesses(0) << " initial states, " << g.Nobs_internal() << " observable bins)" << std::endl;
 
   std::string basis[5] = {  "-LO, ",  "-NLO, ",  "-NNLO, ", "-Xtra0", "-Xtra1" };  
-  std::string order[appl::MAXGRIDS];
+  std::vector<std::string> order(appl::MAXGRIDS);
   for ( int i=0 ; i<appl::MAXGRIDS ; i++ ) { 
     if ( i<5) order[i] = basis[i];
     else      order[i] = "-Unknown";

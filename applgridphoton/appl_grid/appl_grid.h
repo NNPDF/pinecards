@@ -628,7 +628,7 @@ protected:
   int  m_order;
 
   // the actual weight grids themselves
-  igrid** m_grids[MAXGRIDS]; /// up to MAXGRIDS grids LO, NLO, NNLO, Real virtual, etc 
+  std::vector<igrid**> m_grids;
 
   // total cross section qand uncertainty
   double m_total;
@@ -648,7 +648,7 @@ protected:
   std::string m_genpdfname; 
 
   // pdf combination class
-  appl_pdf* m_genpdf[MAXGRIDS];
+  std::vector<appl_pdf*> m_genpdf;
 
   static const std::string m_version;
 

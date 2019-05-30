@@ -117,7 +117,7 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(STANDARD),
+  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -162,7 +162,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(STANDARD),
+  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -208,7 +208,7 @@ appl::grid::grid(const std::vector<double>& obs,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(STANDARD),
+  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -260,7 +260,7 @@ appl::grid::grid(const std::vector<double>& obs,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),  
   m_documentation(""),
-  m_type(STANDARD),
+  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -312,7 +312,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(STANDARD),
+  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -478,7 +478,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   }
 
   if ( setup->GetNoElements()>10 ) m_type = (CALCULATION)int( (*setup)(10)+0.5 );
-  else                            m_type = STANDARD;
+  else                            m_type = AMCATNLO;
 
   //  std::cout << "appl::grid() reading grid calculation type: " << _calculation(m_type) << std::endl;
 
@@ -715,6 +715,17 @@ void appl::grid::construct(int Nobs,
   //  std::cout << "appl::grid::construct() return" << std::endl; 
 }
 
+
+int appl::grid::nloops() const
+{
+    int max = 0;
+    for (auto const& order : m_order_ids)
+    {
+        max = std::max(max, order.lmuf2() + order.lmur2());
+    }
+
+    return max;
+}
 
 
 
@@ -1403,122 +1414,9 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
   } 
   
   
-  if ( m_type==STANDARD ) { 
-
-    static bool first = true;
- 
-    if ( first && m_dynamicScale ) std::cout << "** grid::vconvolute() emulating dynamic scale **" << std::endl;
-
-    //    std::cout << "standard convolution" << std::endl;
-
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  
-
-      /// here we see whether we need to emulate a dynamic scale by simply 
-      /// changing the renormalisation and factorisation scale terms to give 
-      /// what a dynamic scale would be in this bin
- 
-      if ( m_bin!=-1 && iobs!=m_bin ) continue;
-
-      double dynamic_factor = 1;
-
-      if ( m_dynamicScale ) {
-	double var = m_obs_bins->GetBinCenter(iobs+1);
-	dynamic_factor = var/m_dynamicScale;
-	//	if ( first ) std::cout << "grid::vconvolute() bin " << iobs << "\tscale " << var << "\tdynamicScale " << m_dynamicScale << "\t scale factor " << dynamic_factor << std::endl;
-      } 
-
-      /// now do the convolution proper
-
-      double dsigma = 0;
-     
-      if ( nloops==0 ) {
-	label = "lo      ";
-
-	/// leading order cross section
-
-	if ( subproc()==-1 ) {  
-	  dsigma = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, 0, dynamic_factor*rscale_factor, dynamic_factor*rscale_factor, Escale);
-	}
-	else { 
-	  /// fixme: for the subproceses, this is technically incorrect - the "LO" contribution 
-	  ///        includes the scale dependent "NLO" terms that are proportional to the LO 
-	  ///        coefficient functions - it could use the strict "LO" part without the scale 
-	  ///        dependent parts using order "0" rather than order "1" but see the comment 
-	  ///        for the "NLO only" contribution. The reason for this is that the subprocesses
-	  ///        can be different for LO and NLO, so this NLO part with "LO coefficients", 
-	  ///        can have different subprocesses from the actual NLO part, so the correct 
-	  ///        LO/NLO separation is only guaranteed for the full convolution, and not by 
-	  ///        subprocess
-	  dsigma = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, 1, dynamic_factor*rscale_factor, dynamic_factor*rscale_factor, Escale);
-	}
-
-      }
-      else if ( nloops==1 ) { 
-	label = "nlo     ";
-	// next to leading order cross section
-	// std::cout << "convolute() nloop=1" << std::endl;
-	// leading order contribution and scale dependent born dependent terms
-	double dsigma_lo  = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, 1, dynamic_factor*rscale_factor, dynamic_factor*fscale_factor, Escale);
-	// std::cout << "dsigma_lo=" << dsigma_lo << std::endl;
-	// next to leading order contribution
-	//      double dsigma_nlo = m_grids[1][iobs]->convolute(pdf, m_genpdf, alphas, m_leading_order+1, 0);
-	// GPS: the NLO piece must use the same rscale_factor and fscale_factor as
-	//      the LO piece -- that's the convention that defines how NLO calculations
-	//      are done.
-	double dsigma_nlo = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0, dynamic_factor*rscale_factor, dynamic_factor*fscale_factor, Escale);
-	// std::cout << "dsigma_nlo=" << dsigma_nlo << std::endl;
-	dsigma = dsigma_lo + dsigma_nlo;
-      }
-      else if ( nloops==-1 ) {
-	label = "nlo only";
-
-	// nlo contribution only 
-	if ( subproc()==-1 ) { 
-	  double dsigma_log = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, -1, dynamic_factor*rscale_factor, dynamic_factor*fscale_factor, Escale);
-	  double dsigma_nlo = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1,  0, dynamic_factor*rscale_factor, dynamic_factor*fscale_factor, Escale);
-	  dsigma = dsigma_nlo + dsigma_log;
-	}
-	else { 
-	  /// fixme: this is technically incorrect - the "LO" component contains the 
-	  ///        scale dependent NLO contribution dependent on the LO coefficient
-	  ///        functions. This part is difficult to include for individual 
-	  ///        subprocesses, since different subprocesses can be present 
-	  ///        at LO and NLO, so speifying subprocess X at NLO does not 
-	  ///        neccessarily correspond to subprocess X at LO, so adding the 
-	  ///        subprocesses - so these terms are only strict LO And NLO when 
-	  ///        *not* specifying subprocess
-	  dsigma = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1,  0, dynamic_factor*rscale_factor, dynamic_factor*fscale_factor, Escale);
-	}
-
-      } 
-      else if ( nloops==2 ) {
-	// FIXME: not implemented completely yet - no scale variation
-	//      return hvec;
-	label = "nnlo    ";
-	// next to next to leading order contribution 
-	// NB: NO scale dependendent parts so only  muR=muF=mu
-	double dsigma_lo  = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, 0);
-	// next to leading order contribution      
-	double dsigma_nlo = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0);
-	// next to next to leading order contribution
-	double dsigma_nnlo = m_grids[2][iobs]->convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_leading_order+2, 0);
-	dsigma = dsigma_lo + dsigma_nlo + dsigma_nnlo;
-      }
-      else if ( nloops==-2 ) {
-	label = "nnlo only";
-	// next to next to leading order contribution
-	dsigma = m_grids[2][iobs]->convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_leading_order+2, 0);
-      }
-      else { 
-	throw grid::exception( std::cerr << "invalid value for nloops " << nloops ); 
-      }
-
-      double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);      
-      hvec.push_back( invNruns*Escale2*dsigma/deltaobs );
-    }
-
-    first = false;
-    
+  if ( m_type==STANDARD ) {
+    // this branch is no longer supported
+    assert( false );
   }
   else if ( m_type==AMCATNLO ) {  
 
@@ -1594,45 +1492,9 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
       hvec.push_back( invNruns*Escale2*dsigma/deltaobs );
     }
   }
-  else if ( m_type == SHERPA ) { 
-    
-    //    std::cout << "sherpa convolution" << std::endl;
-
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  
-    
-      double dsigma = 0; 
-  
-      if ( nloops==0 ) {
-	label = "lo      ";
-	// leading order cross section
-	dsigma = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order, 0, 1, 1, Escale);
-      }
-      else if ( nloops==1 ) { 
-	label = "nlo     ";
-	// next to leading order cross section
-	// leading order contribution and scale dependent born dependent terms
-
-	// will eventually add the other nlo terms ...
-	double dsigma_lo  = m_grids[0][iobs]->convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_leading_order,   0, rscale_factor, fscale_factor, Escale);
-	double dsigma_nlo = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0, rscale_factor, fscale_factor, Escale);
-  
-	dsigma = dsigma_lo + dsigma_nlo;
-      }
-      else if ( nloops==-1 ) { 
-	label = "nlo     ";
-	// next to leading order cross section
-	// leading order contribution and scale dependent born dependent terms
-
-	double dsigma_nlo = m_grids[1][iobs]->convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_leading_order+1, 0, rscale_factor, fscale_factor, Escale);
-
-	dsigma = dsigma_nlo;
-      }
-
-
-      double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);      
-      hvec.push_back( invNruns*Escale2*dsigma/deltaobs );
-    }
-
+  else if ( m_type == SHERPA ) {
+    // this branch is no longer supported
+    assert( false );
   }
 
   /// now combine bins if required ...

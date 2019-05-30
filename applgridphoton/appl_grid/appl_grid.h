@@ -23,6 +23,7 @@
 #ifndef __APPL_GRID_H
 #define __APPL_GRID_H
 
+#include <cassert>
 #include <vector>
 #include <iostream>
 #include <cmath>
@@ -422,11 +423,7 @@ public:
   /// but aMC@NLO uses 4 grids for the NLO, so m_order
   /// will be 4, but really it is still only available 
   /// 1 loop, so take account of this 
-  int  nloops() const { 
-    if ( m_type!=AMCATNLO ) return m_order-1;
-    else if ( m_order>0 ) return 1;
-    else                  return 0;
-  } 
+  int  nloops() const;
 
   // find out which transform and which pdf combination are being used
   std::string getTransform() const { return m_transform; }
@@ -561,24 +558,24 @@ public:
 
   /// flag custom convolution routines
 
-  void sherpa()   { m_type = SHERPA;   std::cout << "appl::grid::sherpa()   using SHERPA convolution" << std::endl; }
+  void sherpa()   { assert(false); m_type = SHERPA;   std::cout << "appl::grid::sherpa()   using SHERPA convolution" << std::endl; }
   void amcatnlo() { m_type = AMCATNLO; std::cout << "appl::grid::amcatnlo() using aMC@NLO convolution" << std::endl; }
-  void standard() { m_type = STANDARD; std::cout << "appl::grid::standard() using standard convolution" << std::endl; }
+  void standard() { assert(false); m_type = STANDARD; std::cout << "appl::grid::standard() using standard convolution" << std::endl; }
 
   CALCULATION  calculation() const { return m_type; }
 
   static std::string _calculation(CALCULATION C) { 
     switch (C) {
     case STANDARD:
-      return "standard";
+      assert( false );
     case SHERPA:
-      return "sherpa";
+      assert( false );
     case AMCATNLO:
       return "amcatnlo";
     case LAST_TYPE:
-      return "last_type"; // NB: shouldn't ever be used
+      assert( false );
     }
-    return "unknown";
+    assert( false );
   }
 
   /// reduce number of subprocesses if possible

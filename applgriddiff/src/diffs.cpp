@@ -185,13 +185,16 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
 template <typename T>
 bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
 {
-    int const elements = obj1.GetNoElements();
+    bool different = false;
+
+    int elements = obj1.GetNoElements();
 
     if (elements != obj2.GetNoElements())
     {
-        std::cout << ">>> files have different structures\n";
+        std::cout << ">>> TVectorT have different number of elements\n";
 
-        return true;
+        elements = std::min(elements, obj2.GetNoElements());
+        different = true;
     }
 
     std::vector<std::size_t> differing_indices;
@@ -211,7 +214,7 @@ bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
 
     if (differing_indices.empty())
     {
-        return false;
+        return different;
     }
 
     std::cout << ">>> TVectorT<..> summary: " << differing_indices.size() << '/' << elements
@@ -228,7 +231,7 @@ bool diff_vector_t(TVectorT<T> const& obj1, TVectorT<T> const& obj2)
             << "+++ " << name2 << " (" << index << ") = " << obj2[index] << '\n';
     }
 
-    return true;
+    return different;
 }
 
 bool dispatch_and_diff(TObject& obj1, TObject& obj2)

@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+#include <algorithm>
 #include <vector>
 #include <map>
 #include <memory>
@@ -135,7 +136,13 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
   if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
   findgenpdf( m_genpdfname );
 
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform); 
+  // 0,R,F,B
+  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
+  m_order_ids.emplace_back(leading_order, 0, 0);
+
+  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
 }
 
 
@@ -175,7 +182,13 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
   findgenpdf( m_genpdfname );
 
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform );
+  // 0,R,F,B
+  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
+  m_order_ids.emplace_back(leading_order, 0, 0);
+
+  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
 }
 
 
@@ -224,7 +237,13 @@ appl::grid::grid(const std::vector<double>& obs,
   if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
   findgenpdf( m_genpdfname );
 
-  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform); 
+  // 0,R,F,B
+  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
+  m_order_ids.emplace_back(leading_order, 0, 0);
+
+  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
 }
 
 
@@ -270,6 +289,12 @@ appl::grid::grid(const std::vector<double>& obs,
   if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
   findgenpdf( m_genpdfname );
 
+  // 0,R,F,B
+  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
+  m_order_ids.emplace_back(leading_order, 0, 0);
+
   for ( int iorder=0 ; iorder<m_order ; iorder++ ) m_grids[iorder] = new igrid*[obs.size()-1];
 
 }
@@ -278,6 +303,7 @@ appl::grid::grid(const std::vector<double>& obs,
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_leading_order(0),  m_next_to_leading_order(1), m_order(0),
+  m_order_ids(),
   m_grids(appl::MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
   m_normalised(false),
@@ -396,6 +422,17 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   int n_userdata = 0;
   if ( setup->GetNoElements()>11 ) n_userdata = int((*setup)(11)+0.5);
+
+  m_order_ids.reserve((*setup)(12));
+  for (std::size_t i = 0; i != m_order_ids.capacity(); ++i)
+  {
+    m_order_ids.emplace_back(
+      static_cast <int> ((*setup)(12 + 1 + i * 3)+0.5),
+      static_cast <int> ((*setup)(12 + 2 + i * 3)+0.5),
+      static_cast <int> ((*setup)(12 + 3 + i * 3)+0.5)
+    );
+  }
+
 
   //  std::vector<double> _ckmsum;
   std::vector<std::vector<double> > _ckm2;
@@ -607,6 +644,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 appl::grid::grid(const grid& g) : 
   m_obs_bins(new TH1D(*g.m_obs_bins)), 
   m_leading_order(g.m_leading_order), m_next_to_leading_order(g.m_next_to_leading_order), m_order(g.m_order),
+  m_order_ids(g.m_order_ids),
   m_grids(appl::MAXGRIDS),
   m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
   m_normalised(g.m_normalised),
@@ -769,6 +807,7 @@ appl::grid& appl::grid::operator=(const appl::grid& g) {
   // copy the state
   m_leading_order = g.m_leading_order;
   m_order         = g.m_order;
+  m_order_ids = g.m_order_ids;
 
   m_run       = g.m_run;
   m_optimised = g.m_optimised;
@@ -813,6 +852,7 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
   if ( Nobs_internal()!=g.Nobs_internal() )   throw exception("grid::operator+ Nobs bin mismatch");
   if ( m_order!=g.m_order ) throw exception("grid::operator+ different order grids");
   if ( m_leading_order!=g.m_leading_order ) throw exception("grid::operator+ different order processes in grids");
+  if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) ) throw exception("grid::operator+ different order grids");
   for( int iorder=0 ; iorder<m_order ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs]) += (*g.m_grids[iorder][iobs]); 
   }
@@ -835,6 +875,7 @@ bool appl::grid::operator==(const appl::grid& g) const {
   if ( Nobs_internal()!=g.Nobs_internal() )    match = false;
   if ( m_order!=g.m_order )  match = false;
   if ( m_leading_order!=g.m_leading_order ) match = false;
+  if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) )  match = false;
   for( int iorder=0 ; iorder<m_order ; iorder++ ) {
     //    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( (*m_grids[iorder][iobs]) == (*g.m_grids[iorder][iobs]) ); 
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( m_grids[iorder][iobs]->compare_axes( *g.m_grids[iorder][iobs] ) ); 
@@ -1098,7 +1139,7 @@ void appl::grid::Write(const std::string& filename,
   //  std::cout << "state std::vector=" << std::endl;
 
   // state information
-  TVectorT<double>* setup=new TVectorT<double>(12); // add a few extra just in case 
+  TVectorT<double>* setup=new TVectorT<double>(64);
   (*setup)(0) = m_run;
   (*setup)(1) = ( m_optimised  ? 1 : 0 );
   (*setup)(2) = ( m_symmetrise ? 1 : 0 );
@@ -1115,6 +1156,14 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(10) = (int)m_type;
 
   (*setup)(11) = m_userdata.size();
+
+  (*setup)(12) = m_order_ids.size();
+  for (std::size_t i = 0; i != m_order_ids.size(); ++i)
+  {
+    (*setup)(12 + 1 + i * 3) = m_order_ids.at(i).alphs();
+    (*setup)(12 + 2 + i * 3) = m_order_ids.at(i).lmuf2();
+    (*setup)(12 + 3 + i * 3) = m_order_ids.at(i).lmur2();
+  }
 
   setup->Write("State");
   

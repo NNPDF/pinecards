@@ -109,7 +109,7 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false), 
   m_transform(transform), m_genpdfname(genpdfname),
@@ -154,7 +154,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 std::string genpdfname, 
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname),
@@ -200,7 +200,7 @@ appl::grid::grid(const std::vector<double>& obs,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname),
@@ -252,7 +252,7 @@ appl::grid::grid(const std::vector<double>& obs,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_leading_order(leading_order), m_next_to_leading_order(next_to_leading_order), m_order(nloops+1),
+  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname),
@@ -302,7 +302,7 @@ appl::grid::grid(const std::vector<double>& obs,
 
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
-  m_leading_order(0),  m_next_to_leading_order(1), m_order(0),
+  m_order(0),
   m_order_ids(),
   m_grids(appl::MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
@@ -407,8 +407,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_optimised  = ( (*setup)(1)!=0 ? true : false );
   m_symmetrise = ( (*setup)(2)!=0 ? true : false );  
 
-  m_leading_order = int((*setup)(3)+0.5);  
-  m_next_to_leading_order = int((*setup)(4)+0.5);
   m_order         = int((*setup)(5)+0.5);
 
   if ( setup->GetNoElements()>6 ) m_cmsScale = (*setup)(6);
@@ -643,7 +641,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
 appl::grid::grid(const grid& g) : 
   m_obs_bins(new TH1D(*g.m_obs_bins)), 
-  m_leading_order(g.m_leading_order), m_next_to_leading_order(g.m_next_to_leading_order), m_order(g.m_order),
+  m_order(g.m_order),
   m_order_ids(g.m_order_ids),
   m_grids(appl::MAXGRIDS),
   m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
@@ -816,8 +814,6 @@ appl::grid& appl::grid::operator=(const appl::grid& g) {
   m_obs_bins_combined = m_obs_bins;
 
   // copy the state
-  m_leading_order = g.m_leading_order;
-  m_order         = g.m_order;
   m_order_ids = g.m_order_ids;
 
   m_run       = g.m_run;
@@ -862,7 +858,6 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
   m_trimmed   = g.m_trimmed;
   if ( Nobs_internal()!=g.Nobs_internal() )   throw exception("grid::operator+ Nobs bin mismatch");
   if ( m_order!=g.m_order ) throw exception("grid::operator+ different order grids");
-  if ( m_leading_order!=g.m_leading_order ) throw exception("grid::operator+ different order processes in grids");
   if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) ) throw exception("grid::operator+ different order grids");
   for( int iorder=0 ; iorder<m_order ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs]) += (*g.m_grids[iorder][iobs]); 
@@ -885,7 +880,6 @@ bool appl::grid::operator==(const appl::grid& g) const {
 
   if ( Nobs_internal()!=g.Nobs_internal() )    match = false;
   if ( m_order!=g.m_order )  match = false;
-  if ( m_leading_order!=g.m_leading_order ) match = false;
   if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) )  match = false;
   for( int iorder=0 ; iorder<m_order ; iorder++ ) {
     //    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( (*m_grids[iorder][iobs]) == (*g.m_grids[iorder][iobs]) ); 
@@ -1154,8 +1148,6 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(0) = m_run;
   (*setup)(1) = ( m_optimised  ? 1 : 0 );
   (*setup)(2) = ( m_symmetrise ? 1 : 0 );
-  (*setup)(3) =   m_leading_order ;
-  (*setup)(4) =   m_next_to_leading_order ;
   (*setup)(5) =   m_order ;
   (*setup)(6) =   m_cmsScale ;
   (*setup)(7) = ( m_normalised ? 1 : 0 );
@@ -1430,7 +1422,7 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 	  /// this is the amcatnlo LO calculation (without FKS shower)
 	  label = "lo";
 	  /// work out how to call from the igrid - maybe just implement additional 
-	  double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_leading_order,   0, rscale_factor, fscale_factor,  Escale );
+	  double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_order_ids.at(3).alphs(),   0, rscale_factor, fscale_factor,  Escale );
  
    	  dsigma = dsigma_B;
       }
@@ -1440,18 +1432,18 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 	  label = "nlo only"; /// for the time being ...
 
 	  // Scale independent contribution
-	  double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
+	  double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_order_ids.at(0).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
 	  dsigma = dsigma_0;
 
 	  // Renormalization scale dependent contribution
 	  if ( rscale_factor!=1 ) { 
-	    double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
+	    double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_order_ids.at(1).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
 	    dsigma += dsigma_R*std::log(rscale_factor*rscale_factor);
 	  }
 
 	  // Factorization scale dependent contribution
 	  if ( fscale_factor!=1 ) { 
-	    double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
+	    double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_order_ids.at(2).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
 	    dsigma += dsigma_F*std::log(fscale_factor*fscale_factor);
 	  }
       
@@ -1462,26 +1454,26 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 	    label = "nlo";
 	    /// work out how to call from the igrid - maybe just implement additional 
 	    /// convolution routines and call them here
-	    double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_leading_order,   0,  rscale_factor, fscale_factor,  Escale );	
+	    double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_order_ids.at(3).alphs(),   0,  rscale_factor, fscale_factor,  Escale );
 	    dsigma += dsigma_B;
 	  }
       }
       else if ( nloops==-2 ) { 
         /// Only the convolution from the W0 grid
         label = "nlo_w0";
-	double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
+	double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_order_ids.at(0).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_0;
       }
       else if ( nloops==-3 ) {
 	/// Only the convolution from the WR grid
 	label = "nlo_wR";
-	double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_next_to_leading_order, 0, rscale_factor, fscale_factor,  Escale );
+	double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_order_ids.at(1).alphs(), 0, rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_R * std::log(rscale_factor*rscale_factor)  ;
       }
       else if ( nloops==-4 ) { 
         /// Only the convolution from the WF grid
         label = "nlo_wF";
-	double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_next_to_leading_order, 0,  rscale_factor, fscale_factor,  Escale );
+	double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_order_ids.at(2).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
 	dsigma = dsigma_F * std::log(fscale_factor*fscale_factor) ;
       }
       else { 

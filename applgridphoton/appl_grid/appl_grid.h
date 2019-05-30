@@ -417,7 +417,7 @@ public:
   bool isTrimmed()   const { return m_trimmed; }
 
   // lowest order of process
-  int  leadingOrder() const { return m_leading_order; } 
+  int  leadingOrder() const { return m_order_ids.at(3).alphs(); }
 
   /// maximum number of orders ( lo=1, nlo=2, nnlo=3 )  
   /// but aMC@NLO uses 4 grids for the NLO, so m_order
@@ -649,12 +649,6 @@ protected:
   // histograms for saving the observable
   TH1D*  m_obs_bins;
   TH1D*  m_obs_bins_combined;
-
-  // order in alpha_s of tree level contribution 
-  int  m_leading_order; 
-
-  // order in alpha_s of next-to-leading order level contribution
-  int  m_next_to_leading_order;
 
   // how many orders in the calculation, lo, nlo, nnlo etc 
   int  m_order;

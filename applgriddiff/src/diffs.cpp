@@ -79,13 +79,13 @@ bool diff_histogram(TH1 const& obj1, TH1 const& obj2)
 
         return true;
     }
-    else if (obj1.GetNbinsX() != obj2.GetNbinsX())
+    else if (obj1.GetNbinsY() != obj2.GetNbinsY())
     {
         std::cout << ">>> files have different structures\n";
 
         return true;
     }
-    else if (obj1.GetNbinsX() != obj2.GetNbinsX())
+    else if (obj1.GetNbinsZ() != obj2.GetNbinsZ())
     {
         std::cout << ">>> files have different structures\n";
 

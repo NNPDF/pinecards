@@ -213,7 +213,7 @@ public:
   // perform the convolution to the max number of loops in grid
   std::vector<double> vconvolute(void   (*pdf)(const double& , const double&, double* ), 
 				 double (*alphas)(const double& ) )   { 
-    return vconvolute( pdf, alphas, m_order-1 ); 
+    return vconvolute( pdf, alphas, nloops() );
   } 
 
 
@@ -221,7 +221,7 @@ public:
   std::vector<double> vconvolute(double Escale, 
 				 void   (*pdf)(const double& , const double&, double* ), 
 				 double (*alphas)(const double& ) )   { 
-    return vconvolute( Escale, pdf, alphas, m_order-1 ); 
+    return vconvolute( Escale, pdf, alphas, nloops() );
   } 
 
 
@@ -251,7 +251,7 @@ public:
   std::vector<double> vconvolute_subproc(int subproc, 
 					 void   (*pdf)(const double& , const double&, double* ), 
 					 double (*alphas)(const double& ) )   { 
-    return vconvolute_subproc( subproc, pdf, alphas, m_order-1 ); 
+    return vconvolute_subproc( subproc, pdf, alphas, nloops() );
   } 
 
   // perform the convolution to the max number of loops in grid 
@@ -260,7 +260,7 @@ public:
 					 double Escale,
 					 void   (*pdf)(const double& , const double&, double* ), 
 					 double (*alphas)(const double& ) )   { 
-    return vconvolute_subproc( subproc, Escale, pdf, alphas, m_order-1 ); 
+    return vconvolute_subproc( subproc, Escale, pdf, alphas, nloops() );
   } 
   
 
@@ -302,14 +302,14 @@ public:
   // perform the convolution to the max number of loops in grid
   TH1D* convolute(void   (*pdf)(const double& , const double&, double* ), 
 		  double (*alphas)(const double& ) )   { 
-    return convolute( pdf, alphas, m_order-1 ); 
+    return convolute( pdf, alphas, nloops() );
   } 
 
   // perform the convolution to the max number of loops in grid
   TH1D* convolute(double Escale,
 		  void   (*pdf)(const double& , const double&, double* ), 
 		  double (*alphas)(const double& ) )   { 
-    return convolute( Escale, pdf, alphas, m_order-1 ); 
+    return convolute( Escale, pdf, alphas, nloops() );
   } 
 
 
@@ -335,14 +335,14 @@ public:
   TH1D* convolute_subproc(int subproc, 
 			  void   (*pdf)(const double& , const double&, double* ), 
 			  double (*alphas)(const double& ) )   { 
-    return convolute_subproc( subproc, pdf, alphas, m_order-1 ); 
+    return convolute_subproc( subproc, pdf, alphas, nloops() );
   } 
 
   TH1D* convolute_subproc(int subproc, 
 			  double Escale,
 			  void   (*pdf)(const double& , const double&, double* ), 
 			  double (*alphas)(const double& ) )   { 
-    return convolute_subproc( subproc, Escale, pdf, alphas, m_order-1 ); 
+    return convolute_subproc( subproc, Escale, pdf, alphas, nloops() );
   } 
 
 

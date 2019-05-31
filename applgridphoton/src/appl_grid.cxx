@@ -1414,70 +1414,34 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 
     //    std::cout << "amc@NLO convolution" << std::endl;
     
+    assert( nloops == 1 );
+    label = "nlo";
+
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  
 
       double dsigma = 0; 
-      
-      if ( nloops==0 ) {
-	  /// this is the amcatnlo LO calculation (without FKS shower)
-	  label = "lo";
-	  /// work out how to call from the igrid - maybe just implement additional 
-	  double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_order_ids.at(3).alphs(),   0, rscale_factor, fscale_factor,  Escale );
- 
-   	  dsigma = dsigma_B;
-      }
-      else if ( nloops==1 || nloops==-1 ) {
-	  /// this is the amcatnlo NLO calculation (without FKS shower)
-	  /// Next-to-leading order contribution
-	  label = "nlo only"; /// for the time being ...
 
-	  // Scale independent contribution
-	  double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_order_ids.at(0).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
-	  dsigma = dsigma_0;
+      double log_xif2 = std::log(fscale_factor * fscale_factor);
+      double log_xir2 = std::log(rscale_factor * rscale_factor);
 
-	  // Renormalization scale dependent contribution
-	  if ( rscale_factor!=1 ) { 
-	    double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_order_ids.at(1).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
-	    dsigma += dsigma_R*std::log(rscale_factor*rscale_factor);
-	  }
+      for (int i = 0; i != m_order_ids.size(); ++i)
+      {
+        double factor = 1.0;
 
-	  // Factorization scale dependent contribution
-	  if ( fscale_factor!=1 ) { 
-	    double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_order_ids.at(2).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
-	    dsigma += dsigma_F*std::log(fscale_factor*fscale_factor);
-	  }
-      
-	  /// Add the LO contribution if we want full NLO 
-	  /// rather than specific NLO contribution only  
-	  if ( nloops==1 ) { 
-	    /// this is the amcatnlo NLO calculation (without FKS shower)
-	    label = "nlo";
-	    /// work out how to call from the igrid - maybe just implement additional 
-	    /// convolution routines and call them here
-	    double dsigma_B = m_grids[3][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[3], alphas, m_order_ids.at(3).alphs(),   0,  rscale_factor, fscale_factor,  Escale );
-	    dsigma += dsigma_B;
-	  }
-      }
-      else if ( nloops==-2 ) { 
-        /// Only the convolution from the W0 grid
-        label = "nlo_w0";
-	double dsigma_0 = m_grids[0][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[0], alphas, m_order_ids.at(0).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
-	dsigma = dsigma_0;
-      }
-      else if ( nloops==-3 ) {
-	/// Only the convolution from the WR grid
-	label = "nlo_wR";
-	double dsigma_R = m_grids[1][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[1], alphas, m_order_ids.at(1).alphs(), 0, rscale_factor, fscale_factor,  Escale );
-	dsigma = dsigma_R * std::log(rscale_factor*rscale_factor)  ;
-      }
-      else if ( nloops==-4 ) { 
-        /// Only the convolution from the WF grid
-        label = "nlo_wF";
-	double dsigma_F = m_grids[2][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[2], alphas, m_order_ids.at(2).alphs(), 0,  rscale_factor, fscale_factor,  Escale );
-	dsigma = dsigma_F * std::log(fscale_factor*fscale_factor) ;
-      }
-      else { 
-	throw grid::exception( std::cerr << "invalid value for nloops " << nloops ); 
+        if (m_order_ids.at(i).lmuf2() != 0)
+        {
+            factor *= log_xif2;
+        }
+
+        if (m_order_ids.at(i).lmur2() != 0)
+        {
+            factor *= log_xir2;
+        }
+
+        if (factor != 0.0)
+        {
+            dsigma += m_grids[i][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[i], alphas, m_order_ids.at(i).alphs(), 0, rscale_factor, fscale_factor, Escale);
+        }
       }
 
       double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);      

@@ -1339,7 +1339,7 @@ std::vector<double> appl::grid::vconvolute(void (*pdf)(const double& , const dou
 std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const double&, double* ), 
 					   void (*pdf2)(const double& , const double&, double* ), 
 					   double (*alphas)(const double& ), 
-					   int     nloops, 
+					   int     /*nloops*/,
 					   double  rscale_factor,
 					   double  fscale_factor,
 					   double Escale )
@@ -1400,12 +1400,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 
   std::string label;
   
-  if ( nloops>=m_order ) { 
-    std::cerr << "too many loops for grid nloops=" << nloops << "\tgrid=" << m_order << std::endl;   
-    return hvec;
-  } 
-  
-  
   if ( m_type==STANDARD ) {
     // this branch is no longer supported
     assert( false );
@@ -1414,7 +1408,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 
     //    std::cout << "amc@NLO convolution" << std::endl;
     
-    assert( nloops == 1 );
     label = "nlo";
 
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  

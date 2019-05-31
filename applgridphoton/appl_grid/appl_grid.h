@@ -416,9 +416,6 @@ public:
   bool isOptimised() const { return m_optimised; }
   bool isTrimmed()   const { return m_trimmed; }
 
-  // lowest order of process
-  int  leadingOrder() const { return m_order_ids.at(3).alphs(); }
-
   /// maximum number of orders ( lo=1, nlo=2, nnlo=3 )  
   /// but aMC@NLO uses 4 grids for the NLO, so m_order
   /// will be 4, but really it is still only available 

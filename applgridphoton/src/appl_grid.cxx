@@ -2252,7 +2252,6 @@ std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
   if ( g.isSymmetric() ) s << "Symmetrised in x1, x2" << std::endl;
   else                   s << "Unsymmetrised in x1, x2" << std::endl;
   if ( g.getNormalised() ) s << "Normalised " << std::endl;
-  s << "leading order of processes  "  << g.leadingOrder() << std::endl;
   s << "number of loops for grid    " << g.nloops() << std::endl;   
   s << "x->y coordinate transform:  "  << g.getTransform() << std::endl;
   s << "genpdf in use: " << g.getGenpdf() << std::endl;

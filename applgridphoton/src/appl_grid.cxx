@@ -142,7 +142,7 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
 
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
+  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
 
 
@@ -188,7 +188,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
 
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
+  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
 
 
@@ -243,7 +243,7 @@ appl::grid::grid(const std::vector<double>& obs,
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
 
-  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order, m_transform);
+  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
 
 
@@ -295,7 +295,7 @@ appl::grid::grid(const std::vector<double>& obs,
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
 
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) m_grids[iorder] = new igrid*[obs.size()-1];
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = new igrid*[obs.size()-1];
 
 }
 
@@ -559,7 +559,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   //  std::cout << "grid::grid() read obs bins" << std::endl;
 
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     //    std::cout << "grid::grid() iorder=" << iorder << std::endl;
     m_grids[iorder] = new igrid*[Nobs_internal()];  
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {
@@ -676,7 +676,7 @@ appl::grid::grid(const grid& g) :
   if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
   findgenpdf( m_genpdfname );
 
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     m_grids[iorder] = new igrid*[Nobs_internal()];
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
       m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
@@ -694,14 +694,9 @@ void appl::grid::construct(int Nobs,
 			   int Nx,   double xmin,  double xmax,  int xorder, 
 			   int order, 
 			   std::string transform ) { 
-  
-  //  std::cout << "appl::grid::construct() m_order " << m_order << "\tNobs " << Nobs << std::endl; 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = 0;
 
-  if ( m_order!=order ) std::cerr << "appl::grid::construct() order mismatch" << std::endl;
-
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) m_grids[iorder] = 0;
-
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     m_grids[iorder] = new igrid*[Nobs];
     for ( int iobs=0 ; iobs<Nobs ; iobs++ ) {
       m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, Q2order, 
@@ -729,7 +724,7 @@ int appl::grid::nloops() const
 
   // number of subprocesses 
 int appl::grid::subProcesses(int i) const { 
-  if ( i<0 || i>=m_order ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order-1 << "]" << std::endl );
+  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
   return m_grids[i][0]->SubProcesses();     
 }  
 
@@ -744,7 +739,7 @@ double appl::grid::transformvar(double v) { return igrid::transformvar(v); }
 // add a single grid
 void appl::grid::add_igrid(int bin, int order, igrid* g) { 
 
-  if ( !(order>=0 && order<m_order) ) { 
+  if ( !(order>=0 && order<m_order_ids.size()) ) {
     std::cerr << "grid::add_igrid() order out of range " << order << std::endl; 
     return;
   } 
@@ -769,7 +764,7 @@ void appl::grid::add_igrid(int bin, int order, igrid* g) {
 
 
 appl::grid::~grid() {
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {  
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     if( m_grids[iorder] ) { 
       for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) { 
 	delete m_grids[iorder][iobs];
@@ -797,11 +792,11 @@ appl::grid::~grid() {
 
 // algebraic operators
 
-appl::grid& appl::grid::operator=(const appl::grid& g) { 
+appl::grid& appl::grid::operator=(const appl::grid& g) {
   // clear out the old...
   if ( m_obs_bins_combined!=m_obs_bins ) delete m_obs_bins_combined;
   delete m_obs_bins;
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  delete m_grids[iorder][iobs];
     delete m_grids[iorder];
   }
@@ -820,7 +815,7 @@ appl::grid& appl::grid::operator=(const appl::grid& g) {
   m_optimised = g.m_optimised;
   m_trimmed   = g.m_trimmed;
 
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     m_grids[iorder] = new igrid*[Nobs_internal()];
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
       m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
@@ -832,7 +827,7 @@ appl::grid& appl::grid::operator=(const appl::grid& g) {
   
 
 appl::grid& appl::grid::operator*=(const double& d) { 
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs])*=d; 
   }
   getReference()->Scale( d );
@@ -842,12 +837,12 @@ appl::grid& appl::grid::operator*=(const double& d) {
 
 
 double appl::grid::fx(double x) const { 
-  if ( m_order>0 && Nobs_internal()>0 ) return m_grids[0][0]->fx(x);
+  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fx(x);
   else return 0;
 }
 
 double appl::grid::fy(double x) const { 
-  if ( m_order>0 && Nobs_internal()>0 ) return m_grids[0][0]->fy(x);
+  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fy(x);
   else return 0;
 }
 
@@ -857,9 +852,8 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
   m_optimised = g.m_optimised;
   m_trimmed   = g.m_trimmed;
   if ( Nobs_internal()!=g.Nobs_internal() )   throw exception("grid::operator+ Nobs bin mismatch");
-  if ( m_order!=g.m_order ) throw exception("grid::operator+ different order grids");
   if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) ) throw exception("grid::operator+ different order grids");
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs]) += (*g.m_grids[iorder][iobs]); 
   }
 
@@ -879,9 +873,8 @@ bool appl::grid::operator==(const appl::grid& g) const {
   bool match = true; 
 
   if ( Nobs_internal()!=g.Nobs_internal() )    match = false;
-  if ( m_order!=g.m_order )  match = false;
   if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) )  match = false;
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     //    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( (*m_grids[iorder][iobs]) == (*g.m_grids[iorder][iobs]) ); 
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( m_grids[iorder][iobs]->compare_axes( *g.m_grids[iorder][iobs] ) ); 
   }
@@ -945,20 +938,20 @@ void appl::grid::fill_index(const int ix1, const int ix2, const int iQ2,
 
 void appl::grid::trim() {
   m_trimmed = true;
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->trim(); 
   }
 }
 
 void appl::grid::untrim() {
   m_trimmed = false;
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->untrim(); 
   }
 }
 
 std::ostream& appl::grid::print(std::ostream& s) const {
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {     
       s << iobs << "\t" 
 	<< std::setprecision(5) << std::setw(6) << getReference()->GetBinLowEdge(iobs+1) << "\t- " 
@@ -991,13 +984,13 @@ void appl::grid::addpdf( const std::string& s, const std::vector<int>& combinati
     /// they will be added to the pdf std::map automatically 
     std::vector<std::string> names = parse( s, ":" );
 
-    unsigned imax = unsigned(m_order); 
+    unsigned imax = unsigned(m_order_ids.size());
 
     /// check to see whether we have a different pdf for each order
     if ( names.size()!=imax ) { 
       if ( names.size()==1 ) imax = 1;
       else { 
-	throw exception( std::cerr << "requested " << m_order << " pdf combination but given " << names.size() << std::endl );
+	throw exception( std::cerr << "requested " << m_order_ids.size() << " pdf combination but given " << names.size() << std::endl );
       }
     }
 
@@ -1052,25 +1045,25 @@ void appl::grid::addpdf( const std::string& s, const std::vector<int>& combinati
 
 
 void appl::grid::setckm2( const std::vector<std::vector<double> >& ckm2 ) { 
-  for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i]->setckm2(ckm2);
+  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm2(ckm2);
 }
 
 
 void appl::grid::setckm( const std::vector<std::vector<double> >& ckm ) { 
-  for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i]->setckm(ckm);
+  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(ckm);
 }
 
 
 void appl::grid::setckm( const std::vector<double>& ckm ) {
   std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
   for ( unsigned i=0 ; i<ckm.size() && i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
-  for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i]->setckm(_ckm);
+  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
 }
 
 void appl::grid::setckm( const double* ckm ) { 
   std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
   for ( unsigned i=0 ; i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
-  for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i]->setckm(_ckm);
+  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
 }
 
 
@@ -1086,7 +1079,7 @@ const std::vector<std::vector<double> >& appl::grid::getckm2() const { return m_
 
 // set the rewight flag of the internal grids
 bool appl::grid::reweight(bool t) { 
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->reweight(t);       
   }
   return t;
@@ -1196,7 +1189,7 @@ void appl::grid::Write(const std::string& filename,
     
     std::string label = "Combinations";
     
-    for ( unsigned i=0 ; i<namevec.size() && i<unsigned(m_order) ; i++ ) {  
+    for ( unsigned i=0 ; i<namevec.size() && i<unsigned(m_order_ids.size()) ; i++ ) {
 
       std::vector<int>   combinations = dynamic_cast<lumi_pdf*>(m_genpdf[i])->serialise();
       TVectorT<double>* _combinations = new TVectorT<double>(combinations.size());
@@ -1226,7 +1219,7 @@ void appl::grid::Write(const std::string& filename,
   
 
   // internal grids
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {
       char name[128];  sprintf(name, "weight[alpha-%d][%03d]", iorder, iobs);
       // std::cout << "writing grid " << name << std::endl;
@@ -1626,7 +1619,7 @@ void appl::grid::optimise(bool force) {
   if ( !force && m_optimised ) return;
   m_optimised = true;
   m_read = false;
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
       std::cout << "grid::optimise() bin " << iobs << "\t";
       m_grids[iorder][iobs]->optimise();
@@ -1644,7 +1637,7 @@ void appl::grid::optimise(int NQ2, int Nx) {  optimise(NQ2, Nx, Nx);  }
 void appl::grid::optimise(int NQ2, int Nx1, int Nx2) {
   m_optimised = true;
   m_read = false;
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
       std::cout << "grid::optimise() bin " << iobs << "\t";
       m_grids[iorder][iobs]->optimise(NQ2, Nx1, Nx2);
@@ -1662,7 +1655,7 @@ void appl::grid::redefine(int iobs, int iorder,
 			  int Nx,  double  xmin, double  xmax ) 
 { 
   
-  if  ( iorder>=m_order ) { 
+  if  ( iorder>=m_order_ids.size() ) {
     std::cerr << "grid does not extend to this order" << std::endl;
     return;
   }
@@ -1789,11 +1782,11 @@ void appl::grid::setRange(double lower, double upper, double xScaleFactor) {
   std::vector<igrid**> grids(appl::MAXGRIDS);
 
   /// save old grids
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) grids[iorder] = m_grids[iorder];
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) grids[iorder] = m_grids[iorder];
   
   int _Nobs = m_obs_bins->GetNbinsX();
 
-  for ( int iorder=0 ; iorder<m_order ; iorder++ ) { 
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     m_grids[iorder] = new igrid*[_Nobs];
     int iobs = 0;
     for ( int igrid=0 ; igrid<h->GetNbinsX() ; igrid++ ) {
@@ -1929,7 +1922,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
 
 
   /// loop over orders 
-  for( int iorder=0 ; iorder<m_order ; iorder++ ) {
+  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
 
     std::cout << "appl::grid::shrink() order " << iorder << std::endl;
     
@@ -2011,7 +2004,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
       std::map< int, std::vector<int> >::iterator itr  = same.begin();
       std::map< int, std::vector<int> >::iterator iend = same.end();
 
-      for ( int ik=0 ; ik<m_order ; ik++ ) std::cout << m_genpdf[iorder]->name() << std::endl;
+      for ( int ik=0 ; ik<m_order_ids.size() ; ik++ ) std::cout << m_genpdf[iorder]->name() << std::endl;
 
       lumi_pdf*  _pdf = 0;
       if ( m_genpdf[iorder]->name().find(".config")!=std::string::npos ){ 

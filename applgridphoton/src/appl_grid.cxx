@@ -109,7 +109,6 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false), 
   m_transform(transform), m_genpdfname(genpdfname),
@@ -129,18 +128,18 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
 
   m_obs_bins_combined = m_obs_bins;
 
-  /// check to see if we require a generic pdf from a text file, and 
-  /// and if so, create the required generic pdf
-  //  if      ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  //  else if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
   // 0,R,F,B
   m_order_ids.emplace_back(next_to_leading_order, 0, 0);
   m_order_ids.emplace_back(next_to_leading_order, 0, 1);
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
+
+  /// check to see if we require a generic pdf from a text file, and
+  /// and if so, create the required generic pdf
+  //  if      ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+  //  else if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+  findgenpdf( m_genpdfname );
 
   construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
@@ -154,7 +153,6 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 std::string genpdfname, 
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform ) :
-  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname),
@@ -175,18 +173,18 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
   m_obs_bins_combined = m_obs_bins;
 
-  /// check to see if we require a generic pdf from a text file, and 
-  /// and if so, create the required generic pdf
-  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-
-  findgenpdf( m_genpdfname );
-
   // 0,R,F,B
   m_order_ids.emplace_back(next_to_leading_order, 0, 0);
   m_order_ids.emplace_back(next_to_leading_order, 0, 1);
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
+
+  /// check to see if we require a generic pdf from a text file, and
+  /// and if so, create the required generic pdf
+  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+
+  findgenpdf( m_genpdfname );
 
   construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
@@ -200,7 +198,6 @@ appl::grid::grid(const std::vector<double>& obs,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname),
@@ -231,17 +228,17 @@ appl::grid::grid(const std::vector<double>& obs,
 
   m_obs_bins_combined = m_obs_bins;
 
-  /// check to see if we require a generic pdf from a text file, and 
-  /// and if so, create the required generic pdf
-  //   if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
   // 0,R,F,B
   m_order_ids.emplace_back(next_to_leading_order, 0, 0);
   m_order_ids.emplace_back(next_to_leading_order, 0, 1);
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
+
+  /// check to see if we require a generic pdf from a text file, and
+  /// and if so, create the required generic pdf
+  //   if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+  findgenpdf( m_genpdfname );
 
   construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
 }
@@ -252,7 +249,6 @@ appl::grid::grid(const std::vector<double>& obs,
 		 std::string genpdfname,
 		 int leading_order, int next_to_leading_order, int nloops,
 		 std::string transform )  :
-  m_order(nloops+1),
   m_grids(appl::MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
   m_transform(transform), m_genpdfname(genpdfname),
@@ -283,17 +279,17 @@ appl::grid::grid(const std::vector<double>& obs,
 
   m_obs_bins_combined = m_obs_bins;
 
-  /// check to see if we require a generic pdf from a text file, and 
-  /// and if so, create the required generic pdf
-  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
   // 0,R,F,B
   m_order_ids.emplace_back(next_to_leading_order, 0, 0);
   m_order_ids.emplace_back(next_to_leading_order, 0, 1);
   m_order_ids.emplace_back(next_to_leading_order, 1, 0);
   m_order_ids.emplace_back(leading_order, 0, 0);
+
+  /// check to see if we require a generic pdf from a text file, and
+  /// and if so, create the required generic pdf
+  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+  findgenpdf( m_genpdfname );
 
   for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = new igrid*[obs.size()-1];
 
@@ -302,7 +298,6 @@ appl::grid::grid(const std::vector<double>& obs,
 
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
-  m_order(0),
   m_order_ids(),
   m_grids(appl::MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
@@ -406,8 +401,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_run        = (*setup)(0);
   m_optimised  = ( (*setup)(1)!=0 ? true : false );
   m_symmetrise = ( (*setup)(2)!=0 ? true : false );  
-
-  m_order         = int((*setup)(5)+0.5);
 
   if ( setup->GetNoElements()>6 ) m_cmsScale = (*setup)(6);
   else                            m_cmsScale = 0;
@@ -641,7 +634,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
 appl::grid::grid(const grid& g) : 
   m_obs_bins(new TH1D(*g.m_obs_bins)), 
-  m_order(g.m_order),
   m_order_ids(g.m_order_ids),
   m_grids(appl::MAXGRIDS),
   m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
@@ -968,16 +960,15 @@ std::ostream& appl::grid::print(std::ostream& s) const {
  /// get the required pdf combinations from those registered   
 void appl::grid::findgenpdf( std::string s ) { 
     std::vector<std::string> names = parse( s, ":" );
-    if ( names.size()==unsigned(m_order) ) for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[i] );
-    else  if ( names.size()==1 )           for ( int i=0 ; i<m_order ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[0] );
+    if ( names.size()==unsigned(m_order_ids.size()) ) for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[i] );
+    else  if ( names.size()==1 )           for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[0] );
     else  { 
-      throw exception( std::cerr << "requested " << m_order << " pdf combination but given " << names.size() << std::endl );
+      throw exception( std::cerr << "requested " << m_order_ids.size() << " pdf combination but given " << names.size() << std::endl );
     }
 }
 
 
 void appl::grid::addpdf( const std::string& s, const std::vector<int>& combinations ) {
-
   //  std::cout << "addpdf() in " << std::endl;
 
     /// parse names, if they contain .dat, then create the new generic pdfs
@@ -1141,7 +1132,6 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(0) = m_run;
   (*setup)(1) = ( m_optimised  ? 1 : 0 );
   (*setup)(2) = ( m_symmetrise ? 1 : 0 );
-  (*setup)(5) =   m_order ;
   (*setup)(6) =   m_cmsScale ;
   (*setup)(7) = ( m_normalised ? 1 : 0 );
   (*setup)(8) = ( m_applyCorrections ? 1 : 0 );

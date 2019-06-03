@@ -647,9 +647,6 @@ protected:
   TH1D*  m_obs_bins;
   TH1D*  m_obs_bins_combined;
 
-  // how many orders in the calculation, lo, nlo, nnlo etc 
-  int  m_order;
-
   // the actual weight grids themselves
   std::vector<igrid**> m_grids;
 

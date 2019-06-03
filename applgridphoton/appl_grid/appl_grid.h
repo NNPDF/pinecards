@@ -49,7 +49,7 @@ class igrid;
 class appl_pdf;
 
 
-const int MAXGRIDS = 5;
+const int MAXGRIDS = 64;
 
 class order_id
 {
@@ -103,6 +103,27 @@ public:
   typedef enum { STANDARD=0, AMCATNLO=1, SHERPA=2, LAST_TYPE=3 } CALCULATION; 
 
 public:
+
+  grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,
+       int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
+       int Nobs=20, double obsmin=100.0,  double obsmax=7000.0,
+       std::string genpdf="mcfm_pdf",
+       std::vector<order_id> const& order_ids = std::vector<order_id>(),
+       std::string transform="f2");
+
+  grid( int Nobs, const double* obsbins,
+	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
+        int Nx=50,   double xmin=1e-5,     double xmax=0.9,         int xorder=5,
+	std::string genpdf="mcfm_pdf",
+       std::vector<order_id> const& order_ids = std::vector<order_id>(),
+	std::string transform="f2" );
+
+  grid( const std::vector<double>& obs,
+	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5,
+        int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5,
+	std::string genpdf="mcfm_pdf",
+       std::vector<order_id> const& order_ids = std::vector<order_id>(),
+	std::string transform="f2" );
 
   grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,  
        int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,

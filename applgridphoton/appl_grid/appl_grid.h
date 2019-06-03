@@ -366,6 +366,7 @@ public:
     return convolute_subproc( subproc, Escale, pdf, alphas, nloops() );
   } 
 
+  std::vector<order_id> const& order_ids() const;
 
   // optimise the bin limits
   void optimise(bool force=false);

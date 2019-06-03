@@ -827,6 +827,11 @@ void appl::grid::construct(int Nobs,
   //  std::cout << "appl::grid::construct() return" << std::endl; 
 }
 
+std::vector<appl::order_id> const& appl::grid::order_ids() const
+{
+    return m_order_ids;
+}
+
 
 int appl::grid::nloops() const
 {

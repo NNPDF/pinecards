@@ -256,10 +256,10 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
   m_obs_bins_combined = m_obs_bins;
 
   // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
-  m_order_ids.emplace_back(leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
+  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
 
   /// check to see if we require a generic pdf from a text file, and
   /// and if so, create the required generic pdf
@@ -301,10 +301,10 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_obs_bins_combined = m_obs_bins;
 
   // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
-  m_order_ids.emplace_back(leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
+  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
 
   /// check to see if we require a generic pdf from a text file, and
   /// and if so, create the required generic pdf
@@ -356,10 +356,10 @@ appl::grid::grid(const std::vector<double>& obs,
   m_obs_bins_combined = m_obs_bins;
 
   // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
-  m_order_ids.emplace_back(leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
+  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
 
   /// check to see if we require a generic pdf from a text file, and
   /// and if so, create the required generic pdf
@@ -407,10 +407,10 @@ appl::grid::grid(const std::vector<double>& obs,
   m_obs_bins_combined = m_obs_bins;
 
   // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, 1, 0);
-  m_order_ids.emplace_back(leading_order, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
+  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
+  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
 
   /// check to see if we require a generic pdf from a text file, and
   /// and if so, create the required generic pdf
@@ -545,9 +545,10 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   for (std::size_t i = 0; i != m_order_ids.capacity(); ++i)
   {
     m_order_ids.emplace_back(
-      static_cast <int> ((*setup)(12 + 1 + i * 3)+0.5),
-      static_cast <int> ((*setup)(12 + 2 + i * 3)+0.5),
-      static_cast <int> ((*setup)(12 + 3 + i * 3)+0.5)
+      static_cast <int> ((*setup)(12 + 1 + i * 4)),
+      static_cast <int> ((*setup)(12 + 2 + i * 4)),
+      static_cast <int> ((*setup)(12 + 3 + i * 4)),
+      static_cast <int> ((*setup)(12 + 4 + i * 4))
     );
   }
 
@@ -1278,9 +1279,10 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(12) = m_order_ids.size();
   for (std::size_t i = 0; i != m_order_ids.size(); ++i)
   {
-    (*setup)(12 + 1 + i * 3) = m_order_ids.at(i).alphs();
-    (*setup)(12 + 2 + i * 3) = m_order_ids.at(i).lmuf2();
-    (*setup)(12 + 3 + i * 3) = m_order_ids.at(i).lmur2();
+    (*setup)(12 + 1 + i * 4) = m_order_ids.at(i).alphs();
+    (*setup)(12 + 2 + i * 4) = m_order_ids.at(i).alpha();
+    (*setup)(12 + 3 + i * 4) = m_order_ids.at(i).lmuf2();
+    (*setup)(12 + 4 + i * 4) = m_order_ids.at(i).lmur2();
   }
 
   setup->Write("State");

@@ -54,8 +54,9 @@ const int MAXGRIDS = 64;
 class order_id
 {
 public:
-    order_id(int alphs, int lmuf2, int lmur2)
+    order_id(int alphs, int alpha, int lmuf2, int lmur2)
         : alphs_{alphs}
+        , alpha_{alpha}
         , lmuf2_{lmuf2}
         , lmur2_{lmur2}
     {
@@ -64,6 +65,11 @@ public:
     int alphs() const
     {
         return alphs_;
+    }
+
+    int alpha() const
+    {
+        return alpha_;
     }
 
     int lmuf2() const
@@ -78,6 +84,7 @@ public:
 
 private:
     int alphs_;
+    int alpha_;
     int lmuf2_;
     int lmur2_;
 };

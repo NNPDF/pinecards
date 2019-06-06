@@ -91,7 +91,8 @@ private:
 
 inline bool operator==(order_id const& a, order_id const& b)
 {
-    return (a.alphs() == b.alphs()) && (a.lmuf2() == b.lmuf2()) && (a.lmur2() == b.lmur2());
+    return (a.alphs() == b.alphs()) && (a.alpha() == b.alpha()) && (a.lmuf2() == b.lmuf2())
+        && (a.lmur2() == b.lmur2());
 }
 
 /// externally visible grid class

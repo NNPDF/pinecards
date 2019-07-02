@@ -230,196 +230,31 @@ appl::grid::grid(const std::vector<double>& obs,
 
 
 
-appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
-		 int Nx,  double xmin,  double xmax,  int xorder,
-		 int Nobs,  double obsmin, double obsmax,
-		 std::string genpdfname,
-		 int leading_order, int next_to_leading_order, int nloops,
-		 std::string transform ) :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_applyCorrections(false),
-  m_documentation(""),
-  m_type(AMCATNLO),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1)
+appl::grid::grid(int, double, double, int, int, double, double, int, int, double, double,
+    std::string, int, int, int, std::string)
 {
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsmin, obsmax);
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-
-  m_obs_bins_combined = m_obs_bins;
-
-  // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
-  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //  if      ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  //  else if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+    // TODO: constructor is deprecated
+    assert( false );
 }
 
-
-
-
-appl::grid::grid(int Nobs, const double* obsbins, 
-		 int NQ2,  double Q2min, double Q2max, int Q2order, 
-		 int Nx,   double xmin, double xmax,   int xorder, 
-		 std::string genpdfname, 
-		 int leading_order, int next_to_leading_order, int nloops,
-		 std::string transform ) :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_applyCorrections(false),
-  m_documentation(""),
-  m_type(AMCATNLO),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1)
+appl::grid::grid(int, const double*, int, double, double, int, int, double, double, int,
+    std::string, int, int, int, std::string)
 {
-  
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsbins);
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-
-  m_obs_bins_combined = m_obs_bins;
-
-  // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
-  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-
-  findgenpdf( m_genpdfname );
-
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+    // TODO: constructor is deprecated
+    assert( false );
 }
 
-
-
-
-appl::grid::grid(const std::vector<double>& obs, 
-		 int NQ2, double Q2min, double Q2max, int Q2order,
-		 int Nx,  double xmin,  double xmax,  int xorder, 
-		 std::string genpdfname,
-		 int leading_order, int next_to_leading_order, int nloops,
-		 std::string transform )  :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_applyCorrections(false),
-  m_documentation(""),
-  m_type(AMCATNLO),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1)
+appl::grid::grid(const std::vector<double>&, int, double, double, int, int, double, double, int,
+    std::string, int, int, int, std::string)
 {
-  
-  if ( obs.size()==0 ) { 
-    std::cerr << "grid::not enough bins in observable" << std::endl;
-    std::exit(0);
-  } 
-  
-  //  double* obsbins = new double[obs.size()];  
-  //  for ( unsigned i=0 ; i<obs.size() ; i++ ) obsbins[i] = obs[i];
-  //  int Nobs = obs.size()-1;
-
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", obs.size()-1, &obs[0] );
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-  //  delete[] obsbins;
-
-  m_obs_bins_combined = m_obs_bins;
-
-  // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
-  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //   if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+    // TODO: constructor is deprecated
+    assert( false );
 }
 
-
-
-appl::grid::grid(const std::vector<double>& obs, 
-		 std::string genpdfname,
-		 int leading_order, int next_to_leading_order, int nloops,
-		 std::string transform )  :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),  
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_applyCorrections(false),  
-  m_documentation(""),
-  m_type(AMCATNLO),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1)
-{ 
-
-  if ( obs.size()==0 ) { 
-    std::cerr << "grid::not enough bins in observable" << std::endl;
-    std::exit(0);
-  } 
-  
-  //  double* obsbins = new double[obs.size()];  
-  //  for ( unsigned i=0 ; i<obs.size() ; i++ ) obsbins[i] = obs[i];
-  //  int Nobs = obs.size()-1;
-
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", obs.size()-1, &obs[0] );
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-  //  delete[] obsbins;
-
-  m_obs_bins_combined = m_obs_bins;
-
-  // 0,R,F,B
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 0);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 0, 1);
-  m_order_ids.emplace_back(next_to_leading_order, -1, 1, 0);
-  m_order_ids.emplace_back(        leading_order, -1, 0, 0);
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = new igrid*[obs.size()-1];
-
+appl::grid::grid(const std::vector<double>&, std::string, int, int, int, std::string)
+{
+    // TODO: constructor is deprecated
+    assert( false );
 }
 
 

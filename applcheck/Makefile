@@ -18,10 +18,10 @@ APPLCLIBS    = $(shell applgrid-config --ldcflags)
 # Compiler options
 ##################
 CC=g++
-CFLAGS=-Wall -O3 $(shell root-config --cflags)
-CFLAGSD=-Wall -O0 -g $(shell root-config --cflags)
-LDFLAGS=-c -Wall -O3 $(shell root-config --cflags)
-LDFLAGSD=-c -Wall -O0 -g $(shell root-config --cflags)
+CFLAGS=-Wall -O0 $(shell root-config --cflags) -ggdb
+CFLAGSD=-Wall -O0 $(shell root-config --cflags) -ggdb
+LDFLAGS=-c -Wall $(shell root-config --cflags) -ggdb
+LDFLAGSD=-c -Wall -O0 -g $(shell root-config --cflags) -ggdb
 LIBS= $(shell lhapdf-config --libs) $(shell root-config --glibs)  $(shell gsl-config --libs)  $(APPLCLIBS)
 INCL= -I$(shell lhapdf-config --incdir) $(shell gsl-config --cflags) $(APPLCXXFLAGS)
 

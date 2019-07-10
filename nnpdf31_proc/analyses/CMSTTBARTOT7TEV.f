@@ -53,36 +53,36 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       ! stuff for plotting the different splitorders
       integer orders_tag_plot
       common /corderstagplot/ orders_tag_plot
-      if (nexternal.ne.5) then
-         write (*,*) 'error #1 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
-      if (.not. (abs(ipdg(1)).le.5 .or. ipdg(1).eq.21)) then
-         write (*,*) 'error #2 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
-      if (.not. (abs(ipdg(2)).le.5 .or. ipdg(2).eq.21)) then
-         write (*,*) 'error #3 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
-      if (.not. (abs(ipdg(5)).le.5 .or. ipdg(5).eq.21)) then
-         write (*,*) 'error #4 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
-      if (ipdg(3).ne.6) then
-         write (*,*) 'error #5 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
-      if (ipdg(4).ne.-6) then
-         write (*,*) 'error #6 in analysis_fill: '/
-     &        /'only for process "p p > t t~ [QCD]"'
-         stop 1
-      endif
+c      if (nexternal.ne.5) then
+c         write (*,*) 'error #1 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
+c      if (.not. (abs(ipdg(1)).le.5 .or. ipdg(1).eq.21)) then
+c         write (*,*) 'error #2 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
+c      if (.not. (abs(ipdg(2)).le.5 .or. ipdg(2).eq.21)) then
+c         write (*,*) 'error #3 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
+c      if (.not. (abs(ipdg(5)).le.5 .or. ipdg(5).eq.21)) then
+c         write (*,*) 'error #4 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
+c      if (ipdg(3).ne.6) then
+c         write (*,*) 'error #5 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
+c      if (ipdg(4).ne.-6) then
+c         write (*,*) 'error #6 in analysis_fill: '/
+c     &        /'only for process "p p > t t~ [QCD]"'
+c         stop 1
+c      endif
 c      do i=0,3
 c        pttx(i)=p(i,3)+p(i,4)
 c      enddo

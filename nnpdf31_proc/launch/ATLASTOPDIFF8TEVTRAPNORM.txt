@@ -1,0 +1,29 @@
+launch ATLASTOPDIFF8TEVTRAPNORM
+fixed_order = ON
+set mt 172.5
+set mz 91.176
+set WT 0.0
+set WZ 0.0
+set WW 0.0
+set WH 0.0
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale .true.
+set fixed_fac_scale .true.
+set mur_ref_scale 172.5
+set muf_ref_scale 172.5
+set reweight_scale False
+set req_acc_FO 0.01
+set iappl 0
+launch ATLASTOPDIFF8TEVTRAPNORM
+fixed_order = ON
+set iappl 1
+launch ATLASTOPDIFF8TEVTRAPNORM
+fixed_order = ON
+set req_acc_FO 0.001
+set iappl 2
+quit
+
+

@@ -18,9 +18,11 @@ set muf_ref_scale 172.5
 set reweight_scale False
 set req_acc_FO 0.01
 set iappl 0
+done
 launch CMSTTBARTOT8TEV
 fixed_order = ON
 set iappl 1
+done
 launch CMSTTBARTOT8TEV
 fixed_order = ON
 set req_acc_FO 0.001

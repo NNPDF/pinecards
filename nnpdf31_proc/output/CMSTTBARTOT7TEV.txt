@@ -1,4 +1,4 @@
-set complex_mass_scheme
+set complex_mass_scheme False
 import model loop_qcd_qed_sm_Gmu
 define p = p b b~
 define j = p

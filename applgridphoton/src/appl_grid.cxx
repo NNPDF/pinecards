@@ -812,10 +812,43 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
   m_optimised = g.m_optimised;
   m_trimmed   = g.m_trimmed;
   if ( Nobs_internal()!=g.Nobs_internal() )   throw exception("grid::operator+ Nobs bin mismatch");
-  if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) ) throw exception("grid::operator+ different order grids");
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs]) += (*g.m_grids[iorder][iobs]); 
-  }
+
+    // the grids in `this` and in `g` might be sorted differently, or they might even contain
+    // different grids
+
+    for (std::size_t i = 0; i != g.m_order_ids.size(); ++i)
+    {
+        auto const grid_it = std::find(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.at(i));
+
+        if (grid_it != m_order_ids.end())
+        {
+            std::size_t const index = std::distance(m_order_ids.begin(), grid_it);
+
+            // TODO: we should probably check whether the luminosity functions are the same
+
+            for (int iobs = 0; iobs < Nobs_internal(); ++iobs)
+            {
+                *m_grids[index][iobs] += *g.m_grids[i][iobs];
+            }
+        }
+        else
+        {
+            m_grids[m_order_ids.size()] = new igrid*[Nobs_internal()];
+
+            for (int iobs = 0; iobs < Nobs_internal(); ++iobs)
+            {
+                m_grids[m_order_ids.size()][iobs] = new igrid(*g.m_grids[i][iobs]);
+                m_grids[m_order_ids.size()][iobs]->setparent(this);
+
+                *m_grids[m_order_ids.size()][iobs] = *g.m_grids[i][iobs];
+            }
+
+            // TODO: is simply copying the pointer correct?
+            m_genpdf[m_order_ids.size()] = g.m_genpdf.at(i);
+
+            m_order_ids.push_back(g.m_order_ids.at(i));
+        }
+    }
 
   /// grrr use root TH1::Add() even though I don't like it. 
   getReference()->Add( g.getReference() );

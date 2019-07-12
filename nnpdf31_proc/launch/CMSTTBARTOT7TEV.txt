@@ -11,8 +11,8 @@ set ebeam1 3500
 set ebeam2 3500
 set pdlabel lhapdf
 set lhaid 324900
-set fixed_ren_scale .true.
-set fixed_fac_scale .true.
+set fixed_ren_fixed .true.
+set fixed_fac_fixed .true.
 set mur_ref_scale 172.5
 set muf_ref_scale 172.5
 set reweight_scale False

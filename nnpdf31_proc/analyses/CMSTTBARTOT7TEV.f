@@ -13,7 +13,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_inithist(nwgt,weights_info)
       do i=1,3
          l=(i-1)*1
-         call HwU_book(l+ 1,'total rate    '//cc(i),  5,0.5d0,5.5d0)
+         call HwU_book(l+ 1,'total rate    '//cc(i),  1,0.5d0,1.5d0)
       enddo
       return
       end
@@ -53,36 +53,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       ! stuff for plotting the different splitorders
       integer orders_tag_plot
       common /corderstagplot/ orders_tag_plot
-c      if (nexternal.ne.5) then
-c         write (*,*) 'error #1 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
-c      if (.not. (abs(ipdg(1)).le.5 .or. ipdg(1).eq.21)) then
-c         write (*,*) 'error #2 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
-c      if (.not. (abs(ipdg(2)).le.5 .or. ipdg(2).eq.21)) then
-c         write (*,*) 'error #3 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
-c      if (.not. (abs(ipdg(5)).le.5 .or. ipdg(5).eq.21)) then
-c         write (*,*) 'error #4 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
-c      if (ipdg(3).ne.6) then
-c         write (*,*) 'error #5 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
-c      if (ipdg(4).ne.-6) then
-c         write (*,*) 'error #6 in analysis_fill: '/
-c     &        /'only for process "p p > t t~ [QCD]"'
-c         stop 1
-c      endif
 c      do i=0,3
 c        pttx(i)=p(i,3)+p(i,4)
 c      enddo
@@ -96,7 +66,10 @@ c      yttx= getrapidity(pttx(0), pttx(3))
       var=1.d0
       do i=1,3
          l=(i-1)*1
-         if (ibody.ne.3 .and.i.eq.2) cycle
+      !!data cc/'|T@NLOQCDEW','|T@NLOQCD  ','|T@LO      '/
+         if (ibody.ne.3 .and.i.eq.3) cycle ! fill only born for i=3
+         if (orders_tag_plot.eq.204 .and.i.eq.2) cycle ! do not fill the
+         ! NLO EW for i=2
          call HwU_fill(l+1,var,wgts)
 C         call HwU_fill(l+2,yt,wgts)
 C         call HwU_fill(l+3,ytx,wgts)

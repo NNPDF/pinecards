@@ -27,6 +27,7 @@ launch ATLASTOPDIFF8TEVTRAPNORM
 fixed_order = ON
 set req_acc_FO 0.001
 set iappl 2
+done
 quit
 
 

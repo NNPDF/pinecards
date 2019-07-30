@@ -1,6 +1,6 @@
 import model loop_qcd_qed_sm_Gmu
 define p = p b b~
 define j = p
-generate p p > t t~ QED=2 QCD=2 [QCD QED]
+generate p p > t t~ [QCD QED]
 output ATLASTTBARTOT8TEV
 quit

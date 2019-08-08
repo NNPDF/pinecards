@@ -1,0 +1,28 @@
+launch ATLASZHIGHMASS49FB
+fixed_order = ON
+set mz 91.176
+set ymt 172.5
+set ebeam1 3500
+set ebeam2 3500
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed 91.176
+set muf_ref_fixed 91.176
+set reweight_scale False
+set ptl = 25.0
+set etal = 2.5
+set req_acc_FO 0.01
+set iappl 0
+done
+launch ATLASZHIGHMASS49FB
+fixed_order = ON
+set iappl 1
+done
+launch ATLASZHIGHMASS49FB
+fixed_order = ON
+set req_acc_FO 0.001
+set iappl 2
+done
+quit

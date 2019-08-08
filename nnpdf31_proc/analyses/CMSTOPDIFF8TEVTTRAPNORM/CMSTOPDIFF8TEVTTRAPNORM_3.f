@@ -7,11 +7,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'t-tx pair rap ', 1,-2.5d0,-1.3d0)
-      call HwU_book(2,'t-tx pair rap ', 1,-1.3d0,-0.9d0)
-      call HwU_book(3,'t-tx pair rap ', 6,-0.9d0,+0.9d0)
-      call HwU_book(4,'t-tx pair rap ', 1,+0.9d0,+1.3d0)
-      call HwU_book(5,'t-tx pair rap ', 1,+1.3d0,+2.5d0)
+      call HwU_book(1,'t-tx pair rap ', 1,0.6d0,0.9d0)
       return
       end
 
@@ -47,10 +43,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       yttx= getrapidity(pttx(0), pttx(3))
 
       call HwU_fill(1,yttx,wgts)
-      call HwU_fill(2,yttx,wgts)
-      call HwU_fill(3,yttx,wgts)
-      call HwU_fill(4,yttx,wgts)
-      call HwU_fill(5,yttx,wgts)
 
  999  return      
       end

@@ -7,9 +7,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'t rap ', 1,-2.5d0,-1.6d0)
-      call HwU_book(2,'t rap ', 8,-1.6d0,+1.6d0)
-      call HwU_book(3,'t rap ', 1,+1.6d0,+2.5d0)
+      call HwU_book(1,'t rap ', 1,0.4d0,0.8d0)
       return
       end
 
@@ -41,8 +39,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       yt  = getrapidity(p(0,3), p(3,3))
 
       call HwU_fill(1,yt,wgts)
-      call HwU_fill(2,yt,wgts)
-      call HwU_fill(3,yt,wgts)
 
  999  return      
       end

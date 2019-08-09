@@ -20,11 +20,13 @@ eponymous subdirectories of the `nnpdf31_proc` folder and should be named
 after the corresponding data set included in a NNPDF fit.
 
 * The *output* file (compulsory). This is a `.txt` file containing the 
-  instructions to generate the relevant process. 
+  instructions to generate the relevant process. For details, please see
+  [arXiv:1804.10017](http://arxiv.org/abs/arXiv:1804.10017) and 
+  []()
 
 * The *launch* file (compulsory). This is a `.txt` file containing the 
   instructions to run the relevant process, including any values of the 
-  rlevant physical parameters.
+  relevant physical parameters.
 
 * The *analysis* file(s) (compulsory). These are one or more `.f` files
   containing the instructions for the kinematic analysis in the `HwU` format. 

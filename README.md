@@ -22,7 +22,7 @@ after the corresponding data set included in a NNPDF fit.
 * The *output* file (compulsory). This is a `.txt` file containing the 
   instructions to generate the relevant process. For details, please see
   [arXiv:1804.10017](http://arxiv.org/abs/arXiv:1804.10017) and 
-  [ arXiv:1405.0301](http://arxiv.org/abs/arXiv:1405.0301).
+  [arXiv:1405.0301](http://arxiv.org/abs/arXiv:1405.0301).
 
 * The *launch* file (compulsory). This is a `.txt` file containing the 
   instructions to run the relevant process, including any values of the 

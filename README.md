@@ -32,13 +32,13 @@ after the corresponding data set included in a NNPDF fit.
 
 * The *analysis* file(s) (compulsory). These are one or more `.f` files
   containing the instructions for the kinematic analysis in the `HwU` format. 
-  Because of memory issues, one needs to wirte one different file for each 
+  Because of memory issues, one needs to write one different file for each 
   kinematic bin so far. Examples on how to do so can be found in the
   `Template/NLO/FixedOrderAnalysis/` folder of Madgraph/MC@NLO.
 
 * The patch(es) file(s) (optional). These are one or more `.f` files
   containing any patches to the default Madgraph/MC@NLO. For instance should
-  you define a dynamical scale, the modified `setscales.f` file whould be 
+  you define a dynamical scale, the modified `setscales.f` file should be 
   amended and stored there. The list of patches, with a description
   including the data set to which they apply to, should be kept updated in the
   `patches.txt` file.

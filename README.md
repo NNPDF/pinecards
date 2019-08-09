@@ -39,10 +39,13 @@ after the corresponding data set included in a NNPDF fit.
   including the data set to which they apply to, should be kept updated in the
   `patches.txt` file.
 
-## Production of the grids.
 Provided the above files, the production of the grids only requires the user to
 run the `./run.sh [nameset] [bin]` script. The script takes two variables as an
 input:
 
 * [nameset]: the name of the data set (e.g. `CMSTTBARTOT7TEV`);
 * [bin]:     the ID of the bin in the experiment (e.g. `3`, for the third bin).
+
+Once the grids are produced, the user should rename and store them in the 
+`applgrids_ew` folder following the same conventions in order for the NNPDF
+`applgrids` repository.

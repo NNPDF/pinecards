@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -lt 2 ] || [ $# -gt 2 ] ; then
-  echo "Usage: ./run.sh [nameexp] [bin]"
+  echo "Usage: ./run.sh [nameset] [binID]"
   exit 2
 fi
 

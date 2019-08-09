@@ -26,13 +26,15 @@ after the corresponding data set included in a NNPDF fit.
 
 * The *launch* file (compulsory). This is a `.txt` file containing the 
   instructions to run the relevant process, including any values of the 
-  relevant physical parameters.
+  relevant physical parameters. For details about the parameters that can be
+  modified, please see the `Template/NLO/Cards/run_card.dat` file in 
+  Madgraph/MC@NLO.
 
 * The *analysis* file(s) (compulsory). These are one or more `.f` files
   containing the instructions for the kinematic analysis in the `HwU` format. 
   Because of memory issues, one needs to wirte one different file for each 
   kinematic bin so far. Examples on how to do so can be found in the
-  'Template/NLO/FixedOrderAnalysis/` folder of Madgraph/MC@NLO.
+  `Template/NLO/FixedOrderAnalysis/` folder of Madgraph/MC@NLO.
 
 * The patch(es) file(s) (optional). These are one or more `.f` files
   containing any patches to the default Madgraph/MC@NLO. For instance should
@@ -42,11 +44,11 @@ after the corresponding data set included in a NNPDF fit.
   `patches.txt` file.
 
 Provided the above files, the production of the grids only requires the user to
-run the `./run.sh [nameset] [bin]` script. The script takes two variables as an
-input:
+run the `./run.sh [nameset] [binID]` script. The script takes two variables as 
+an input:
 
 * [nameset]: the name of the data set (e.g. `CMSTTBARTOT7TEV`);
-* [bin]:     the ID of the bin in the experiment (e.g. `3`, for the third bin).
+* [binID]:   the ID of the bin in the experiment (e.g. `3`, for the third bin).
 
 Once the grids are produced, the user should rename and store them in the 
 `applgrids_ew` folder following the same conventions in order for the NNPDF

@@ -8,7 +8,9 @@ required:
 
 * the modfied version of **APPLgrid** available in the `applgridphoton` folder;
 * the modified version of **Madgraph/MC@NLO** *https://code.launchpad.net/~amcblast/+junk/3.0.2* installable as 
+
 `bzr branch lp:~amcblast/+junk/3.0.2` 
+
 (bazaar is available from http://bazaar.canonical.com/en/ if it is not already 
 installed on your machine).
 

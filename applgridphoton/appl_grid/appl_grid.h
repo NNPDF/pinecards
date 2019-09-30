@@ -108,8 +108,6 @@ public:
     virtual const char* what() const throw() { return "appl::grid::exception"; }
   };
 
-  typedef enum { STANDARD=0, AMCATNLO=1, SHERPA=2, LAST_TYPE=3 } CALCULATION; 
-
 public:
 
   grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,
@@ -583,28 +581,6 @@ public:
   const std::vector<std::vector<double> >& getckm2() const;
 
 
-  /// flag custom convolution routines
-
-  void sherpa()   { assert(false); m_type = SHERPA;   std::cout << "appl::grid::sherpa()   using SHERPA convolution" << std::endl; }
-  void amcatnlo() { m_type = AMCATNLO; std::cout << "appl::grid::amcatnlo() using aMC@NLO convolution" << std::endl; }
-  void standard() { assert(false); m_type = STANDARD; std::cout << "appl::grid::standard() using standard convolution" << std::endl; }
-
-  CALCULATION  calculation() const { return m_type; }
-
-  static std::string _calculation(CALCULATION C) { 
-    switch (C) {
-    case STANDARD:
-      assert( false );
-    case SHERPA:
-      assert( false );
-    case AMCATNLO:
-      return "amcatnlo";
-    case LAST_TYPE:
-      assert( false );
-    }
-    assert( false );
-  }
-
   /// reduce number of subprocesses if possible
   void shrink(const std::string& name, int ckmcharge=0);
 
@@ -724,8 +700,6 @@ protected:
   std::vector<double>                m_ckmsum;
   std::vector<std::vector<double> >  m_ckm2;
   std::vector<std::vector<double> >  m_ckm;
-
-  CALCULATION     m_type; 
 
   bool            m_read;
 

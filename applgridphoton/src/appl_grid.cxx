@@ -115,7 +115,6 @@ appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1),
@@ -154,7 +153,6 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1),
@@ -194,7 +192,6 @@ appl::grid::grid(const std::vector<double>& obs,
   m_cmsScale(0), m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1),
@@ -269,7 +266,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_dynamicScale(0),
   m_applyCorrections(false),
   m_documentation(""),
-  m_type(AMCATNLO),
   m_read(false),
   m_subproc(-1),
   m_bin(-1)
@@ -430,11 +426,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
     }
 
   }
-
-  if ( setup->GetNoElements()>10 ) m_type = (CALCULATION)int( (*setup)(10)+0.5 );
-  else                            m_type = AMCATNLO;
-
-  //  std::cout << "appl::grid() reading grid calculation type: " << _calculation(m_type) << std::endl;
 
   //  std::cout << "appl::grid() normalised: " << getNormalised() << std::endl;
 
@@ -612,7 +603,6 @@ appl::grid::grid(const grid& g) :
   m_ckmsum(g.m_ckmsum), /// need a deep copy of the contents
   m_ckm2(g.m_ckm2),     /// need a deep copy of the contents
   m_ckm(g.m_ckm),       /// need a deep copy of the contents
-  m_type(g.m_type),
   m_read(g.m_read),
   m_bin(-1)
 {
@@ -1140,8 +1130,6 @@ void appl::grid::Write(const std::string& filename,
   if ( m_genpdf[0]->getckmsum().size()==0 ) (*setup)(9) = 0;
   else                                      (*setup)(9) = 1;
 
-  (*setup)(10) = (int)m_type;
-
   (*setup)(11) = m_userdata.size();
 
   (*setup)(12) = m_order_ids.size();
@@ -1383,17 +1371,9 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
   }
 #endif
 
-  std::string label;
-  
-  if ( m_type==STANDARD ) {
-    // this branch is no longer supported
-    assert( false );
-  }
-  else if ( m_type==AMCATNLO ) {  
-
     //    std::cout << "amc@NLO convolution" << std::endl;
     
-    label = "nlo";
+    std::string label = "nlo";
 
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  
 
@@ -1425,11 +1405,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
       double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);      
       hvec.push_back( invNruns*Escale2*dsigma/deltaobs );
     }
-  }
-  else if ( m_type == SHERPA ) {
-    // this branch is no longer supported
-    assert( false );
-  }
 
   /// now combine bins if required ...
 

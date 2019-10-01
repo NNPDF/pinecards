@@ -1312,7 +1312,7 @@ std::vector<double> appl::grid::vconvolute(void (*pdf)(const double& , const dou
 std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const double&, double* ), 
 					   void (*pdf2)(const double& , const double&, double* ), 
 					   double (*alphas)(const double& ), 
-					   int     /*nloops*/,
+					   int     nloops,
 					   double  rscale_factor,
 					   double  fscale_factor,
 					   double Escale )
@@ -1375,6 +1375,12 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
     
     std::string label = "nlo";
 
+    auto const& leading_order = *std::min_element(m_order_ids.begin(), m_order_ids.end(),
+        [](order_id const& a, order_id const& b) {
+            return (a.alphs() + a.alpha()) < (b.alphs() + b.alpha());
+        });
+    std::size_t const lo_power = leading_order.alphs() + leading_order.alpha();
+
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {  
 
       double dsigma = 0; 
@@ -1385,6 +1391,13 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
       for (int i = 0; i != m_order_ids.size(); ++i)
       {
         double factor = 1.0;
+
+        std::size_t const power = m_order_ids.at(i).alphs() + m_order_ids.at(i).alpha() - lo_power;
+
+        if (power > nloops)
+        {
+            continue;
+        }
 
         if (m_order_ids.at(i).lmuf2() != 0)
         {

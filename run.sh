@@ -1,8 +1,18 @@
 #!/bin/bash
 
 if [ $# -lt 2 ] || [ $# -gt 2 ] ; then
-  echo "Usage: ./run.sh [nameset] [binID]"
-  exit 2
+    echo "Usage: ./run.sh [nameset] [binID]"
+    echo "  The following combinations of namesets and binIDs are available:"
+
+    for i in $(find nnpdf31_proc/analyses -name *.f); do
+        name=${i##*/}
+        nameset=${name%%_[0-9]*.f}
+        binid=${name%.f}
+        binid=${binid##*_}
+        echo "  - ${nameset} ${binid}"
+    done
+
+    exit 2
 fi
 
 experiment="$1"

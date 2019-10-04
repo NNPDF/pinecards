@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit script at the first sign of an error
+set -e
+
 if [ $# -lt 2 ] || [ $# -gt 2 ] ; then
     echo "Usage: ./run.sh [nameset] [binID]"
     echo "  The following combinations of namesets and binIDs are available:"

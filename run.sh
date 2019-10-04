@@ -28,22 +28,25 @@ sed -i "s/$experiment/$experimentbin/g" nnpdf31_proc/output/$experimentbin.txt
 cp nnpdf31_proc/launch/$experiment.txt nnpdf31_proc/launch/$experimentbin.txt
 sed -i "s/$experiment/$experimentbin/g"	nnpdf31_proc/launch/$experimentbin.txt
 
-cd 3.0.2/bin
+mg5amc=$(which mg5_aMC)
+
+if [[ ! -x "${mg5amc}" ]]; then
+    echo "The binary \`mg5_aMC\' wasn't found. Please adjust your PATH variable."
+    exit 1
+fi
 
 #Create output folder
 echo "Creating output folder"
-python2 mg5_aMC ../../nnpdf31_proc/output/$experimentbin.txt
+python2 "${mg5amc}" nnpdf31_proc/output/$experimentbin.txt
 
 #Enforce proper analysis
 echo "Copying the relevant analysis"
-cp ../../nnpdf31_proc/analyses/$experiment/$experimentbin.f $experimentbin/FixedOrderAnalysis
+cp nnpdf31_proc/analyses/$experiment/$experimentbin.f $experimentbin/FixedOrderAnalysis
 sed -i "s/analysis_HwU_template/$experimentbin/g" $experimentbin/Cards/FO_analyse_card.dat
 
 ##Launch run
 echo "Launch mg5_aMC"
-python2 mg5_aMC ../../nnpdf31_proc/launch/$experimentbin.txt
-
-cd ../../
+python2 "${mg5amc}" nnpdf31_proc/launch/$experimentbin.txt
 
 #Cleanup
 rm nnpdf31_proc/output/$experimentbin.txt

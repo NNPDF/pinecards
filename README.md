@@ -50,6 +50,9 @@ an input:
 * [nameset]: the name of the data set (e.g. `CMSTTBARTOT7TEV`);
 * [binID]:   the ID of the bin in the experiment (e.g. `3`, for the third bin).
 
+To list all possible combinations of `[nameset]` and `[binID]` simply run the
+script without parameters.
+
 Once the grids are produced, the user should rename and store them in the 
 `applgrids_ew` folder following the same conventions in order for the NNPDF
 `applgrids` repository.

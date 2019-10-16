@@ -54,7 +54,6 @@ libAPPLgrid_la_SOURCES = \
 	basic_pdf.cxx \
 	combination.cxx \
 	fappl_grid.h \
-	fastnlo.cxx \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
 	hoppet_init.h \
@@ -80,7 +79,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/combination.h \
 	$(top_srcdir)/appl_grid/correction.h \
 	$(top_srcdir)/appl_grid/Directory.h \
-	$(top_srcdir)/appl_grid/fastnlo.h \
 	$(top_srcdir)/appl_grid/generic_pdf.h \
 	$(top_srcdir)/appl_grid/hoppet_init.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \

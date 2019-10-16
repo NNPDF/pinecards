@@ -11,18 +11,6 @@
 #include <fstream>
 
 #include "appl_grid/appl_pdf.h" 
-
-#include "mcfmz_pdf.h"
-#include "mcfmzjet_pdf.h"
-#include "mcfmw_pdf.h"
-#include "mcfmwjet_pdf.h"
-#include "mcfmwc_pdf.h"
-#include "mcfmQQ_pdf.h"
-#include "nlojet_pdf.h"
-#include "jetrad_pdf.h"
-#include "nlojetpp_pdf.h"
-#include "dis_pdf.h"
-#include "vrapz_pdf.h"
 #include "appl_grid/basic_pdf.h"
 // #include "generic_pdf.h"
 
@@ -113,28 +101,6 @@ bool appl_pdf::create_map() {
     /// the appl_pdf add their own pointers to the 
     /// pdf std::map so we don;t need to remember their 
     /// pointers ourselves
-    new  mcfmz_pdf;
-    new  mcfmzjet_pdf;
-    new  mcfmwp_pdf;
-    new  mcfmwm_pdf;
-    new  mcfmwpjet_pdf;
-    new  mcfmwmjet_pdf;
-    
-    new  mcfmwpc_pdf;
-    new  mcfmwmc_pdf;
-    
-    new  mcfmCC_pdf;
-    new  mcfmBB_pdf;
-    new  mcfmTT_pdf;
-
-    new nlojet_pdf;
-    new nlojetpp_pdf;
-    new jetrad_pdf;
-    new dis_pdf;
-
-    new vrapzLO_pdf;
-    new vrapzNLO_pdf;
-    new vrapzNNLO_pdf;
 
     new basic_pdf;
 

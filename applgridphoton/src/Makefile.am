@@ -59,7 +59,6 @@ libAPPLgrid_la_SOURCES = \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
 	hoppet_init.h \
-	integral.cxx \
 	lumi_pdf.cxx \
 	sparse.h \
 	tsparse1d.h \
@@ -85,7 +84,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/fastnlo.h \
 	$(top_srcdir)/appl_grid/generic_pdf.h \
 	$(top_srcdir)/appl_grid/hoppet_init.h \
-	$(top_srcdir)/appl_grid/integral.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
 	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/sparse.h \

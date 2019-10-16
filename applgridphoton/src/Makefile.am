@@ -53,39 +53,18 @@ libAPPLgrid_la_SOURCES = \
 	axis.h \
 	basic_pdf.cxx \
 	combination.cxx \
-	dis_pdf.cxx \
-	dis_pdf.h \
 	fappl_grid.h \
 	fastnlo.cxx \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
 	hoppet_init.h \
 	integral.cxx \
-	jetrad_pdf.cxx \
-	jetrad_pdf.h \
 	lumi_pdf.cxx \
-	mcfmQQ_pdf.cxx \
-	mcfmQQ_pdf.h \
-	mcfmw_pdf.cxx \
-	mcfmw_pdf.h \
-	mcfmwc_pdf.cxx \
-	mcfmwc_pdf.h \
-	mcfmwjet_pdf.cxx \
-	mcfmwjet_pdf.h \
-	mcfmz_pdf.cxx \
-	mcfmz_pdf.h \
-	mcfmzjet_pdf.cxx \
-	mcfmzjet_pdf.h \
-	nlojet_pdf.cxx \
-	nlojet_pdf.h \
-	nlojetpp_pdf.cxx \
-	nlojetpp_pdf.h \
 	sparse.h \
 	tsparse1d.h \
 	tsparse2d.h \
 	tsparse3d.h \
-	tsparse_base.h \
-	vrapz_pdf.h
+	tsparse_base.h
 
 libfAPPLgrid_la_SOURCES = fappl_grid.cxx fappl_fitter.cxx
 
@@ -102,22 +81,11 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/combination.h \
 	$(top_srcdir)/appl_grid/correction.h \
 	$(top_srcdir)/appl_grid/Directory.h \
-	$(top_srcdir)/appl_grid/dis_pdf.h \
-	$(top_srcdir)/appl_grid/fappl_grid.h \
 	$(top_srcdir)/appl_grid/fastnlo.h \
 	$(top_srcdir)/appl_grid/generic_pdf.h \
 	$(top_srcdir)/appl_grid/hoppet_init.h \
 	$(top_srcdir)/appl_grid/integral.h \
-	$(top_srcdir)/appl_grid/jetrad_pdf.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmQQ_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmwc_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmwjet_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmw_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmzjet_pdf.h \
-	$(top_srcdir)/appl_grid/mcfmz_pdf.h \
-	$(top_srcdir)/appl_grid/nlojet_pdf.h \
-	$(top_srcdir)/appl_grid/nlojetpp_pdf.h \
 	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/sparse.h \
 	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
@@ -126,8 +94,7 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/tsparse1d.h \
 	$(top_srcdir)/appl_grid/tsparse2d.h \
 	$(top_srcdir)/appl_grid/tsparse3d.h \
-	$(top_srcdir)/appl_grid/tsparse_base.h \
-	$(top_srcdir)/appl_grid/vrapz_pdf.h
+	$(top_srcdir)/appl_grid/tsparse_base.h
 
 bin_PROGRAMS = applgrid-combine
 applgrid_combine_SOURCES = combine.cxx

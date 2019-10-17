@@ -36,6 +36,7 @@ AM_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
 lib_LTLIBRARIES = libAPPLgrid.la
 libAPPLgrid_la_SOURCES = \
+	Directory.h \
 	SparseMatrix3d.cxx \
 	TFileString.cxx \
 	TFileString.h \
@@ -66,7 +67,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/Cache.h \
 	$(top_srcdir)/appl_grid/combination.h \
 	$(top_srcdir)/appl_grid/correction.h \
-	$(top_srcdir)/appl_grid/Directory.h \
 	$(top_srcdir)/appl_grid/generic_pdf.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
 	$(top_srcdir)/appl_grid/Sparse3d.h \

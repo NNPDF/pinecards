@@ -32,6 +32,7 @@
 
 #include "appl_igrid.h"
 #include "Cache.h"
+#include "SparseMatrix3d.h"
 
 
 #include "TFileString.h"

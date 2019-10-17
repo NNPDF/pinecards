@@ -34,9 +34,9 @@
 #include "appl_grid/Directory.h"
 #include "appl_grid/appl_pdf.h"
 
-#include "SparseMatrix3d.h"
-
 #include "Cache.h"
+
+class SparseMatrix3d;
 
 namespace appl {
 
@@ -86,27 +86,16 @@ public:
   void optimise(int NQ2, int Nx1, int Nx2);  
  
   // formatted print
-  std::ostream&  print(std::ostream& s=std::cout) const {
-    header(std::cout);
-    for ( int i=0 ; i<m_Nproc ; i++ ) { 
-      s << "sub process " << i << std::endl; 
-      m_weight[i]->print();
-    }
-    return s;
-  }
+  std::ostream&  print(std::ostream& s=std::cout) const;
   
   // return the number of words used for storage
-  int size() const {
-    int _size = 0;
-    for ( int i=0 ; i<m_Nproc ; i++ ) _size += m_weight[i]->size();
-    return _size;
-  }
+  int size() const;
 
   // trim unfilled elements
-  void trim() { for ( int i=0 ; i<m_Nproc ; i++ )  m_weight[i]->trim(); }
+  void trim();
 
   // inflate unfilled elements
-  void untrim() { for ( int i=0 ; i<m_Nproc ; i++ ) m_weight[i]->untrim(); }
+  void untrim();
 
   // write to the current root directory
   void write(const std::string& name);
@@ -224,11 +213,11 @@ public:
 
   
   // grid value accessors
-  double gety1(int iy)    const { return m_weight[0]->yaxis()[iy]; }   
-  double gety2(int iy)    const { return m_weight[0]->zaxis()[iy]; }   
+  double gety1(int iy)    const;
+  double gety2(int iy)    const;
   //  double gety(int iy)     const { return gety1(iy); } 
 
-  double gettau(int itau) const { return m_weight[0]->xaxis()[itau]; } 
+  double gettau(int itau) const;
 
   // number of subprocesses
 
@@ -236,15 +225,15 @@ public:
 
   // kinematic variable accessors
   // y (x) 
-  int    Ny1()      const { return m_weight[0]->yaxis().N(); }    
-  double y1min()    const { return m_weight[0]->yaxis().min(); }  
-  double y1max()    const { return m_weight[0]->yaxis().max(); }  
-  double deltay1()  const { return m_weight[0]->yaxis().delta(); }
+  int    Ny1()      const;
+  double y1min()    const;
+  double y1max()    const;
+  double deltay1()  const;
 
-  int    Ny2()      const { return m_weight[0]->zaxis().N(); }    
-  double y2min()    const { return m_weight[0]->zaxis().min(); }  
-  double y2max()    const { return m_weight[0]->zaxis().max(); }  
-  double deltay2()  const { return m_weight[0]->zaxis().delta(); }
+  int    Ny2()      const;
+  double y2min()    const;
+  double y2max()    const;
+  double deltay2()  const;
 
   //  int    Ny()      const { return Ny1(); } 
   //  double ymin()    const { return y1min(); }  
@@ -255,25 +244,25 @@ public:
   int yorder()  const { return m_yorder; }  
 
   // tau (Q2)
-  int    Ntau()     const { return m_weight[0]->xaxis().N(); } 
-  double taumin()   const { return m_weight[0]->xaxis().min(); } 
-  double taumax()   const { return m_weight[0]->xaxis().max(); } 
-  double deltatau() const { return m_weight[0]->xaxis().delta(); } 
+  int    Ntau()     const;
+  double taumin()   const;
+  double taumax()   const;
+  double deltatau() const;
   
   //  int tauorder(int i)  { return m_tauorder=i; }  
   int tauorder() const { return m_tauorder; }  
 
 
   // maybe these are redundant and should be removed
-  int    getNQ2()     const { return m_weight[0]->xaxis().N(); }
+  int    getNQ2()     const;
   double getQ2min()   const { return fQ2(taumin()); }
   double getQ2max()   const { return fQ2(taumax()); }
   
-  int    getNx1()     const { return m_weight[0]->yaxis().N(); }
+  int    getNx1()     const;
   double getx1min()   const { return fx(y1max()); }
   double getx1max()   const { return fx(y1min()); }
 
-  int    getNx2()     const { return m_weight[0]->zaxis().N(); }
+  int    getNx2()     const;
   double getx2min()   const { return fx(y2max()); }
   double getx2max()   const { return fx(y2min()); }
 
@@ -349,49 +338,16 @@ public:
   // some useful algebraic operators
   igrid& operator=(const igrid& g); 
   
-  igrid& operator*=(const double& d) { 
-    for ( int ip=0 ; ip<m_Nproc ; ip++ ) if ( m_weight[ip] ) (*m_weight[ip]) *= d; 
-    return *this;
-  } 
+  igrid& operator*=(const double& d);
 
   // should really check all the limits and *everything* is the same
-  igrid& operator+=(const igrid& g) { 
-    for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-      if ( m_weight[ip] && g.m_weight[ip] ) { 
-	//if ( (*m_weight[ip]) == (*g.m_weight[ip]) ) (*m_weight[ip]) += (*g.m_weight[ip]);
-	if ( m_weight[ip]->compare_axes( *g.m_weight[ip] ) ) (*m_weight[ip]) += (*g.m_weight[ip]); 
-	else { 
-	  throw exception("igrid::operator+=() grids do not match");
-	}
-      }
-    }
-    return *this;
-  } 
+  igrid& operator+=(const igrid& g);
 
   /// check that the grid axes match
-  bool compare_axes(const igrid& g) const { 
-    for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-      if ( m_weight[ip] && g.m_weight[ip] ) { 
-	if ( !m_weight[ip]->compare_axes( *g.m_weight[ip] ) )  return false;
-	// if ( (*m_weight[ip]) != (*g.m_weight[ip]) )  return false;
-      }
-      if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false; 
-      if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false; 
-    }
-    return true;
-  }
+  bool compare_axes(const igrid& g) const;
 
 
-  bool operator==(const igrid& g) const { 
-    for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-      if ( m_weight[ip] && g.m_weight[ip] ) { 
-	if ( (*m_weight[ip]) != (*g.m_weight[ip]) ) return false;
-      }
-      if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false; 
-      if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false; 
-    }
-    return true;
-  } 
+  bool operator==(const igrid& g) const;
 
   bool operator!=(const igrid& g) const { return !((*this)==g); }
 

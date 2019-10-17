@@ -30,15 +30,12 @@ FRTLLIB = -lgfortran
 CINT = @ROOTCINT@
 
 AM_CXXFLAGS = $(ROOTLDFLAGS) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCXXFLAGS) $(ROOTCFLAGS) $(HOPPETCFLAGS)
-AM_CPPFLAGS = -I$(top_srcdir)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/appl_grid
 AM_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
 lib_LTLIBRARIES = libAPPLgrid.la
 libAPPLgrid_la_SOURCES = \
-	Cache.h \
-	Sparse3d.h \
 	SparseMatrix3d.cxx \
-	SparseMatrix3d.h \
 	TFileString.cxx \
 	TFileString.h \
 	TFileStringDict.cxx \
@@ -47,21 +44,13 @@ libAPPLgrid_la_SOURCES = \
 	TFileVectorDict.cxx \
 	appl_grid.cxx \
 	appl_igrid.cxx \
-	appl_igrid.h \
 	appl_pdf.cxx \
 	appl_timer.cxx \
-	axis.h \
 	basic_pdf.cxx \
 	combination.cxx \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
-	hoppet_init.h \
-	lumi_pdf.cxx \
-	sparse.h \
-	tsparse1d.h \
-	tsparse2d.h \
-	tsparse3d.h \
-	tsparse_base.h
+	lumi_pdf.cxx
 
 library_includedir=$(includedir)/appl_grid
 
@@ -82,8 +71,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/sparse.h \
 	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
-	$(top_srcdir)/appl_grid/TFileString.h \
-	$(top_srcdir)/appl_grid/TFileVector.h \
 	$(top_srcdir)/appl_grid/tsparse1d.h \
 	$(top_srcdir)/appl_grid/tsparse2d.h \
 	$(top_srcdir)/appl_grid/tsparse3d.h \

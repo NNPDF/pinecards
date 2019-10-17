@@ -18,6 +18,7 @@
 #include "appl_grid/appl_grid.h"
 
 #include "hoppet_init.h"
+#include "SparseMatrix3d.h"
 
 
 #include "TFile.h"
@@ -571,6 +572,32 @@ void appl::igrid::fill_index(const int ix1, const int ix2, const int iQ2, const 
 } 
 
 
+double appl::igrid::gety1(int iy) const { return m_weight[0]->yaxis()[iy]; }
+
+double appl::igrid::gety2(int iy) const { return m_weight[0]->zaxis()[iy]; }
+
+double appl::igrid::gettau(int itau) const { return m_weight[0]->xaxis()[itau]; }
+
+int    appl::igrid::Ny1()      const { return m_weight[0]->yaxis().N(); }
+double appl::igrid::y1min()    const { return m_weight[0]->yaxis().min(); }
+double appl::igrid::y1max()    const { return m_weight[0]->yaxis().max(); }
+double appl::igrid::deltay1()  const { return m_weight[0]->yaxis().delta(); }
+
+int    appl::igrid::Ny2()      const { return m_weight[0]->zaxis().N(); }
+double appl::igrid::y2min()    const { return m_weight[0]->zaxis().min(); }
+double appl::igrid::y2max()    const { return m_weight[0]->zaxis().max(); }
+double appl::igrid::deltay2()  const { return m_weight[0]->zaxis().delta(); }
+
+int    appl::igrid::Ntau()     const { return m_weight[0]->xaxis().N(); }
+double appl::igrid::taumin()   const { return m_weight[0]->xaxis().min(); }
+double appl::igrid::taumax()   const { return m_weight[0]->xaxis().max(); }
+double appl::igrid::deltatau() const { return m_weight[0]->xaxis().delta(); }
+
+int    appl::igrid::getNQ2()     const { return m_weight[0]->xaxis().N(); }
+
+int    appl::igrid::getNx1()     const { return m_weight[0]->yaxis().N(); }
+
+int    appl::igrid::getNx2()     const { return m_weight[0]->zaxis().N(); }
 
 void appl::igrid::setuppdf(double (*alphas)(const double&),
 			   NodeCache* pdf0,
@@ -1373,8 +1400,28 @@ void appl::igrid::optimise(int NQ2, int Nx1, int Nx2) {
 }
 
 
+std::ostream& appl::igrid::print(std::ostream& s) const {
+  header(std::cout);
+  for ( int i=0 ; i<m_Nproc ; i++ ) {
+    s << "sub process " << i << std::endl;
+    m_weight[i]->print();
+  }
+  return s;
+}
 
+int appl::igrid::size() const {
+  int _size = 0;
+  for ( int i=0 ; i<m_Nproc ; i++ ) _size += m_weight[i]->size();
+  return _size;
+}
 
+void appl::igrid::trim() {
+  for ( int i=0 ; i<m_Nproc ; i++ )  m_weight[i]->trim();
+}
+
+void appl::igrid::untrim() {
+  for ( int i=0 ; i<m_Nproc ; i++ ) m_weight[i]->untrim();
+}
 
 // numerical operators
 appl::igrid& appl::igrid::operator=(const appl::igrid& g) { 
@@ -1414,6 +1461,48 @@ appl::igrid& appl::igrid::operator=(const appl::igrid& g) {
   return *this;
 }
 
+appl::igrid& appl::igrid::operator*=(const double& d) {
+  for ( int ip=0 ; ip<m_Nproc ; ip++ ) if ( m_weight[ip] ) (*m_weight[ip]) *= d;
+  return *this;
+}
+
+// should really check all the limits and *everything* is the same
+appl::igrid& appl::igrid::operator+=(const igrid& g) {
+  for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
+    if ( m_weight[ip] && g.m_weight[ip] ) {
+  //if ( (*m_weight[ip]) == (*g.m_weight[ip]) ) (*m_weight[ip]) += (*g.m_weight[ip]);
+  if ( m_weight[ip]->compare_axes( *g.m_weight[ip] ) ) (*m_weight[ip]) += (*g.m_weight[ip]);
+  else {
+    throw exception("igrid::operator+=() grids do not match");
+  }
+    }
+  }
+  return *this;
+}
+
+/// check that the grid axes match
+bool appl::igrid::compare_axes(const igrid& g) const {
+  for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
+    if ( m_weight[ip] && g.m_weight[ip] ) {
+  if ( !m_weight[ip]->compare_axes( *g.m_weight[ip] ) )  return false;
+  // if ( (*m_weight[ip]) != (*g.m_weight[ip]) )  return false;
+    }
+    if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false;
+    if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false;
+  }
+  return true;
+}
+
+bool appl::igrid::operator==(const igrid& g) const {
+  for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
+    if ( m_weight[ip] && g.m_weight[ip] ) {
+  if ( (*m_weight[ip]) != (*g.m_weight[ip]) ) return false;
+    }
+    if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false;
+    if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false;
+  }
+  return true;
+}
 
 std::ostream& appl::igrid::header(std::ostream& s) const { 
   //  s << "interpolation orders: x=" << g.yorder() << "\tQ2=" << g.tauorder() << std::endl;

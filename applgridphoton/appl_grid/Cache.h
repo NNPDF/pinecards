@@ -149,15 +149,3 @@ inline std::ostream& operator<<( std::ostream& s, const Cache<T>& _c ) {
     << " :maximum "    << _c.max();
     return s;
 }
-
-/// useful typdef
-typedef Cache<std::pair<double,double> > NodeCache;
-
-
-
-
-
-
-
-
-

@@ -51,9 +51,7 @@ libAPPLgrid_la_SOURCES = \
 	appl_timer.cxx \
 	appl_timer.h \
 	axis.h \
-	basic_pdf.cxx \
 	combination.cxx \
-	generic_pdf.cxx \
 	hoppet_init.cxx	\
 	hoppet_init.h \
 	lumi_pdf.cxx \
@@ -69,11 +67,9 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/appl_grid.h \
 	$(top_srcdir)/appl_grid/appl_igrid.h \
 	$(top_srcdir)/appl_grid/appl_pdf.h \
-	$(top_srcdir)/appl_grid/basic_pdf.h \
 	$(top_srcdir)/appl_grid/Cache.h \
 	$(top_srcdir)/appl_grid/combination.h \
 	$(top_srcdir)/appl_grid/correction.h \
-	$(top_srcdir)/appl_grid/generic_pdf.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h
 
 bin_PROGRAMS = applgrid-combine

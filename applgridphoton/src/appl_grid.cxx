@@ -24,8 +24,6 @@
 
 #include "appl_grid/appl_pdf.h"
 #include "appl_grid/appl_grid.h"
-
-#include "appl_grid/generic_pdf.h"
 #include "appl_grid/lumi_pdf.h"
 
 #include "appl_igrid.h"
@@ -989,8 +987,7 @@ void appl::grid::addpdf( const std::string& s, const std::vector<int>& combinati
       if ( names[i].find(".dat")!=std::string::npos ) {
 
 	if ( appl_pdf::getpdf(names[i])==0 ) { 
- 	  std::cout << "appl::grid::addpdf() creating new generic_pdf " << names[i] << std::endl;
-	  new generic_pdf(names[i]);
+      assert( false );
 	}
 
 	// 	try {

@@ -46,6 +46,7 @@ libAPPLgrid_la_SOURCES = \
 	appl_igrid.cxx \
 	appl_pdf.cxx \
 	appl_timer.cxx \
+	appl_timer.h \
 	basic_pdf.cxx \
 	combination.cxx \
 	generic_pdf.cxx \
@@ -58,7 +59,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/appl_grid.h \
 	$(top_srcdir)/appl_grid/appl_igrid.h \
 	$(top_srcdir)/appl_grid/appl_pdf.h \
-	$(top_srcdir)/appl_grid/appl_timer.h \
 	$(top_srcdir)/appl_grid/axis.h \
 	$(top_srcdir)/appl_grid/basic_pdf.h \
 	$(top_srcdir)/appl_grid/Cache.h \

@@ -69,7 +69,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/appl_igrid.h \
 	$(top_srcdir)/appl_grid/appl_pdf.h \
 	$(top_srcdir)/appl_grid/combination.h \
-	$(top_srcdir)/appl_grid/correction.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h
 
 bin_PROGRAMS = applgrid-combine

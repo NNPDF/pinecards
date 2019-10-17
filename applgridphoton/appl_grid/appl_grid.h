@@ -38,8 +38,6 @@ double _fx(double y);
 double _fun(double y);
 
 
-#include "correction.h"
-
 namespace appl { 
 
 
@@ -510,59 +508,6 @@ public:
   void setBinRange(int ilower, int iupper, double xScaleFactor=1);
   void setRange(double lower, double upper, double xScaleFactor=1);
 
-
-  /// add a correction as a std::vector
-  void addCorrection( std::vector<double>& v, const std::string& label="", bool combine=false );
-
-
-  /// add a correction by histogram
-  void addCorrection(TH1D* h, const std::string& label="", double scale=1, bool combine=false );
-
-  
-  /// access the corrections
-  //  const std::vector<std::vector<double> >& corrections() const { 
-  const std::vector<correction>& corrections() const { 
-    return m_corrections;
-  }
-
-  /// get the correction labels
-  const std::vector<std::string >& correctionLabels() const { 
-    return m_correctionLabels;
-  }
-
-  /// will the corrections be applied? 
-  bool getApplyCorrections() const { return m_applyCorrections; } 
-
-  bool setApplyCorrections(bool b) { 
-    std::cout << "appl::grid bin-by-bin corrections will " 
-	      << ( b ? "" : "not " ) << "be applied" << std::endl;
-    return m_applyCorrections=b; 
-  } 
-
-  /// apply corrections to a std::vector
-  void applyCorrections(std::vector<double>& v, std::vector<bool>& applied);
-
-
-  /// will a specific correction be applied? 
-  bool getApplyCorrection(unsigned i) const {
-    if      ( m_applyCorrections )         return true; 
-    else if ( i<m_applyCorrection.size() ) return m_applyCorrection.at(i);
-    return false; 
-  }
- 
-  bool setApplyCorrection(unsigned i, bool b) { 
-    if ( i>=m_corrections.size() ) return false; 
-    std::cout << "appl::grid bin-by-bin correction will " 
-	      << ( b ? "" : "not " ) << "be applied for correction " << i;
-    if ( m_correctionLabels[i]!="" ) std::cout << " ("  << m_correctionLabels[i] << ")";
-    std::cout << std::endl;
-    return m_applyCorrection[i]=b;
-  } 
-  
-  /// apply corrections to a std::vector
-  bool applyCorrection(unsigned i, std::vector<double>& v);
-  
-
   /// set the ckm matrix values if need be
   /// takes a 3x3 matrix with the format { { Vud, Vus, Vub }, { Vcd, Vcs, Vcb }, { Vtd, Vts, Vtb } }  
   void setckm( const std::vector<std::vector<double> >& ckm );
@@ -681,19 +626,6 @@ protected:
   double m_cmsScale;
 
   double m_dynamicScale;
-
-  /// bin by bin correction factors 
-  //  std::vector<std::vector<double> > m_corrections;
-  std::vector<correction>    m_corrections;
-  std::vector<std::string>   m_correctionLabels;
-  
-
-  /// should we apply the corrections?
-  bool m_applyCorrections;
-
-  /// flag vector to determine whether each individual 
-  /// correction should be applied
-  std::vector<bool>  m_applyCorrection;
 
   std::string m_documentation;
   

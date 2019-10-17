@@ -11,8 +11,6 @@
 #include <fstream>
 
 #include "appl_grid/appl_pdf.h" 
-#include "appl_grid/basic_pdf.h"
-// #include "generic_pdf.h"
 
 
 
@@ -95,18 +93,6 @@ bool appl_pdf::create_map() {
 #ifdef DBG
   std::cout << "appl_pdf::create_map() creating pdf combination factory" << std::endl;
 #endif
-
-  if ( __pdfmap.size()==0 ) { 
-    
-    /// the appl_pdf add their own pointers to the 
-    /// pdf std::map so we don;t need to remember their 
-    /// pointers ourselves
-
-    new basic_pdf;
-
-    //    printmap( std::cerr );
-
-  }
 
   return true;
 }

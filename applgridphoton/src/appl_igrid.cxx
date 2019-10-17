@@ -17,6 +17,7 @@
 #include "appl_igrid.h"
 #include "appl_grid/appl_grid.h"
 
+#include "Cache.h"
 #include "Directory.h"
 #include "hoppet_init.h"
 #include "SparseMatrix3d.h"

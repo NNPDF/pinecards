@@ -35,7 +35,10 @@
 #include "appl_grid/appl_pdf.h"
 #include "appl_grid/SparseMatrix3d.h"
 
-#include "Cache.h"
+template <typename T>
+class Cache;
+
+using NodeCache = Cache<std::pair<double,double>>;
 
 namespace appl {
 

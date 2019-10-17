@@ -33,7 +33,7 @@ AM_CXXFLAGS = $(ROOTLDFLAGS) -DDATADIR=\"@datadir@/$(PACKAGE)\" -fPIC $(LHAPDFCX
 AM_CPPFLAGS = -I$(top_srcdir)
 AM_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(FCLIBS) $(HOPPETLIBS) $(FRTLLIB)
 
-lib_LTLIBRARIES = libAPPLgrid.la libfAPPLgrid.la 
+lib_LTLIBRARIES = libAPPLgrid.la
 libAPPLgrid_la_SOURCES = \
 	Cache.h \
 	Sparse3d.h \
@@ -53,7 +53,6 @@ libAPPLgrid_la_SOURCES = \
 	axis.h \
 	basic_pdf.cxx \
 	combination.cxx \
-	fappl_grid.h \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
 	hoppet_init.h \
@@ -63,8 +62,6 @@ libAPPLgrid_la_SOURCES = \
 	tsparse2d.h \
 	tsparse3d.h \
 	tsparse_base.h
-
-libfAPPLgrid_la_SOURCES = fappl_grid.cxx fappl_fitter.cxx
 
 library_includedir=$(includedir)/appl_grid
 

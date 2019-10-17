@@ -52,6 +52,7 @@ libAPPLgrid_la_SOURCES = \
 	combination.cxx \
 	generic_pdf.cxx \
 	hoppet_init.cxx	\
+	hoppet_init.h \
 	lumi_pdf.cxx
 
 library_includedir=$(includedir)/appl_grid
@@ -67,7 +68,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/correction.h \
 	$(top_srcdir)/appl_grid/Directory.h \
 	$(top_srcdir)/appl_grid/generic_pdf.h \
-	$(top_srcdir)/appl_grid/hoppet_init.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
 	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/sparse.h \

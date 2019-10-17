@@ -18,7 +18,7 @@
 #include "appl_grid/appl_grid.h"
 #include "amconfig.h"
 
-#include "appl_grid/appl_timer.h"
+#include "appl_timer.h"
 
 
 #include "TFile.h"

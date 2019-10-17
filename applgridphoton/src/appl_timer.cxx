@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#include "appl_grid/appl_timer.h"
+#include "appl_timer.h"
 
 
 pthread_mutex_t time_lock = PTHREAD_MUTEX_INITIALIZER;  

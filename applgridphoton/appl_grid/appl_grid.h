@@ -33,9 +33,9 @@
 #include "TH1D.h"
 
 
-double _fy(double x);
-double _fx(double y);
-double _fun(double y);
+//double _fy(double x);
+//double _fx(double y);
+//double _fun(double y);
 
 
 namespace appl { 
@@ -110,12 +110,12 @@ public:
 
   grid(std::vector<grid>&& grids);
 
-  grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,
-       int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
-       int Nobs=20, double obsmin=100.0,  double obsmax=7000.0,
-       std::string genpdf="mcfm_pdf",
-       std::vector<order_id> const& order_ids = std::vector<order_id>(),
-       std::string transform="f2");
+//  grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,
+//       int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
+//       int Nobs=20, double obsmin=100.0,  double obsmax=7000.0,
+//       std::string genpdf="mcfm_pdf",
+//       std::vector<order_id> const& order_ids = std::vector<order_id>(),
+//       std::string transform="f2");
 
   grid( int Nobs, const double* obsbins,
 	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
@@ -124,48 +124,48 @@ public:
        std::vector<order_id> const& order_ids = std::vector<order_id>(),
 	std::string transform="f2" );
 
-  grid( const std::vector<double>& obs,
-	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5,
-        int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5,
-	std::string genpdf="mcfm_pdf",
-       std::vector<order_id> const& order_ids = std::vector<order_id>(),
-	std::string transform="f2" );
-
-  grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,  
-       int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
-       int Nobs=20, double obsmin=100.0,  double obsmax=7000.0, 
-       std::string genpdf="mcfm_pdf", 
-       int leading_order=0, int next_to_leading_order = 1, int nloops=1,
-       std::string transform="f2");
-
-  grid( int Nobs, const double* obsbins,
-	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
-        int Nx=50,   double xmin=1e-5,     double xmax=0.9,         int xorder=5, 
-	std::string genpdf="mcfm_pdf",
-	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
-	std::string transform="f2" );
-
-  grid( const std::vector<double>& obs,
-	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5, 
-        int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5, 
-	std::string genpdf="mcfm_pdf", 
-	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
-	std::string transform="f2" );
-
-  // build a grid but don't build the internal igrids - these can be added later
-  grid( const std::vector<double>& obs,
-	std::string genpdf="nlojet_pdf", 
-	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
-	std::string transform="f2" );
-
-  // copy constructor
-  grid(const grid& g);
+//  grid( const std::vector<double>& obs,
+//	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5,
+//        int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5,
+//	std::string genpdf="mcfm_pdf",
+//       std::vector<order_id> const& order_ids = std::vector<order_id>(),
+//	std::string transform="f2" );
+//
+//  grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,  
+//       int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
+//       int Nobs=20, double obsmin=100.0,  double obsmax=7000.0, 
+//       std::string genpdf="mcfm_pdf", 
+//       int leading_order=0, int next_to_leading_order = 1, int nloops=1,
+//       std::string transform="f2");
+//
+//  grid( int Nobs, const double* obsbins,
+//	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
+//        int Nx=50,   double xmin=1e-5,     double xmax=0.9,         int xorder=5, 
+//	std::string genpdf="mcfm_pdf",
+//	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
+//	std::string transform="f2" );
+//
+//  grid( const std::vector<double>& obs,
+//	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,   int Q2order=5, 
+//        int Nx=50,   double xmin=1e-5,     double xmax=0.9,           int xorder=5, 
+//	std::string genpdf="mcfm_pdf", 
+//	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
+//	std::string transform="f2" );
+//
+//  // build a grid but don't build the internal igrids - these can be added later
+//  grid( const std::vector<double>& obs,
+//	std::string genpdf="nlojet_pdf", 
+//	int leading_order=0, int next_to_leading_order = 1, int nloops=1,
+//	std::string transform="f2" );
+//
+//  // copy constructor
+//  grid(const grid& g);
 
   // read from a file
   grid(const std::string& filename="./grid.root", const std::string& dirname="grid");
 
-  // add an igrid for a given bin and a given order 
-  void add_igrid(int bin, int order, igrid* g);
+//  // add an igrid for a given bin and a given order 
+//  void add_igrid(int bin, int order, igrid* g);
 
   virtual ~grid();
   
@@ -188,23 +188,23 @@ public:
   }
 
 
-  void fill_index(const int ix1, const int ix2, const int iQ2, 
-		  const int iobs, 
-		  const double* weight, const int iorder);
+//  void fill_index(const int ix1, const int ix2, const int iQ2, 
+//		  const int iobs, 
+//		  const double* weight, const int iorder);
 
 
   // trim/untrim the grid to reduce memory footprint
   void trim();
   void untrim();
  
-  // formatted output 
-  std::ostream& print(std::ostream& s=std::cout) const;
-
-  // don't do anything anymore
-  // void setuppdf(void (*pdf)(const double& , const double&, double* ) );
-
-  // get the interpolated pdf's
-  //  void pdfinterp(double x1, double Q2, double* f);
+//  // formatted output 
+//  std::ostream& print(std::ostream& s=std::cout) const;
+//
+//  // don't do anything anymore
+//  // void setuppdf(void (*pdf)(const double& , const double&, double* ) );
+//
+//  // get the interpolated pdf's
+//  //  void pdfinterp(double x1, double Q2, double* f);
 
 
   // perform the convolution to a specified number of loops
@@ -231,16 +231,16 @@ public:
 				  double  fscale_factor=1,
 				  double  Escale=1 );
 
-  // perform the convolution to a specified number of loops
-  // nloops=-1 gives the nlo part only
-  std::vector<double>  vconvolute(double Escale,
-				  void   (*pdf)(const double& , const double&, double* ), 
-				  double (*alphas)(const double& ), 
-				  int     nloops, 
-				  double  rscale_factor=1,
-				  double  fscale_factor=1  ) { 
-    return vconvolute(pdf, alphas, nloops, rscale_factor, fscale_factor, Escale); 
-  }
+//  // perform the convolution to a specified number of loops
+//  // nloops=-1 gives the nlo part only
+//  std::vector<double>  vconvolute(double Escale,
+//				  void   (*pdf)(const double& , const double&, double* ), 
+//				  double (*alphas)(const double& ), 
+//				  int     nloops, 
+//				  double  rscale_factor=1,
+//				  double  fscale_factor=1  ) { 
+//    return vconvolute(pdf, alphas, nloops, rscale_factor, fscale_factor, Escale); 
+//  }
 
 
   // perform the convolution to the max number of loops in grid
@@ -250,153 +250,153 @@ public:
   } 
 
 
-  // perform the convolution to the max number of loops in grid
-  std::vector<double> vconvolute(double Escale, 
-				 void   (*pdf)(const double& , const double&, double* ), 
-				 double (*alphas)(const double& ) )   { 
-    return vconvolute( Escale, pdf, alphas, nloops() );
-  } 
-
-
-  // perform the convolution to a specified number of loops 
-  // for a single sub process, nloops=-1 gives the nlo part only
-  std::vector<double> vconvolute_subproc(int subproc, 
-					 void   (*pdf)(const double& , const double&, double* ), 
-					 double (*alphas)(const double& ), 
-					 int     nloops, 
-					 double  rscale_factor=1, double Escale=1 ); 
-
-
-  // perform the convolution to a specified number of loops 
-  // for a single sub process, nloops=-1 gives the nlo part only
-  std::vector<double> vconvolute_subproc(int subproc, 
-					 double Escale, 
-					 void   (*pdf)(const double& , const double&, double* ), 
-					 double (*alphas)(const double& ), 
-					 int     nloops, 
-					 double  rscale_factor=1 ) { 
-    return vconvolute_subproc(subproc, pdf, alphas, nloops, rscale_factor, Escale); 
-  } 
-
-
-  // perform the convolution to the max number of loops in grid 
-  // for a single sub process
-  std::vector<double> vconvolute_subproc(int subproc, 
-					 void   (*pdf)(const double& , const double&, double* ), 
-					 double (*alphas)(const double& ) )   { 
-    return vconvolute_subproc( subproc, pdf, alphas, nloops() );
-  } 
-
-  // perform the convolution to the max number of loops in grid 
-  // for a single sub process
-  std::vector<double> vconvolute_subproc(int subproc, 
-					 double Escale,
-					 void   (*pdf)(const double& , const double&, double* ), 
-					 double (*alphas)(const double& ) )   { 
-    return vconvolute_subproc( subproc, Escale, pdf, alphas, nloops() );
-  } 
-  
-
-  double vconvolute_bin( int bin, 
-			 void (*pdf)(const double& , const double&, double* ), 
-			 double (*alphas)(const double&) ); 
-				       
-
-  // perform the convolution to a specified number of loops
-  // nloops=-1 gives the nlo part only
-  TH1D* convolute(void   (*pdf)(const double& , const double&, double* ), 
-		  double (*alphas)(const double& ), 
-		  int     nloops, 
-		  double  rscale_factor=1,
-		  double  fscale_factor=1,
-		  double  Escale=1 );
-
-  // perform the convolution to a specified number of loops
-  // nloops=-1 gives the nlo part only
-  TH1D* convolute(void   (*pdf1)(const double& , const double&, double* ), 
-		  void   (*pdf2)(const double& , const double&, double* ), 
-		  double (*alphas)(const double& ), 
-		  int     nloops, 
-		  double  rscale_factor=1,
-		  double  fscale_factor=1,
-		  double  Escale=1 );
-
-
-  TH1D* convolute(double Escale,
-		  void   (*pdf)(const double& , const double&, double* ), 
-		  double (*alphas)(const double& ), 
-		  int     nloops, 
-		  double  rscale_factor=1,
-		  double  fscale_factor=1 ) { 
-    return convolute(pdf, alphas, nloops, rscale_factor, fscale_factor, Escale); 
-  }
-
-
-  // perform the convolution to the max number of loops in grid
-  TH1D* convolute(void   (*pdf)(const double& , const double&, double* ), 
-		  double (*alphas)(const double& ) )   { 
-    return convolute( pdf, alphas, nloops() );
-  } 
-
-  // perform the convolution to the max number of loops in grid
-  TH1D* convolute(double Escale,
-		  void   (*pdf)(const double& , const double&, double* ), 
-		  double (*alphas)(const double& ) )   { 
-    return convolute( Escale, pdf, alphas, nloops() );
-  } 
-
-
-  // perform the convolution to a specified number of loops 
-  // for a single sub process, nloops=-1 gives the nlo part only
-  TH1D* convolute_subproc(int subproc, 
-			  void   (*pdf)(const double& , const double&, double* ), 
-			  double (*alphas)(const double& ), 
-			  int     nloops, 
-			  double  rscale_factor=1, double Escale=1 );
-
-  TH1D* convolute_subproc(int subproc, 
-			  double Escale,
-			  void   (*pdf)(const double& , const double&, double* ), 
-			  double (*alphas)(const double& ), 
-			  int     nloops, 
-			  double  rscale_factor=1 ) { 
-    return convolute_subproc( subproc, pdf, alphas, nloops, rscale_factor, Escale);
-  }
-
-  // perform the convolution to the max number of loops in grid 
-  // for a single sub process
-  TH1D* convolute_subproc(int subproc, 
-			  void   (*pdf)(const double& , const double&, double* ), 
-			  double (*alphas)(const double& ) )   { 
-    return convolute_subproc( subproc, pdf, alphas, nloops() );
-  } 
-
-  TH1D* convolute_subproc(int subproc, 
-			  double Escale,
-			  void   (*pdf)(const double& , const double&, double* ), 
-			  double (*alphas)(const double& ) )   { 
-    return convolute_subproc( subproc, Escale, pdf, alphas, nloops() );
-  } 
+//  // perform the convolution to the max number of loops in grid
+//  std::vector<double> vconvolute(double Escale, 
+//				 void   (*pdf)(const double& , const double&, double* ), 
+//				 double (*alphas)(const double& ) )   { 
+//    return vconvolute( Escale, pdf, alphas, nloops() );
+//  } 
+//
+//
+//  // perform the convolution to a specified number of loops 
+//  // for a single sub process, nloops=-1 gives the nlo part only
+//  std::vector<double> vconvolute_subproc(int subproc, 
+//					 void   (*pdf)(const double& , const double&, double* ), 
+//					 double (*alphas)(const double& ), 
+//					 int     nloops, 
+//					 double  rscale_factor=1, double Escale=1 ); 
+//
+//
+//  // perform the convolution to a specified number of loops 
+//  // for a single sub process, nloops=-1 gives the nlo part only
+//  std::vector<double> vconvolute_subproc(int subproc, 
+//					 double Escale, 
+//					 void   (*pdf)(const double& , const double&, double* ), 
+//					 double (*alphas)(const double& ), 
+//					 int     nloops, 
+//					 double  rscale_factor=1 ) { 
+//    return vconvolute_subproc(subproc, pdf, alphas, nloops, rscale_factor, Escale); 
+//  } 
+//
+//
+//  // perform the convolution to the max number of loops in grid 
+//  // for a single sub process
+//  std::vector<double> vconvolute_subproc(int subproc, 
+//					 void   (*pdf)(const double& , const double&, double* ), 
+//					 double (*alphas)(const double& ) )   { 
+//    return vconvolute_subproc( subproc, pdf, alphas, nloops() );
+//  } 
+//
+//  // perform the convolution to the max number of loops in grid 
+//  // for a single sub process
+//  std::vector<double> vconvolute_subproc(int subproc, 
+//					 double Escale,
+//					 void   (*pdf)(const double& , const double&, double* ), 
+//					 double (*alphas)(const double& ) )   { 
+//    return vconvolute_subproc( subproc, Escale, pdf, alphas, nloops() );
+//  } 
+//  
+//
+//  double vconvolute_bin( int bin, 
+//			 void (*pdf)(const double& , const double&, double* ), 
+//			 double (*alphas)(const double&) ); 
+//				       
+//
+//  // perform the convolution to a specified number of loops
+//  // nloops=-1 gives the nlo part only
+//  TH1D* convolute(void   (*pdf)(const double& , const double&, double* ), 
+//		  double (*alphas)(const double& ), 
+//		  int     nloops, 
+//		  double  rscale_factor=1,
+//		  double  fscale_factor=1,
+//		  double  Escale=1 );
+//
+//  // perform the convolution to a specified number of loops
+//  // nloops=-1 gives the nlo part only
+//  TH1D* convolute(void   (*pdf1)(const double& , const double&, double* ), 
+//		  void   (*pdf2)(const double& , const double&, double* ), 
+//		  double (*alphas)(const double& ), 
+//		  int     nloops, 
+//		  double  rscale_factor=1,
+//		  double  fscale_factor=1,
+//		  double  Escale=1 );
+//
+//
+//  TH1D* convolute(double Escale,
+//		  void   (*pdf)(const double& , const double&, double* ), 
+//		  double (*alphas)(const double& ), 
+//		  int     nloops, 
+//		  double  rscale_factor=1,
+//		  double  fscale_factor=1 ) { 
+//    return convolute(pdf, alphas, nloops, rscale_factor, fscale_factor, Escale); 
+//  }
+//
+//
+//  // perform the convolution to the max number of loops in grid
+//  TH1D* convolute(void   (*pdf)(const double& , const double&, double* ), 
+//		  double (*alphas)(const double& ) )   { 
+//    return convolute( pdf, alphas, nloops() );
+//  } 
+//
+//  // perform the convolution to the max number of loops in grid
+//  TH1D* convolute(double Escale,
+//		  void   (*pdf)(const double& , const double&, double* ), 
+//		  double (*alphas)(const double& ) )   { 
+//    return convolute( Escale, pdf, alphas, nloops() );
+//  } 
+//
+//
+//  // perform the convolution to a specified number of loops 
+//  // for a single sub process, nloops=-1 gives the nlo part only
+//  TH1D* convolute_subproc(int subproc, 
+//			  void   (*pdf)(const double& , const double&, double* ), 
+//			  double (*alphas)(const double& ), 
+//			  int     nloops, 
+//			  double  rscale_factor=1, double Escale=1 );
+//
+//  TH1D* convolute_subproc(int subproc, 
+//			  double Escale,
+//			  void   (*pdf)(const double& , const double&, double* ), 
+//			  double (*alphas)(const double& ), 
+//			  int     nloops, 
+//			  double  rscale_factor=1 ) { 
+//    return convolute_subproc( subproc, pdf, alphas, nloops, rscale_factor, Escale);
+//  }
+//
+//  // perform the convolution to the max number of loops in grid 
+//  // for a single sub process
+//  TH1D* convolute_subproc(int subproc, 
+//			  void   (*pdf)(const double& , const double&, double* ), 
+//			  double (*alphas)(const double& ) )   { 
+//    return convolute_subproc( subproc, pdf, alphas, nloops() );
+//  } 
+//
+//  TH1D* convolute_subproc(int subproc, 
+//			  double Escale,
+//			  void   (*pdf)(const double& , const double&, double* ), 
+//			  double (*alphas)(const double& ) )   { 
+//    return convolute_subproc( subproc, Escale, pdf, alphas, nloops() );
+//  } 
 
   std::vector<order_id> const& order_ids() const;
 
   // optimise the bin limits
   void optimise(bool force=false);
-  void optimise(int NQ2, int Nx);
-  void optimise(int NQ2, int Nx1, int Nx2);
-
-  // redefine the limits by hand
-  void redefine(int iobs, int iorder,
-		int NQ2, double Q2min, double Q2max, 
-		int Nx,  double  xmin, double  xmax);
-
-  bool setNormalised(bool t=true) { return m_normalised=t; } 
+//  void optimise(int NQ2, int Nx);
+//  void optimise(int NQ2, int Nx1, int Nx2);
+//
+//  // redefine the limits by hand
+//  void redefine(int iobs, int iorder,
+//		int NQ2, double Q2min, double Q2max, 
+//		int Nx,  double  xmin, double  xmax);
+//
+//  bool setNormalised(bool t=true) { return m_normalised=t; } 
   bool getNormalised() const      { return m_normalised; } 
 
 
-  // set the filling to be symmetric and test status
-  bool symmetrise(bool t=true) { return m_symmetrise=t; } 
-  bool isSymmetric()     const { return m_symmetrise; } 
+//  // set the filling to be symmetric and test status
+//  bool symmetrise(bool t=true) { return m_symmetrise=t; } 
+//  bool isSymmetric()     const { return m_symmetrise; } 
 
   bool reweight(bool t=false); 
 
@@ -408,10 +408,10 @@ public:
 
   // accessors for the observable after possible bin combination
   int    Nobs()               const { return m_obs_bins_combined->GetNbinsX(); }
-  double obs(int iobs)        const { return m_obs_bins_combined->GetBinCenter(iobs+1); } 
-  int    obsbin(double obs)   const { return m_obs_bins_combined->FindBin(obs)-1; } 
+//  double obs(int iobs)        const { return m_obs_bins_combined->GetBinCenter(iobs+1); } 
+//  int    obsbin(double obs)   const { return m_obs_bins_combined->FindBin(obs)-1; } 
   double obslow(int iobs)     const { return m_obs_bins_combined->GetBinLowEdge(iobs+1); }
-  double obsmin()             const { return obslow(0); } 
+//  double obsmin()             const { return obslow(0); } 
   double obsmax()             const { return obslow(Nobs()); } 
   double deltaobs(int iobs)   const { return m_obs_bins_combined->GetBinWidth(iobs+1); }
 
@@ -419,36 +419,36 @@ public:
   TH1D*       getReference()       { return m_obs_bins_combined; } 
 
 
-  //  TH1D*  getXReference() {
-  //    combineReference(); 
-  //    return m_obs_bins_combined; 
-  //  }
+//  //  TH1D*  getXReference() {
+//  //    combineReference(); 
+//  //    return m_obs_bins_combined; 
+//  //  }
  
  
   // accessors for the observable befor any bin combination
   int    Nobs_internal()               const { return m_obs_bins->GetNbinsX(); }
-  double obs_internal(int iobs)        const { return m_obs_bins->GetBinCenter(iobs+1); } 
-  int    obsbin_internal(double obs)   const { return m_obs_bins->FindBin(obs)-1; } 
+//  double obs_internal(int iobs)        const { return m_obs_bins->GetBinCenter(iobs+1); } 
+//  int    obsbin_internal(double obs)   const { return m_obs_bins->FindBin(obs)-1; } 
   double obslow_internal(int iobs)     const { return m_obs_bins->GetBinLowEdge(iobs+1); }
   double deltaobs_internal(int iobs)   const { return m_obs_bins->GetBinWidth(iobs+1); }
   double obsmin_internal()             const { return obslow_internal(0); } 
   double obsmax_internal()             const { return obslow_internal(Nobs_internal()); } 
-
-  const TH1D* getReference_internal() const { return m_obs_bins; } 
-  TH1D*       getReference_internal()       { return m_obs_bins; } 
-
- 
- 
-
-  // number of subprocesses 
-  int subProcesses(int i) const;
+//
+//  const TH1D* getReference_internal() const { return m_obs_bins; } 
+//  TH1D*       getReference_internal()       { return m_obs_bins; } 
+//
+// 
+// 
+//
+//  // number of subprocesses 
+//  int subProcesses(int i) const;
 
   // general status accessors
   double& run() { return m_run; }
  
   // accessors for the status information
   bool isOptimised() const { return m_optimised; }
-  bool isTrimmed()   const { return m_trimmed; }
+//  bool isTrimmed()   const { return m_trimmed; }
 
   /// maximum number of orders ( lo=1, nlo=2, nnlo=3 )  
   /// but aMC@NLO uses 4 grids for the NLO, so m_order
@@ -456,53 +456,53 @@ public:
   /// 1 loop, so take account of this 
   int  nloops() const;
 
-  // find out which transform and which pdf combination are being used
-  std::string getTransform() const { return m_transform; }
-
-  static double transformvar();
-  static double transformvar(double v);
-
-  std::string getGenpdf()    const { return m_genpdfname; }
-
-  std::string version()      const { return m_version; } 
-  std::string appl_version() const;
-
-  double getCMSScale()          const { return m_cmsScale; }
-  void   setCMSScale(double cmsScale) { m_cmsScale=cmsScale; }
-
-  double getDynamicScale()          const     { return m_dynamicScale; }
-  void   setDynamicScale(double dynamicScale) { m_dynamicScale=dynamicScale; }
-
-
-  // set optimise flag on all sub grids
-  bool setOptimised(bool t=true) { 
-    return m_optimised=t;
-    //    for ( int iorder=0 ; iorder<2 ; iorder++ ) { 
-    //      for ( int iobs=0 ; iobs<Nobs() ; iobs++ ) m_grids[iorder][iobs]->setOptimised(t); 
-    //    }
-  }
+//  // find out which transform and which pdf combination are being used
+//  std::string getTransform() const { return m_transform; }
+//
+//  static double transformvar();
+//  static double transformvar(double v);
+//
+//  std::string getGenpdf()    const { return m_genpdfname; }
+//
+//  std::string version()      const { return m_version; } 
+//  std::string appl_version() const;
+//
+//  double getCMSScale()          const { return m_cmsScale; }
+//  void   setCMSScale(double cmsScale) { m_cmsScale=cmsScale; }
+//
+//  double getDynamicScale()          const     { return m_dynamicScale; }
+//  void   setDynamicScale(double dynamicScale) { m_dynamicScale=dynamicScale; }
+//
+//
+//  // set optimise flag on all sub grids
+//  bool setOptimised(bool t=true) { 
+//    return m_optimised=t;
+//    //    for ( int iorder=0 ; iorder<2 ; iorder++ ) { 
+//    //      for ( int iobs=0 ; iobs<Nobs() ; iobs++ ) m_grids[iorder][iobs]->setOptimised(t); 
+//    //    }
+//  }
 
   // find the number of words used for storage
   int size() const; 
 
-  // get the cross sections
-  double& crossSection()      { return m_total; } 
-  double& crossSectionError() { return m_totalerror; } 
-  
-  //  double Lambda() const { return m_Lambda2; }
-
-  // very lovely algebraic operators
-  grid& operator=(const grid& g); 
+//  // get the cross sections
+//  double& crossSection()      { return m_total; } 
+//  double& crossSectionError() { return m_totalerror; } 
+//  
+//  //  double Lambda() const { return m_Lambda2; }
+//
+//  // very lovely algebraic operators
+//  grid& operator=(const grid& g); 
   grid& operator*=(const double& d); 
   grid& operator+=(const grid& g);
 
-  /// test if grids have the same limits etc
-  bool operator==(const grid& g) const;   
-
-  // shouldn't have these, the grid is too large a structure 
-  // to be passed in a return
-  // grid operator*(const double& d) const { return grid(*this)*=d; }
-  // grid operator+(const grid& g)   const { return grid(*this)+=g; }
+//  /// test if grids have the same limits etc
+//  bool operator==(const grid& g) const;   
+//
+//  // shouldn't have these, the grid is too large a structure 
+//  // to be passed in a return
+//  // grid operator*(const double& d) const { return grid(*this)*=d; }
+//  // grid operator+(const grid& g)   const { return grid(*this)+=g; }
   
   void setDocumentation(const std::string& s);
   void addDocumentation(const std::string& s);
@@ -511,47 +511,47 @@ public:
   std::string& getDocumentation()       { return m_documentation; }
 
 
-  /// set the range of the observable bins, with an optional
-  /// scaling of the observable valuesfor channging units
-  void setBinRange(int ilower, int iupper, double xScaleFactor=1);
-  void setRange(double lower, double upper, double xScaleFactor=1);
+//  /// set the range of the observable bins, with an optional
+//  /// scaling of the observable valuesfor channging units
+//  void setBinRange(int ilower, int iupper, double xScaleFactor=1);
+//  void setRange(double lower, double upper, double xScaleFactor=1);
 
   /// set the ckm matrix values if need be
   /// takes a 3x3 matrix with the format { { Vud, Vus, Vub }, { Vcd, Vcs, Vcb }, { Vtd, Vts, Vtb } }  
   void setckm( const std::vector<std::vector<double> >& ckm );
 
-  /// takes a flat 9 element vector (or c array) with the format { Vud, Vus, Vub, Vcd, Vcs, Vcb, Vtd, Vts, Vtb }  
-  void setckm( const std::vector<double>& ckm );
-  void setckm( const double* ckm );
+//  /// takes a flat 9 element vector (or c array) with the format { Vud, Vus, Vub, Vcd, Vcs, Vcb, Vtd, Vts, Vtb }  
+//  void setckm( const std::vector<double>& ckm );
+//  void setckm( const double* ckm );
 
 
   /// set the squared ckm matrix values if need be
   /// the squared terms for eihter W+ or W- production - you probably should use setckm()
   void setckm2( const std::vector<std::vector<double> >& ckm2 );
 
-  /// set the ckm matrix and squared ckm matrix values if need be
-  const std::vector<std::vector<double> >& getckm()  const;
-  const std::vector<std::vector<double> >& getckm2() const;
+//  /// set the ckm matrix and squared ckm matrix values if need be
+//  const std::vector<std::vector<double> >& getckm()  const;
+//  const std::vector<std::vector<double> >& getckm2() const;
 
 
   /// reduce number of subprocesses if possible
   void shrink(const std::string& name, int ckmcharge=0);
 
-  /// set bins to be combined after the convolution
-  void combine( std::vector<int>& v) { if ( (m_combine=v).size() ) combineReference(true); }
+//  /// set bins to be combined after the convolution
+//  void combine( std::vector<int>& v) { if ( (m_combine=v).size() ) combineReference(true); }
 
   /// set combine the  be combined after the convolution
   void combineReference(bool force=false);
 
   void combineBins(std::vector<double>& v, int power=1 ) const;
 
-  double fx(double x) const;
-  double fy(double x) const;
+//  double fx(double x) const;
+//  double fy(double x) const;
 
   const appl_pdf* genpdf(int i) const { return m_genpdf[i]; }
 
-  std::vector<double>&       userdata()       { return m_userdata; }
-  const std::vector<double>& userdata() const { return m_userdata; }
+//  std::vector<double>&       userdata()       { return m_userdata; }
+//  const std::vector<double>& userdata() const { return m_userdata; }
 
 protected:
 
@@ -659,7 +659,7 @@ protected:
 // shouldn't have this, grid is too large a structure 
 // grid operator*(const double& d, const appl::grid& g) { return g*d; }
 
-std::ostream& operator<<(std::ostream& s, const appl::grid& mygrid);
+//std::ostream& operator<<(std::ostream& s, const appl::grid& mygrid);
 
 
 

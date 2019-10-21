@@ -47,11 +47,11 @@
 
 
 
-template<typename T>
-std::ostream& operator<<(std::ostream& s, const std::vector<T>& v) {
-  for ( unsigned i=0 ; i<v.size() ; i++ ) s << "\t" << v[i];
-  return s;
-}
+//template<typename T>
+//std::ostream& operator<<(std::ostream& s, const std::vector<T>& v) {
+//  for ( unsigned i=0 ; i<v.size() ; i++ ) s << "\t" << v[i];
+//  return s;
+//}
 
 
 /// this is a compatability flag for persistent versions 
@@ -62,7 +62,7 @@ std::ostream& operator<<(std::ostream& s, const std::vector<T>& v) {
 // const std::string appl::grid::m_version = "version-3.3";
 const std::string appl::grid::m_version = PACKAGE_VERSION;
 
-std::string appl::grid::appl_version() const { return PACKAGE_VERSION; }
+//std::string appl::grid::appl_version() const { return PACKAGE_VERSION; }
 
 #include "hoppet_init.h"
 
@@ -91,7 +91,7 @@ void Splitting(const double& x, const double& Q, double* xf) {
 #endif
 
 
-#define appl_line() std::cout << __FILE__ << " " << __LINE__ << std::endl; 
+//#define appl_line() std::cout << __FILE__ << " " << __LINE__ << std::endl; 
 
 
 /// helper function
@@ -99,42 +99,42 @@ static bool contains(const std::string& s, const std::string& reg ) {
   return s.find(reg)!=std::string::npos;
 }
 
-/// make sure pdf std::map is initialised
-// bool pdf_ready = appl::appl_pdf::create_map(); 
-
-appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
-		 int Nx,  double xmin,  double xmax,  int xorder,
-		 int Nobs,  double obsmin, double obsmax,
-		 std::string genpdfname,
-         std::vector<order_id> const& order_ids,
-		 std::string transform ) :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_documentation(""),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1),
-  m_order_ids(order_ids)
-{
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsmin, obsmax);
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-
-  m_obs_bins_combined = m_obs_bins;
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //  if      ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  //  else if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
-}
+///// make sure pdf std::map is initialised
+//// bool pdf_ready = appl::appl_pdf::create_map(); 
+//
+//appl::grid::grid(int NQ2, double Q2min, double Q2max, int Q2order,
+//		 int Nx,  double xmin,  double xmax,  int xorder,
+//		 int Nobs,  double obsmin, double obsmax,
+//		 std::string genpdfname,
+//         std::vector<order_id> const& order_ids,
+//		 std::string transform ) :
+//  m_grids(appl::MAXGRIDS),
+//  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),
+//  m_transform(transform), m_genpdfname(genpdfname),
+//  m_genpdf(appl::MAXGRIDS),
+//  m_cmsScale(0), m_dynamicScale(0),
+//  m_documentation(""),
+//  m_read(false),
+//  m_subproc(-1),
+//  m_bin(-1),
+//  m_order_ids(order_ids)
+//{
+//  // Initialize histogram that saves the correspondence obsvalue<->obsbin
+//  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsmin, obsmax);
+//  m_obs_bins->SetDirectory(0);
+//  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
+//
+//  m_obs_bins_combined = m_obs_bins;
+//
+//  /// check to see if we require a generic pdf from a text file, and
+//  /// and if so, create the required generic pdf
+//  //  if      ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+//  //  else if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+//  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+//  findgenpdf( m_genpdfname );
+//
+//  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+//}
 
 
 
@@ -177,79 +177,79 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
 
 
-appl::grid::grid(const std::vector<double>& obs,
-		 int NQ2, double Q2min, double Q2max, int Q2order,
-		 int Nx,  double xmin,  double xmax,  int xorder,
-		 std::string genpdfname,
-		 std::vector<order_id> const& order_ids,
-		 std::string transform )  :
-  m_grids(appl::MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),
-  m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
-  m_documentation(""),
-  m_read(false),
-  m_subproc(-1),
-  m_bin(-1),
-  m_order_ids(order_ids)
-{
-
-  if ( obs.size()==0 ) {
-    std::cerr << "grid::not enough bins in observable" << std::endl;
-    std::exit(0);
-  }
-
-  //  double* obsbins = new double[obs.size()];
-  //  for ( unsigned i=0 ; i<obs.size() ; i++ ) obsbins[i] = obs[i];
-  //  int Nobs = obs.size()-1;
-
-  // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", obs.size()-1, &obs[0] );
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
-  //  delete[] obsbins;
-
-  m_obs_bins_combined = m_obs_bins;
-
-  /// check to see if we require a generic pdf from a text file, and
-  /// and if so, create the required generic pdf
-  //   if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
-}
-
-
-
-
-appl::grid::grid(int, double, double, int, int, double, double, int, int, double, double,
-    std::string, int, int, int, std::string)
-{
-    // TODO: constructor is deprecated
-    assert( false );
-}
-
-appl::grid::grid(int, const double*, int, double, double, int, int, double, double, int,
-    std::string, int, int, int, std::string)
-{
-    // TODO: constructor is deprecated
-    assert( false );
-}
-
-appl::grid::grid(const std::vector<double>&, int, double, double, int, int, double, double, int,
-    std::string, int, int, int, std::string)
-{
-    // TODO: constructor is deprecated
-    assert( false );
-}
-
-appl::grid::grid(const std::vector<double>&, std::string, int, int, int, std::string)
-{
-    // TODO: constructor is deprecated
-    assert( false );
-}
+//appl::grid::grid(const std::vector<double>& obs,
+//		 int NQ2, double Q2min, double Q2max, int Q2order,
+//		 int Nx,  double xmin,  double xmax,  int xorder,
+//		 std::string genpdfname,
+//		 std::vector<order_id> const& order_ids,
+//		 std::string transform )  :
+//  m_grids(appl::MAXGRIDS),
+//  m_run(0), m_optimised(false), m_trimmed(false), m_normalised(false), m_symmetrise(false),
+//  m_transform(transform), m_genpdfname(genpdfname),
+//  m_genpdf(appl::MAXGRIDS),
+//  m_cmsScale(0), m_dynamicScale(0),
+//  m_documentation(""),
+//  m_read(false),
+//  m_subproc(-1),
+//  m_bin(-1),
+//  m_order_ids(order_ids)
+//{
+//
+//  if ( obs.size()==0 ) {
+//    std::cerr << "grid::not enough bins in observable" << std::endl;
+//    std::exit(0);
+//  }
+//
+//  //  double* obsbins = new double[obs.size()];
+//  //  for ( unsigned i=0 ; i<obs.size() ; i++ ) obsbins[i] = obs[i];
+//  //  int Nobs = obs.size()-1;
+//
+//  // Initialize histogram that saves the correspondence obsvalue<->obsbin
+//  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", obs.size()-1, &obs[0] );
+//  m_obs_bins->SetDirectory(0);
+//  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
+//  //  delete[] obsbins;
+//
+//  m_obs_bins_combined = m_obs_bins;
+//
+//  /// check to see if we require a generic pdf from a text file, and
+//  /// and if so, create the required generic pdf
+//  //   if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+//  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+//  findgenpdf( m_genpdfname );
+//
+//  construct( obs.size()-1, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+//}
+//
+//
+//
+//
+//appl::grid::grid(int, double, double, int, int, double, double, int, int, double, double,
+//    std::string, int, int, int, std::string)
+//{
+//    // TODO: constructor is deprecated
+//    assert( false );
+//}
+//
+//appl::grid::grid(int, const double*, int, double, double, int, int, double, double, int,
+//    std::string, int, int, int, std::string)
+//{
+//    // TODO: constructor is deprecated
+//    assert( false );
+//}
+//
+//appl::grid::grid(const std::vector<double>&, int, double, double, int, int, double, double, int,
+//    std::string, int, int, int, std::string)
+//{
+//    // TODO: constructor is deprecated
+//    assert( false );
+//}
+//
+//appl::grid::grid(const std::vector<double>&, std::string, int, int, int, std::string)
+//{
+//    // TODO: constructor is deprecated
+//    assert( false );
+//}
 
 
 
@@ -561,48 +561,48 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 }
 
 
-appl::grid::grid(const grid& g) : 
-  m_obs_bins(new TH1D(*g.m_obs_bins)), 
-  m_order_ids(g.m_order_ids),
-  m_grids(appl::MAXGRIDS),
-  m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
-  m_normalised(g.m_normalised),
-  m_symmetrise(g.m_symmetrise),
-  m_transform(g.m_transform),
-  m_genpdfname(g.m_genpdfname), 
-  m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(g.m_cmsScale),
-  m_dynamicScale(g.m_dynamicScale),
-  m_documentation(g.m_documentation),
-  m_ckmsum(g.m_ckmsum), /// need a deep copy of the contents
-  m_ckm2(g.m_ckm2),     /// need a deep copy of the contents
-  m_ckm(g.m_ckm),       /// need a deep copy of the contents
-  m_read(g.m_read),
-  m_bin(-1)
-{
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2();
-
-  m_obs_bins_combined = m_obs_bins;
-  if ( g.m_obs_bins_combined != g.m_obs_bins) { 
-    m_obs_bins_combined = new TH1D(*g.m_obs_bins_combined); 
-    m_obs_bins_combined->SetDirectory(0);
-  }
-
-  /// check to see if we require a generic pdf from a text file, and 
-  /// and if so, create the required generic pdf
-  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
-  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
-  findgenpdf( m_genpdfname );
-
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    m_grids[iorder] = new igrid*[Nobs_internal()];
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
-      m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
-      m_grids[iorder][iobs]->setparent( this ); 
-    }
-  }
-} 
+//appl::grid::grid(const grid& g) : 
+//  m_obs_bins(new TH1D(*g.m_obs_bins)), 
+//  m_order_ids(g.m_order_ids),
+//  m_grids(appl::MAXGRIDS),
+//  m_run(g.m_run), m_optimised(g.m_optimised), m_trimmed(g.m_trimmed), 
+//  m_normalised(g.m_normalised),
+//  m_symmetrise(g.m_symmetrise),
+//  m_transform(g.m_transform),
+//  m_genpdfname(g.m_genpdfname), 
+//  m_genpdf(appl::MAXGRIDS),
+//  m_cmsScale(g.m_cmsScale),
+//  m_dynamicScale(g.m_dynamicScale),
+//  m_documentation(g.m_documentation),
+//  m_ckmsum(g.m_ckmsum), /// need a deep copy of the contents
+//  m_ckm2(g.m_ckm2),     /// need a deep copy of the contents
+//  m_ckm(g.m_ckm),       /// need a deep copy of the contents
+//  m_read(g.m_read),
+//  m_bin(-1)
+//{
+//  m_obs_bins->SetDirectory(0);
+//  m_obs_bins->Sumw2();
+//
+//  m_obs_bins_combined = m_obs_bins;
+//  if ( g.m_obs_bins_combined != g.m_obs_bins) { 
+//    m_obs_bins_combined = new TH1D(*g.m_obs_bins_combined); 
+//    m_obs_bins_combined->SetDirectory(0);
+//  }
+//
+//  /// check to see if we require a generic pdf from a text file, and 
+//  /// and if so, create the required generic pdf
+//  //  if ( m_genpdfname.find(".dat")!=std::string::npos ) addpdf(m_genpdfname);
+//  if ( contains(m_genpdfname, ".dat") ||  contains(m_genpdfname, ".config") ) addpdf(m_genpdfname);
+//  findgenpdf( m_genpdfname );
+//
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    m_grids[iorder] = new igrid*[Nobs_internal()];
+//    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
+//      m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
+//      m_grids[iorder][iobs]->setparent( this ); 
+//    }
+//  }
+//} 
 
 
 // Initialize histogram that saves the correspondence obsvalue<->obsbin
@@ -646,43 +646,43 @@ int appl::grid::nloops() const
 
 
 
-  // number of subprocesses 
-int appl::grid::subProcesses(int i) const { 
-  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
-  return m_grids[i][0]->SubProcesses();     
-}  
-
-
-/// access the transform functions for the appl::igrid so that the 
-/// igrid can be hidden 
-double appl::grid::transformvar()         { return igrid::transformvar(); }
-double appl::grid::transformvar(double v) { return igrid::transformvar(v); }
-
-
-
-// add a single grid
-void appl::grid::add_igrid(int bin, int order, igrid* g) { 
-
-  if ( !(order>=0 && order<m_order_ids.size()) ) {
-    std::cerr << "grid::add_igrid() order out of range " << order << std::endl; 
-    return;
-  } 
-
-  if ( !(bin>=0 && bin<Nobs_internal() ) ) {
-    std::cerr << "grid::add_igrid() observable bin out of range " << bin << std::endl; 
-    return;
-  }
-
-  m_grids[order][bin] = g;
-  m_grids[order][bin]->setparent(this);
-
-  if ( g->transform()!=m_transform ) { 
-    std::cerr << "grid::add_igrid() transform " << m_transform 
-	      << " does not match that from added igrid, " << g->transform() << std::endl;
-    m_transform = g->transform();
-  }
-
-}
+//  // number of subprocesses 
+//int appl::grid::subProcesses(int i) const { 
+//  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
+//  return m_grids[i][0]->SubProcesses();     
+//}  
+//
+//
+///// access the transform functions for the appl::igrid so that the 
+///// igrid can be hidden 
+//double appl::grid::transformvar()         { return igrid::transformvar(); }
+//double appl::grid::transformvar(double v) { return igrid::transformvar(v); }
+//
+//
+//
+//// add a single grid
+//void appl::grid::add_igrid(int bin, int order, igrid* g) { 
+//
+//  if ( !(order>=0 && order<m_order_ids.size()) ) {
+//    std::cerr << "grid::add_igrid() order out of range " << order << std::endl; 
+//    return;
+//  } 
+//
+//  if ( !(bin>=0 && bin<Nobs_internal() ) ) {
+//    std::cerr << "grid::add_igrid() observable bin out of range " << bin << std::endl; 
+//    return;
+//  }
+//
+//  m_grids[order][bin] = g;
+//  m_grids[order][bin]->setparent(this);
+//
+//  if ( g->transform()!=m_transform ) { 
+//    std::cerr << "grid::add_igrid() transform " << m_transform 
+//	      << " does not match that from added igrid, " << g->transform() << std::endl;
+//    m_transform = g->transform();
+//  }
+//
+//}
 
 
 
@@ -714,40 +714,40 @@ appl::grid::~grid() {
 
 
 
-// algebraic operators
-
-appl::grid& appl::grid::operator=(const appl::grid& g) {
-  // clear out the old...
-  if ( m_obs_bins_combined!=m_obs_bins ) delete m_obs_bins_combined;
-  delete m_obs_bins;
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  delete m_grids[iorder][iobs];
-    delete m_grids[iorder];
-  }
-  
-  // copy the new
-  m_obs_bins = new TH1D(*g.m_obs_bins);
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2();
-
-  m_obs_bins_combined = m_obs_bins;
-
-  // copy the state
-  m_order_ids = g.m_order_ids;
-
-  m_run       = g.m_run;
-  m_optimised = g.m_optimised;
-  m_trimmed   = g.m_trimmed;
-
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    m_grids[iorder] = new igrid*[Nobs_internal()];
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
-      m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
-      m_grids[iorder][iobs]->setparent( this ); 
-    }
-  }
-  return *this;
-} 
+//// algebraic operators
+//
+//appl::grid& appl::grid::operator=(const appl::grid& g) {
+//  // clear out the old...
+//  if ( m_obs_bins_combined!=m_obs_bins ) delete m_obs_bins_combined;
+//  delete m_obs_bins;
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  delete m_grids[iorder][iobs];
+//    delete m_grids[iorder];
+//  }
+//  
+//  // copy the new
+//  m_obs_bins = new TH1D(*g.m_obs_bins);
+//  m_obs_bins->SetDirectory(0);
+//  m_obs_bins->Sumw2();
+//
+//  m_obs_bins_combined = m_obs_bins;
+//
+//  // copy the state
+//  m_order_ids = g.m_order_ids;
+//
+//  m_run       = g.m_run;
+//  m_optimised = g.m_optimised;
+//  m_trimmed   = g.m_trimmed;
+//
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    m_grids[iorder] = new igrid*[Nobs_internal()];
+//    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
+//      m_grids[iorder][iobs] = new igrid(*g.m_grids[iorder][iobs]);
+//      m_grids[iorder][iobs]->setparent( this ); 
+//    }
+//  }
+//  return *this;
+//} 
   
 
 appl::grid& appl::grid::operator*=(const double& d) { 
@@ -760,15 +760,15 @@ appl::grid& appl::grid::operator*=(const double& d) {
 }
 
 
-double appl::grid::fx(double x) const { 
-  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fx(x);
-  else return 0;
-}
-
-double appl::grid::fy(double x) const { 
-  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fy(x);
-  else return 0;
-}
+//double appl::grid::fx(double x) const { 
+//  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fx(x);
+//  else return 0;
+//}
+//
+//double appl::grid::fy(double x) const { 
+//  if ( m_order_ids.size()>0 && Nobs_internal()>0 ) return m_grids[0][0]->fy(x);
+//  else return 0;
+//}
 
 
 appl::grid& appl::grid::operator+=(const appl::grid& g) {
@@ -824,19 +824,19 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
 
 
 
-/// check grids match
-bool appl::grid::operator==(const appl::grid& g) const {
-  
-  bool match = true; 
-
-  if ( Nobs_internal()!=g.Nobs_internal() )    match = false;
-  if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) )  match = false;
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    //    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( (*m_grids[iorder][iobs]) == (*g.m_grids[iorder][iobs]) ); 
-    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( m_grids[iorder][iobs]->compare_axes( *g.m_grids[iorder][iobs] ) ); 
-  }
-  return match;
-}
+///// check grids match
+//bool appl::grid::operator==(const appl::grid& g) const {
+//  
+//  bool match = true; 
+//
+//  if ( Nobs_internal()!=g.Nobs_internal() )    match = false;
+//  if ( !std::equal(m_order_ids.begin(), m_order_ids.end(), g.m_order_ids.begin()) )  match = false;
+//  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    //    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( (*m_grids[iorder][iobs]) == (*g.m_grids[iorder][iobs]) ); 
+//    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) match &= ( m_grids[iorder][iobs]->compare_axes( *g.m_grids[iorder][iobs] ) ); 
+//  }
+//  return match;
+//}
 
 
 
@@ -878,19 +878,19 @@ void appl::grid::fill_phasespace(const double x1, const double x2, const double 
 
 
 
-// fast fill pre-optimisation don't perform the interpolation and so on
-void appl::grid::fill_index(const int ix1, const int ix2, const int iQ2, 
-			    const int iobs, 
-			    const double* weight, const int iorder) {
-
-  if ( iobs<0 || iobs>=Nobs_internal() ) {
-    //  cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
-    //  cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
-    return;
-  }
-  if ( m_symmetrise && ix2<ix1 )  m_grids[iorder][iobs]->fill_index(ix2, ix1, iQ2, weight);
-  else                            m_grids[iorder][iobs]->fill_index(ix1, ix2, iQ2, weight);
-}
+//// fast fill pre-optimisation don't perform the interpolation and so on
+//void appl::grid::fill_index(const int ix1, const int ix2, const int iQ2, 
+//			    const int iobs, 
+//			    const double* weight, const int iorder) {
+//
+//  if ( iobs<0 || iobs>=Nobs_internal() ) {
+//    //  cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
+//    //  cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
+//    return;
+//  }
+//  if ( m_symmetrise && ix2<ix1 )  m_grids[iorder][iobs]->fill_index(ix2, ix1, iQ2, weight);
+//  else                            m_grids[iorder][iobs]->fill_index(ix1, ix2, iQ2, weight);
+//}
 
 
 void appl::grid::trim() {
@@ -907,17 +907,17 @@ void appl::grid::untrim() {
   }
 }
 
-std::ostream& appl::grid::print(std::ostream& s) const {
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {     
-      s << iobs << "\t" 
-	<< std::setprecision(5) << std::setw(6) << getReference()->GetBinLowEdge(iobs+1) << "\t- " 
-	<< std::setprecision(5) << std::setw(6) << getReference()->GetBinLowEdge(iobs+2) << "\t"; 
-      m_grids[iorder][iobs]->print(s);       
-    }
-  }
-  return s;
-}
+//std::ostream& appl::grid::print(std::ostream& s) const {
+//  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {     
+//      s << iobs << "\t" 
+//	<< std::setprecision(5) << std::setw(6) << getReference()->GetBinLowEdge(iobs+1) << "\t- " 
+//	<< std::setprecision(5) << std::setw(6) << getReference()->GetBinLowEdge(iobs+2) << "\t"; 
+//      m_grids[iorder][iobs]->print(s);       
+//    }
+//  }
+//  return s;
+//}
 
 
 
@@ -1009,26 +1009,26 @@ void appl::grid::setckm( const std::vector<std::vector<double> >& ckm ) {
 }
 
 
-void appl::grid::setckm( const std::vector<double>& ckm ) {
-  std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
-  for ( unsigned i=0 ; i<ckm.size() && i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
-  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
-}
-
-void appl::grid::setckm( const double* ckm ) { 
-  std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
-  for ( unsigned i=0 ; i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
-  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
-}
-
-
-const std::vector<std::vector<double> >& appl::grid::getckm()  const { return m_genpdf[0]->getckm(); }  
-
-const std::vector<std::vector<double> >& appl::grid::getckm2() const { return m_genpdf[0]->getckm2(); }  
-
-
-// void appl::grid::setuppdf(void (*pdf)(const double&, const double&, double* ) )  {  }
-// void grid::pdfinterp(double x, double Q2, double* f) {  }
+//void appl::grid::setckm( const std::vector<double>& ckm ) {
+//  std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
+//  for ( unsigned i=0 ; i<ckm.size() && i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
+//  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
+//}
+//
+//void appl::grid::setckm( const double* ckm ) { 
+//  std::vector<std::vector<double> > _ckm(3, std::vector<double>(3,0) );
+//  for ( unsigned i=0 ; i<9 ; i++ ) _ckm[i/3][i%3] = ckm[i]; 
+//  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(_ckm);
+//}
+//
+//
+//const std::vector<std::vector<double> >& appl::grid::getckm()  const { return m_genpdf[0]->getckm(); }  
+//
+//const std::vector<std::vector<double> >& appl::grid::getckm2() const { return m_genpdf[0]->getckm2(); }  
+//
+//
+//// void appl::grid::setuppdf(void (*pdf)(const double&, const double&, double* ) )  {  }
+//// void grid::pdfinterp(double x, double Q2, double* f) {  }
 
 
 
@@ -1487,124 +1487,124 @@ std::vector<std::vector<double>> appl::grid::vconvolute_orders(void (*pdf1)(cons
 
 
 
-TH1D* appl::grid::convolute(void (*pdf)(const double& , const double&, double* ), 
-			    double (*alphas)(const double& ), 
-			    int     nloops, 
-			    double  rscale_factor,
-			    double  fscale_factor,
-			    double Escale )
-{
-  return convolute( pdf, 0, alphas, nloops, rscale_factor, fscale_factor, Escale );
-}
-
-
-
-
-/// a dirty hack to tell the sub grid it should only 
-/// use a single subprocess
-
-std::vector<double> appl::grid::vconvolute_subproc(int subproc,
-						   void (*pdf)(const double& , const double&, double* ), 
-						   double (*alphas)(const double& ), 
-						   int     nloops, 
-						   double  rscale_factor, double Escale ) 
-{ 
-  /// set the subprocess index - this is tested by the 
-  /// igrid convolution
-  m_subproc = subproc;
-  std::vector<double> xsec = vconvolute( pdf, 0, alphas, nloops, rscale_factor, rscale_factor, Escale ); 
-  m_subproc = -1;
-
-  return xsec;
-
-}
-
-
-
-double appl::grid::vconvolute_bin(int bin,
-				  void (*pdf)(const double& , const double&, double* ), 
-				  double (*alphas)(const double&) ) {
-  /// set the subprocess index - this is tested by the 
-  /// igrid convolution
-  m_bin = bin;
-  std::vector<double> xsec = vconvolute( pdf, alphas );
-  m_bin = -1;
-  return xsec[bin];
-}
-
-
-
-
-
-TH1D* appl::grid::convolute(void (*pdf1)(const double& , const double&, double* ), 
-			    void (*pdf2)(const double& , const double&, double* ), 
-			    double (*alphas)(const double& ), 
-			    int     nloops, 
-			    double  rscale_factor,
-			    double  fscale_factor,
-			    double Escale ) 
-{
-
-  //  int nbins = m_obs_bins->GetNbinsX();
-
-  TH1D* h = 0;
-  if ( m_combine.size() ) { 
-    
-    //    nbins = m_combine.size();
-
-    std::vector<double> limits(m_combine.size()+1);
-    
-    int i=0;
-    limits[0] = m_obs_bins->GetBinLowEdge(i+1);
-    for ( unsigned ib=0 ; ib<m_combine.size() ; ib++) { 
-      i += m_combine[ib]; 
-      limits[ib+1] = m_obs_bins->GetBinLowEdge(i+1);
-    }
-
-    h = new TH1D("xsec", "xsec", m_combine.size(), &limits[0] );
-    h->SetDirectory(0);
-  }
-  else { 
-    h = new TH1D(*m_obs_bins);
-    h->SetName("xsec");
-    h->SetDirectory(0);
-  }
-   
-    
-  std::vector<double> dvec = vconvolute( pdf1, pdf2, alphas, nloops, rscale_factor, fscale_factor, Escale );
-
-  for ( unsigned i=0 ; i<dvec.size() ; i++ ) { 
-      h->SetBinContent( i+1, dvec[i] );
-      h->SetBinError( i+1, 0 );
-  }
-  
-  return h;
-  
-}
-
-
-
-
-
-TH1D* appl::grid::convolute_subproc(int subproc,
-				    void (*pdf)(const double& , const double&, double* ), 
-				    double (*alphas)(const double& ), 
-				    int     nloops, 
-				    double  rscale_factor, double Escale ) {
-  
-    TH1D* h = new TH1D(*m_obs_bins);
-    h->SetName("xsec");
-    
-    std::vector<double> dvec = vconvolute_subproc( subproc, pdf, alphas, nloops, rscale_factor, Escale );
-    
-    for ( unsigned i=0 ; i<dvec.size() ; i++ ) { 
-      h->SetBinContent( i+1, dvec[i] );
-      h->SetBinError( i+1, 0 );
-    }
-  
-    return h;
-  
-}
+//TH1D* appl::grid::convolute(void (*pdf)(const double& , const double&, double* ), 
+//			    double (*alphas)(const double& ), 
+//			    int     nloops, 
+//			    double  rscale_factor,
+//			    double  fscale_factor,
+//			    double Escale )
+//{
+//  return convolute( pdf, 0, alphas, nloops, rscale_factor, fscale_factor, Escale );
+//}
+//
+//
+//
+//
+///// a dirty hack to tell the sub grid it should only 
+///// use a single subprocess
+//
+//std::vector<double> appl::grid::vconvolute_subproc(int subproc,
+//						   void (*pdf)(const double& , const double&, double* ), 
+//						   double (*alphas)(const double& ), 
+//						   int     nloops, 
+//						   double  rscale_factor, double Escale ) 
+//{ 
+//  /// set the subprocess index - this is tested by the 
+//  /// igrid convolution
+//  m_subproc = subproc;
+//  std::vector<double> xsec = vconvolute( pdf, 0, alphas, nloops, rscale_factor, rscale_factor, Escale ); 
+//  m_subproc = -1;
+//
+//  return xsec;
+//
+//}
+//
+//
+//
+//double appl::grid::vconvolute_bin(int bin,
+//				  void (*pdf)(const double& , const double&, double* ), 
+//				  double (*alphas)(const double&) ) {
+//  /// set the subprocess index - this is tested by the 
+//  /// igrid convolution
+//  m_bin = bin;
+//  std::vector<double> xsec = vconvolute( pdf, alphas );
+//  m_bin = -1;
+//  return xsec[bin];
+//}
+//
+//
+//
+//
+//
+//TH1D* appl::grid::convolute(void (*pdf1)(const double& , const double&, double* ), 
+//			    void (*pdf2)(const double& , const double&, double* ), 
+//			    double (*alphas)(const double& ), 
+//			    int     nloops, 
+//			    double  rscale_factor,
+//			    double  fscale_factor,
+//			    double Escale ) 
+//{
+//
+//  //  int nbins = m_obs_bins->GetNbinsX();
+//
+//  TH1D* h = 0;
+//  if ( m_combine.size() ) { 
+//    
+//    //    nbins = m_combine.size();
+//
+//    std::vector<double> limits(m_combine.size()+1);
+//    
+//    int i=0;
+//    limits[0] = m_obs_bins->GetBinLowEdge(i+1);
+//    for ( unsigned ib=0 ; ib<m_combine.size() ; ib++) { 
+//      i += m_combine[ib]; 
+//      limits[ib+1] = m_obs_bins->GetBinLowEdge(i+1);
+//    }
+//
+//    h = new TH1D("xsec", "xsec", m_combine.size(), &limits[0] );
+//    h->SetDirectory(0);
+//  }
+//  else { 
+//    h = new TH1D(*m_obs_bins);
+//    h->SetName("xsec");
+//    h->SetDirectory(0);
+//  }
+//   
+//    
+//  std::vector<double> dvec = vconvolute( pdf1, pdf2, alphas, nloops, rscale_factor, fscale_factor, Escale );
+//
+//  for ( unsigned i=0 ; i<dvec.size() ; i++ ) { 
+//      h->SetBinContent( i+1, dvec[i] );
+//      h->SetBinError( i+1, 0 );
+//  }
+//  
+//  return h;
+//  
+//}
+//
+//
+//
+//
+//
+//TH1D* appl::grid::convolute_subproc(int subproc,
+//				    void (*pdf)(const double& , const double&, double* ), 
+//				    double (*alphas)(const double& ), 
+//				    int     nloops, 
+//				    double  rscale_factor, double Escale ) {
+//  
+//    TH1D* h = new TH1D(*m_obs_bins);
+//    h->SetName("xsec");
+//    
+//    std::vector<double> dvec = vconvolute_subproc( subproc, pdf, alphas, nloops, rscale_factor, Escale );
+//    
+//    for ( unsigned i=0 ; i<dvec.size() ; i++ ) { 
+//      h->SetBinContent( i+1, dvec[i] );
+//      h->SetBinError( i+1, 0 );
+//    }
+//  
+//    return h;
+//  
+//}
 
 
 
@@ -1625,176 +1625,176 @@ void appl::grid::optimise(bool force) {
 
 
 
-void appl::grid::optimise(int NQ2, int Nx) {  optimise(NQ2, Nx, Nx);  }
-
-
-
-void appl::grid::optimise(int NQ2, int Nx1, int Nx2) {
-  m_optimised = true;
-  m_read = false;
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
-      std::cout << "grid::optimise() bin " << iobs << "\t";
-      m_grids[iorder][iobs]->optimise(NQ2, Nx1, Nx2);
-    }
-  }
-  m_obs_bins->Reset();
-}
-
-
-
-
-// redefine the limits by hand
-void appl::grid::redefine(int iobs, int iorder,
-			  int NQ2, double Q2min, double Q2max, 
-			  int Nx,  double  xmin, double  xmax ) 
-{ 
-  
-  if  ( iorder>=m_order_ids.size() ) {
-    std::cerr << "grid does not extend to this order" << std::endl;
-    return;
-  }
-  
-  if ( iobs<0 || iobs>=Nobs_internal() ) { 
-    std::cerr << "observable bin out of range" << std::endl;
-    return;
-  }
-  
-  if ( iorder==0 ) { 
-    std::cout << "grid::redefine() iobs=" << iobs 
-	      << "NQ2="  << NQ2 << "\tQmin=" << std::sqrt(Q2min) << "\tQmax=" << std::sqrt(Q2max) 
-	      << "\tNx=" << Nx  << "\txmin=" <<            xmin  << "\txmax=" <<            xmax << std::endl; 
-  }
-  
-  igrid* oldgrid = m_grids[iorder][iobs];
-  
-  //  m_grids[iorder][iobs]->redefine(NQ2, Q2min, Q2max, Nx, xmin, xmax);
-
-  m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, oldgrid->tauorder(),
-				    Nx,  xmin,  xmax,  oldgrid->yorder(), 
-				    oldgrid->transform(), m_genpdf[iorder]->Nproc());
-
-  m_grids[iorder][iobs]->setparent( this ); 
-
-  delete oldgrid;
-}
-  
-
-
-void appl::grid::setBinRange(int ilower, int iupper, double xScaleFactor) { 
-  if ( ilower>=0 && iupper <Nobs_internal() ) {  
-    double lower = getReference()->GetBinLowEdge(ilower+1);
-    double upper = getReference()->GetBinLowEdge(iupper+2); 
-    setRange( lower, upper, xScaleFactor );
-  }
-}
-
-
-
-/// Fixme: need to fix this so that if the m_combine vector has values 
-///        then the range of this vector is also modified
-///        and then the combined reference recalculated:
-///        at the moment, if the range is changed, the combine vector
-///        needs to be recalculated and reset by hand
-
-void appl::grid::setRange(double lower, double upper, double xScaleFactor) { 
-  
-  std::cout << "grid::SetRange() " << lower << " " << upper << std::endl; 
-
-  std::vector<bool>   used;
-  std::vector<double> limits;
-  std::vector<double> contents;
-  std::vector<double> errors;
-
-  m_combine = std::vector<int>(0);
-
-  /// get the occupied bins
-  //  int Nbins = 0;
-  double last = 0;
-  for ( int i=1 ; i<=m_obs_bins->GetNbinsX() ; i++ ) { 
-    double bin = m_obs_bins->GetBinCenter(i);
-    if ( bin>lower && bin<upper ) { 
-      limits.push_back( m_obs_bins->GetBinLowEdge(i) );
-      contents.push_back( m_obs_bins->GetBinContent(i) );
-      errors.push_back( m_obs_bins->GetBinError(i) );
-
-      last = m_obs_bins->GetBinLowEdge(i+1);
-      used.push_back(true);
-    }
-    else { 
-      //      std::cout << "skip bin " << i << " : " << m_obs_bins->GetBinLowEdge(i) << " - " << m_obs_bins->GetBinLowEdge(i+1) << std::endl;
-      used.push_back(false);
-    }
-  }
-
-  int firstbin = 0;
-  int lastbin  = 0;
-
-  for ( unsigned i=0 ; i<used.size() ; i++ ) { 
-    if ( used[i] ) { 
-      firstbin = i;
-      break;
-    }
-  }
-  
-  for ( unsigned i=used.size() ; i-- ; ) { 
-    if ( used[i] ) { 
-      lastbin = i;
-      break;
-    }
-  }
-
-  std::cout << "grid::SetRange() bins chosen " << firstbin << " - " << lastbin << std::endl;
-
-
-  /// copy the range of the reference histogram
-  if ( limits.size()>0 ) limits.push_back( last );
-  else { 
-    throw grid::exception( std::cerr << "new range does not include any bins"  ); 
-  }
-
-  if ( xScaleFactor!=1 ) { 
-    for ( unsigned i=0 ; i<limits.size(); i++ ) limits[i] *= xScaleFactor;
-  }
-
-  /// delete combined reference if it exists
-
-  if ( m_obs_bins_combined != m_obs_bins ) delete m_obs_bins_combined;
-  
-
-  /// save bins somewhere so can overwrite them 
-  TH1D* h = m_obs_bins;
-  
-  m_obs_bins = new TH1D( h->GetTitle(), h->GetName(), limits.size()-1, &(limits[0]) );
-  
-  for ( int i=0 ; i<m_obs_bins->GetNbinsX() ; i++ ) { 
-    m_obs_bins->SetBinContent( i+1, contents[i] );
-    m_obs_bins->SetBinError( i+1, errors[i] );
-  }
-
-  /// copy the igrids for the observable bins in the range 
-
-  std::vector<igrid**> grids(appl::MAXGRIDS);
-
-  /// save old grids
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) grids[iorder] = m_grids[iorder];
-  
-  int _Nobs = m_obs_bins->GetNbinsX();
-
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    m_grids[iorder] = new igrid*[_Nobs];
-    int iobs = 0;
-    for ( int igrid=0 ; igrid<h->GetNbinsX() ; igrid++ ) {
-      if ( used[igrid] ) m_grids[iorder][iobs++] = grids[iorder][igrid];
-      else               delete grids[iorder][igrid];                           
-    }
-  }
-  
-  m_obs_bins_combined = m_obs_bins; 
-
-  delete h;
-
-}
+//void appl::grid::optimise(int NQ2, int Nx) {  optimise(NQ2, Nx, Nx);  }
+//
+//
+//
+//void appl::grid::optimise(int NQ2, int Nx1, int Nx2) {
+//  m_optimised = true;
+//  m_read = false;
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
+//      std::cout << "grid::optimise() bin " << iobs << "\t";
+//      m_grids[iorder][iobs]->optimise(NQ2, Nx1, Nx2);
+//    }
+//  }
+//  m_obs_bins->Reset();
+//}
+//
+//
+//
+//
+//// redefine the limits by hand
+//void appl::grid::redefine(int iobs, int iorder,
+//			  int NQ2, double Q2min, double Q2max, 
+//			  int Nx,  double  xmin, double  xmax ) 
+//{ 
+//  
+//  if  ( iorder>=m_order_ids.size() ) {
+//    std::cerr << "grid does not extend to this order" << std::endl;
+//    return;
+//  }
+//  
+//  if ( iobs<0 || iobs>=Nobs_internal() ) { 
+//    std::cerr << "observable bin out of range" << std::endl;
+//    return;
+//  }
+//  
+//  if ( iorder==0 ) { 
+//    std::cout << "grid::redefine() iobs=" << iobs 
+//	      << "NQ2="  << NQ2 << "\tQmin=" << std::sqrt(Q2min) << "\tQmax=" << std::sqrt(Q2max) 
+//	      << "\tNx=" << Nx  << "\txmin=" <<            xmin  << "\txmax=" <<            xmax << std::endl; 
+//  }
+//  
+//  igrid* oldgrid = m_grids[iorder][iobs];
+//  
+//  //  m_grids[iorder][iobs]->redefine(NQ2, Q2min, Q2max, Nx, xmin, xmax);
+//
+//  m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, oldgrid->tauorder(),
+//				    Nx,  xmin,  xmax,  oldgrid->yorder(), 
+//				    oldgrid->transform(), m_genpdf[iorder]->Nproc());
+//
+//  m_grids[iorder][iobs]->setparent( this ); 
+//
+//  delete oldgrid;
+//}
+//  
+//
+//
+//void appl::grid::setBinRange(int ilower, int iupper, double xScaleFactor) { 
+//  if ( ilower>=0 && iupper <Nobs_internal() ) {  
+//    double lower = getReference()->GetBinLowEdge(ilower+1);
+//    double upper = getReference()->GetBinLowEdge(iupper+2); 
+//    setRange( lower, upper, xScaleFactor );
+//  }
+//}
+//
+//
+//
+///// Fixme: need to fix this so that if the m_combine vector has values 
+/////        then the range of this vector is also modified
+/////        and then the combined reference recalculated:
+/////        at the moment, if the range is changed, the combine vector
+/////        needs to be recalculated and reset by hand
+//
+//void appl::grid::setRange(double lower, double upper, double xScaleFactor) { 
+//  
+//  std::cout << "grid::SetRange() " << lower << " " << upper << std::endl; 
+//
+//  std::vector<bool>   used;
+//  std::vector<double> limits;
+//  std::vector<double> contents;
+//  std::vector<double> errors;
+//
+//  m_combine = std::vector<int>(0);
+//
+//  /// get the occupied bins
+//  //  int Nbins = 0;
+//  double last = 0;
+//  for ( int i=1 ; i<=m_obs_bins->GetNbinsX() ; i++ ) { 
+//    double bin = m_obs_bins->GetBinCenter(i);
+//    if ( bin>lower && bin<upper ) { 
+//      limits.push_back( m_obs_bins->GetBinLowEdge(i) );
+//      contents.push_back( m_obs_bins->GetBinContent(i) );
+//      errors.push_back( m_obs_bins->GetBinError(i) );
+//
+//      last = m_obs_bins->GetBinLowEdge(i+1);
+//      used.push_back(true);
+//    }
+//    else { 
+//      //      std::cout << "skip bin " << i << " : " << m_obs_bins->GetBinLowEdge(i) << " - " << m_obs_bins->GetBinLowEdge(i+1) << std::endl;
+//      used.push_back(false);
+//    }
+//  }
+//
+//  int firstbin = 0;
+//  int lastbin  = 0;
+//
+//  for ( unsigned i=0 ; i<used.size() ; i++ ) { 
+//    if ( used[i] ) { 
+//      firstbin = i;
+//      break;
+//    }
+//  }
+//  
+//  for ( unsigned i=used.size() ; i-- ; ) { 
+//    if ( used[i] ) { 
+//      lastbin = i;
+//      break;
+//    }
+//  }
+//
+//  std::cout << "grid::SetRange() bins chosen " << firstbin << " - " << lastbin << std::endl;
+//
+//
+//  /// copy the range of the reference histogram
+//  if ( limits.size()>0 ) limits.push_back( last );
+//  else { 
+//    throw grid::exception( std::cerr << "new range does not include any bins"  ); 
+//  }
+//
+//  if ( xScaleFactor!=1 ) { 
+//    for ( unsigned i=0 ; i<limits.size(); i++ ) limits[i] *= xScaleFactor;
+//  }
+//
+//  /// delete combined reference if it exists
+//
+//  if ( m_obs_bins_combined != m_obs_bins ) delete m_obs_bins_combined;
+//  
+//
+//  /// save bins somewhere so can overwrite them 
+//  TH1D* h = m_obs_bins;
+//  
+//  m_obs_bins = new TH1D( h->GetTitle(), h->GetName(), limits.size()-1, &(limits[0]) );
+//  
+//  for ( int i=0 ; i<m_obs_bins->GetNbinsX() ; i++ ) { 
+//    m_obs_bins->SetBinContent( i+1, contents[i] );
+//    m_obs_bins->SetBinError( i+1, errors[i] );
+//  }
+//
+//  /// copy the igrids for the observable bins in the range 
+//
+//  std::vector<igrid**> grids(appl::MAXGRIDS);
+//
+//  /// save old grids
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) grids[iorder] = m_grids[iorder];
+//  
+//  int _Nobs = m_obs_bins->GetNbinsX();
+//
+//  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+//    m_grids[iorder] = new igrid*[_Nobs];
+//    int iobs = 0;
+//    for ( int igrid=0 ; igrid<h->GetNbinsX() ; igrid++ ) {
+//      if ( used[igrid] ) m_grids[iorder][iobs++] = grids[iorder][igrid];
+//      else               delete grids[iorder][igrid];                           
+//    }
+//  }
+//  
+//  m_obs_bins_combined = m_obs_bins; 
+//
+//  delete h;
+//
+//}
 
 
 /// methods to handle the documentation
@@ -2125,47 +2125,6 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
 }
 
 
-std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
-  
-  s << "==================================================" << std::endl;
-  
-  //  s << "appl::grid version " << g.version() << "\t(" << g.subProcesses(0) << " initial states, " << g.Nobs_internal() << " observable bins)" << std::endl;
-
-  std::string basis[5] = {  "-LO, ",  "-NLO, ",  "-NNLO, ", "-Xtra0", "-Xtra1" };  
-  std::vector<std::string> order(appl::MAXGRIDS);
-  for ( int i=0 ; i<appl::MAXGRIDS ; i++ ) { 
-    if ( i<5) order[i] = basis[i];
-    else      order[i] = "-Unknown";
-  }
-
-  s << "appl::grid version " << g.version() << "\t( "; 
-  for ( int i=0 ; i<g.nloops()+1 ; i++ ) s << g.subProcesses(i) << order[i];
-  s << "initial states, " << g.Nobs_internal() << " observable bins )" << std::endl;
-  if ( g.isOptimised() ) s << "Optimised grid" << std::endl;
-  if ( g.isSymmetric() ) s << "Symmetrised in x1, x2" << std::endl;
-  else                   s << "Unsymmetrised in x1, x2" << std::endl;
-  if ( g.getNormalised() ) s << "Normalised " << std::endl;
-  s << "number of loops for grid    " << g.nloops() << std::endl;   
-  s << "x->y coordinate transform:  "  << g.getTransform() << std::endl;
-  s << "genpdf in use: " << g.getGenpdf() << std::endl;
-  s << "--------------------------------------------------" << std::endl;
-  s << "Observable binning: [ " << g.Nobs_internal() 
-    << " bins : " << g.obsmin() << ",  " << g.obsmax() << " ]" << std::endl;
-
-  //  for( int iorder=0 ; iorder<1 ; iorder++ ) {
-  for( int iobs=0 ; iobs<g.Nobs_internal() ; iobs++ ) {
-    s << iobs << "\t" 
-      << std::setprecision(5) << std::setw(5) << g.getReference()->GetBinLowEdge(iobs+1) << "\t- " 
-      << std::setprecision(5) << std::setw(5) << g.getReference()->GetBinLowEdge(iobs+2) << "\t"; 
-    s << "   " << *(g.weightgrid(0,iobs)) << std::endl;
-  }
-  //  }
-
-  s << std::endl;
-  
-  return s;
-}
-
 appl::grid::grid(std::vector<appl::grid>&& grids)
     // TODO: check if all of the following member variables are set correctly
     : m_optimised(false)
@@ -2397,3 +2356,44 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
         m_genpdf.at(i) = grids.front().m_genpdf[i];
     }
 }
+
+//std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
+//  
+//  s << "==================================================" << std::endl;
+//  
+//  //  s << "appl::grid version " << g.version() << "\t(" << g.subProcesses(0) << " initial states, " << g.Nobs_internal() << " observable bins)" << std::endl;
+//
+//  std::string basis[5] = {  "-LO, ",  "-NLO, ",  "-NNLO, ", "-Xtra0", "-Xtra1" };  
+//  std::vector<std::string> order(appl::MAXGRIDS);
+//  for ( int i=0 ; i<appl::MAXGRIDS ; i++ ) { 
+//    if ( i<5) order[i] = basis[i];
+//    else      order[i] = "-Unknown";
+//  }
+//
+//  s << "appl::grid version " << g.version() << "\t( "; 
+//  for ( int i=0 ; i<g.nloops()+1 ; i++ ) s << g.subProcesses(i) << order[i];
+//  s << "initial states, " << g.Nobs_internal() << " observable bins )" << std::endl;
+//  if ( g.isOptimised() ) s << "Optimised grid" << std::endl;
+//  if ( g.isSymmetric() ) s << "Symmetrised in x1, x2" << std::endl;
+//  else                   s << "Unsymmetrised in x1, x2" << std::endl;
+//  if ( g.getNormalised() ) s << "Normalised " << std::endl;
+//  s << "number of loops for grid    " << g.nloops() << std::endl;   
+//  s << "x->y coordinate transform:  "  << g.getTransform() << std::endl;
+//  s << "genpdf in use: " << g.getGenpdf() << std::endl;
+//  s << "--------------------------------------------------" << std::endl;
+//  s << "Observable binning: [ " << g.Nobs_internal() 
+//    << " bins : " << g.obsmin() << ",  " << g.obsmax() << " ]" << std::endl;
+//
+//  //  for( int iorder=0 ; iorder<1 ; iorder++ ) {
+//  for( int iobs=0 ; iobs<g.Nobs_internal() ; iobs++ ) {
+//    s << iobs << "\t" 
+//      << std::setprecision(5) << std::setw(5) << g.getReference()->GetBinLowEdge(iobs+1) << "\t- " 
+//      << std::setprecision(5) << std::setw(5) << g.getReference()->GetBinLowEdge(iobs+2) << "\t"; 
+//    s << "   " << *(g.weightgrid(0,iobs)) << std::endl;
+//  }
+//  //  }
+//
+//  s << std::endl;
+//  
+//  return s;
+//}

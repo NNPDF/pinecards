@@ -17,10 +17,6 @@ set mur_ref_fixed 172.5
 set muf_ref_fixed 172.5
 set reweight_scale False
 set req_acc_FO 0.01
-set iappl 0
-done
-launch CMSTTBARTOT13TEV
-fixed_order = ON
 set iappl 1
 done
 launch CMSTTBARTOT13TEV
@@ -29,5 +25,3 @@ set req_acc_FO 0.001
 set iappl 2
 done
 quit
-
-

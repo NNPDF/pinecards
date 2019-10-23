@@ -14,10 +14,6 @@ set lhaid 324900
 set dynamical_scale_choice 10
 set reweight_scale False
 set req_acc_FO 0.01
-set iappl 0
-done
-launch ATLASTOPDIFF8TEVTRAPNORM
-fixed_order = ON
 set iappl 1
 done
 launch ATLASTOPDIFF8TEVTRAPNORM
@@ -26,5 +22,3 @@ set req_acc_FO 0.001
 set iappl 2
 done
 quit
-
-

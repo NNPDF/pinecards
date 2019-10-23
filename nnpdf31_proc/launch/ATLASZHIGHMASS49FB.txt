@@ -14,10 +14,6 @@ set reweight_scale False
 set ptl = 25.0
 set etal = 2.5
 set req_acc_FO 0.01
-set iappl 0
-done
-launch ATLASZHIGHMASS49FB
-fixed_order = ON
 set iappl 1
 done
 launch ATLASZHIGHMASS49FB

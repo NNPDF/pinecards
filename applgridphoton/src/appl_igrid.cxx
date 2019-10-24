@@ -153,39 +153,39 @@ appl::igrid::igrid(int NQ2, double Q2min, double Q2max, int Q2order,
 
 
 
-//// copy constructor
-//appl::igrid::igrid(const appl::igrid& g) : 
-//  mfy(0),  mfx(0),  
-//  m_parent(0),
-//  m_Ny1(g.m_Ny1),     
-//  m_y1min(g.m_y1min),     m_y1max(g.m_y1max),     m_deltay1(g.m_deltay1),   
-//  m_Ny2(g.m_Ny2),     
-//  m_y2min(g.m_y2min),     m_y2max(g.m_y2max),     m_deltay2(g.m_deltay2),   
-//  m_yorder(g.m_yorder),   
-//  m_Ntau(g.m_Ntau), 
-//  m_taumin(g.m_taumin), m_taumax(g.m_taumax), m_deltatau(g.m_deltatau), m_tauorder(g.m_tauorder), 
-//  m_Nproc(g.m_Nproc),
-//  m_transform(g.m_transform), 
-//  //  m_transvarlocal(g.m_transvarlocal),
-//  m_transvar(g.m_transvar),
-//  m_reweight(g.m_reweight),
-//  m_symmetrise(g.m_symmetrise),
-//  m_optimised(g.m_optimised),
-//  m_weight(NULL),
-//  m_fg1(NULL),     m_fg2(NULL),
-//  m_fsplit1(NULL), m_fsplit2(NULL),
-//  m_alphas(NULL)   
-//{
-//  init_fmap();
-//  if ( m_fmap.find(m_transform)==m_fmap.end() ) throw exception("igrid::igrid() transform " + m_transform + " not found\n");
-//  mfx = m_fmap.find(m_transform)->second.mfx;
-//  mfy = m_fmap.find(m_transform)->second.mfy;
-//
-//
-//  m_weight = new SparseMatrix3d*[m_Nproc];
-//  for( int ip=0 ; ip<m_Nproc ; ip++ )   m_weight[ip] = new SparseMatrix3d(*g.m_weight[ip]);
-//  //  construct();
-//}
+// copy constructor
+appl::igrid::igrid(const appl::igrid& g) : 
+  mfy(0),  mfx(0),  
+  m_parent(0),
+  m_Ny1(g.m_Ny1),     
+  m_y1min(g.m_y1min),     m_y1max(g.m_y1max),     m_deltay1(g.m_deltay1),   
+  m_Ny2(g.m_Ny2),     
+  m_y2min(g.m_y2min),     m_y2max(g.m_y2max),     m_deltay2(g.m_deltay2),   
+  m_yorder(g.m_yorder),   
+  m_Ntau(g.m_Ntau), 
+  m_taumin(g.m_taumin), m_taumax(g.m_taumax), m_deltatau(g.m_deltatau), m_tauorder(g.m_tauorder), 
+  m_Nproc(g.m_Nproc),
+  m_transform(g.m_transform), 
+  //  m_transvarlocal(g.m_transvarlocal),
+  m_transvar(g.m_transvar),
+  m_reweight(g.m_reweight),
+  m_symmetrise(g.m_symmetrise),
+  m_optimised(g.m_optimised),
+  m_weight(NULL),
+  m_fg1(NULL),     m_fg2(NULL),
+  m_fsplit1(NULL), m_fsplit2(NULL),
+  m_alphas(NULL)   
+{
+  init_fmap();
+  if ( m_fmap.find(m_transform)==m_fmap.end() ) throw exception("igrid::igrid() transform " + m_transform + " not found\n");
+  mfx = m_fmap.find(m_transform)->second.mfx;
+  mfy = m_fmap.find(m_transform)->second.mfy;
+
+
+  m_weight = new SparseMatrix3d*[m_Nproc];
+  for( int ip=0 ; ip<m_Nproc ; ip++ )   m_weight[ip] = new SparseMatrix3d(*g.m_weight[ip]);
+  //  construct();
+}
 
 
 // read from a file 
@@ -1424,43 +1424,43 @@ void appl::igrid::untrim() {
   for ( int i=0 ; i<m_Nproc ; i++ ) m_weight[i]->untrim();
 }
 
-//// numerical operators
-//appl::igrid& appl::igrid::operator=(const appl::igrid& g) { 
-//  m_Ny1     = g.m_Ny1;
-//  m_y1min   = g.m_y1min;
-//  m_y1max   = g.m_y1max;
-//  m_deltay1 = g.m_deltay1;
-//
-//  m_Ny2     = g.m_Ny2;
-//  m_y2min   = g.m_y2min;
-//  m_y2max   = g.m_y2max;
-//  m_deltay2 = g.m_deltay2;
-//
-//  m_yorder = g.m_yorder;
-//   
-//  m_Ntau     = g.m_Ntau;
-//  m_taumin   = g.m_taumin;
-//  m_taumax   = g.m_taumax;
-//  m_deltatau = g.m_deltatau;
-//
-//  m_tauorder = g.m_tauorder;
-// 
-//  m_fg1      = NULL;
-//  m_fg2      = NULL;
-//  
-//  //  construct();
-//
-//  //  m_weight = new SparseMatrix3d*[m_Nproc];
-//
-//  for( int ip=0 ; ip<m_Nproc ; ip++ ) { 
-//    // delete old sparse matrix
-//    delete m_weight[ip];
-//    // create new
-//    m_weight[ip] = new SparseMatrix3d(*g.m_weight[ip]);
-//  }
-//
-//  return *this;
-//}
+// numerical operators
+appl::igrid& appl::igrid::operator=(const appl::igrid& g) { 
+  m_Ny1     = g.m_Ny1;
+  m_y1min   = g.m_y1min;
+  m_y1max   = g.m_y1max;
+  m_deltay1 = g.m_deltay1;
+
+  m_Ny2     = g.m_Ny2;
+  m_y2min   = g.m_y2min;
+  m_y2max   = g.m_y2max;
+  m_deltay2 = g.m_deltay2;
+
+  m_yorder = g.m_yorder;
+   
+  m_Ntau     = g.m_Ntau;
+  m_taumin   = g.m_taumin;
+  m_taumax   = g.m_taumax;
+  m_deltatau = g.m_deltatau;
+
+  m_tauorder = g.m_tauorder;
+ 
+  m_fg1      = NULL;
+  m_fg2      = NULL;
+  
+  //  construct();
+
+  //  m_weight = new SparseMatrix3d*[m_Nproc];
+
+  for( int ip=0 ; ip<m_Nproc ; ip++ ) { 
+    // delete old sparse matrix
+    delete m_weight[ip];
+    // create new
+    m_weight[ip] = new SparseMatrix3d(*g.m_weight[ip]);
+  }
+
+  return *this;
+}
 
 appl::igrid& appl::igrid::operator*=(const double& d) {
   for ( int ip=0 ; ip<m_Nproc ; ip++ ) if ( m_weight[ip] ) (*m_weight[ip]) *= d;

@@ -77,7 +77,7 @@ public:
 	int Nx=50, double xmin=1e-5,     double xmax=0.9,          int xorder=5, 
 	std::string transform="f", int Nproc=6, bool disflag=false);
 
-//  igrid(const igrid& g);
+  igrid(const igrid& g);
 
   // read grid from stored file
   igrid(TFile& f, const std::string& s);
@@ -338,8 +338,8 @@ public:
   
   
 
-//  // some useful algebraic operators
-//  igrid& operator=(const igrid& g); 
+  // some useful algebraic operators
+  igrid& operator=(const igrid& g); 
   
   igrid& operator*=(const double& d);
 

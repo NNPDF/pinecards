@@ -284,8 +284,6 @@ protected:
 
   static const std::string m_version;
 
-  double m_cmsScale;
-
   std::string m_documentation;
   
   std::vector<double>                m_ckmsum;

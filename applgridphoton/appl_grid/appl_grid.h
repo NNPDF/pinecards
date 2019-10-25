@@ -262,8 +262,6 @@ protected:
 
   double m_cmsScale;
 
-  double m_dynamicScale;
-
   std::string m_documentation;
   
   std::vector<double>                m_ckmsum;

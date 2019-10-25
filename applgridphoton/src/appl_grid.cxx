@@ -118,7 +118,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname),
   m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0), m_dynamicScale(0),
+  m_cmsScale(0),
   m_documentation(""),
   m_read(false),
   m_subproc(-1),
@@ -161,7 +161,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_normalised(false),
   m_symmetrise(false), m_transform(""), 
   m_genpdf(appl::MAXGRIDS),
-  m_dynamicScale(0),
   m_documentation(""),
   m_read(false),
   m_subproc(-1),
@@ -943,7 +942,7 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 #ifdef HAVE_HOPPET
   // check if we need to use the splitting function, and if so see if we 
   // need to initialise it again, and do so if required
-  if ( fscale_factor!=1 || m_dynamicScale ) {
+  if ( fscale_factor!=1 ) {
 
     if ( pdf2==0 || pdf1==pdf2 ) { 
 

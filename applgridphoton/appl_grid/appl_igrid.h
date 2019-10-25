@@ -123,8 +123,7 @@ public:
   void add_transform(const std::string transform, transform_t __fx, transform_t __fy );
 
   // this is significantly quicker than pow(x,1.5)*pow(1-0.99*x,3) 
-  static double _fun(double x)      { double n=(1-0.99*x); return std::sqrt(x*x*x)/(n*n*n); } 
-  static double weightfun(double x) { return _fun(x); }
+  static double weightfun(double x) { double n=(1-0.99*x); return std::sqrt(x*x*x)/(n*n*n); }
   
 
   // using log(log(Q2/mLambda)) or just log(log(Q2)) makes 

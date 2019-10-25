@@ -432,13 +432,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   //  std::cout << "read grid" << std::endl;
 
-  /// read in the user data
-  if ( n_userdata ) { 
-    TVectorT<double>* userdata=(TVectorT<double>*)gridfilep->Get((dirname+"/UserData").c_str());
-    m_userdata.clear();
-    for ( int i=0 ; i<n_userdata ; i++ ) m_userdata.push_back( (*userdata)(i) );
-  }
-
   gridfilep->Close();
   delete gridfilep;
 
@@ -759,8 +752,6 @@ void appl::grid::Write(const std::string& filename,
   if ( m_genpdf[0]->getckmsum().size()==0 ) (*setup)(9) = 0;
   else                                      (*setup)(9) = 1;
 
-  (*setup)(11) = m_userdata.size();
-
   (*setup)(12) = m_order_ids.size();
   for (std::size_t i = 0; i != m_order_ids.size(); ++i)
   {
@@ -885,16 +876,6 @@ void appl::grid::Write(const std::string& filename,
     for ( unsigned i=m_combine.size() ; i-- ; ) (*_combine)(i) = m_combine[i]+0.5; /// NB: add 0.5 to prevent root double -> int rounding errors
     _combine->Write( "CombineBins" );
   }
-
-
-  /// now write out the user data
-
-  if ( m_userdata.size() ) { 
-    TVectorT<double>* userdata=new TVectorT<double>(m_userdata.size()); // add a few extra just in case 
-    for ( unsigned i=0 ; i<m_userdata.size() ; i++ ) (*userdata)(i) = m_userdata[i];
-    userdata->Write("UserData");
-  }
-
 
   //  std::cout << "close file" << std::endl;
 

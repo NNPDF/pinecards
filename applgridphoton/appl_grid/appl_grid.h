@@ -277,8 +277,6 @@ protected:
   int  m_subproc;
   int  m_bin;
 
-  std::vector<double> m_userdata;
-
   std::vector<order_id> m_order_ids;
 };
 

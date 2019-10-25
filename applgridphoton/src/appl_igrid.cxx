@@ -31,6 +31,39 @@
 
 #include "TFileString.h"
 
+namespace
+{
+
+// fast -1^i function
+int pow1(int i) { return ( 1&i ? -1 : 1 ); }
+
+// fast factorial
+double fac(int i) {
+  int j;
+  static int ntop = 4;
+  static double f[34] = { 1, 1, 2, 6, 24 };
+  if ( i<0 )  {  std::cerr << "igrid::fac() negative input"  << std::endl; return 0;  }
+  if ( i>33 ) {  std::cerr << "igrid::fac() input too large" << std::endl; return 0;  }
+  while ( ntop<i ) {
+    j=ntop++;
+    f[ntop]=f[j]*ntop;
+  }
+  return f[i];
+}
+
+// although not the best way to calculate interpolation coefficients,
+// it may be the best for our use, where the "y" values of the nodes
+// are not yet defined at the time of evaluation.
+double fI(int i, int n, double u) {
+  if ( n==0 && i==0 )     return 1.0;
+  if ( std::fabs(u-i)<1e-8 ) return 1.0;
+  //    if ( std::fabs(u-n)<u*1e-8 ) return 1.0;
+  double product = pow1(n-i) / ( fac(i)*fac(n-i)*(u-i) );
+  for( int z=0 ; z<=n ; z++ )  product *= (u-z);
+  return product;
+}
+
+}
 
 // splitting function code
 

@@ -37,7 +37,6 @@ lib_LTLIBRARIES = libAPPLgrid.la
 libAPPLgrid_la_SOURCES = \
 	Cache.h \
 	Directory.h \
-	Sparse3d.h \
 	SparseMatrix3d.cxx \
 	SparseMatrix3d.h \
 	TFileString.cxx \

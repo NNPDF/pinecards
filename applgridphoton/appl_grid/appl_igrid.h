@@ -120,9 +120,6 @@ public:
 
   std::string transform() const { return m_transform; } 
 
-  transform_t mfy;
-  transform_t mfx;
-
   // initialise the transform map - no longer shared between class members
   void init_fmap() { 
     if ( m_fmap.size()==0 ) { 
@@ -392,6 +389,9 @@ public:
   void setparent( grid* parent ) { m_parent=parent; }
 
 private:
+
+  transform_t mfy;
+  transform_t mfx;
 
 
   /// parent grid so that it can access parent 

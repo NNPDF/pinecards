@@ -40,9 +40,6 @@ namespace appl {
 class igrid;
 class appl_pdf;
 
-
-const int MAXGRIDS = 64;
-
 class order_id
 {
 public:

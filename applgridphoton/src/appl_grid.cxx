@@ -116,7 +116,18 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
   findgenpdf( m_genpdfname );
 
-  construct(Nobs, NQ2, Q2min, Q2max, Q2order, Nx, xmin, xmax, xorder, m_order_ids.size(), m_transform);
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = 0;
+
+  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+    m_grids[iorder] = new igrid*[Nobs];
+    for ( int iobs=0 ; iobs<Nobs ; iobs++ ) {
+      m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, Q2order,
+					Nx, xmin, xmax, xorder,
+					m_transform, m_genpdf[iorder]->Nproc());
+      m_grids[iorder][iobs]->setparent( this );
+    }
+  }
+  //  std::cout << "appl::grid::construct() return" << std::endl;
 }
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
@@ -424,28 +435,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   std::cout << "\ttrim in " << tstop2 << " ms" << std::endl;
 
-}
-
-// Initialize histogram that saves the correspondence obsvalue<->obsbin
-
-// constructor common internals 
-void appl::grid::construct(int Nobs, 
-			   int NQ2,  double Q2min, double Q2max, int Q2order,
-			   int Nx,   double xmin,  double xmax,  int xorder, 
-			   int order, 
-			   std::string transform ) { 
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = 0;
-
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
-    m_grids[iorder] = new igrid*[Nobs];
-    for ( int iobs=0 ; iobs<Nobs ; iobs++ ) {
-      m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, Q2order, 
-					Nx, xmin, xmax, xorder, 
-					transform, m_genpdf[iorder]->Nproc());
-      m_grids[iorder][iobs]->setparent( this ); 
-    }
-  }
-  //  std::cout << "appl::grid::construct() return" << std::endl; 
 }
 
 std::vector<appl::order_id> const& appl::grid::order_ids() const

@@ -271,6 +271,8 @@ protected:
 
   bool   m_symmetrise; 
  
+  bool            m_read;
+
   // transform and pdf combination tags
   std::string m_transform; 
   std::string m_genpdfname; 
@@ -281,8 +283,6 @@ protected:
   static const std::string m_version;
 
   std::string m_documentation;
-
-  bool            m_read;
 
   std::vector<int> m_combine;
 

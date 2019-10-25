@@ -366,7 +366,55 @@ void appl::igrid::deleteweights() {
   }
 }
 
+int appl::igrid::fk1(double x) const {
+  double y = fy(x);
+  // make sure we are in the range covered by our binning
+  if( y<y1min() || y>y1max() ) {
+    if ( y<y1min() ) std::cerr <<"\tWarning: x1 out of range: x=" << x << "\t(y=" << y << ")\tBelow Delx=" << x-fx(y1min());
+    else             std::cerr <<"\tWarning: x1 out of range: x=" << x << "\t(y=" << y << ")\tAbove Delx=" << x-fx(y1min());
+    std::cerr << " ( " <<  fx(y1max())  << " - " <<  fx(y1min())  << " )"
+    << "\ty=" << y << "\tDely=" << y-y1min() << " ( " << y1min() << " - " <<  y1max()  << " )" << std::endl;
+    //     cerr << "\t" << m_weight[0]->yaxis() << "\n\t"
+    //          << m_weight[0]->yaxis().transform(fx) << std::endl;
+  }
+  int k = (int)((y-y1min())/deltay1() - (m_yorder>>1)); // fast integer divide by 2
+  if ( k<0 ) k=0;
+  // shift interpolation end nodes to enforce range
+  if(k+m_yorder>=Ny1())  k=Ny1()-1-m_yorder;
+  return k;
+}
 
+int appl::igrid::fk2(double x) const {
+  double y = fy(x);
+  // make sure we are in the range covered by our binning
+  if( y<y2min() || y>y2max() ) {
+    if ( y<y2min() ) std::cerr <<"\tWarning: x2 out of range: x=" << x << "\t(y=" << y << ")\tBelow Delx=" << x-fx(y2min());
+    else             std::cerr <<"\tWarning: x2 out of range: x=" << x << "\t(y=" << y << ")\tAbove Delx=" << x-fx(y2min());
+    std::cerr << " ( " <<  fx(y2max())  << " - " <<  fx(y2min())  << " )"
+     << "\ty=" << y << "\tdely=" << y-y2min() << " ( " << y2min() << " - " <<  y2max()  << " )" << std::endl;
+    //     cerr << "\t" << m_weight[0]->yaxis() << "\n\t" << m_weight[0]->yaxis().transform(fx) << std::endl;
+  }
+  int k = (int)((y-y2min())/deltay2() - (m_yorder>>1)); // fast integer divide by 2
+  if ( k<0 ) k=0;
+  // shift interpolation end nodes to enforce range
+  if(k+m_yorder>=Ny2())  k=Ny2()-1-m_yorder;
+  return k;
+}
+
+int appl::igrid::fkappa(double Q2) const {
+  double tau = ftau(Q2);
+  // make sure we are in the range covered by our binning
+  if( tau<taumin() || tau>taumax() ) {
+    std::cerr << "\tWarning: Q2 out of range Q2=" << Q2
+    << "\t ( " << fQ2(taumin()) << " - " << fQ2(taumax()) << " )" << std::endl;
+    //      cerr << "\t" << m_weight[0]->xaxis() << "\n\t" << m_weight[0]->xaxis().transform(fQ2) << std::endl;
+  }
+  int kappa = (int)((tau-taumin())/deltatau() - (m_tauorder>>1)); // fast integer divide by 2
+  // shift interpolation end nodes to enforce range
+  if(kappa+m_tauorder>=Ntau()) kappa=Ntau()-1-m_tauorder;
+  if(kappa<0) kappa=0;
+  return kappa;
+}
 
 
 // write to file
@@ -525,6 +573,69 @@ void appl::igrid::fill_phasespace(const double x1, const double x2, const double
   for ( int ip=0 ; ip<m_Nproc ; ip++ ) (*m_weight[ip])(k3, k1, k2) += weight[ip];
 
 } 
+
+// initialise the transform map - no longer shared between class members
+void appl::igrid::init_fmap() {
+  if ( m_fmap.size()==0 ) {
+    add_transform( "f",  &igrid::_fx,  &igrid::_fy  );
+    add_transform( "f0", &igrid::_fx0, &igrid::_fy0  );
+    add_transform( "f1", &igrid::_fx1, &igrid::_fy1  );
+    add_transform( "f2", &igrid::_fx2, &igrid::_fy2  );
+    add_transform( "f3", &igrid::_fx3, &igrid::_fy3  );
+    add_transform( "f4", &igrid::_fx4, &igrid::_fy4  );
+  }
+}
+
+/// add a transform
+void appl::igrid::add_transform(const std::string transform, transform_t __fx, transform_t __fy ) {
+  if ( m_fmap.find(transform)!=m_fmap.end() ) {
+    throw exception("igrid::add_fmap() transform "+transform+" already in std::map");
+  }
+  m_fmap[transform] = transform_vec( __fx, __fy );
+}
+
+// define all these so that ymin=fy(xmin) rather than ymin=fy(xmax)
+double appl::igrid::_fy(double x) const { return std::log(1/x-1); }
+double appl::igrid::_fx(double y) const { return 1/(1+std::exp(y)); }
+
+double appl::igrid::_fy0(double x) const { return -std::log(x); }
+double appl::igrid::_fx0(double y) const { return  std::exp(-y); }
+
+double appl::igrid::_fy1(double x) const { return std::sqrt(-std::log(x)); }
+double appl::igrid::_fx1(double y) const { return std::exp(-y*y); }
+
+double appl::igrid::_fy2(double x) const { return -std::log(x)+m_transvar*(1-x); }
+double appl::igrid::_fx2(double y) const {
+  // use Newton-Raphson: y = ln(1/x)
+  // solve   y - yp - a(1 - exp(-yp)) = 0
+  // deriv:  - 1 -a exp(-yp)
+
+  if ( m_transvar==0 )  return std::exp(-y);
+
+  const double eps  = 1e-12;  // our accuracy goal
+  const int    imax = 100;    // for safety (avoid infinite loops)
+
+  double yp = y;
+  double x, delta, deriv;
+  for ( int iter=imax ; iter-- ; ) {
+    x = std::exp(-yp);
+    delta = y - yp - m_transvar*(1-x);
+    if ( std::fabs(delta)<eps ) return x; // we have found good solution
+    deriv = -1 - m_transvar*x;
+    yp  -= delta/deriv;
+  }
+  // exceeded maximum iterations
+  std::cerr << "_fx2() iteration limit reached y=" << y << std::endl;
+  std::cout << "_fx2() iteration limit reached y=" << y << std::endl;
+  return std::exp(-yp);
+}
+
+double appl::igrid::_fy3(double x) const { return std::sqrt(-std::log10(x)); }
+double appl::igrid::_fx3(double y) const { return std::pow(10,-y*y); }
+
+// fastnlo dis transform
+double appl::igrid::_fy4(double x) const { return -std::log10(x); }
+double appl::igrid::_fx4(double y) const { return  std::pow(10,-y); }
 
 double appl::igrid::gety1(int iy) const { return m_weight[0]->yaxis()[iy]; }
 

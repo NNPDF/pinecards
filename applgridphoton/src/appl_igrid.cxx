@@ -44,32 +44,6 @@ void Splitting(const double& x, const double& Q, double* f);
 // variable tranformation parameters
 double appl::igrid::transvar = 5;
 
-
-//appl::igrid::igrid() : 
-//  mfy(0),   mfx(0),
-//  m_parent(0),
-//  m_Ny1(0),   m_y1min(0),   m_y1max(0),   m_deltay1(0),
-//  m_Ny2(0),   m_y2min(0),   m_y2max(0),   m_deltay2(0),
-//  m_yorder(0),   
-//  m_Ntau(0), m_taumin(0), m_taumax(0), m_deltatau(0),   m_tauorder(0), 
-//  m_Nproc(0),
-//  m_transform(""), 
-//  //  m_transvarlocal(m_transvar),
-//  m_transvar(transvar),
-//  m_reweight(false),
-//  m_symmetrise(false),
-//  m_optimised(false),
-//  m_weight(0),
-//  m_fg1(0),     m_fg2(0),
-//  m_fsplit1(0), m_fsplit2(0),
-//  m_alphas(0) { 
-//
-//  //  std::cout << "igrid() (default) Ntau=" << m_Ntau << "\t" << fQ2(m_taumin) << " - " << fQ2(m_taumax) << std::endl;
-//
-//} 
-
-
-
 // standard constructor
 appl::igrid::igrid(int NQ2, double Q2min, double Q2max, int Q2order, 
 		   int Nx,  double xmin,  double xmax,  int xorder, 
@@ -556,23 +530,6 @@ void appl::igrid::fill_phasespace(const double x1, const double x2, const double
 
 } 
 
-
-
-
-
-//void appl::igrid::fill_index(const int ix1, const int ix2, const int iQ2, const double* weight) { 
-//
-//  //  int k1=ix1;
-//  //  int k2=ix2;
-//  //  int k3=iQ2;
-//
-//  //  for ( int ip=0 ; ip<m_Nproc ; ip++ ) (*m_weight[ip])(i3, k1, k2) += weight[ip];
-//
-//  for ( int ip=0 ; ip<m_Nproc ; ip++ ) (*m_weight[ip])(iQ2, ix1, ix2) += weight[ip];
-//
-//} 
-
-
 double appl::igrid::gety1(int iy) const { return m_weight[0]->yaxis()[iy]; }
 
 double appl::igrid::gety2(int iy) const { return m_weight[0]->zaxis()[iy]; }
@@ -593,12 +550,6 @@ int    appl::igrid::Ntau()     const { return m_weight[0]->xaxis().N(); }
 double appl::igrid::taumin()   const { return m_weight[0]->xaxis().min(); }
 double appl::igrid::taumax()   const { return m_weight[0]->xaxis().max(); }
 double appl::igrid::deltatau() const { return m_weight[0]->xaxis().delta(); }
-
-//int    appl::igrid::getNQ2()     const { return m_weight[0]->xaxis().N(); }
-//
-//int    appl::igrid::getNx1()     const { return m_weight[0]->yaxis().N(); }
-//
-//int    appl::igrid::getNx2()     const { return m_weight[0]->zaxis().N(); }
 
 void appl::igrid::setuppdf(double (*alphas)(const double&),
 			   NodeCache* pdf0,
@@ -793,231 +744,6 @@ void appl::igrid::setuppdf(double (*alphas)(const double&),
   } // loop over itau
 
 }
-
-
-
-
-//#if 0
-//void igrid::pdfinterp(double x, double Q2, double* f)
-//{
-//  int k1=fk1(x);
-//  int k3=fkappa(Q2);
-//
-//  double u_y1  = ( fy(x)-gety1(k1) )/deltay1();
-//  double u_tau = ( ftau(Q2)-gettau(k3))/deltatau();
-//
-//  //  double rint = 0.;
-//
-//  for ( int i=0 ; i<14 ; i++ ) f[i]=0.;
-//
-//  double fI_factor;
-//
-//  for( int i3=0 ; i3<=m_tauorder ; i3++ ) { // interpolation loop in Q2
-//   
-//    //    double fI3 = fI(i3, m_tauorder, u_tau);
-//
-//    for( int i1=0 ; i1<=m_yorder ; i1++ ) { // interpolation loop in x1
-//      
-//      //      double fI1 = fI(i1, m_yorder, u_y1); 
-//
-//      fI_factor=fI(i1, m_yorder, u_y1) * fI(i3, m_tauorder, u_tau);
-//                    
-//      for ( int ip1=0 ; ip1<14 ; ip1++ ) { 
-//	f[ip1] += fI_factor*m_fg1[k3+i3][std::abs(k1+i1)][ip1];     
-//      }
-//    }
-//  }
-//   
-//  double fun = weightfun(x); 
-//
-//  if ( m_reweight ) for ( int ip1=0 ; ip1<14 ; ip1++ ) f[ip1] /= fun;
-//
-//}
-//#endif
-//
-//// takes pdf as the pdf lib wrapper for the pdf set for the convolution.
-//// takes genpdf as a function to form the generalised parton distribution.
-//// alphas is a function for the calculation of alpha_s (surprisingly)
-//// lo_order is the order of the calculation, ie for inclusive, or two jets, 
-//// it's O(alpha_s) (ie lo_order=1) and for 3 jet it would be O(alpha_s^2)
-//// (ie lo_order=2)
-//// nloop is the number of loops, ie for the leading order component it is
-//// 0, for the nlo component, interestingly it is also 0, since the leading order
-//// grids are seperate from the nlo grids, if nloop=1 then we must be calculating 
-//// {r,f}scale_factor ie f*mu then *scale_factor=f
-//// splitting, is the splitting function 
-//double appl::igrid::convolute(NodeCache* pdf0,
-//			      NodeCache* pdf1,
-//			      appl_pdf*  genpdf,
-//			      double (*alphas)(const double& ), 
-//			      int     lo_order,  
-//			      int     _nloop, 
-//			      double  rscale_factor,
-//			      double  fscale_factor,
-//			      double Escale) 
-//{ 
-//
-//  //  m_transvar = m_transvarlocal;
-//
-//  int nloop = std::fabs(_nloop);
-//
-//  if ( pdf1==0 ) pdf1 = pdf0; 
-//
-//  //char name[]="appl_grid:igrid::convolute(): ";
-//  static const double twopi = 2*M_PI;
-//  static const int nc = 3;
-//  //TC   const int nf = 6;
-//  static const int nf = 5;
-//  static double beta0=(11.*nc-2.*nf)/(6.*twopi);
-//  //const bool debug=false;  
-//
-//  double alphas_tmp = 0.;  
-//  double dsigma  = 0.; //, xsigma = 0.;
-//  double _alphas = 1.;
-//  double  alphaplus1 = 0.;
-//  // do the convolution  
-//  // if (debug) std::cout<<name<<" nloop= "<<nloop<<endl;
-//  //  std::cout << "\torder=" << lo_order << "\tnloop=" << nloop << std::endl;
-//  // is the grid empty
-//  int size=0;
-//  for ( int ip=0 ; ip<m_Nproc ; ip++ ) { 
-//    if ( !m_weight[ip]->trimmed() )  {
-//      //  std::cout << "igrid::convolute() naughty, naughty!" << std::endl;
-//      m_weight[ip]->trim();
-//    }
-//    size += m_weight[ip]->xmax() - m_weight[ip]->xmin() + 1;
-//  }
-//
-//
-//
-//  // grid is empty
-//  if ( size==0 )  return 0;
-//
-//  // 
-//  //  if ( m_fg1==NULL ) setuppdf(pdf);
-//  setuppdf( alphas, pdf0, pdf1, nloop, rscale_factor, fscale_factor, Escale);
-//
-//  double* sig = new double[m_Nproc];  // weights from grid
-//  double* H   = new double[m_Nproc];  // generalised pdf  
-//  double* HA  = NULL;  // generalised splitting functions
-//  double* HB  = NULL;  // generalised splitting functions
-//  if ( nloop==1 && fscale_factor!=1 ) { 
-//    HA  = new double[m_Nproc];  // generalised splitting functions
-//    HB  = new double[m_Nproc];  // generalised splitting functions
-//  }
-//
-//  // cross section for this igrid  
-//
-//  // loop over the grid 
-//  // 
-//  for ( int itau=0 ; itau<Ntau() ; itau++  ) {
-//    _alphas  = 1;    
-//    alphas_tmp = m_alphas[itau];
-//    for ( int iorder=0 ; iorder<lo_order ; iorder++ ) _alphas *= alphas_tmp;
-//    alphaplus1 = _alphas*alphas_tmp;
-//
-//    //    for ( int iy1=0 ; iy1<Ny1() ; iy1++ ) {            
-//    //      for ( int iy2=0 ; iy2<Ny2() ; iy2++ ) { 
-//    for ( int iy1=Ny1() ; iy1-- ;  ) {            
-//      for ( int iy2=Ny2() ; iy2-- ;  ) { 
-// 	// test if this element is actually filled
-//	// if ( !m_weight[0]->trimmed(itau,iy1,iy2) ) continue; 
-//	bool nonzero = false;
-//	// basic convolution order component for either the born level
-//	// or the convolution of the nlo grid with the pdf 
-//	for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-//	  if ( (sig[ip] = (*(const SparseMatrix3d*)m_weight[ip])(itau,iy1,iy2)) ) nonzero = true;
-//	}
-//	
-//	//	for ( int ip=0 ; ip<m_Nproc ; ip++ ) std::cout << "\t" << sig[ip]; 
-//	//	std::cout << std::endl;
-//
-//	if ( nonzero ) { 	
-//	  // build the generalised pdfs from the actual pdfs
-//	  genpdf->evaluate( m_fg1[itau][iy1],  m_fg2[itau][iy2], H );
-//	
-//	  //	  for ( int ip=0 ; ip<m_Nproc ; ip++ ) H[ip] = 1;
-//	  //    std::cout << "H return" << std::endl;
-//	  //    for ( int ip=0 ; ip<m_Nproc ; ip++ ) std::cout << "\t" << H[ip] << std::endl;
-//
-//	  //	  for  ( int ipp=0 ; ipp<m_Nproc ; ipp++ ) H[ipp]=1;
-//  
-//	  // do the convolution
-//
-//          double xsigma=0.;
-//
-//
-//	  if ( m_parent && m_parent->subproc()!=-1 ) { 
-//	    int ip=m_parent->subproc();
-//	    xsigma+= sig[ip]*H[ip];
-//	  }
-//	  else { 
-//	    for ( int ip=0 ; ip<m_Nproc ; ip++ ) xsigma+= sig[ip]*H[ip];
-//	  }
-//
-//
-//	  /// if want NLO part only, don't add in the born term
-//	  if ( _nloop!=-1 ) dsigma += _alphas*xsigma;
-//
-//	  // now do the convolution for the variation of factorisation and 
-//	  // renormalisation scales, proportional to the leading order weights
-//	  if ( nloop==1 ) { 
-//	  // renormalisation scale dependent bit
-//	    if ( rscale_factor!=1 ) { 
-//	      // nlo relative ln mu_R^2 term 
-//	      dsigma+= alphaplus1*twopi*beta0*lo_order*log(rscale_factor*rscale_factor)*xsigma;
-//  	    }
-//
-//	    // factorisation scale dependent bit
-//            // nlo relative ln mu_F^2 term 
-//	    if ( fscale_factor!=1 ) {
-//	      genpdf->evaluate( m_fg1    [itau][iy1],  m_fsplit2[itau][iy2], HA);
-//	      genpdf->evaluate( m_fsplit1[itau][iy1],  m_fg2    [itau][iy2], HB);
-//	      xsigma=0.;
-//
-//	      if ( m_parent && m_parent->subproc()!=-1 ) { 
-//		int ip=m_parent->subproc();
-//		xsigma += sig[ip]*(HA[ip]+HB[ip]);
-//	      }
-//	      else { 
-//		for ( int ip=0 ; ip<m_Nproc ; ip++ ) xsigma += sig[ip]*(HA[ip]+HB[ip]);
-//	      }
-//
-//
-//	      dsigma -= alphaplus1*log(fscale_factor*fscale_factor)*xsigma;
-//	      //if (debug) 
-//              //cout <<name<<" fscale= " << fscale_factor << " dsigma= "<<dsigma << std::endl;
-//	    }
-//	  }
-//	}  // nonzero
-//      }  // iy2
-//    }  // iy1
-//  }  // itau
-//  
-//  //if (debug)  std::cout << name<<"     convoluted dsigma=" << dsigma << std::endl; 
-//  
-//  delete[] sig;
-//  delete[] H;
-//  delete[] HA;
-//  delete[] HB;
-//  
-//  deletepdftable();
-//  
-//  //  std::cout << "dsigma " << dsigma << std::endl;
-//
-//  // NB!!! the return value dsigma must be scaled by Escale*Escale which 
-//  // is done in grid::vconvolute. It would be better here, but is reduces 
-//  // the number of operations if in grid. 
-//  return dsigma; 
-//}
-
-
-
-
-
-
-
-
 
 /// this is the convolute routine for the amcatnlo convolution - essentially it 
 /// is the same as for the standard calculation, but the amcatnlo calculation
@@ -1400,16 +1126,6 @@ void appl::igrid::optimise(int NQ2, int Nx1, int Nx2) {
   m_optimised = true;
 }
 
-
-//std::ostream& appl::igrid::print(std::ostream& s) const {
-//  header(std::cout);
-//  for ( int i=0 ; i<m_Nproc ; i++ ) {
-//    s << "sub process " << i << std::endl;
-//    m_weight[i]->print();
-//  }
-//  return s;
-//}
-
 int appl::igrid::size() const {
   int _size = 0;
   for ( int i=0 ; i<m_Nproc ; i++ ) _size += m_weight[i]->size();
@@ -1480,49 +1196,3 @@ appl::igrid& appl::igrid::operator+=(const igrid& g) {
   }
   return *this;
 }
-
-///// check that the grid axes match
-//bool appl::igrid::compare_axes(const igrid& g) const {
-//  for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-//    if ( m_weight[ip] && g.m_weight[ip] ) {
-//  if ( !m_weight[ip]->compare_axes( *g.m_weight[ip] ) )  return false;
-//  // if ( (*m_weight[ip]) != (*g.m_weight[ip]) )  return false;
-//    }
-//    if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false;
-//    if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false;
-//  }
-//  return true;
-//}
-//
-//bool appl::igrid::operator==(const igrid& g) const {
-//  for ( int ip=0 ; ip<m_Nproc ; ip++ ) {
-//    if ( m_weight[ip] && g.m_weight[ip] ) {
-//  if ( (*m_weight[ip]) != (*g.m_weight[ip]) ) return false;
-//    }
-//    if ( m_weight[ip]    && g.m_weight[ip]==0 ) return false;
-//    if ( m_weight[ip]==0 && g.m_weight[ip]    ) return false;
-//  }
-//  return true;
-//}
-//
-//std::ostream& appl::igrid::header(std::ostream& s) const { 
-//  //  s << "interpolation orders: x=" << g.yorder() << "\tQ2=" << g.tauorder() << std::endl;
-//  
-//  s << "\t x:  [ "  << std::setw(2) 
-//    //    << Ny1() << " ;\t" << std::setw(7) << fx(y1max())  << " - " << std::setw(7) << std::setprecision(6) << fx(y1min()) << "\t : " 
-//    //    << Ny2() << " ;\t" << std::setw(7) << fx(y2max())  << " - " << std::setw(7) << std::setprecision(6) << fx(y2min()) 
-//    << Ny1() << " :\t " << std::setw(7) << std::setprecision(6) << fx(y1max())  << " - " << std::setw(7) << std::setprecision(6) << fx(y1min()) << "\t : " 
-//    << Ny2() << " :\t " << std::setw(7) << std::setprecision(6) << fx(y2max())  << " - " << std::setw(7) << std::setprecision(6) << fx(y2min()) 
-//    << "\t : " << "\t( order=" << yorder()   << " ) ]"; 
-//  s << "\t Q2: [ " 
-//    << Ntau() << " :\t "  << std::setw(7) << std::setprecision(6) << fQ2(taumin()) << " - " << std::setw(7) << std::setprecision(6) << fQ2(taumax()) 
-//    << "\t( order=" << tauorder() << " ) ]";
-//  return s;
-//}
-//
-//
-//std::ostream& operator<<(std::ostream& s, const appl::igrid& g) {
-//  return g.header(s);
-//}
-
-

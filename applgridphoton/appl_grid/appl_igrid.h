@@ -70,8 +70,6 @@ private:
 
 public:
 
-//  igrid();
-
   igrid(int NQ2,   double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,  
 	int Nx=50, double xmin=1e-5,     double xmax=0.9,          int xorder=5, 
 	std::string transform="f", int Nproc=6, bool disflag=false);
@@ -86,10 +84,7 @@ public:
   // optimise the grid dinemsions  
   void optimise() { optimise(m_Ntau, m_Ny1, m_Ny2); }
   void optimise(int NQ2, int Nx1, int Nx2);  
- 
-//  // formatted print
-//  std::ostream&  print(std::ostream& s=std::cout) const;
-  
+
   // return the number of words used for storage
   int size() const;
 
@@ -108,12 +103,8 @@ public:
   // fast filling with no interpolation for optimisation
   void fill_phasespace(const double x1, const double x2, const double Q2, const double* weight);
 
-//  void fill_index(const int ix1, const int ix2, const int iQ2, const double* weight);
-
   // get the sparse structure for easier access  
   const SparseMatrix3d* weightgrid(int ip) { return m_weight[ip]; }
-//  SparseMatrix3d**      weightgrid()       { return m_weight; } 
-
 
   // this section stores the available x<->y transforms.
   // the function pairs are stored in a std::map with a (const std::string) tag - the tag can 
@@ -124,9 +115,6 @@ public:
   // transform 
   double fy(double x) const { return (this->*mfy)(x); }
   double fx(double x) const { return (this->*mfx)(x); }
-
-//  std::string transform() const { return m_transform; } 
-
 
   transform_t mfy;
   transform_t mfx;
@@ -194,15 +182,6 @@ public:
   double _fy4(double x) const { return -std::log10(x); }
   double _fx4(double y) const { return  std::pow(10,-y); } 
 
-
-
-
-
-//  // pdf weight function
-//  // double _fun(double x) { return pow(x,0.65)*pow((1-0.99*x),-3.3); } 
-//  // double _fun(double x) { double n=(1-0.99*x); return sqrt(x)/(n*n*n); } 
-//  // double _fun(double x) { return 1; } 
-  
   // this is significantly quicker than pow(x,1.5)*pow(1-0.99*x,3) 
   static double _fun(double x)      { double n=(1-0.99*x); return std::sqrt(x*x*x)/(n*n*n); } 
   static double weightfun(double x) { return _fun(x); }
@@ -237,55 +216,19 @@ public:
   double y2max()    const;
   double deltay2()  const;
 
-//  //  int    Ny()      const { return Ny1(); } 
-//  //  double ymin()    const { return y1min(); }  
-//  //  double ymax()    const { return y2min(); }  
-//  //  double deltay()  const { return deltay1(); }  
-//
-//  //  int yorder(int i)   { return m_yorder=i; }  
-//  int yorder()  const { return m_yorder; }  
-
   // tau (Q2)
   int    Ntau()     const;
   double taumin()   const;
   double taumax()   const;
   double deltatau() const;
-  
-//  //  int tauorder(int i)  { return m_tauorder=i; }  
-//  int tauorder() const { return m_tauorder; }  
-//
-//
-//  // maybe these are redundant and should be removed
-//  int    getNQ2()     const;
-//  double getQ2min()   const { return fQ2(taumin()); }
+
   double getQ2max()   const { return fQ2(taumax()); }
-  
-//  int    getNx1()     const;
-//  double getx1min()   const { return fx(y1max()); }
-//  double getx1max()   const { return fx(y1min()); }
-//
-//  int    getNx2()     const;
-//  double getx2min()   const { return fx(y2max()); }
-//  double getx2max()   const { return fx(y2min()); }
-//
-//  //  int    getNx()     const { return getNx1(); } 
-//  //  double getxmin()   const { return getx2max(); }
-//  //  double getxmax()   const { return getx1max(); }
-//
-//  /// these set the static class used to initialise the 
-//  /// local variables upon grid creation, since a value may 
-//  /// be needed by the constructor  
-//  static double transformvar()         { return transvar; }
-//  static double transformvar(double v) { return transvar=v; }
-//
-//  bool   symmetrise(bool t=true)   { return m_symmetrise=t; }
+
   bool   isSymmetric() const       { return m_symmetrise; }
 
   bool   isOptimised() const       { return m_optimised; }
-//  bool   setOptimised(bool t=true) { return m_optimised=t; } 
 
   bool   isDISgrid() const       { return m_DISgrid; }
-//  bool   seDISgrid(bool t=true)  { return m_DISgrid=t; } 
 
   bool   reweight(bool t=true)   { return m_reweight=t; }
 
@@ -305,23 +248,6 @@ public:
 		double fscale_factor=1,
 		double beam_scale=1 );
 
-//  // get the interpolated pdf's
-//  //  void pdfinterp(double x1, double Q2, double* f);
-//
-//  double convolute(NodeCache* pdf0,
-//		   NodeCache* pdf1,
-//		   // void   (*pdf0)(const double& , const double&, double* ), 
-//		   // void   (*pdf1)(const double& , const double&, double* ), 
-//		   appl_pdf* genpdf, 
-//		   double (*alphas)(const double& ), 
-//		   int     lo_order=0,  
-//		   int     nloop=0, 
-//		   double  rscale_factor=1,
-//		   double  fscale_factor=1,
-//		   double Escale=1 );
-  
-
-  
   /// convolute method for amcatnlo grids
   double amc_convolute(NodeCache* pdf0,
 		       NodeCache* pdf1,
@@ -344,19 +270,6 @@ public:
 
   // should really check all the limits and *everything* is the same
   igrid& operator+=(const igrid& g);
-
-//  /// check that the grid axes match
-//  bool compare_axes(const igrid& g) const;
-//
-//
-//  bool operator==(const igrid& g) const;
-//
-//  bool operator!=(const igrid& g) const { return !((*this)==g); }
-//
-//
-//  // ouput header
-//  std::ostream& header(std::ostream& s) const;
-
 
 private:
 
@@ -530,8 +443,5 @@ private:
 };
 
 };
-
-//std::ostream& operator<<(std::ostream& s, const appl::igrid& mygrid);
-
 
 #endif // __APPL_IGRID_H 

@@ -241,15 +241,6 @@ public:
 
 protected:
 
-  // internal common construct for the different types of constructor
-  void construct(int Nobs,
-		 int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=4,  
-		 int Nx=50,   double xmin=1e-5,     double xmax=0.9,         int xorder=3,
-		 int order=2, 
-		 std::string transform="f" );
-  
-protected:
-
   /// std::string manipulators to parse the pdf names 
 
   /// return chomped std::string

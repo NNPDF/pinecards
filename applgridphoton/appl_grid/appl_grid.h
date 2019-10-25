@@ -241,30 +241,6 @@ public:
 
 protected:
 
-  /// std::string manipulators to parse the pdf names 
-
-  /// return chomped std::string
-  static std::string chomptoken(std::string& s1, const std::string& s2)
-  {
-    std::string s3 = "";
-    std::string::size_type pos = s1.find(s2);
-    if ( pos != std::string::npos ) {
-      s3 = s1.substr(0, pos);
-      s1.erase(0, pos+1);
-    }
-    else { 
-      s3 = s1.substr(0, s1.size());
-      s1.erase(0, s1.size()+1);
-    }
-    return s3;
-  } 
- 
-  static std::vector<std::string> parse(std::string s, const std::string& key) {
-    std::vector<std::string> clauses;
-    while ( s.size() ) clauses.push_back( chomptoken(s, key) );
-    return clauses;
-  }
-  
   /// get the required pdf combinations from those registered   
   void findgenpdf( std::string s );
 

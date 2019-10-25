@@ -169,9 +169,6 @@ public:
   // general status accessors
   double& run() { return m_run; }
  
-  // accessors for the status information
-  bool isOptimised() const { return m_optimised; }
-
   std::string getGenpdf()    const { return m_genpdfname; }
 
   // find the number of words used for storage

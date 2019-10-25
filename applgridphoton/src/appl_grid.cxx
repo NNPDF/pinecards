@@ -543,7 +543,7 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
 
 void appl::grid::fill_grid(const double x1, const double x2, const double Q2, const double obs, const double* weight, const int iorder)
 {
-  if (isOptimised()) {
+  if (m_optimised) {
     int iobs = m_obs_bins->FindBin(obs)-1;
     if ( iobs<0 || iobs>=Nobs_internal() ) {
       //    cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;

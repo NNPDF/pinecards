@@ -436,12 +436,12 @@ public:
 //
 //  const TH1D* getReference_internal() const { return m_obs_bins; } 
 //  TH1D*       getReference_internal()       { return m_obs_bins; } 
-//
-// 
-// 
-//
-//  // number of subprocesses 
-//  int subProcesses(int i) const;
+
+ 
+ 
+
+  // number of subprocesses 
+  int subProcesses(int i) const;
 
   // general status accessors
   double& run() { return m_run; }
@@ -461,9 +461,9 @@ public:
 //
 //  static double transformvar();
 //  static double transformvar(double v);
-//
-//  std::string getGenpdf()    const { return m_genpdfname; }
-//
+
+  std::string getGenpdf()    const { return m_genpdfname; }
+
 //  std::string version()      const { return m_version; } 
 //  std::string appl_version() const;
 //

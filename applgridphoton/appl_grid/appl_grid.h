@@ -113,22 +113,9 @@ public:
   virtual ~grid();
   
   // update grid with one set of event weights
-  void fill(const double x1, const double x2, const double Q2, 
-	    const double obs, 
-	    const double* weight, const int iorder);
-  
-  
-  void fill_phasespace(const double x1, const double x2, const double Q2, 
-		       const double obs, 
-		       const double* weight, const int iorder);
-  
-  
   void fill_grid(const double x1, const double x2, const double Q2, 
 		 const double obs, 
-		 const double* weight, const int iorder)  {
-    if (isOptimised())   fill(x1, x2, Q2, obs, weight, iorder);
-    else                 fill_phasespace(x1, x2, Q2, obs, weight, iorder);
-  }
+		 const double* weight, const int iorder);
 
   // trim/untrim the grid to reduce memory footprint
   void trim();

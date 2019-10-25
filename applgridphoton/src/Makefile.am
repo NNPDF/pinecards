@@ -64,7 +64,6 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/axis.h \
 	$(top_srcdir)/appl_grid/combination.h \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
-	$(top_srcdir)/appl_grid/Sparse3d.h \
 	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
 	$(top_srcdir)/appl_grid/tsparse1d.h \
 	$(top_srcdir)/appl_grid/tsparse2d.h \

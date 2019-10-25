@@ -43,6 +43,8 @@
 
 #include "amconfig.h"
 
+constexpr int MAXGRIDS = 64;
+
 namespace
 {
 
@@ -114,10 +116,10 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 std::string genpdfname,
          std::vector<order_id> const& order_ids,
 		 std::string transform ) :
-  m_grids(appl::MAXGRIDS),
+  m_grids(MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname),
-  m_genpdf(appl::MAXGRIDS),
+  m_genpdf(MAXGRIDS),
   m_documentation(""),
   m_read(false),
   m_subproc(-1),
@@ -154,11 +156,11 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_order_ids(),
-  m_grids(appl::MAXGRIDS),
+  m_grids(MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
   m_normalised(false),
   m_symmetrise(false), m_transform(""), 
-  m_genpdf(appl::MAXGRIDS),
+  m_genpdf(MAXGRIDS),
   m_documentation(""),
   m_read(false),
   m_subproc(-1)

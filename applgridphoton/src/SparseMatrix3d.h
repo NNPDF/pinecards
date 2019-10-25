@@ -15,7 +15,7 @@
 #include <iostream>
 
 #include "axis.h"
-#include "sparse.h"
+#include "tsparse3d.h"
 
 #include "TH1D.h"
 #include "TH3D.h"
@@ -49,7 +49,7 @@ public:
 
 
   // trim to sparse structure 
-  void trim() { empty_fast(); sparse3d::trim(); }
+  void trim() { empty_fast(); tsparse3d<double>::trim(); }
     
   // set up fast lookup table into the (untrimmed) 3d array.
   void setup_fast() { 
@@ -89,7 +89,7 @@ public:
 
   /// print out
   void print() const {
-    sparse3d::print();
+    tsparse3d<double>::print();
     std::cout << m_xaxis << "\n"; 
     std::cout << m_yaxis << "\n"; 
     std::cout << m_zaxis << "\n"; 

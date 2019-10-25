@@ -15,8 +15,10 @@
 
 #include <iostream>
 
-#include "tsparse2d.h"
+#include "tsparse_base.h"
 
+template <typename T>
+class tsparse2d;
 
 template<class T> 
 class tsparse3d : public tsparse_base {

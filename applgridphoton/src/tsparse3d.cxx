@@ -1,3 +1,4 @@
+#include "tsparse2d.h"
 #include "tsparse3d.h"
 
 template <typename T>

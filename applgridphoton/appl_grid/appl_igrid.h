@@ -33,13 +33,12 @@
 #include <TFile.h>
 
 #include "appl_grid/appl_pdf.h"
+#include "appl_grid/SparseMatrix3d.h"
 
 template <typename T>
 class Cache;
 
 using NodeCache = Cache<std::pair<double,double>>;
-
-class SparseMatrix3d;
 
 namespace appl {
 

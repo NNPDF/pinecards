@@ -8,6 +8,7 @@
 
 
 #include "SparseMatrix3d.h"
+#include "tsparse2d.h"
 
 
 
@@ -127,7 +128,17 @@ TH3D* SparseMatrix3d::getTH3D(const std::string& s) const {
   return h;
 }
 
+void SparseMatrix3d::setup_fast() { 
+  m_fastindex = new double*[Nx()*Ny()*Nz()];
 
+  for ( int i=0 ; i<Nx() ; i++ ) { 
+    for ( int j=0 ; j<Ny() ; j++ ) { 
+  for ( int k=0 ; k<Nz() ; k++ ) { 
+    m_fastindex[(i*Ny()+j)*Nz()+k] = &(m_v[i]->v()[j])->v()[k];
+  }
+    }
+  }
+}
 
 std::ostream& operator<<(std::ostream& s, const SparseMatrix3d& sm) { 
   const tsparse3d<double>* sp = &sm;

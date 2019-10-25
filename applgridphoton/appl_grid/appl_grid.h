@@ -238,10 +238,6 @@ protected:
   // the actual weight grids themselves
   std::vector<igrid**> m_grids;
 
-  // total cross section qand uncertainty
-  double m_total;
-  double m_totalerror;
-
   // state variables
   double   m_run;
   bool     m_optimised;
@@ -261,17 +257,12 @@ protected:
   static const std::string m_version;
 
   std::string m_documentation;
-  
-  std::vector<double>                m_ckmsum;
-  std::vector<std::vector<double> >  m_ckm2;
-  std::vector<std::vector<double> >  m_ckm;
 
   bool            m_read;
 
   std::vector<int> m_combine;
 
   int  m_subproc;
-  int  m_bin;
 
   std::vector<order_id> m_order_ids;
 };

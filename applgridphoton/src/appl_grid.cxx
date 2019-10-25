@@ -118,7 +118,6 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_transform(transform), m_genpdfname(genpdfname),
   m_genpdf(appl::MAXGRIDS),
-  m_cmsScale(0),
   m_documentation(""),
   m_read(false),
   m_subproc(-1),
@@ -255,9 +254,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_run        = (*setup)(0);
   m_optimised  = ( (*setup)(1)!=0 ? true : false );
   m_symmetrise = ( (*setup)(2)!=0 ? true : false );  
-
-  if ( setup->GetNoElements()>6 ) m_cmsScale = (*setup)(6);
-  else                            m_cmsScale = 0;
  
   if ( setup->GetNoElements()>7 ) m_normalised = ( (*setup)(7)!=0 ? true : false );
   else                            m_normalised = true;
@@ -745,7 +741,6 @@ void appl::grid::Write(const std::string& filename,
   (*setup)(0) = m_run;
   (*setup)(1) = ( m_optimised  ? 1 : 0 );
   (*setup)(2) = ( m_symmetrise ? 1 : 0 );
-  (*setup)(6) =   m_cmsScale ;
   (*setup)(7) = ( m_normalised ? 1 : 0 );
 
   if ( m_genpdf[0]->getckmsum().size()==0 ) (*setup)(9) = 0;
@@ -948,7 +943,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
 
       if ( hoppet == 0 ) { 
 	double Qmax = 15000;
-	if ( m_cmsScale>Qmax ) Qmax = m_cmsScale;
 	hoppet = new hoppet_init( Qmax );
       } 
 

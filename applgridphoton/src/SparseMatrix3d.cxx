@@ -14,7 +14,7 @@
 SparseMatrix3d::SparseMatrix3d( int Nx, double lx, double ux, 
 				int Ny, double ly, double uy, 
 				int Nz, double lz, double uz) :
-  sparse3d(Nx, Ny, Nz), 
+  tsparse3d<double>(Nx, Ny, Nz),
   m_xaxis(Nx, lx, ux),
   m_yaxis(Ny, ly, uy),
   m_zaxis(Nz, lz, uz),
@@ -24,8 +24,7 @@ SparseMatrix3d::SparseMatrix3d( int Nx, double lx, double ux,
 
 
 SparseMatrix3d::SparseMatrix3d(const SparseMatrix3d& s) : 
-  // sparse3d(*(sparse3d*)(&s)), 
-  sparse3d(s), 
+  tsparse3d<double>(s),
   m_xaxis(s.m_xaxis),
   m_yaxis(s.m_yaxis),
   m_zaxis(s.m_zaxis),
@@ -35,7 +34,7 @@ SparseMatrix3d::SparseMatrix3d(const SparseMatrix3d& s) :
 
  
 SparseMatrix3d::SparseMatrix3d(const TH3D* h) : 
-  sparse3d( h->GetNbinsX(), h->GetNbinsY(), h->GetNbinsZ() ),
+  tsparse3d<double>( h->GetNbinsX(), h->GetNbinsY(), h->GetNbinsZ() ),
   m_fastindex(NULL) {
   
   TH1D* hx = (TH1D*)h->Project3D("x");
@@ -151,10 +150,10 @@ TH3D* SparseMatrix3d::getTH3D(const std::string& s) const {
   //  print();
 
   for ( int i=lo() ; i<=hi() ; i++ ) { 
-    const sparse2d* s2d = sm[i]; 
+    const tsparse2d<double>* s2d = sm[i];
     if ( s2d==NULL ) continue;
     for ( int j=s2d->lo() ; j<=s2d->hi() ; j++ ) { 
-      const sparse1d* s1d = (*s2d)[j];
+      const tsparse1d<double>* s1d = (*s2d)[j];
       if ( s1d==NULL ) continue;
       for ( int k=s1d->lo() ; k<=s1d->hi() ; k++ ) {
 	N++;

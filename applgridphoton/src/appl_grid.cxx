@@ -642,16 +642,16 @@ std::vector<appl::order_id> const& appl::grid::order_ids() const
 //
 //    return max;
 //}
-//
-//
-//
-//  // number of subprocesses 
-//int appl::grid::subProcesses(int i) const { 
-//  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
-//  return m_grids[i][0]->SubProcesses();     
-//}  
-//
-//
+
+
+
+  // number of subprocesses 
+int appl::grid::subProcesses(int i) const { 
+  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
+  return m_grids[i][0]->SubProcesses();     
+}  
+
+
 ///// access the transform functions for the appl::igrid so that the 
 ///// igrid can be hidden 
 //double appl::grid::transformvar()         { return igrid::transformvar(); }

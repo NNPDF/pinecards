@@ -196,7 +196,9 @@ public:
 
   void combineBins(std::vector<double>& v, int power=1 ) const;
 
-protected:
+  int subproc() const { return m_subproc; }
+
+private:
 
   /// get the required pdf combinations from those registered   
   void findgenpdf( std::string s );
@@ -205,12 +207,6 @@ protected:
   void addpdf( const std::string& s, const std::vector<int>& combinations=std::vector<int>() );
 
   appl_pdf* genpdf(int i) { return m_genpdf[i]; }
-  
-public: 
-
-  int subproc() const { return m_subproc; }
-
-protected:
 
   // histograms for saving the observable
   TH1D*  m_obs_bins;

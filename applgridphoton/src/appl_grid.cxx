@@ -122,7 +122,6 @@ appl::grid::grid(int Nobs, const double* obsbins,
   m_documentation(""),
   m_read(false),
   m_subproc(-1),
-  m_bin(-1),
   m_order_ids(order_ids)
 {
 
@@ -163,8 +162,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_genpdf(appl::MAXGRIDS),
   m_documentation(""),
   m_read(false),
-  m_subproc(-1),
-  m_bin(-1)
+  m_subproc(-1)
 {
   m_obs_bins_combined = m_obs_bins = 0;
 
@@ -1476,7 +1474,6 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
     , m_symmetrise(false)
     , m_read(false)
     , m_subproc(-1)
-    , m_bin(-1)
     , m_run(0.0)
 {
     if (grids.empty())

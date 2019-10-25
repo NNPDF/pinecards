@@ -553,39 +553,33 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
   return *this;
 }
 
-// fill the appropriate igrid with these weights
-void appl::grid::fill(const double x1, const double x2, const double Q2, 
-		      const double obs, 
-		      const double* weight, const int iorder)  {  
-  int iobs = m_obs_bins->FindBin(obs)-1;
-  if ( iobs<0 || iobs>=Nobs_internal() ) {
-    //    cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
-    //    cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
-    return;
+void appl::grid::fill_grid(const double x1, const double x2, const double Q2, const double obs, const double* weight, const int iorder)
+{
+  if (isOptimised()) {
+    int iobs = m_obs_bins->FindBin(obs)-1;
+    if ( iobs<0 || iobs>=Nobs_internal() ) {
+      //    cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
+      //    cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
+      return;
+    }
+
+    //  std::cout << "iobs=" << iobs << "\tobs=" << obs;
+    //  for ( int i=0 ; i<subProcesses(iorder) ; i++ ) std::cout << "\t" << weight[i];
+    //  std::cout << std::endl;
+
+    //  std::cout << "\tiobs=" << iobs << std::endl;
+    if ( m_symmetrise && x2<x1 )  m_grids[iorder][iobs]->fill(x2, x1, Q2, weight);
+    else                          m_grids[iorder][iobs]->fill(x1, x2, Q2, weight);
+  } else {
+    int iobs = m_obs_bins->FindBin(obs)-1;
+    if ( iobs<0 || iobs>=Nobs_internal() ) {
+      //  cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
+      //  cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
+      return;
+    }
+    if ( m_symmetrise && x2<x1 )  m_grids[iorder][iobs]->fill_phasespace(x2, x1, Q2, weight);
+    else                          m_grids[iorder][iobs]->fill_phasespace(x1, x2, Q2, weight);
   }
-  
-  //  std::cout << "iobs=" << iobs << "\tobs=" << obs;
-  //  for ( int i=0 ; i<subProcesses(iorder) ; i++ ) std::cout << "\t" << weight[i];
-  //  std::cout << std::endl;
-
-  //  std::cout << "\tiobs=" << iobs << std::endl;
-  if ( m_symmetrise && x2<x1 )  m_grids[iorder][iobs]->fill(x2, x1, Q2, weight);
-  else                          m_grids[iorder][iobs]->fill(x1, x2, Q2, weight);
-}
-
-
-// fast fill pre-optimisation don't perform the interpolation and so on
-void appl::grid::fill_phasespace(const double x1, const double x2, const double Q2, 
-				 const double obs, 
-				 const double* weight, const int iorder) {
-  int iobs = m_obs_bins->FindBin(obs)-1;
-  if ( iobs<0 || iobs>=Nobs_internal() ) {
-    //  cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
-    //  cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
-    return;
-  }
-  if ( m_symmetrise && x2<x1 )  m_grids[iorder][iobs]->fill_phasespace(x2, x1, Q2, weight);
-  else                          m_grids[iorder][iobs]->fill_phasespace(x1, x2, Q2, weight);
 }
 
 void appl::grid::trim() {

@@ -40,10 +40,6 @@ using NodeCache = Cache<std::pair<double,double>>;
 
 namespace appl {
 
-class grid;
-
-
-
 class igrid {
 
 private:
@@ -250,19 +246,8 @@ private:
   //  int _fk(double x)      const { return fk(x);  }
   //  int _fkappa(double Q2) const { return fkappa(Q2); }
 
-public:
-
-  void setparent( grid* parent ) { m_parent=parent; }
-
-private:
-
   transform_t mfy;
   transform_t mfx;
-
-
-  /// parent grid so that it can access parent 
-  /// grid paremeters
-  grid* m_parent;
 
   // ranges of interest
 

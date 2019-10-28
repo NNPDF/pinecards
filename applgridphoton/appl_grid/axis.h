@@ -79,13 +79,6 @@ public:
   //  int bin(T x) const { return (x-m_min)*m_idelta; }
   int bin(T x) const { return int((x-m_min)*m_idelta); }
   
-  void print(T (*f)(T)) const {
-    for ( int i=0 ; i<m_N ; i++ ) { 
-      std::cout << "\t" << std::setprecision(3) << std::setw(5) << f(m_v[i]); 
-    }
-    std::cout << std::endl;
-  }
-
   /// NB: to avoid rounding errors, allow differences in the bin 
   ///     limits of 1e-10 the distance between the nodes   
   bool operator==(const axis& ax) const { 
@@ -110,18 +103,6 @@ private:
   
   std::vector<T>  m_v;
 };
-
-
-template<class T>
-std::ostream& operator<<(std::ostream& s, const axis<T>& a) { 
-  s << "\t[ N=" << a.N(); 
-  // for ( int i=0 ; i<a.N() ; i++ )  s << "\t" << std::setprecision(3) << std::setw(5) << a[i]; 
-  s << ",\t"  << std::setprecision(3) << std::setw(5) << a[0];
-  s << " .. " << std::setprecision(3) << std::setw(5) << a[a.N()-1];
-  s << " ]";
-  return s;
-} 
-
 
 #endif  // __AXIS_H 
 

@@ -92,7 +92,6 @@ appl::igrid::igrid(int NQ2, double Q2min, double Q2max, int Q2order,
 		   int Nx,  double xmin,  double xmax,  int xorder, 
 		   std::string transform, int Nproc, bool disflag ):
   mfy(0),   mfx(0),
-  m_parent(0),
   m_Ny1(Nx),   m_Ny2( disflag ? 1 : Nx ),  m_yorder(xorder), 
   m_Ntau(NQ2), m_tauorder(Q2order), 
   m_Nproc(Nproc), 
@@ -169,7 +168,6 @@ appl::igrid::igrid(int NQ2, double Q2min, double Q2max, int Q2order,
 // copy constructor
 appl::igrid::igrid(const appl::igrid& g) : 
   mfy(0),  mfx(0),  
-  m_parent(0),
   m_Ny1(g.m_Ny1),     
   m_y1min(g.m_y1min),     m_y1max(g.m_y1max),     m_deltay1(g.m_deltay1),   
   m_Ny2(g.m_Ny2),     
@@ -204,7 +202,6 @@ appl::igrid::igrid(const appl::igrid& g) :
 // read from a file 
 appl::igrid::igrid(TFile& f, const std::string& s) :
   mfy(0),  mfx(0),  
-  m_parent(0),
   m_Ny1(0),   m_y1min(0),   m_y1max(0),   m_deltay1(0),   
   m_Ny2(0),   m_y2min(0),   m_y2max(0),   m_deltay2(0),   
   m_yorder(0),   

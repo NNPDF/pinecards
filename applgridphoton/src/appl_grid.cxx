@@ -165,7 +165,6 @@ appl::grid::grid(int Nobs, const double* obsbins,
       m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, Q2order,
 					Nx, xmin, xmax, xorder,
 					m_transform, m_genpdf[iorder]->Nproc());
-      m_grids[iorder][iobs]->setparent( this );
     }
   }
   //  std::cout << "appl::grid::construct() return" << std::endl;
@@ -420,7 +419,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
       //   std::cout << "grid::grid() reading " << name << "\tiobs=" << iobs << std::endl;
 
       m_grids[iorder][iobs] = new igrid(*gridfilep, name);
-      m_grids[iorder][iobs]->setparent( this ); 
 
       //    _size += m_grids[iorder][iobs]->size();
       //      std::cout << "grid::grid() done" << std::endl;
@@ -552,7 +550,6 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
             for (int iobs = 0; iobs < Nobs_internal(); ++iobs)
             {
                 m_grids[m_order_ids.size()][iobs] = new igrid(*g.m_grids[i][iobs]);
-                m_grids[m_order_ids.size()][iobs]->setparent(this);
             }
 
             // TODO: is simply copying the pointer correct?
@@ -1694,7 +1691,6 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
             for (std::size_t k = 0; k != grids.at(grid_indices.at(j)).Nobs_internal(); ++k)
             {
                 m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
-                m_grids.at(i)[obs]->setparent(this);
 
                 *m_grids.at(i)[obs] *= 1.0 / grids.at(grid_indices.at(j)).m_run;
 

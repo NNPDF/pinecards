@@ -205,8 +205,6 @@ private:
   /// add a generic pdf to the data base of registered pdfs
   void addpdf( const std::string& s, const std::vector<int>& combinations=std::vector<int>() );
 
-  appl_pdf* genpdf(int i) { return m_genpdf[i]; }
-
   // histograms for saving the observable
   TH1D*  m_obs_bins;
   TH1D*  m_obs_bins_combined;

@@ -65,15 +65,6 @@ public:
   /// retrieve an instance from the std::map 
   static appl_pdf* getpdf(const std::string& s, bool printout=true);
   
-  /// print out the pdf std::map
-  static void printmap(std::ostream& s=std::cout) {
-    pdfmap::iterator itr = __pdfmap.begin();
-    while ( itr!=__pdfmap.end() )  {
-      s << "pdfmap " << itr->first << "\t\t" << itr->second << std::endl;
-      itr++;
-    } 
-  }
-
   /// initialise the factory  
   static bool create_map(); 
 

@@ -139,11 +139,3 @@ void SparseMatrix3d::setup_fast() {
     }
   }
 }
-
-std::ostream& operator<<(std::ostream& s, const SparseMatrix3d& sm) { 
-  const tsparse3d<double>* sp = &sm;
-  s << "x:" << sm.xaxis() << "\ny:" << sm.yaxis() << "\nz:" << sm.zaxis()
-    << "\n" << *sp;
-  return s;
-}
-

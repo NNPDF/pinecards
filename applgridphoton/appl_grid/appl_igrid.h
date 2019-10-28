@@ -24,11 +24,9 @@
 #ifndef __APPL_IGRID_H
 #define __APPL_IGRID_H
 
-#include <iostream>
-#include <vector>
 #include <map>
 #include <string>
-#include <cmath>
+#include <vector>
 
 #include <TFile.h>
 
@@ -53,8 +51,8 @@ private:
   // grid error exception
   class exception { 
   public:
-    exception(const std::string& s) { std::cerr << s << std::endl; }; 
-    exception(std::ostream&)      { std::cerr << std::endl; }
+    exception(const std::string& s);
+    exception(std::ostream&);
   };
 
   typedef double (igrid::*transform_t)(double) const;

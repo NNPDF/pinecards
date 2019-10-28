@@ -111,6 +111,22 @@ static bool contains(const std::string& s, const std::string& reg ) {
   return s.find(reg)!=std::string::npos;
 }
 
+
+appl::grid::exception::exception(const std::string& s)
+{
+    std::cerr << what() << " " << s << std::endl;
+}
+
+appl::grid::exception::exception(std::ostream&)
+{
+    std::cerr << std::endl;
+}
+
+const char* appl::grid::exception::what() const noexcept
+{
+    return "appl::grid::exception";
+}
+
 appl::grid::grid(int Nobs, const double* obsbins,
 		 int NQ2,  double Q2min, double Q2max, int Q2order,
 		 int Nx,   double xmin, double xmax,   int xorder,

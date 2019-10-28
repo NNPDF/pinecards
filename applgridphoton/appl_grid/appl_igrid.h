@@ -200,7 +200,7 @@ public:
   
 
   // some useful algebraic operators
-  igrid& operator=(const igrid& g); 
+  igrid& operator=(const igrid& g) = delete;
   
   igrid& operator*=(const double& d);
 

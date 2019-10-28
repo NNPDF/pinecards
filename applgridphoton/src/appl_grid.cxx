@@ -541,8 +541,6 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
             {
                 m_grids[m_order_ids.size()][iobs] = new igrid(*g.m_grids[i][iobs]);
                 m_grids[m_order_ids.size()][iobs]->setparent(this);
-
-                *m_grids[m_order_ids.size()][iobs] = *g.m_grids[i][iobs];
             }
 
             // TODO: is simply copying the pointer correct?

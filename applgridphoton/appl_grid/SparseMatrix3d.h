@@ -63,15 +63,6 @@ public:
 
   void fill(double x, double y, double z, double w);
   
-
-  /// print out
-  void print() const {
-    tsparse3d<double>::print();
-    std::cout << m_xaxis << "\n"; 
-    std::cout << m_yaxis << "\n"; 
-    std::cout << m_zaxis << "\n"; 
-  }
-
   /// check if the axes are all the same
   bool compare_axes(const SparseMatrix3d& s) const { 
 
@@ -126,9 +117,6 @@ private:
   double** m_fastindex;
 
 };
-
-
-std::ostream& operator<<(std::ostream& s, const SparseMatrix3d& sm); 
 
 #endif  // __SPARSEMATRIX3D_H 
 

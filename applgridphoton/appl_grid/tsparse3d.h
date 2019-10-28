@@ -96,22 +96,6 @@ protected:
 
 };
 
-
-// stream IO template
-template<class T> std::ostream& operator<<(std::ostream& s, const tsparse3d<T>& sp) { 
-  for ( int i=0 ; i<sp.Nx() ; i++ ) { 
-    for ( int j=0 ; j<sp.Ny() ; j++ ) { 
-      for ( int k=0 ; k<sp.Nz() ; k++ ) { 
-	s << sp(i,j,k) << "\t"; 
-      }
-      s << "\n";
-    }
-    s << "\n";
-  }
-  return s;
-}
-
-
 #endif  // __TSPARSE3D_H 
 
 

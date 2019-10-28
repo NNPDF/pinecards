@@ -122,14 +122,13 @@ public:
   /// add a transform
   void add_transform(const std::string transform, transform_t __fx, transform_t __fy );
 
-  // this is significantly quicker than pow(x,1.5)*pow(1-0.99*x,3) 
-  static double weightfun(double x) { double n=(1-0.99*x); return std::sqrt(x*x*x)/(n*n*n); }
-  
+  // this is significantly quicker than pow(x,1.5)*pow(1-0.99*x,3)
+  static double weightfun(double x);
 
   // using log(log(Q2/mLambda)) or just log(log(Q2)) makes 
   // little difference for the LHC range
-  static double ftau(double Q2) { return std::log(std::log(Q2/0.0625)); }
-  static double fQ2(double tau) { return 0.0625*std::exp(std::exp(tau)); }
+  static double ftau(double Q2);
+  static double fQ2(double tau);
 
   
   // grid value accessors

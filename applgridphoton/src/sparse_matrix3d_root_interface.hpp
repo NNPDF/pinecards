@@ -7,4 +7,6 @@
 
 SparseMatrix3d* sparse_matrix3d_from_th3d(TH3D const& histogram);
 
+TH3D* sparse_matrix3d_to_th3d(SparseMatrix3d const& matrix, std::string const& s);
+
 #endif

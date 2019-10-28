@@ -17,10 +17,6 @@
 #include "axis.h"
 #include "tsparse3d.h"
 
-#include "TH1D.h"
-#include "TH3D.h"
-
-
 class SparseMatrix3d : public tsparse3d<double> {
 
 public:
@@ -34,11 +30,6 @@ public:
   SparseMatrix3d(const SparseMatrix3d& s); 
 
   ~SparseMatrix3d() { empty_fast(); } 
-  
-
-  // utilities for file access and storage
-
-  TH3D* getTH3D(const std::string& s) const; 
 
   // axis accessors
   const axis<double>& xaxis() const { return m_xaxis; } 

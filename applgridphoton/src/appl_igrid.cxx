@@ -518,7 +518,7 @@ void appl::igrid::write(const std::string& name) {
 
     igridtrimsize += m_weight[ip]->size();
 
-    TH3D* h=m_weight[ip]->getTH3D(hname);
+    TH3D* h=sparse_matrix3d_to_th3d(*(m_weight[ip]), hname);
     h->SetDirectory(0);
     h->Write();
     delete h; // is this dengerous??? will root try to delete it later? I guess not if we SetDirectory(0)

@@ -637,6 +637,12 @@ void appl::igrid::add_transform(const std::string transform, transform_t __fx, t
   m_fmap[transform] = transform_vec( __fx, __fy );
 }
 
+
+double appl::igrid::weightfun(double x) { double n=(1-0.99*x); return std::sqrt(x*x*x)/(n*n*n); }
+
+double appl::igrid::ftau(double Q2) { return std::log(std::log(Q2/0.0625)); }
+double appl::igrid::fQ2(double tau) { return 0.0625*std::exp(std::exp(tau)); }
+
 // define all these so that ymin=fy(xmin) rather than ymin=fy(xmax)
 double appl::igrid::_fy(double x) const { return std::log(1/x-1); }
 double appl::igrid::_fx(double y) const { return 1/(1+std::exp(y)); }

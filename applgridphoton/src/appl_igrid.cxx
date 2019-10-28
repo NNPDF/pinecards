@@ -77,6 +77,16 @@ void Splitting(const double& x, const double& Q, double* f);
 // variable tranformation parameters
 double appl::igrid::transvar = 5;
 
+appl::igrid::exception::exception(const std::string& s)
+{
+    std::cerr << s << std::endl;
+}
+
+appl::igrid::exception::exception(std::ostream&)
+{
+    std::cerr << std::endl;
+}
+
 // standard constructor
 appl::igrid::igrid(int NQ2, double Q2min, double Q2max, int Q2order, 
 		   int Nx,  double xmin,  double xmax,  int xorder, 

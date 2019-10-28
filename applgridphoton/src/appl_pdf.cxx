@@ -17,6 +17,20 @@
 
 namespace appl { 
 
+appl_pdf::exception::exception(const std::string& s)
+{
+    std::cerr << what() << " " << s << std::endl;
+}
+
+appl_pdf::exception::exception(std::ostream&)
+{
+    std::cerr << std::endl;
+}
+
+const char* appl_pdf::exception::what() const noexcept
+{
+    return "appl::appl_pdf::exception ";
+}
 
 // initialise the std::map with some default instances
 // although the user could create these themselves

@@ -27,7 +27,7 @@ public:
   // range exception
   class out_of_range { 
   public: 
-    out_of_range(const std::string& s="out of range") { std::cerr << s << std::endl; }
+    out_of_range(const std::string& s="out of range");
   };
 
 public:

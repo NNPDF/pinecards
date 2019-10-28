@@ -23,12 +23,10 @@
 #ifndef __APPL_GRID_H
 #define __APPL_GRID_H
 
-#include <cassert>
-#include <vector>
-#include <iostream>
-#include <cmath>
-#include <string>
 #include <exception>
+#include <iosfwd>
+#include <string>
+#include <vector>
 
 #include "TH1D.h"
 
@@ -92,9 +90,9 @@ public:
   // grid error exception
   class exception : public std::exception { 
   public:
-    exception(const std::string& s) { std::cerr << what() << " " << s << std::endl; }
-    exception(std::ostream&)      { std::cerr << std::endl; }
-    virtual const char* what() const throw() { return "appl::grid::exception"; }
+    exception(const std::string& s);
+    exception(std::ostream&);
+    const char* what() const noexcept override;
   };
 
   grid( int Nobs, const double* obsbins,

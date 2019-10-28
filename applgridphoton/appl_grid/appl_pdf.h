@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 
+#include <exception>
 #include <vector> 
 #include <map> 
 #include <string> 
@@ -50,9 +51,9 @@ public:
   // pdf error exception
   class exception : public std::exception { 
   public: 
-    exception(const std::string& s="") { std::cerr << what() << " " << s << std::endl; }; 
-    exception(std::ostream&)      { std::cerr << std::endl; };
-    const char* what() const throw() { return "appl::appl_pdf::exception "; }
+    exception(const std::string& s="");
+    exception(std::ostream&);
+    const char* what() const noexcept;
   };
   
 public:

@@ -55,7 +55,8 @@ libAPPLgrid_la_SOURCES = \
 	lumi_pdf.cxx \
 	tsparse1d.h \
 	tsparse2d.h \
-	tsparse3d.cxx
+	tsparse3d.cxx \
+	tsparse_base.cxx
 
 library_includedir=$(includedir)/appl_grid
 

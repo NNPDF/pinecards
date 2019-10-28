@@ -34,32 +34,6 @@ SparseMatrix3d::SparseMatrix3d(const SparseMatrix3d& s) :
 } 
 
  
-SparseMatrix3d::SparseMatrix3d(const TH3D* h) : 
-  tsparse3d<double>( h->GetNbinsX(), h->GetNbinsY(), h->GetNbinsZ() ),
-  m_fastindex(NULL) {
-  
-  TH1D* hx = (TH1D*)h->Project3D("x");
-  TH1D* hy = (TH1D*)h->Project3D("y");
-  TH1D* hz = (TH1D*)h->Project3D("z");
-  
-  m_xaxis = axis<double>(hx->GetNbinsX(), hx->GetBinCenter(1),  hx->GetBinCenter(hx->GetNbinsX() ) ); 
-  m_yaxis = axis<double>(hy->GetNbinsX(), hy->GetBinCenter(1),  hy->GetBinCenter(hy->GetNbinsX() ) ); 
-  m_zaxis = axis<double>(hz->GetNbinsX(), hz->GetBinCenter(1),  hz->GetBinCenter(hz->GetNbinsX() ) ); 
-  
-  delete hx;
-  delete hy;
-  delete hz;
-  
-  for ( int i=0 ; i<m_xaxis.N() ; i++ ) { 
-    for ( int j=0 ; j<m_yaxis.N() ; j++ ) { 
-      for ( int k=0 ; k<m_zaxis.N() ; k++ ) { 
-	(*this)(i,j,k) = h->GetBinContent(i+1,j+1,k+1);
-      }  
-    }  
-  }
-  setup_fast();
-}
-
 /// check if the actual contents are the same
 bool SparseMatrix3d::operator==(const SparseMatrix3d& s) const { 
 

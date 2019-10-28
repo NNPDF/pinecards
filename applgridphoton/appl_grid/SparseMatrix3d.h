@@ -32,8 +32,6 @@ public:
 		  int Nz, double lz, double uz);
 
   SparseMatrix3d(const SparseMatrix3d& s); 
-  
-  SparseMatrix3d(const TH3D* h);   
 
   ~SparseMatrix3d() { empty_fast(); } 
   

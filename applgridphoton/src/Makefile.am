@@ -54,6 +54,8 @@ libAPPLgrid_la_SOURCES = \
 	hoppet_init.cxx	\
 	hoppet_init.h \
 	lumi_pdf.cxx \
+	sparse_matrix3d_root_interface.cpp \
+	sparse_matrix3d_root_interface.hpp \
 	tsparse3d.cxx \
 	tsparse_base.cxx
 

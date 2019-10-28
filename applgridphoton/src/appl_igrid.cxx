@@ -16,6 +16,7 @@
 
 #include "appl_igrid.h"
 #include "appl_grid/appl_grid.h"
+#include "sparse_matrix3d_root_interface.hpp"
 
 #include "Cache.h"
 #include "Directory.h"
@@ -293,7 +294,7 @@ appl::igrid::igrid(TFile& f, const std::string& s) :
     //    std::cout << "igrid::igrid() read " << name << std::endl;
 
     // create grid
-    m_weight[ip]=new SparseMatrix3d(htmp);
+    m_weight[ip]=sparse_matrix3d_from_th3d(*htmp);
 
     // save some space
     m_weight[ip]->trim();

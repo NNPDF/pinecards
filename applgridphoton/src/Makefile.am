@@ -54,7 +54,8 @@ libAPPLgrid_la_SOURCES = \
 	hoppet_init.cxx	\
 	hoppet_init.h \
 	lumi_pdf.cxx \
-	tsparse3d.cxx
+	tsparse3d.cxx \
+	tsparse_base.cxx
 
 library_includedir=$(includedir)/appl_grid
 

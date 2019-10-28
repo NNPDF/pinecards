@@ -102,9 +102,8 @@ public:
   void fill_phasespace(const double x1, const double x2, const double Q2, const double* weight);
 
   // get the sparse structure for easier access  
-  const SparseMatrix3d* weightgrid(int ip) { return m_weight[ip]; }
   const SparseMatrix3d* weightgrid(int ip) const { return m_weight[ip]; }
-  SparseMatrix3d**      weightgrid() const { return m_weight; }
+  SparseMatrix3d* weightgrid(int ip) { return m_weight[ip]; }
 
   // this section stores the available x<->y transforms.
   // the function pairs are stored in a std::map with a (const std::string) tag - the tag can 

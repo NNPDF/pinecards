@@ -184,6 +184,7 @@ public:
 
   // general status accessors
   double& run() { return m_run; }
+  double run() const { return m_run; }
  
   int  nloops() const;
 

@@ -21,6 +21,7 @@
 #include "appl_timer.h"
 
 
+#include "TH1D.h"
 #include "TFile.h"
 
 int usage(std::ostream& s, int argc, char** argv) { 
@@ -477,13 +478,13 @@ int main(int argc, char** argv) {
   /// uncertainties
 
   std::vector<bin> bxsec;
-  TH1D* h = g.getReference();
+  TH1D* h = static_cast <TH1D*> (g.getReference()->pointer());
 
   //  for ( int i=0 ; i<h->GetNbinsX() ; i++ ) bxsec.push_back( bin(h,i+1) );
 
   //  std::cout << bxsec << std::endl;
 
-  Xsection xsec( g.getReference() );
+  Xsection xsec(h);
 
   //  std::cout << xsec << std::endl;
 
@@ -505,7 +506,7 @@ int main(int argc, char** argv) {
     if ( verbose ) std::cout << _g.getDocumentation() << std::endl;
     g += _g;
 
-    Xsection _xsec( _g.getReference() );
+    Xsection _xsec(static_cast <TH1D*> (_g.getReference()->pointer()));
 
     //    std::cout << i << " " <<  xsec << std::endl;
   

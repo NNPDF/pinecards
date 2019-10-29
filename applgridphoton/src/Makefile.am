@@ -51,6 +51,7 @@ libAPPLgrid_la_SOURCES = \
 	appl_timer.cxx \
 	appl_timer.h \
 	combination.cxx \
+	histo1d.cpp \
 	hoppet_init.cxx	\
 	hoppet_init.h \
 	lumi_pdf.cxx \
@@ -67,6 +68,7 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/appl_pdf.h \
 	$(top_srcdir)/appl_grid/axis.h \
 	$(top_srcdir)/appl_grid/combination.h \
+	$(top_srcdir)/appl_grid/histo1d.hpp \
 	$(top_srcdir)/appl_grid/lumi_pdf.h \
 	$(top_srcdir)/appl_grid/SparseMatrix3d.h \
 	$(top_srcdir)/appl_grid/tsparse1d.h \

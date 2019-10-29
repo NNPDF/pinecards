@@ -37,6 +37,7 @@
 #include "TFileVector.h"
 
 #include "TFile.h"
+#include "TH1D.h"
 #include "TObjString.h"
 #include "TVectorT.h"
 
@@ -143,11 +144,12 @@ appl::grid::grid(int Nobs, const double* obsbins,
 {
 
   // Initialize histogram that saves the correspondence obsvalue<->obsbin
-  m_obs_bins=new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsbins);
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
+  auto* tmp = new TH1D("referenceInternal","Bin-Info for Observable", Nobs, obsbins);
+  tmp->SetDirectory(nullptr);
+  tmp->Sumw2(); /// grrr root is so rubbish - not scaling errors properly
 
-  m_obs_bins_combined = m_obs_bins;
+  m_obs_bins = tmp;
+  m_obs_bins_combined = tmp;
 
   /// check to see if we require a generic pdf from a text file, and
   /// and if so, create the required generic pdf
@@ -394,17 +396,17 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_obs_bins = (TH1D*)gridfilep->Get((dirname+"/reference_internal").c_str());
   if ( m_obs_bins ) { 
     m_obs_bins_combined = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
-    m_obs_bins_combined->SetDirectory(0);
-    m_obs_bins_combined->Scale(run());
+    static_cast <TH1D*> (m_obs_bins_combined)->SetDirectory(0);
+    static_cast <TH1D*> (m_obs_bins_combined)->Scale(run());
   }
   else { 
     m_obs_bins = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
     m_obs_bins_combined = m_obs_bins;
   }
 
-  m_obs_bins->SetDirectory(0);
-  m_obs_bins->Scale(run());
-  m_obs_bins->SetName("referenceInternal");
+  static_cast <TH1D*> (m_obs_bins)->SetDirectory(0);
+  static_cast <TH1D*> (m_obs_bins)->Scale(run());
+  static_cast <TH1D*> (m_obs_bins)->SetName("referenceInternal");
   if ( m_normalised && m_optimised ) m_read = true;
 
 
@@ -485,9 +487,9 @@ appl::grid::~grid() {
     }
   }
   if (m_obs_bins_combined) {
-    if ( m_obs_bins_combined!=m_obs_bins) delete m_obs_bins_combined;
+    if ( m_obs_bins_combined!=m_obs_bins) delete static_cast <TH1D*> (m_obs_bins_combined);
   }
-  if (m_obs_bins) delete m_obs_bins;
+  if (m_obs_bins) delete static_cast <TH1D*> (m_obs_bins);
   m_obs_bins=0;
   m_obs_bins_combined = 0;
 
@@ -502,7 +504,7 @@ appl::grid& appl::grid::operator*=(const double& d) {
   for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs])*=d; 
   }
-  getReference()->Scale( d );
+  getReference().Scale( d );
   combineReference(true);
   return *this;
 }
@@ -548,7 +550,7 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
     }
 
   /// grrr use root TH1::Add() even though I don't like it. 
-  getReference()->Add( g.getReference() );
+  static_cast <TH1D*> (getReference().pointer())->Add( static_cast <TH1D*> (g.getReference().pointer()) );
   combineReference(true);
 
   return *this;
@@ -557,7 +559,7 @@ appl::grid& appl::grid::operator+=(const appl::grid& g) {
 void appl::grid::fill_grid(const double x1, const double x2, const double Q2, const double obs, const double* weight, const int iorder)
 {
   if (m_optimised) {
-    int iobs = m_obs_bins->FindBin(obs)-1;
+    int iobs = static_cast <TH1D*> (m_obs_bins)->FindBin(obs)-1;
     if ( iobs<0 || iobs>=Nobs_internal() ) {
       //    cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
       //    cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
@@ -572,7 +574,7 @@ void appl::grid::fill_grid(const double x1, const double x2, const double Q2, co
     if ( m_symmetrise && x2<x1 )  m_grids[iorder][iobs]->fill(x2, x1, Q2, weight);
     else                          m_grids[iorder][iobs]->fill(x1, x2, Q2, weight);
   } else {
-    int iobs = m_obs_bins->FindBin(obs)-1;
+    int iobs = static_cast <TH1D*> (m_obs_bins)->FindBin(obs)-1;
     if ( iobs<0 || iobs>=Nobs_internal() ) {
       //  cerr << "grid::fill() iobs out of range " << iobs << "\tobs=" << obs << std::endl;
       //  cerr << "obs=" << obs << "\tobsmin=" << obsmin() << "\tobsmax=" << obsmax() << std::endl;
@@ -838,14 +840,14 @@ void appl::grid::Write(const std::string& filename,
 
 
   if ( m_obs_bins_combined != m_obs_bins )  { 
-    reference = (TH1D*)m_obs_bins_combined->Clone("reference");
+    reference = (TH1D*) static_cast <TH1D*> (m_obs_bins_combined)->Clone("reference");
     reference->SetDirectory(0);
 
-    reference_internal = (TH1D*)m_obs_bins->Clone("reference_internal");
+    reference_internal = (TH1D*) static_cast <TH1D*> (m_obs_bins)->Clone("reference_internal");
     reference_internal->SetDirectory(0);
   }
   else { 
-    reference = (TH1D*)m_obs_bins->Clone("reference");
+    reference = (TH1D*) static_cast <TH1D*> (m_obs_bins)->Clone("reference");
     reference->SetDirectory(0);
   }
 
@@ -884,7 +886,20 @@ void appl::grid::Write(const std::string& filename,
   //  std::cout << "written" << std::endl;
 }
 
+int appl::grid::Nobs() const
+{
+    return static_cast <TH1D*> (m_obs_bins_combined)->GetNbinsX();
+}
 
+double appl::grid::deltaobs(int iobs) const
+{
+    return static_cast <TH1D*> (m_obs_bins_combined)->GetBinWidth(iobs+1);
+}
+
+int appl::grid::Nobs_internal() const
+{
+    return static_cast <TH1D*> (m_obs_bins)->GetNbinsX();
+}
 
 // takes pdf as the pdf lib wrapper for the pdf set for the convolution.
 // type specifies which sort of partons should be included:
@@ -1004,7 +1019,7 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
         }
       }
 
-      double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);      
+      double deltaobs = static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(iobs+2)-static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(iobs+1);
       hvec.push_back( invNruns*Escale2*dsigma/deltaobs );
     }
 
@@ -1034,7 +1049,7 @@ void appl::grid::optimise(bool force) {
       m_grids[iorder][iobs]->optimise();
     }
   }
-  m_obs_bins->Reset();
+  static_cast <TH1D*> (m_obs_bins)->Reset();
 }
 
 /// methods to handle the documentation
@@ -1282,20 +1297,20 @@ void appl::grid::combineReference(bool force) {
 
   if ( force ) { 
     if ( m_obs_bins_combined ) { 
-      if ( m_obs_bins_combined!=m_obs_bins ) delete m_obs_bins_combined;
+      if ( m_obs_bins_combined!=m_obs_bins ) delete static_cast <TH1D*> (m_obs_bins_combined);
       m_obs_bins_combined = 0;
     }
   }
 
   if ( m_obs_bins_combined && m_obs_bins_combined!=m_obs_bins) return; 
 
-  std::vector<double> hvec(  m_obs_bins->GetNbinsX(), 0 );
-  std::vector<double> hvece( m_obs_bins->GetNbinsX(), 0 );
+  std::vector<double> hvec(  static_cast <TH1D*> (m_obs_bins)->GetNbinsX(), 0 );
+  std::vector<double> hvece( static_cast <TH1D*> (m_obs_bins)->GetNbinsX(), 0 );
 
 
-  for ( int i=m_obs_bins->GetNbinsX() ; i-- ; )  { 
-    hvec[i]  = m_obs_bins->GetBinContent( i+1 );
-    hvece[i] = m_obs_bins->GetBinError( i+1 );
+  for ( int i=static_cast <TH1D*> (m_obs_bins)->GetNbinsX() ; i-- ; )  {
+    hvec[i]  = static_cast <TH1D*> (m_obs_bins)->GetBinContent( i+1 );
+    hvece[i] = static_cast <TH1D*> (m_obs_bins)->GetBinError( i+1 );
   }
 
   combineBins( hvec );
@@ -1304,10 +1319,10 @@ void appl::grid::combineReference(bool force) {
   std::vector<double> limits(m_combine.size()+1);
   
   int i=0;
-  limits[0] = m_obs_bins->GetBinLowEdge(i+1);
+  limits[0] = static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(i+1);
   for ( unsigned ib=0 ; ib<m_combine.size() ; ib++) { 
     i += m_combine[ib]; 
-    limits[ib+1] = m_obs_bins->GetBinLowEdge(i+1);
+    limits[ib+1] = static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(i+1);
   }
   
   /// need to make this a class variable set to 0 so we don't 
@@ -1350,7 +1365,7 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
       double width = 0;
 
       for ( int ib=0 ; ib<m_combine[ic] && i<hvec.size() ; ib++, i++ ) { 
-	double deltaobs = m_obs_bins->GetBinLowEdge(i+2)-m_obs_bins->GetBinLowEdge(i+1);
+	double deltaobs = static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(i+2)-static_cast <TH1D*> (m_obs_bins)->GetBinLowEdge(i+1);
 	if ( power==1 ) sigma +=  hvec[i]*deltaobs;
 	if ( power==2 ) sigma += (hvec[i]*deltaobs*hvec[i]*deltaobs);
 	width += deltaobs;

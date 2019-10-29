@@ -23,12 +23,12 @@
 #ifndef __APPL_GRID_H
 #define __APPL_GRID_H
 
+#include "histo1d.hpp"
+
 #include <exception>
 #include <iosfwd>
 #include <string>
 #include <vector>
-
-#include "TH1D.h"
 
 namespace appl { 
 
@@ -149,14 +149,14 @@ public:
   void Write(const std::string& filename, const std::string& dirname="grid", const std::string& pdfname="" );
 
   // accessors for the observable after possible bin combination
-  int    Nobs()               const { return m_obs_bins_combined->GetNbinsX(); }
-  double deltaobs(int iobs)   const { return m_obs_bins_combined->GetBinWidth(iobs+1); }
+  int    Nobs()               const;
+  double deltaobs(int iobs)   const;
 
-  const TH1D* getReference() const { return m_obs_bins_combined; } 
-  TH1D*       getReference()       { return m_obs_bins_combined; } 
+  const histo1d getReference() const { return histo1d(m_obs_bins_combined); }
+  histo1d       getReference()       { return histo1d(m_obs_bins_combined); }
 
   // accessors for the observable befor any bin combination
-  int    Nobs_internal()               const { return m_obs_bins->GetNbinsX(); }
+  int    Nobs_internal()               const;
 
   // number of subprocesses 
   int subProcesses(int i) const;
@@ -206,8 +206,8 @@ private:
   void addpdf( const std::string& s, const std::vector<int>& combinations=std::vector<int>() );
 
   // histograms for saving the observable
-  TH1D*  m_obs_bins;
-  TH1D*  m_obs_bins_combined;
+  void* m_obs_bins;
+  void* m_obs_bins_combined;
 
   // the actual weight grids themselves
   std::vector<igrid**> m_grids;

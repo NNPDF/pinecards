@@ -1,4 +1,5 @@
-#include "tsparse3d.h"
+#include "appl_grid/tsparse3d.h"
+#include "appl_grid/tsparse2d.h"
 
 template <typename T>
 tsparse3d<T>::tsparse3d(int nx, int ny, int nz)

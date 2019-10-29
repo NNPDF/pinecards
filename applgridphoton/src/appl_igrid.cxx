@@ -201,7 +201,7 @@ appl::igrid::igrid(const appl::igrid& g) :
 
 
 // read from a file 
-appl::igrid::igrid(TFile& f, const std::string& s) :
+appl::igrid::igrid(void* pf, const std::string& s) :
   mfy(0),  mfx(0),  
   m_Ny1(0),   m_y1min(0),   m_y1max(0),   m_deltay1(0),   
   m_Ny2(0),   m_y2min(0),   m_y2max(0),   m_deltay2(0),   
@@ -228,6 +228,7 @@ appl::igrid::igrid(TFile& f, const std::string& s) :
   // delete _transform;
  
   // get the name of the transform pair
+  TFile& f = *static_cast <TFile*> (pf);
   TFileString _tag = *(TFileString*)f.Get((s+"/Transform").c_str());
   m_transform = _tag[0];
 

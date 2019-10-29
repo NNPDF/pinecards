@@ -22,11 +22,11 @@ SparseMatrix3d* sparse_matrix3d_from_th3d(TH3D const& histogram)
     delete hy;
     delete hz;
 
-    for (std::size_t i = 0; i < matrix->xaxis().N(); ++i)
+    for (int i = 0; i < matrix->xaxis().N(); ++i)
     {
-        for (std::size_t j = 0; j < matrix->yaxis().N(); ++j)
+        for (int j = 0; j < matrix->yaxis().N(); ++j)
         {
-            for (std::size_t k = 0; k < matrix->zaxis().N(); ++k)
+            for (int k = 0; k < matrix->zaxis().N(); ++k)
             {
                 (*matrix)(i,j,k) = histogram.GetBinContent(i + 1, j + 1, k + 1);
             }
@@ -56,7 +56,7 @@ TH3D* sparse_matrix3d_to_th3d(SparseMatrix3d const& matrix, std::string const& s
         matrix.zaxis().max()+0.5*delz
     );
 
-    for (std::size_t i = matrix.lo(); i <= matrix.hi(); ++i)
+    for (int i = matrix.lo(); i <= matrix.hi(); ++i)
     {
         tsparse2d<double> const* s2d = matrix[i];
 
@@ -65,7 +65,7 @@ TH3D* sparse_matrix3d_to_th3d(SparseMatrix3d const& matrix, std::string const& s
             continue;
         }
 
-        for (std::size_t j = s2d->lo(); j <= s2d->hi(); ++j)
+        for (int j = s2d->lo(); j <= s2d->hi(); ++j)
         {
             tsparse1d<double> const* s1d = (*s2d)[j];
 
@@ -74,7 +74,7 @@ TH3D* sparse_matrix3d_to_th3d(SparseMatrix3d const& matrix, std::string const& s
                 continue;
             }
 
-            for (std::size_t k = s1d->lo(); k <= s1d->hi(); ++k)
+            for (int k = s1d->lo(); k <= s1d->hi(); ++k)
             {
                 h->SetBinContent(i + 1, j + 1, k + 1, (*s1d)(k));
             }

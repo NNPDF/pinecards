@@ -82,7 +82,6 @@ int main(int argc, char* argv[])
     }
 
     appl::grid g(argv[2]);
-    const int nloops = g.nloops();
 
     int lhaid = -1;
 
@@ -117,7 +116,7 @@ int main(int argc, char* argv[])
         auto const& xsecs = xsec_appl_orders.at(i);
         auto const& order = g.order_ids().at(i);
 
-        for (std::size_t j = 0; j != g.Nobs_internal(); ++j)
+        for (int j = 0; j != g.Nobs_internal(); ++j)
         {
             if ((order.lmur2() != 0) || (order.lmuf2() != 0))
             {
@@ -139,7 +138,7 @@ int main(int argc, char* argv[])
 
     double sum = 0.0;
 
-    for (std::size_t i = 0; i != g.Nobs_internal(); ++i)
+    for (int i = 0; i != g.Nobs_internal(); ++i)
     {
         double const diff_xsec = xsecs.at(i);
         double const inte_xsec = diff_xsec * g.deltaobs_internal(i);

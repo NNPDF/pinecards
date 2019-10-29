@@ -1,7 +1,7 @@
 #include "sparse_matrix3d_root_interface.hpp"
 
-#include "tsparse2d.h"
-#include "tsparse1d.h"
+#include "appl_grid/tsparse2d.h"
+#include "appl_grid/tsparse1d.h"
 
 #include <TH1D.h>
 

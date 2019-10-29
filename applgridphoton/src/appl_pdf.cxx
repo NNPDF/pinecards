@@ -10,6 +10,8 @@
 
 #include <fstream>
 
+#include "amconfig.h"
+
 #include "appl_grid/appl_pdf.h" 
 
 

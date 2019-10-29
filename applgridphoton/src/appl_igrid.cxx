@@ -13,15 +13,14 @@
 #include <iomanip>
 #include <cmath>
 
-
-#include "appl_igrid.h"
+#include "appl_grid/SparseMatrix3d.h"
+#include "appl_grid/appl_igrid.h"
 #include "appl_grid/appl_grid.h"
 #include "sparse_matrix3d_root_interface.hpp"
 
 #include "Cache.h"
 #include "Directory.h"
 #include "hoppet_init.h"
-#include "SparseMatrix3d.h"
 
 
 #include "TFile.h"

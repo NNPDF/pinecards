@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
 
     std::vector<std::string> strings;
 
-    for (int i = 0; i != grid.order_ids().size(); ++i)
+    for (std::size_t i = 0; i != grid.order_ids().size(); ++i)
     {
         auto const& pdf = *dynamic_cast <lumi_pdf const*> (grid.genpdf(i));
 

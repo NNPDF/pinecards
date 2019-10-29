@@ -154,5 +154,7 @@ void hoppet_init::assign( void (*pdf)(const double&, const double&, double* )  )
   //  std::cout << "hoppet_init::assign()" << std::endl; 
 #   ifdef HAVE_HOPPET 
     hoppetassign_( pdf );
+#   else
+    if (pdf) {}
 #   endif
 }

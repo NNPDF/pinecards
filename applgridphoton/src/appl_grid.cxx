@@ -99,7 +99,7 @@ void Splitting(const double& x, const double& Q, double* xf) {
 
 #else
 
-void Splitting(const double& x, const double& Q, double* xf) {
+void Splitting(const double&, const double&, double*) {
   throw appl::grid::exception( std::cerr << "hoppet library not included - cannot call splitting function"  ); 
   return; // technically, don't need this - should throw an exception
 }
@@ -135,10 +135,10 @@ appl::grid::grid(int Nobs, const double* obsbins,
 		 std::string transform ) :
   m_grids(MAXGRIDS),
   m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
+  m_read(false),
   m_transform(transform), m_genpdfname(genpdfname),
   m_genpdf(MAXGRIDS),
   m_documentation(""),
-  m_read(false),
   m_subproc(-1),
   m_order_ids(order_ids)
 {
@@ -158,9 +158,9 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
   findgenpdf( m_genpdfname );
 
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = 0;
+  for ( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) m_grids[iorder] = 0;
 
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for ( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     m_grids[iorder] = new igrid*[Nobs];
     for ( int iobs=0 ; iobs<Nobs ; iobs++ ) {
       m_grids[iorder][iobs] = new igrid(NQ2, Q2min, Q2max, Q2order,
@@ -172,15 +172,16 @@ appl::grid::grid(int Nobs, const double* obsbins,
 }
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
-  m_order_ids(),
   m_grids(MAXGRIDS),
   m_optimised(false),  m_trimmed(false), 
   m_normalised(false),
-  m_symmetrise(false), m_transform(""), 
+  m_symmetrise(false),
+  m_read(false),
+  m_transform(""),
   m_genpdf(MAXGRIDS),
   m_documentation(""),
-  m_read(false),
-  m_subproc(-1)
+  m_subproc(-1),
+  m_order_ids()
 {
   m_obs_bins_combined = m_obs_bins = 0;
 
@@ -274,9 +275,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
  
   if ( setup->GetNoElements()>7 ) m_normalised = ( (*setup)(7)!=0 ? true : false );
   else                            m_normalised = true;
-
-  int n_userdata = 0;
-  if ( setup->GetNoElements()>11 ) n_userdata = int((*setup)(11)+0.5);
 
   m_order_ids.reserve((*setup)(12));
   for (std::size_t i = 0; i != m_order_ids.capacity(); ++i)
@@ -412,7 +410,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
   //  std::cout << "grid::grid() read obs bins" << std::endl;
 
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     //    std::cout << "grid::grid() iorder=" << iorder << std::endl;
     m_grids[iorder] = new igrid*[Nobs_internal()];  
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {
@@ -483,12 +481,12 @@ int appl::grid::nloops() const
 
   // number of subprocesses 
 int appl::grid::subProcesses(int i) const { 
-  if ( i<0 || i>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
+  if ( i<0 || static_cast <std::size_t> (i)>=m_order_ids.size() ) throw exception( std::cerr << "grid::subProcess(int i) " << i << " out or range [0-" << m_order_ids.size()-1 << "]" << std::endl );
   return m_grids[i][0]->SubProcesses();     
 }  
 
 appl::grid::~grid() {
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     if( m_grids[iorder] ) { 
       for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) { 
 	delete m_grids[iorder][iobs];
@@ -512,7 +510,7 @@ appl::grid::~grid() {
 }
 
 appl::grid& appl::grid::operator*=(const double& d) { 
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) (*m_grids[iorder][iobs])*=d; 
   }
   getReference()->Scale( d );
@@ -598,22 +596,22 @@ void appl::grid::fill_grid(const double x1, const double x2, const double Q2, co
 
 void appl::grid::trim() {
   m_trimmed = true;
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->trim(); 
   }
 }
 
 void appl::grid::untrim() {
   m_trimmed = false;
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->untrim(); 
   }
 }
  /// get the required pdf combinations from those registered   
 void appl::grid::findgenpdf( std::string s ) { 
     std::vector<std::string> names = parse( s, ":" );
-    if ( names.size()==unsigned(m_order_ids.size()) ) for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[i] );
-    else  if ( names.size()==1 )           for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[0] );
+    if ( names.size()==unsigned(m_order_ids.size()) ) for ( std::size_t i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[i] );
+    else  if ( names.size()==1 )           for ( std::size_t i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i] = appl_pdf::getpdf( names[0] );
     else  { 
       throw exception( std::cerr << "requested " << m_order_ids.size() << " pdf combination but given " << names.size() << std::endl );
     }
@@ -687,17 +685,17 @@ void appl::grid::addpdf( const std::string& s, const std::vector<int>& combinati
 
 
 void appl::grid::setckm2( const std::vector<std::vector<double> >& ckm2 ) { 
-  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm2(ckm2);
+  for ( std::size_t i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm2(ckm2);
 }
 
 
 void appl::grid::setckm( const std::vector<std::vector<double> >& ckm ) { 
-  for ( int i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(ckm);
+  for ( std::size_t i=0 ; i<m_order_ids.size() ; i++ ) m_genpdf[i]->setckm(ckm);
 }
 
 // set the rewight flag of the internal grids
 bool appl::grid::reweight(bool t) { 
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) m_grids[iorder][iobs]->reweight(t);       
   }
   return t;
@@ -831,9 +829,9 @@ void appl::grid::Write(const std::string& filename,
   
 
   // internal grids
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {
-      char name[128];  sprintf(name, "weight[alpha-%d][%03d]", iorder, iobs);
+      char name[128];  sprintf(name, "weight[alpha-%zd][%03d]", iorder, iobs);
       // std::cout << "writing grid " << name << std::endl;
       //   _size += m_grids[iorder][iobs]->size();
       m_grids[iorder][iobs]->write(name);
@@ -1049,11 +1047,11 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
       double log_xif2 = std::log(fscale_factor * fscale_factor);
       double log_xir2 = std::log(rscale_factor * rscale_factor);
 
-      for (int i = 0; i != m_order_ids.size(); ++i)
+      for (std::size_t i = 0; i != m_order_ids.size(); ++i)
       {
         double factor = 1.0;
 
-        std::size_t const power = m_order_ids.at(i).alphs() + m_order_ids.at(i).alpha() - lo_power;
+        int const power = m_order_ids.at(i).alphs() + m_order_ids.at(i).alpha() - lo_power;
 
         if (power > nloops)
         {
@@ -1159,7 +1157,7 @@ std::vector<std::vector<double>> appl::grid::vconvolute_orders(void (*pdf1)(cons
 
     //    std::cout << "amc@NLO convolution" << std::endl;
 
-    for (int i = 0; i != m_order_ids.size(); ++i)
+    for (std::size_t i = 0; i != m_order_ids.size(); ++i)
     {
       double log_xif2 = std::log(fscale_factor * fscale_factor);
       double log_xir2 = std::log(rscale_factor * rscale_factor);
@@ -1197,7 +1195,7 @@ void appl::grid::optimise(bool force) {
   if ( !force && m_optimised ) return;
   m_optimised = true;
   m_read = false;
-  for ( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for ( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
     for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ )  { 
       std::cout << "grid::optimise() bin " << iobs << "\t";
       m_grids[iorder][iobs]->optimise();
@@ -1216,7 +1214,7 @@ void appl::grid::addDocumentation(const std::string& s) {
 // find the number of words used for storage
 int appl::grid::size() const { 
     int _size = 0;
-    for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+    for(std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
       for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) _size += m_grids[iorder][iobs]->size();
     }
     return _size;
@@ -1238,7 +1236,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
 
 
   /// loop over orders 
-  for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+  for( std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
 
     std::cout << "appl::grid::shrink() order " << iorder << std::endl;
     
@@ -1320,7 +1318,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
       std::map< int, std::vector<int> >::iterator itr  = same.begin();
       std::map< int, std::vector<int> >::iterator iend = same.end();
 
-      for ( int ik=0 ; ik<m_order_ids.size() ; ik++ ) std::cout << m_genpdf[iorder]->name() << std::endl;
+      for ( std::size_t ik=0 ; ik<m_order_ids.size() ; ik++ ) std::cout << m_genpdf[iorder]->name() << std::endl;
 
       lumi_pdf*  _pdf = 0;
       if ( m_genpdf[iorder]->name().find(".config")!=std::string::npos ){ 
@@ -1425,7 +1423,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
   /// loop over the igrids, telling each grid which processes to keep
   
   for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) { 
-    for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
+    for(std::size_t iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
       //      std::cout << "appl::grid::shrink()  obs " << iobs << "\torder " << iorder << std::endl;       
       m_grids[iorder][iobs]->shrink( keep[iorder] );
     }
@@ -1535,13 +1533,13 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
 
 appl::grid::grid(std::vector<appl::grid>&& grids)
     // TODO: check if all of the following member variables are set correctly
-    : m_optimised(false)
+    : m_run(0.0)
+    , m_optimised(false)
     , m_trimmed(false)
     , m_normalised(false)
     , m_symmetrise(false)
     , m_read(false)
     , m_subproc(-1)
-    , m_run(0.0)
 {
     if (grids.empty())
     {
@@ -1568,14 +1566,14 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
         Nobs += grid.Nobs_internal();
     }
 
-    std::size_t const NQ2     = grids.front().m_grids[0][0]->getNQ2();
-    double      const Q2min   = grids.front().m_grids[0][0]->getQ2min();
-    double      const Q2max   = grids.front().m_grids[0][0]->getQ2max();
-    std::size_t const Q2order = grids.front().m_grids[0][0]->tauorder();
-    std::size_t const Nx      = grids.front().m_grids[0][0]->getNx1();
-    double      const xmin    = grids.front().m_grids[0][0]->getx1min();
-    double      const xmax    = grids.front().m_grids[0][0]->getx1max();
-    std::size_t const xorder  = grids.front().m_grids[0][0]->yorder();
+    int    const NQ2     = grids.front().m_grids[0][0]->getNQ2();
+//    double const Q2min   = grids.front().m_grids[0][0]->getQ2min();
+//    double const Q2max   = grids.front().m_grids[0][0]->getQ2max();
+    int    const Q2order = grids.front().m_grids[0][0]->tauorder();
+    int    const Nx      = grids.front().m_grids[0][0]->getNx1();
+//    double const xmin    = grids.front().m_grids[0][0]->getx1min();
+//    double const xmax    = grids.front().m_grids[0][0]->getx1max();
+    int    const xorder  = grids.front().m_grids[0][0]->yorder();
 
     auto const& transform = grids.front().m_grids[0][0]->transform();
 
@@ -1678,7 +1676,7 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
 
     for (std::size_t i = 0; i != grids.size(); ++i)
     {
-        for (std::size_t j = 0; j != grids.at(i).Nobs_internal(); ++j)
+        for (int j = 0; j != grids.at(i).Nobs_internal(); ++j)
         {
             obsbins.push_back(grids.at(grid_indices.at(i)).obslow(j));
         }
@@ -1696,7 +1694,7 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
     {
         auto const& grid = grids.at(grid_indices.at(i));
 
-        for (std::size_t j = 0; j != grid.Nobs_internal(); ++j)
+        for (int j = 0; j != grid.Nobs_internal(); ++j)
         {
             auto const value = static_cast <TH1D*> (grid.m_obs_bins)->GetBinContent(j + 1);
             auto const error = static_cast <TH1D*> (grid.m_obs_bins)->GetBinError(j + 1);
@@ -1749,7 +1747,7 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
 
         for (std::size_t j = 0; j != grids.size(); ++j)
         {
-            for (std::size_t k = 0; k != grids.at(grid_indices.at(j)).Nobs_internal(); ++k)
+            for (int k = 0; k != grids.at(grid_indices.at(j)).Nobs_internal(); ++k)
             {
                 m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
 

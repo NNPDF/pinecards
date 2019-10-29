@@ -23,12 +23,12 @@
 #ifndef __APPL_GRID_H
 #define __APPL_GRID_H
 
+#include "histo1d.hpp"
+
 #include <exception>
 #include <iosfwd>
 #include <string>
 #include <vector>
-
-#include "TH1D.h"
 
 namespace appl { 
 
@@ -164,20 +164,20 @@ public:
   void Write(const std::string& filename, const std::string& dirname="grid", const std::string& pdfname="" );
 
   // accessors for the observable after possible bin combination
-  int    Nobs()               const { return m_obs_bins_combined->GetNbinsX(); }
-  double obslow(int iobs)     const { return m_obs_bins_combined->GetBinLowEdge(iobs+1); }
-  double obsmax()             const { return obslow(Nobs()); } 
-  double deltaobs(int iobs)   const { return m_obs_bins_combined->GetBinWidth(iobs+1); }
+  int    Nobs()               const;
+  double obslow(int iobs)     const;
+  double obsmax()             const;
+  double deltaobs(int iobs)   const;
 
-  const TH1D* getReference() const { return m_obs_bins_combined; } 
-  TH1D*       getReference()       { return m_obs_bins_combined; } 
+  histo1d const* getReference() const;
+  histo1d*       getReference();
 
   // accessors for the observable befor any bin combination
-  int    Nobs_internal()               const { return m_obs_bins->GetNbinsX(); }
-  double obslow_internal(int iobs)     const { return m_obs_bins->GetBinLowEdge(iobs+1); }
-  double deltaobs_internal(int iobs)   const { return m_obs_bins->GetBinWidth(iobs+1); }
-  double obsmin_internal()             const { return obslow_internal(0); } 
-  double obsmax_internal()             const { return obslow_internal(Nobs_internal()); } 
+  int    Nobs_internal()               const;
+  double obslow_internal(int iobs)     const;
+  double deltaobs_internal(int iobs)   const;
+  double obsmin_internal()             const;
+  double obsmax_internal()             const;
 
   // number of subprocesses 
   int subProcesses(int i) const;
@@ -231,8 +231,8 @@ private:
   void addpdf( const std::string& s, const std::vector<int>& combinations=std::vector<int>() );
 
   // histograms for saving the observable
-  TH1D*  m_obs_bins;
-  TH1D*  m_obs_bins_combined;
+  void* m_obs_bins;
+  void* m_obs_bins_combined;
 
   // the actual weight grids themselves
   std::vector<igrid**> m_grids;

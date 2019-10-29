@@ -40,12 +40,6 @@ public:
   // trim to sparse structure 
   void trim() { empty_fast(); tsparse3d<double>::trim(); }
     
-  // set up fast lookup table into the (untrimmed) 3d array.
-  void setup_fast();
-  
-  // and clean up
-  void empty_fast();
-
   // access using the fast (dangerous) methods
   double& fill_fast(int i, int j, int k);
   double  fill_fast(int i, int j, int k) const;
@@ -98,6 +92,12 @@ public:
 
 
 private:
+
+  // and clean up
+  void empty_fast();
+
+  // set up fast lookup table into the (untrimmed) 3d array.
+  void setup_fast();
 
   axis<double> m_xaxis;
   axis<double> m_yaxis;

@@ -417,7 +417,7 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
       char name[128];  sprintf(name, (dirname+"/weight[alpha-%d][%03d]").c_str(), iorder, iobs);
       //   std::cout << "grid::grid() reading " << name << "\tiobs=" << iobs << std::endl;
 
-      m_grids[iorder][iobs] = new igrid(*gridfilep, name);
+      m_grids[iorder][iobs] = new igrid(gridfilep, name);
 
       //    _size += m_grids[iorder][iobs]->size();
       //      std::cout << "grid::grid() done" << std::endl;

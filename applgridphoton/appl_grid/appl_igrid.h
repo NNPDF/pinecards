@@ -28,8 +28,6 @@
 #include <string>
 #include <vector>
 
-#include <TFile.h>
-
 #include "appl_grid/appl_pdf.h"
 #include "appl_grid/SparseMatrix3d.h"
 
@@ -71,7 +69,7 @@ public:
   igrid(const igrid& g);
 
   // read grid from stored file
-  igrid(TFile& f, const std::string& s);
+  igrid(void* pf, const std::string& s);
 
   ~igrid();
 

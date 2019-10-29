@@ -1,7 +1,7 @@
 #ifndef SPARSE_MATRIX_3D_ROOT_INTERFACE_HPP
 #define SPARSE_MATRIX_3D_ROOT_INTERFACE_HPP
 
-#include "SparseMatrix3d.h"
+#include "appl_grid/SparseMatrix3d.h"
 
 #include <TH3D.h>
 

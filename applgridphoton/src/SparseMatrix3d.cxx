@@ -7,9 +7,10 @@
 //   $Id: SparseMatrix3d.cxx, v1.0   Fri Nov 23 00:49:26 GMT 2007 sutt
 
 
-#include "SparseMatrix3d.h"
+#include "appl_grid/SparseMatrix3d.h"
 #include "tsparse2d.h"
 
+#include "TH1D.h"
 
 
 SparseMatrix3d::SparseMatrix3d( int Nx, double lx, double ux, 

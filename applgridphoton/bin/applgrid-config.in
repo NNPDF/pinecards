@@ -2,7 +2,6 @@
 
 # These variables need to exist
 prefix=@prefix@
-# datadir = @datadir@
 
 
 if [[ $# -eq 0 || -n $( echo $* | egrep -- "--help|-h" ) ]]; then

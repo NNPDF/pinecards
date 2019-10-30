@@ -1,0 +1,46 @@
+srcs1 = [
+    'SparseMatrix3d.cxx',
+    'TFileString.cxx',
+    'TFileVector.cxx',
+    'appl_grid.cxx',
+    'appl_igrid.cxx',
+    'appl_pdf.cxx',
+    'appl_timer.cxx',
+    'combination.cxx',
+    'histo1d.cpp',
+    'hoppet_init.cxx',
+    'lumi_pdf.cxx',
+    'sparse_matrix3d_root_interface.cpp',
+    'tsparse3d.cxx',
+    'tsparse_base.cxx',
+]
+
+root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist' ])
+#root_int = root_dep.get_variable(cmake : 'ROOT_rootcint_CMD')
+root_int = find_program('rootcint')
+root_gen = generator(root_int, arguments : [ '-f', '@OUTPUT0@', '-c', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'], output : [ '@BASENAME@Dict.cxx', '@BASENAME@Dict_rdict.pcm' ])
+
+srcs2 = [
+    root_gen.process('TFileString.cxx'),
+    root_gen.process('TFileVector.cxx'),
+]
+
+config = configuration_data()
+config.set_quoted('PACKAGE_STRING', meson.project_name())
+config.set_quoted('PACKAGE_BUGREPORT', 'this-project-has-no@bugs.it')
+config.set_quoted('PACKAGE_VERSION', meson.project_version())
+config.set_quoted('DATADIR', get_option('prefix') / get_option('datadir'))
+
+conf_header = configure_file(configuration : config, output : 'amconfig.h')
+
+lib = library(
+    meson.project_name(),
+    srcs1, srcs2,
+    include_directories : incdir,
+    dependencies : root_dep,
+    install : true
+)
+
+dep = declare_dependency(include_directories : incdir, link_with : lib, dependencies : root_dep)
+
+exe = executable('applgrid-combine', 'combine.cxx', dependencies : dep, install : true)

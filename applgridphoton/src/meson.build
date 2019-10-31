@@ -16,9 +16,17 @@ srcs1 = [
 ]
 
 root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist' ])
+
+# TODO: instead of finding `rootcint` we should probably extract the CMake variable, but the
+# following doesn't work
 #root_int = root_dep.get_variable(cmake : 'ROOT_rootcint_CMD')
 root_int = find_program('rootcint')
-root_gen = generator(root_int, arguments : [ '-f', '@OUTPUT0@', '-c', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'], output : [ '@BASENAME@Dict.cxx', '@BASENAME@Dict_rdict.pcm' ])
+
+root_gen = generator(
+    root_int,
+    arguments : [ '-f', '@OUTPUT0@', '-c', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'],
+    output : [ '@BASENAME@Dict.cxx', '@BASENAME@Dict_rdict.pcm' ]
+)
 
 srcs2 = [
     root_gen.process('TFileString.cxx'),
@@ -27,6 +35,7 @@ srcs2 = [
 
 config = configuration_data()
 config.set_quoted('PACKAGE_STRING', meson.project_name())
+# TODO: add proper bugreport email address
 config.set_quoted('PACKAGE_BUGREPORT', 'this-project-has-no@bugs.it')
 config.set_quoted('PACKAGE_VERSION', meson.project_version())
 config.set_quoted('DATADIR', get_option('prefix') / get_option('datadir'))

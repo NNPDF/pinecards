@@ -227,7 +227,7 @@ void appl_pdf::setckm2( const std::vector<std::vector<double> >& ckm2 ) {
 
 
 
-};
+}
 
 
 

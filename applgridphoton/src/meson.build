@@ -59,3 +59,13 @@ executable('merge_bins', 'merge_bins.cpp', dependencies : dep, install : true)
 executable('pdf_info', 'pdf_info.cpp', dependencies : dep, install : true)
 executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
 executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
+
+lib2 = library(
+    meson.project_name(),
+    meson.project_name() + '.cpp',
+    include_directories : incdir2,
+    dependencies : dep,
+    install : true
+)
+
+dep2 = declare_dependency(include_directories : incdir2, link_with : lib2, dependencies : dep)

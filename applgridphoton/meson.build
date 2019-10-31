@@ -1,10 +1,10 @@
 project(
     'pineappl',
     'cpp',
-    default_options : [ 'cpp_std=c++14', 'warning_level=3' ],
+    default_options : [ 'cpp_std=c++14', 'debug=false', 'optimization=2', 'warning_level=3' ],
     license : 'GPL3',
     meson_version : '>=0.50.0',
-    version : '1.4.70'
+    version : '0.1.0'
 )
 
 incdir = include_directories('.')
@@ -25,7 +25,9 @@ headers = [
 install_headers(headers, subdir : 'appl_grid')
 
 subdir('bin')
+subdir('include')
 subdir('src')
+subdir('tests')
 
 pkg = import('pkgconfig')
 pkg.generate(

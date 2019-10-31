@@ -1,5 +1,5 @@
 project(
-    'pineappl',
+    'applsaft',
     'cpp',
     default_options : [ 'cpp_std=c++14', 'warning_level=3' ],
     license : 'GPL3',
@@ -25,7 +25,9 @@ headers = [
 install_headers(headers, subdir : 'appl_grid')
 
 subdir('bin')
+subdir('include')
 subdir('src')
+subdir('tests')
 
 pkg = import('pkgconfig')
 pkg.generate(

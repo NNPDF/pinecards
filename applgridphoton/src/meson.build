@@ -53,3 +53,13 @@ lib = library(
 dep = declare_dependency(include_directories : incdir, link_with : lib, dependencies : root_dep)
 
 exe = executable('applgrid-combine', 'combine.cxx', dependencies : dep, install : true)
+
+lib2 = library(
+    meson.project_name(),
+    'applsaft.cpp',
+    include_directories : incdir2,
+    dependencies : dep,
+    install : true
+)
+
+dep2 = declare_dependency(include_directories : incdir2, link_with : lib2, dependencies : dep)

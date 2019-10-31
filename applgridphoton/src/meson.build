@@ -34,7 +34,7 @@ config.set_quoted('DATADIR', get_option('prefix') / get_option('datadir'))
 conf_header = configure_file(configuration : config, output : 'amconfig.h')
 
 lib = library(
-    meson.project_name(),
+    'APPLgrid',
     srcs1, srcs2,
     include_directories : incdir,
     dependencies : root_dep,

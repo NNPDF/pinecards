@@ -309,6 +309,6 @@ private:
 
 };
 
-};
+}
 
 #endif // __APPL_IGRID_H 

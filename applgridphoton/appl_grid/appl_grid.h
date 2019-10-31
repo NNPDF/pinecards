@@ -241,6 +241,6 @@ private:
   std::vector<order_id> m_order_ids;
 };
 
-};
+}
 
 #endif // __APPL_GRID_H 

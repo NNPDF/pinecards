@@ -3,7 +3,7 @@ project(
     'cpp',
     default_options : [ 'cpp_std=c++14', 'debug=false', 'optimization=2', 'warning_level=3' ],
     license : 'GPL3',
-    meson_version : '>=0.50.0',
+    meson_version : '>=0.51.0',
     version : '0.1.0'
 )
 
@@ -28,6 +28,10 @@ subdir('bin')
 subdir('include')
 subdir('src')
 subdir('tests')
+
+if get_option('documentation')
+    subdir('doc')
+endif
 
 pkg = import('pkgconfig')
 pkg.generate(

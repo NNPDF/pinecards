@@ -1,0 +1,11 @@
+# -- Project information -----------------------------------------------------
+
+author = 'Christopher Schwan'
+copyright = '2019, Christopher Schwan'
+project = '@PACKAGE_NAME@'
+release = '@PACKAGE_VERSION@'
+version = '@PACKAGE_VERSION@'
+
+# -- Options for HTML output -------------------------------------------------
+
+html_theme = 'sphinx_rtd_theme'

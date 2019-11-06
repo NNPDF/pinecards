@@ -52,39 +52,16 @@ public:
   void trim() { empty_fast(); sparse3d::trim(); }
     
   // set up fast lookup table into the (untrimmed) 3d array.
-  void setup_fast() { 
-    m_fastindex = new double*[Nx()*Ny()*Nz()];
-
-    for ( int i=0 ; i<Nx() ; i++ ) { 
-      for ( int j=0 ; j<Ny() ; j++ ) { 
-	for ( int k=0 ; k<Nz() ; k++ ) { 
-	  m_fastindex[(i*Ny()+j)*Nz()+k] = &(m_v[i]->v()[j])->v()[k];
-	}
-      }
-    }
-  }
+  void setup_fast();
   
   // and clean up
-  void empty_fast() { 
-    if ( m_fastindex ) delete[] m_fastindex;
-    m_fastindex = NULL;
-  }
+  void empty_fast();
 
   // access using the fast (dangerous) methods
-  double& fill_fast(int i, int j, int k)       { return *m_fastindex[(i*Ny()+j)*Nz()+k]; }
-  double  fill_fast(int i, int j, int k) const { return *m_fastindex[(i*Ny()+j)*Nz()+k]; }
+  double& fill_fast(int i, int j, int k);
+  double  fill_fast(int i, int j, int k) const;
 
-  void fill(double x, double y, double z, double w) { 
-
-    int i=xaxis().bin(x);
-    int j=yaxis().bin(y);
-    int k=zaxis().bin(z);
-
-    if ( i<0 || i>=Nx() || j<0 || j>=Ny() || k<0 || k>=Nz() ) return; 
-   
-    if ( m_fastindex ) fill_fast(i,j,k) += w; 
-    else                 (*this)(i,j,k) += w;
-  }
+  void fill(double x, double y, double z, double w);
   
 
   /// print out

@@ -66,7 +66,13 @@ void SparseMatrix3d::setup_fast() {
   for ( int i=0 ; i<Nx() ; i++ ) {
     for ( int j=0 ; j<Ny() ; j++ ) {
   for ( int k=0 ; k<Nz() ; k++ ) {
-    m_fastindex[(i*Ny()+j)*Nz()+k] = &(m_v[i]->v()[j])->v()[k];
+    auto* tmp1 = m_v[i];
+    auto* tmp2 = tmp1->v();
+    auto* tmp3 = tmp2[j];
+    auto* tmp4 = tmp3->v();
+    auto& tmp5 = tmp4[k];
+
+    m_fastindex[(i*Ny()+j)*Nz()+k] = &tmp5;
   }
     }
   }

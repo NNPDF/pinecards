@@ -7,7 +7,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp inv m', 1, 116d0, 130d0)
+      call HwU_book(1,'lmlp inv m', 1,  116d0,  130d0)
+      call HwU_book(2,'lmlp inv m', 6,  130d0,  250d0)
+      call HwU_book(3,'lmlp inv m', 1,  250d0,  300d0)
+      call HwU_book(4,'lmlp inv m', 2,  300d0,  500d0)
+      call HwU_book(5,'lmlp inv m', 1,  500d0,  700d0)
+      call HwU_book(6,'lmlp inv m', 1,  700d0, 1000d0)
+      call HwU_book(7,'lmlp inv m', 1, 1000d0, 1500d0)
       return
       end
 
@@ -45,6 +51,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
 
       call HwU_fill(1,xmll,wgts)
+      call HwU_fill(2,xmll,wgts)
+      call HwU_fill(3,xmll,wgts)
+      call HwU_fill(4,xmll,wgts)
+      call HwU_fill(5,xmll,wgts)
+      call HwU_fill(6,xmll,wgts)
+      call HwU_fill(7,xmll,wgts)
 
  999  return      
       end

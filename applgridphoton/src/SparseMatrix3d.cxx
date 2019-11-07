@@ -30,7 +30,7 @@ SparseMatrix3d::SparseMatrix3d(const SparseMatrix3d& s) :
   m_yaxis(s.m_yaxis),
   m_zaxis(s.m_zaxis),
   m_fastindex(NULL) { 
-  setup_fast();
+  if (s.m_v) { setup_fast(); }
 } 
 
  

@@ -1,5 +1,0 @@
-1) Dynamical central scale for top/antitop production - differential distributions
-
-Where: Template/NLO/SubProcesses/setscales.f
-What:  Added a dynamical scale HT/4 see arXiv:1611.08609
-Whwn:  ATLASTOPDIFF8TEVTRAPNORM; CMSTOPDIFF8TEVTTRAPNORM

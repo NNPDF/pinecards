@@ -36,12 +36,10 @@ after the corresponding data set included in a NNPDF fit.
   kinematic bin so far. Examples on how to do so can be found in the
   `Template/NLO/FixedOrderAnalysis/` folder of Madgraph/MC@NLO.
 
-* The patch(es) file(s) (optional). These are one or more `.f` files
+* The *patch* file(s) (optional). These are one or more `.f` files
   containing any patches to the default Madgraph/MC@NLO. For instance should
   you define a dynamical scale, the modified `setscales.f` file should be 
-  amended and stored there. The list of patches, with a description
-  including the data set to which they apply to, should be kept updated in the
-  `patches.txt` file.
+  amended and stored in the right directory.
 
 Provided the above files, the production of the grids only requires the user to
 run the `./run.sh [nameset] [binID]` script. The script takes two variables as 

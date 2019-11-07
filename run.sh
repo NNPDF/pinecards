@@ -39,6 +39,12 @@ fi
 echo "Creating output folder"
 python2 "${mg5amc}" nnpdf31_proc/output/$experimentbin.txt
 
+# Copy patches if there are any
+if [[ -d nnpdf31_proc/patches/$experiment ]]; then
+    echo "Copying patches"
+    cp -r nnpdf31_proc/patches/$experiment/* $experimentbin/
+fi
+
 #Enforce proper analysis
 echo "Copying the relevant analysis"
 cp nnpdf31_proc/analyses/$experiment/$experimentbin.f $experimentbin/FixedOrderAnalysis

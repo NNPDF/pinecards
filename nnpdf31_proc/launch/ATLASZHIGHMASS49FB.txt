@@ -13,6 +13,7 @@ set muf_ref_fixed 91.176
 set reweight_scale False
 set ptl = 25.0
 set etal = 2.5
+set mll = 116
 set req_acc_FO 0.01
 set iappl 1
 done

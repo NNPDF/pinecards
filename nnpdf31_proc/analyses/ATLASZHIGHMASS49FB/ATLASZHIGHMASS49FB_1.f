@@ -33,6 +33,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       implicit none
       include 'nexternal.inc'
+      include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
       integer ibody  
@@ -42,9 +43,19 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
       external getinvm
 
+      double precision p_reco(0:4,nexternal)
+      integer iPDG_reco(nexternal)
+
+
+
+      call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
+     $                       p, iPDG, p_reco, iPDG_reco)
+
+      do j = nincoming+1, nexternal
+        if (iPDG_reco(j).eq.11) ppl(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.-11) pplb(0:3)=p_reco(0:3,j)
+      enddo
       do i=0,3
-        ppl(i)=p(i,4)
-        pplb(i)=p(i,3)
         ppv(i)=ppl(i)+pplb(i)
       enddo
 

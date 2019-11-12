@@ -38,6 +38,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer iPDG(nexternal)
       integer ibody  
       integer i
+      integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm

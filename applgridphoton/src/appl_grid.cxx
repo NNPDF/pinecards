@@ -21,6 +21,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cmath>
+#include <numeric>
 
 #include "appl_grid/appl_pdf.h"
 #include "appl_grid/appl_timer.h"
@@ -2237,4 +2238,201 @@ std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
   s << std::endl;
   
   return s;
+}
+
+appl::grid::grid(std::vector<appl::grid>&& grids)
+{
+    if (grids.empty())
+    {
+        throw std::runtime_error("called `merge_bins` with empty `grids` parameter");
+    }
+
+    for (auto& grid : grids)
+    {
+        grid.untrim();
+    }
+
+    std::vector<std::size_t> grid_indices(grids.size());
+    std::iota(grid_indices.begin(), grid_indices.end(), 0);
+
+    // instead of sorting the grids we sort the *indices* of the grids, according to their lower
+    // bin limit
+    std::sort(grid_indices.begin(), grid_indices.end(), [&](std::size_t a, std::size_t b) {
+        return grids.at(a).obsmin_internal() < grids.at(b).obsmin_internal();
+    });
+
+    std::size_t Nobs = 0;
+    for (auto const& grid : grids)
+    {
+        Nobs += grid.Nobs_internal();
+    }
+
+    std::size_t const NQ2     = grids.front().m_grids[0][0]->getNQ2();
+    double      const Q2min   = grids.front().m_grids[0][0]->getQ2min();
+    double      const Q2max   = grids.front().m_grids[0][0]->getQ2max();
+    std::size_t const Q2order = grids.front().m_grids[0][0]->tauorder();
+    std::size_t const Nx      = grids.front().m_grids[0][0]->getNx1();
+    double      const xmin    = grids.front().m_grids[0][0]->getx1min();
+    double      const xmax    = grids.front().m_grids[0][0]->getx1max();
+    std::size_t const xorder  = grids.front().m_grids[0][0]->yorder();
+
+    auto const& transform = grids.front().m_grids[0][0]->transform();
+
+    std::size_t const orders = grids.front().order_ids().size();
+
+    for (std::size_t i = 1; i != grids.size(); ++i)
+    {
+        // TODO: relax the condition `!=` with a certain numerical precision?
+
+        // check that the bins are non-overlapping and contiguous
+        if (grids.at(grid_indices.at(i)).obsmin_internal() !=
+            grids.at(grid_indices.at(i - 1)).obsmax_internal())
+        {
+            throw std::runtime_error("called `merge_bins` with overlapping or non-contiguous bins");
+        }
+
+        // check that all the fixed orders are the same and in the same order
+        std::equal(grids.at(i).order_ids().begin(), grids.at(i).order_ids().end(),
+            grids.front().order_ids().begin());
+
+        // TODO: the following will not work
+//        auto const* lumi_front = appl::grid::getpdf(grids.front().m_genpdf[j]);
+//
+//        // check that all luminosities are the same and in the same order
+//        for (std::size_t j = 0; j != orders; ++j)
+//        {
+//            auto const* lumi = appl::grid::getpdf(grids.at(i).m_genpdf[j]);
+//
+//            if (lumi != lumi_front)
+//            {
+//                throw std::runtime_error("called `merge_bins` with different grids having "
+//                    "different luminosities");
+//            }
+//        }
+
+        // check that (most?) grid parameters are the same
+        if (NQ2 != grids.at(i).m_grids[0][0]->getNQ2())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+
+//        if (Q2min != grids.at(i).m_grids[0][0]->getQ2min())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+//
+//        if (Q2max != grids.at(i).m_grids[0][0]->getQ2max())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+
+        if (Q2order != grids.at(i).m_grids[0][0]->tauorder())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+
+        if (Nx != grids.at(i).m_grids[0][0]->getNx1())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+
+//        if (xmin != grids.at(i).m_grids[0][0]->getx1min())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+//
+//        if (xmax != grids.at(i).m_grids[0][0]->getx1max())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+
+        if (Nx != grids.at(i).m_grids[0][0]->getNx2())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+
+//        if (xmin != grids.at(i).m_grids[0][0]->getx2min())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+//
+//        if (xmax != grids.at(i).m_grids[0][0]->getx2max())
+//        {
+//            throw std::runtime_error("called `merge_bins` with different grid parameters");
+//        }
+
+        if (xorder != grids.at(i).m_grids[0][0]->yorder())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+
+        if (transform != grids.at(i).m_grids[0][0]->transform())
+        {
+            throw std::runtime_error("called `merge_bins` with different grid parameters");
+        }
+    }
+
+    std::vector<double> obsbins;
+    obsbins.reserve(Nobs + 1);
+
+    for (std::size_t i = 0; i != grids.size(); ++i)
+    {
+        for (std::size_t j = 0; j != grids.at(i).Nobs_internal(); ++j)
+        {
+            obsbins.push_back(grids.at(grid_indices.at(i)).obslow(j));
+        }
+    }
+
+    obsbins.push_back(grids.back().obsmax());
+
+    m_obs_bins = new TH1D("referenceInternal", "Bin-Info for Observable", Nobs, obsbins.data());
+    m_obs_bins->SetDirectory(0);
+    m_obs_bins->Sumw2();
+
+    // copy the bin info
+    std::size_t bin = 0;
+    for (std::size_t i = 0; i != grids.size(); ++i)
+    {
+        for (std::size_t j = 0; j != grids.at(grid_indices.at(i)).Nobs_internal(); ++j)
+        {
+            // TODO: are the uncertainties that need to be copied?
+            m_obs_bins->SetBinContent(bin,
+                grids.at(grid_indices.at(i)).m_obs_bins->GetBinContent(j));
+        }
+    }
+
+    m_obs_bins_combined = m_obs_bins;
+
+    // TODO: here we assume that all luminosities are the same (as for the first grid)
+    m_genpdfname = grids.front().m_genpdfname;
+
+    if (contains(m_genpdfname, ".dat") || contains(m_genpdfname, ".config"))
+    {
+        addpdf(m_genpdfname);
+    }
+
+    findgenpdf(m_genpdfname);
+
+    m_grids.resize(orders);
+    m_genpdf.resize(orders);
+
+    for (std::size_t i = 0; i != orders; ++i)
+    {
+        std::size_t obs = 0;
+
+        m_grids.at(i) = new igrid*[Nobs];
+
+        for (std::size_t j = 0; j != grids.size(); ++j)
+        {
+            for (std::size_t k = 0; k != grids.at(grid_indices.at(j)).Nobs_internal(); ++k)
+            {
+                ++obs;
+
+                m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
+                m_grids.at(i)[obs]->setparent(this);
+            }
+        }
+
+        m_genpdf.at(i) = grids.front().m_genpdf[i];
+    }
 }

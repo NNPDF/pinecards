@@ -110,6 +110,8 @@ public:
 
 public:
 
+  grid(std::vector<grid>&& grids);
+
   grid(int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0,  int Q2order=5,
        int Nx=50,   double xmin=1e-5,     double xmax=0.9,          int xorder=5,
        int Nobs=20, double obsmin=100.0,  double obsmax=7000.0,

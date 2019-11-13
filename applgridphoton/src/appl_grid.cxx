@@ -2415,6 +2415,7 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
 
     m_grids.resize(orders);
     m_genpdf.resize(orders);
+    m_order_ids = grids.front().m_order_ids;
 
     for (std::size_t i = 0; i != orders; ++i)
     {
@@ -2426,10 +2427,10 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
         {
             for (std::size_t k = 0; k != grids.at(grid_indices.at(j)).Nobs_internal(); ++k)
             {
-                ++obs;
-
                 m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
                 m_grids.at(i)[obs]->setparent(this);
+
+                ++obs;
             }
         }
 

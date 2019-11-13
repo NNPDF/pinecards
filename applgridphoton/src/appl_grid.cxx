@@ -1843,7 +1843,7 @@ void appl::grid::addCorrection(TH1D* h, const std::string& label, double scale, 
 // find the number of words used for storage
 int appl::grid::size() const { 
     int _size = 0;
-    for( int iorder=0 ; iorder<2 ; iorder++ ) {
+    for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
       for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) _size += m_grids[iorder][iobs]->size();
     }
     return _size;
@@ -2090,7 +2090,7 @@ void appl::grid::shrink(const std::string& name, int ckmcharge) {
   /// loop over the igrids, telling each grid which processes to keep
   
   for( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) { 
-    for( int iorder=0 ; iorder<2 ; iorder++ ) {
+    for( int iorder=0 ; iorder<m_order_ids.size() ; iorder++ ) {
       //      std::cout << "appl::grid::shrink()  obs " << iobs << "\torder " << iorder << std::endl;       
       m_grids[iorder][iobs]->shrink( keep[iorder] );
     }

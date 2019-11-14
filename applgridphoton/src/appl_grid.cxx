@@ -2395,9 +2395,9 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
     {
         for (std::size_t j = 0; j != grids.at(grid_indices.at(i)).Nobs_internal(); ++j)
         {
-            // TODO: are the uncertainties that need to be copied?
             m_obs_bins->SetBinContent(bin,
                 grids.at(grid_indices.at(i)).m_obs_bins->GetBinContent(j));
+            m_obs_bins->SetBinError(bin, grids.at(grid_indices.at(i)).m_obs_bins->GetBinError(j));
 
             ++bin;
         }

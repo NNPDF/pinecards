@@ -2241,6 +2241,17 @@ std::ostream& operator<<(std::ostream& s, const appl::grid& g) {
 }
 
 appl::grid::grid(std::vector<appl::grid>&& grids)
+    // TODO: check if all of the following member variables are set correctly
+    : m_optimised(false)
+    , m_trimmed(false)
+    , m_normalised(false)
+    , m_symmetrise(false)
+    , m_dynamicScale(0)
+    , m_applyCorrections(false)
+    , m_read(false)
+    , m_subproc(-1)
+    , m_bin(-1)
+    , m_run(0.0)
 {
     if (grids.empty())
     {
@@ -2430,6 +2441,8 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
     m_grids.resize(orders);
     m_genpdf.resize(orders);
     m_order_ids = grids.front().m_order_ids;
+    m_documentation = grids.at(grid_indices.front()).m_documentation;
+    m_transform = transform;
 
     for (std::size_t i = 0; i != orders; ++i)
     {

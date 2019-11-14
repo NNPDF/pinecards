@@ -2390,18 +2390,30 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
     m_obs_bins->Sumw2();
 
     // copy the bin info
-    std::size_t bin = 0;
+    std::size_t bin = 1;
     for (std::size_t i = 0; i != grids.size(); ++i)
     {
-        for (std::size_t j = 0; j != grids.at(grid_indices.at(i)).Nobs_internal(); ++j)
+        auto const& grid = grids.at(grid_indices.at(i));
+
+        for (std::size_t j = 0; j != grid.Nobs_internal(); ++j)
         {
-            m_obs_bins->SetBinContent(bin,
-                grids.at(grid_indices.at(i)).m_obs_bins->GetBinContent(j));
-            m_obs_bins->SetBinError(bin, grids.at(grid_indices.at(i)).m_obs_bins->GetBinError(j));
+            auto const value = grid.m_obs_bins->GetBinContent(j + 1);
+            auto const error = grid.m_obs_bins->GetBinError(j + 1);
+
+            m_obs_bins->SetBinContent(bin, value);
+            m_obs_bins->SetBinError(bin, error);
 
             ++bin;
         }
     }
+
+    auto const underflow = grids.at(grid_indices.front()).m_obs_bins->GetBinContent(0);
+    auto const overflow  = grids.at(grid_indices.back()).m_obs_bins->GetBinContent(
+        grids.at(grid_indices.back()).m_obs_bins->GetNbinsX());
+
+    // set under- and overflow bins
+    m_obs_bins->SetBinContent(0, underflow);
+    m_obs_bins->SetBinContent(bin, overflow);
 
     m_obs_bins_combined = m_obs_bins;
 

@@ -18,7 +18,7 @@ set iappl 1
 done
 launch ATLASZHIGHMASS49FB
 fixed_order = ON
-set req_acc_FO 0.0001
+set req_acc_FO 0.001
 set iappl 2
 done
 quit

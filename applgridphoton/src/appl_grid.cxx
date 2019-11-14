@@ -2411,20 +2411,26 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
             auto const value = grid.m_obs_bins->GetBinContent(j + 1);
             auto const error = grid.m_obs_bins->GetBinError(j + 1);
 
-            m_obs_bins->SetBinContent(bin, value);
-            m_obs_bins->SetBinError(bin, error);
+            m_obs_bins->SetBinContent(bin, value / grid.m_run);
+            m_obs_bins->SetBinError(bin, error / grid.m_run);
 
             ++bin;
         }
     }
 
-    auto const underflow = grids.at(grid_indices.front()).m_obs_bins->GetBinContent(0);
-    auto const overflow  = grids.at(grid_indices.back()).m_obs_bins->GetBinContent(
+    auto const underflow_value = grids.at(grid_indices.front()).m_obs_bins->GetBinContent(0);
+    auto const underflow_error = grids.at(grid_indices.front()).m_obs_bins->GetBinError(0);
+
+    m_obs_bins->SetBinContent(0, underflow_value / grids.at(grid_indices.front()).m_run);
+    m_obs_bins->SetBinError(0,   underflow_error / grids.at(grid_indices.front()).m_run);
+
+    auto const overflow_value = grids.at(grid_indices.back()).m_obs_bins->GetBinContent(
+        grids.at(grid_indices.back()).m_obs_bins->GetNbinsX());
+    auto const overflow_error = grids.at(grid_indices.back()).m_obs_bins->GetBinError(
         grids.at(grid_indices.back()).m_obs_bins->GetNbinsX());
 
-    // set under- and overflow bins
-    m_obs_bins->SetBinContent(0, underflow);
-    m_obs_bins->SetBinContent(bin, overflow);
+    m_obs_bins->SetBinContent(0, overflow_value / grids.at(grid_indices.front()).m_run);
+    m_obs_bins->SetBinError(0,   overflow_error / grids.at(grid_indices.front()).m_run);
 
     m_obs_bins_combined = m_obs_bins;
 

@@ -31,66 +31,24 @@ int main(int argc, char* argv[]) {
   //Define the applgrids
   string applgridname = argv[2];
  
-  //Define bin number
-  int nbin=1;
- 
-  //Initialise APPLGRID vector
-  vector<string> applgrids;
-  vector<int> appl_bin;
+  string gridname= applgridname;
+  appl::grid g(gridname);
+  //g.trim();
+  const int nloops = g.nloops();
+  cout << "applgrid initialised" << endl;
 
-  for(int ibin=0; ibin<nbin; ibin++)
-    {
-      applgrids.push_back(applgridname);
-      appl_bin.push_back(ibin);
-    }
+  //Initialise the PDF set via LHAPDF6
+  cout << "Initialising PDF set" << endl;
+  std::string _pdfname=nameset;
+  cout << "PDF set " << _pdfname << endl;
+  int imem_init = 0;
+  LHAPDF::initPDFSet( _pdfname, imem_init );
+  LHAPDF::initPDF( 0 );
+  std::vector<double> const& xsec_appl = g.vconvolute( evolvepdf_, alphaspdf_ , nloops);
 
-  //Initialise process
-  int iproc, nproc;
-  iproc = -1;
-  nproc=applgrids.size();
-  cout << "number of processes " << nproc << endl;
-
-  //Initialise cross section
-  int nbins=0;
-  double xsec=0.0;
-
-  for(int ibin=0; ibin<nbin; ibin++)
-    {
-      cout << "Bin #" << ibin << " ... ";
-      
-      //Initialize the APPLGRID
-      iproc=ibin+nbins;
-      stringstream sbin;
-      sbin << appl_bin.at(iproc);
-      cout << "Initializing the APPLGRID" << endl;
-      string gridname= applgridname;
-      appl::grid g(gridname);
-      g.trim();
-      const int nloops = g.nloops();
-      cout << "applgrid initialised" << endl;
-      
-      //Initialise the PDF set via LHAPDF6
-      cout << "Initialising PDF set" << endl;
-      std::string _pdfname=nameset;
-      cout << "PDF set " << _pdfname << endl;
-      int imem_init = 0;
-      LHAPDF::initPDFSet( _pdfname, imem_init );
-      LHAPDF::initPDF( 0 );
-      std::vector<double> xsec_appl = g.vconvolute( evolvepdf_, alphaspdf_ , nloops);
-      
-
-	      
-      xsec = xsec_appl.at( appl_bin.at(iproc) );
-      cout << "   " << xsec << " [pb]" << endl;
-      
-      nbins=nbins+nbin;
-      cout << "done" << endl;
-    }
-  
-  if(nbins!=nproc)
-    {
-      cout << "Mismatch between number of bins and number of processes" << endl;
-      cout << "nbins = " << nbins << "nproc = " << nproc << endl;
-    } 
+  for (std::size_t i = 0; i != xsec_appl.size(); ++i)
+  {
+    double xsec = xsec_appl.at(i);
+    cout << "   bin #" << i << ": " << xsec << " [pb]" << endl;
+  }
 }
-

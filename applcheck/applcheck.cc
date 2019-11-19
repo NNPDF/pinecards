@@ -20,18 +20,16 @@ int main(int argc, char* argv[]) {
   //Set LHAPDF low verbosity
   LHAPDF::setVerbosity(0);
 
-  //Define the input PDF sets
-  string nameset;
-  cout << "Enter PDF set name" << endl;
-  cin >> nameset;
+  if (argc != 3)
+  {
+    std::cerr << "Usage: applcheck PDF-set-name applgrid-file\n";
+    return 1;
+  }
 
+  //Define the input PDF sets
+  string nameset = argv[1];
   //Define the applgrids
-  string applgriddir;
-  cout << "Enter path to applgrid" << endl;
-  cin >> applgriddir;
-  string applgridname;
-  cout << "Enter applgrid name" << endl;
-  cin >> applgridname;
+  string applgridname = argv[2];
  
   //Define bin number
   int nbin=1;
@@ -65,7 +63,7 @@ int main(int argc, char* argv[]) {
       stringstream sbin;
       sbin << appl_bin.at(iproc);
       cout << "Initializing the APPLGRID" << endl;
-      string gridname= applgriddir + applgridname;
+      string gridname= applgridname;
       appl::grid g(gridname);
       g.trim();
       const int nloops = g.nloops();

@@ -121,7 +121,9 @@ public:
 
   // get the sparse structure for easier access  
   const SparseMatrix3d* weightgrid(int ip) { return m_weight[ip]; }
+  const SparseMatrix3d* weightgrid(int ip) const { return m_weight[ip]; }
   SparseMatrix3d**      weightgrid()       { return m_weight; } 
+  SparseMatrix3d**      weightgrid() const { return m_weight; }
 
 
   // this section stores the available x<->y transforms.
@@ -297,6 +299,7 @@ public:
   bool   seDISgrid(bool t=true)  { return m_DISgrid=t; } 
 
   bool   reweight(bool t=true)   { return m_reweight=t; }
+  bool   reweight() const        { return m_reweight; }
 
   bool   shrink(const std::vector<int>& keep);
 

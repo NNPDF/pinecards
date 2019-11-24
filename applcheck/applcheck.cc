@@ -49,6 +49,6 @@ int main(int argc, char* argv[]) {
   for (std::size_t i = 0; i != xsec_appl.size(); ++i)
   {
     double xsec = xsec_appl.at(i);
-    cout << "   bin #" << i << ": " << xsec << " [pb]" << endl;
+    cout << "   bin #" << i << ": " << std::scientific << xsec << " [pb]" << endl;
   }
 }

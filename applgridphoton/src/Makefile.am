@@ -129,13 +129,16 @@ library_include_HEADERS = \
 	$(top_srcdir)/appl_grid/tsparse_base.h \
 	$(top_srcdir)/appl_grid/vrapz_pdf.h
 
-bin_PROGRAMS = applgrid-combine merge_bins
+bin_PROGRAMS = applgrid-combine merge_bins pdf_info
 applgrid_combine_SOURCES = combine.cxx
 applgrid_combine_LDADD = libAPPLgrid.la
 applgrid_combine_LDFLAGS = $(ROOTLDFLAGS) $(ROOTLIBS) $(HOPPETLIBS) $(FRTLLIB) $(FRTLIB)
 
 merge_bins_SOURCES = merge_bins.cpp
 merge_bins_LDADD = libAPPLgrid.la
+
+pdf_info_SOURCES = pdf_info.cpp
+pdf_info_LDADD = libAPPLgrid.la
 
 TFileStringDict.cxx: TFileString.h TFileString.cxx
 	$(AM_V_GEN)$(CINT) -f $@ -c $<

@@ -5,11 +5,31 @@ with the central grid of a set of PDFs and outputs its value (in pb),
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include "LHAPDF/LHAPDF.h"
 #include "appl_grid/appl_grid.h"
 
-extern "C" void evolvepdf_(const double& , const double& , double* ); 
-extern "C" double alphaspdf_(const double& Q);
+std::unique_ptr<LHAPDF::PDF> pdf;
+bool use_photon;
+
+extern "C" void evolvepdf(double const& x, double const& q, double* xfx)
+{
+    // 2x 6 quark flavour + gluon + photon
+    static std::vector<double> buffer(2 * 6 + 1 + 1);
+
+    pdf->xfxQ(x, q, buffer);
+    std::copy(buffer.begin(), buffer.end(), xfx);
+
+    if (use_photon)
+    {
+        xfx[2 * 6 + 1] = pdf->xfxQ(22, x, q);
+    }
+}
+
+extern "C" double alphaspdf(double const& q)
+{
+    return pdf->alphasQ(q);
+}
 
 using namespace LHAPDF;
 using namespace std;
@@ -42,13 +62,15 @@ int main(int argc, char* argv[]) {
   std::string _pdfname=nameset;
   cout << "PDF set " << _pdfname << endl;
   int imem_init = 0;
-  LHAPDF::initPDFSet( _pdfname, imem_init );
-  LHAPDF::initPDF( 0 );
-  std::vector<double> const& xsec_appl = g.vconvolute( evolvepdf_, alphaspdf_ , nloops);
+  pdf.reset(LHAPDF::mkPDF(_pdfname, imem_init));
+  use_photon = pdf->hasFlavor(22);
+  std::vector<double> const& xsec_appl = g.vconvolute(evolvepdf, alphaspdf, nloops);
 
   for (std::size_t i = 0; i != xsec_appl.size(); ++i)
   {
     double xsec = xsec_appl.at(i);
     cout << "   bin #" << i << ": " << std::scientific << xsec << " [pb]" << endl;
   }
+
+  pdf.release();
 }

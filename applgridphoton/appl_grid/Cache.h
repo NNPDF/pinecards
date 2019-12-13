@@ -51,7 +51,7 @@ public:
   /// if this node has been requested before, retrieve values 
   /// from the cache, if not, generate and then add to cache
   /// for next time 
-  void evaluate( const double& x, const double& Q2, double*  xf ) { 
+  void evaluate( const double& x, const double& Q, double*  xf ) {
     
     if ( _pdf==0 ) { 
       /// should really throw an exception here
@@ -62,13 +62,13 @@ public:
     _ncalls++;
 
     /// if we don't want to use the cache for some reason (it can get quite large)     
-    if ( _disabled ) return _pdf( x, Q2, xf ); 
+    if ( _disabled ) return _pdf( x, Q, xf );
 
     //    _reset++;
 
-    T t(x, Q2);
+    T t(x, Q);
 
-    /// find out if this x, Q2 node is in the cache ...
+    /// find out if this x, Q node is in the cache ...
        
     typename _map::const_iterator itr = this->find( t );
     
@@ -81,7 +81,7 @@ public:
       /// not in cache, call pdf function 
       static std::vector<double> _xf(14);
 
-      _pdf( x, Q2, &_xf[0] ); 
+      _pdf( x, Q, &_xf[0] );
 
       /// add to cache if enough room
       if ( this->size()<_max ) this->insert( typename _map::value_type( t, _xf ) );

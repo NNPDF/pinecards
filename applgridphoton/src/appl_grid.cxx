@@ -1470,6 +1470,102 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
   return hvec;
 }
 
+std::vector<std::vector<double>> appl::grid::vconvolute_orders(void (*pdf1)(const double& , const double&, double* ),
+					   void (*pdf2)(const double& , const double&, double* ),
+					   double (*alphas)(const double& ),
+					   double  rscale_factor,
+					   double  fscale_factor,
+					   double Escale )
+{
+
+  NodeCache cache1( pdf1 );
+  NodeCache cache2;
+
+  cache1.reset();
+
+  NodeCache* _pdf1 = &cache1;
+  NodeCache* _pdf2 = 0;
+
+  if ( pdf2!=0 && pdf1!=pdf2 ) {
+    cache2 = NodeCache( pdf2 );
+    cache2.reset();
+
+    _pdf2    = &cache2;
+  }
+
+
+
+  //  struct timeval _ctimer = appl_timer_start();
+
+  double Escale2 = 1;
+
+  if ( Escale!=1 ) Escale2 = Escale*Escale;
+
+  std::vector<std::vector<double>> hvec(m_order_ids.size());
+
+  double invNruns = 1;
+  if ( (!m_normalised) && run() ) invNruns /= double(run());
+
+  //  TH1D* h = new TH1D(*m_obs_bins);
+  //  h->SetName("xsec");
+
+#ifdef HAVE_HOPPET
+  // check if we need to use the splitting function, and if so see if we
+  // need to initialise it again, and do so if required
+  if ( fscale_factor!=1 || m_dynamicScale ) {
+
+    if ( pdf2==0 || pdf1==pdf2 ) {
+
+      if ( hoppet == 0 ) {
+	double Qmax = 15000;
+	if ( m_cmsScale>Qmax ) Qmax = m_cmsScale;
+	hoppet = new hoppet_init( Qmax );
+      }
+
+      bool newpdf = hoppet->compareCache( pdf1 );
+
+      if ( newpdf ) hoppet->fillCache( pdf1 );
+
+    }
+
+  }
+#endif
+
+    //    std::cout << "amc@NLO convolution" << std::endl;
+
+    for (int i = 0; i != m_order_ids.size(); ++i)
+    {
+      double log_xif2 = std::log(fscale_factor * fscale_factor);
+      double log_xir2 = std::log(rscale_factor * rscale_factor);
+
+      for ( int iobs=0 ; iobs<Nobs_internal() ; iobs++ ) {
+
+        double dsigma = 0;
+        double factor = 1.0;
+
+        if (m_order_ids.at(i).lmuf2() != 0)
+        {
+            factor *= log_xif2;
+        }
+
+        if (m_order_ids.at(i).lmur2() != 0)
+        {
+            factor *= log_xir2;
+        }
+
+        if (factor != 0.0)
+        {
+            dsigma = m_grids[i][iobs]->amc_convolute( _pdf1, _pdf2, m_genpdf[i], alphas, m_order_ids.at(i).alphs(), 0, rscale_factor, fscale_factor, Escale);
+        }
+
+        double deltaobs = m_obs_bins->GetBinLowEdge(iobs+2)-m_obs_bins->GetBinLowEdge(iobs+1);
+        hvec.at(i).push_back( invNruns*Escale2*dsigma/deltaobs );
+      }
+
+    }
+
+  return hvec;
+}
 
 
 

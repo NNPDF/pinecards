@@ -226,6 +226,12 @@ public:
 				  double  fscale_factor=1,
 				  double  Escale=1 );
 
+  std::vector<std::vector<double>>  vconvolute_orders(void   (*pdf1)(const double& , const double&, double* ),
+				  void   (*pdf2)(const double& , const double&, double* ),
+				  double (*alphas)(const double& ),
+				  double  rscale_factor=1,
+				  double  fscale_factor=1,
+				  double  Escale=1 );
 
   // perform the convolution to a specified number of loops
   // nloops=-1 gives the nlo part only

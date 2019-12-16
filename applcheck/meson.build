@@ -5,4 +5,4 @@ lhapdf_dep = dependency('lhapdf')
 appl_grid_dep = meson.get_compiler('cpp').find_library('APPLgrid',
     has_headers : 'appl_grid/appl_grid.h')
 
-executable('applcheck', 'applcheck.cc', dependencies : [ appl_grid_dep, lhapdf_dep, root_dep ])
+executable('applcheck', 'applcheck.cpp', dependencies : [ appl_grid_dep, lhapdf_dep, root_dep ])

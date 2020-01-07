@@ -90,12 +90,23 @@ int main(int argc, char* argv[])
     // check if PDF set has a photon; disable it this isn't the case
     flavour_map[photon] = pdf->hasFlavor(index_to_pdg_id(photon));
 
-    std::vector<double> const& xsec_appl = g.vconvolute(evolvepdf, alphaspdf, nloops);
+    std::vector<std::vector<double>> const& xsec_appl = g.vconvolute_orders(evolvepdf, evolvepdf, alphaspdf);
 
-    for (std::size_t i = 0; i != xsec_appl.size(); ++i)
+    for (std::size_t i = 0; i != g.order_ids().size(); ++i)
     {
-        double const xsec = xsec_appl.at(i);
-        std::cout << "    bin #" << i << ": " << std::scientific << xsec << " [pb(/GeV)]\n";
+        auto const& xsecs = xsec_appl.at(i);
+        auto const& order = g.order_ids().at(i);
+
+        for (std::size_t j = 0; j != g.Nobs_internal(); ++j)
+        {
+            if ((order.lmur2() != 0) || (order.lmuf2() != 0))
+            {
+                continue;
+            }
+
+            std::cout << "O(as^" << order.alphs() << " a^" << order.alpha() << "):" << "    bin #"
+                << j << ": " << std::scientific << xsecs.at(j) << " [pb(/GeV)]\n";
+        }
     }
 
     pdf.release();

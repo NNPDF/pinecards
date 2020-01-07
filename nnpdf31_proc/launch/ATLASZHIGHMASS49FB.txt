@@ -1,15 +1,15 @@
 launch @OUTPUT@
 fixed_order = ON
-set mz 91.176
-set ymt 172.5
+set mz @MZ@
+set ymt @YMT@
 set ebeam1 3500
 set ebeam2 3500
 set pdlabel lhapdf
 set lhaid 324900
 set fixed_ren_scale True
 set fixed_fac_scale True
-set mur_ref_fixed 91.176
-set muf_ref_fixed 91.176
+set mur_ref_fixed @MZ@
+set muf_ref_fixed @MZ@
 set reweight_scale False
 set ptl = 25.0
 set etal = 2.5

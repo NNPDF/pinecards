@@ -63,6 +63,17 @@ launch_file="$tmpdir"/launch/$experiment.txt
 cp nnpdf31_proc/launch/$experiment.txt "$launch_file"
 sed -i "s/@OUTPUT@/$output/g" "$launch_file"
 
+# write a list with variables that should be replaced in the launch file; for the time being we
+# create the file here, but in the future it should be read from the theory database
+cat > "$tmpdir"/variables.txt <<EOF
+MT 172.5
+MZ 91.176
+YMT 172.5
+EOF
+
+# replace the variables with their values
+sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' "$tmpdir"/variables.txt) -i "$launch_file"
+
 # launch run
 echo "Launch mg5_aMC"
 python2 "${mg5amc}" "$launch_file"

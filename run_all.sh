@@ -4,9 +4,7 @@ set -e
 
 for i in $(find nnpdf31_proc/analyses -name *.f); do
     name=${i##*/}
-    nameset=${name%%_[0-9]*.f}
-    binid=${name%.f}
-    binid=${binid##*_}
+    nameset=${name%%.f}
 
-    ./run.sh ${nameset} ${binid} | tee log-${nameset}-${binid}.txt
+    ./run.sh ${nameset} | tee log-${nameset}.txt
 done

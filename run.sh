@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # exit script at the first sign of an error
-set -e
+set -o errexit
+
+# the following exits if undeclared variables are used
+set -o nounset
 
 if [ $# -lt 2 ] || [ $# -gt 2 ] ; then
     echo "Usage: ./run.sh [nameset] [binID]"
@@ -21,6 +24,11 @@ fi
 experiment="$1"
 bin="$2"
 experimentbin="$experiment""_""$bin"
+
+if [ -d $experimentbin ]; then
+    echo "Error: output directory already exists"
+    exit 2
+fi
 
 #Copying dirs for binning purposes
 cp nnpdf31_proc/output/$experiment.txt nnpdf31_proc/output/$experimentbin.txt

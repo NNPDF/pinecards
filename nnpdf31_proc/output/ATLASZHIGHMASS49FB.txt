@@ -3,5 +3,5 @@ import model loop_qcd_qed_sm_Gmu
 define p = p b b~
 define j = p
 generate p p > e+ e- [QCD QED]
-output ATLASZHIGHMASS49FB
+output @OUTPUT@
 quit

@@ -1,4 +1,4 @@
-launch ATLASZHIGHMASS49FB
+launch @OUTPUT@
 fixed_order = ON
 set mz 91.176
 set ymt 172.5
@@ -17,7 +17,7 @@ set mll = 116
 set req_acc_FO 0.01
 set iappl 1
 done
-launch ATLASZHIGHMASS49FB
+launch @OUTPUT@
 fixed_order = ON
 set req_acc_FO 0.001
 set iappl 2

@@ -20,8 +20,10 @@ if [[ $# != 1 ]] ; then
 fi
 
 experiment="$1"
+output="$experiment"-$(date +%Y%m%d%H%M%S)
 
-if [ -d $experiment ]; then
+if [ -d "$output" ]; then
+    # since we add a date postfix to the name this shouldn't happen
     echo "Error: output directory already exists"
     exit 2
 fi
@@ -33,21 +35,34 @@ if [[ ! -x "${mg5amc}" ]]; then
     exit 1
 fi
 
-#Create output folder
-echo "Creating output folder"
-python2 "${mg5amc}" nnpdf31_proc/output/$experiment.txt
+# create a temporary directory and delete it when exiting
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
 
-# Copy patches if there are any
+mkdir "$tmpdir"/output
+output_file="$tmpdir"/output/$experiment.txt
+cp nnpdf31_proc/output/$experiment.txt "$output_file"
+sed -i "s/@OUTPUT@/$output/g" "$output_file"
+
+# create output folder
+python2 "${mg5amc}" "$output_file"
+
+# copy patches if there are any
 if [[ -d nnpdf31_proc/patches/$experiment ]]; then
     echo "Copying patches"
-    cp -r nnpdf31_proc/patches/$experiment/* $experiment
+    cp -r nnpdf31_proc/patches/$experiment/* "$output"/
 fi
 
-#Enforce proper analysis
+# enforce proper analysis
 echo "Copying the relevant analysis"
-cp nnpdf31_proc/analyses/$experiment.f $experiment/FixedOrderAnalysis
-sed -i "s/analysis_HwU_template/$experiment/g" $experiment/Cards/FO_analyse_card.dat
+cp nnpdf31_proc/analyses/$experiment.f "$output"/FixedOrderAnalysis
+sed -i "s/analysis_HwU_template/$experiment/g" "$output"/Cards/FO_analyse_card.dat
 
-##Launch run
+mkdir "$tmpdir"/launch
+launch_file="$tmpdir"/launch/$experiment.txt
+cp nnpdf31_proc/launch/$experiment.txt "$launch_file"
+sed -i "s/@OUTPUT@/$output/g" "$launch_file"
+
+# launch run
 echo "Launch mg5_aMC"
-python2 "${mg5amc}" nnpdf31_proc/launch/$experiment.txt
+python2 "${mg5amc}" "$launch_file"

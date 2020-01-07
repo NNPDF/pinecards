@@ -1,4 +1,4 @@
-launch CMSTTBARTOT8TEV
+launch @OUTPUT@
 fixed_order = ON
 set mt 172.5
 set mz 91.176
@@ -19,7 +19,7 @@ set reweight_scale False
 set req_acc_FO 0.01
 set iappl 1
 done
-launch CMSTTBARTOT8TEV
+launch @OUTPUT@
 fixed_order = ON
 set req_acc_FO 0.001
 set iappl 2

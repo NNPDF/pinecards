@@ -6,35 +6,25 @@ set -o errexit
 # the following exits if undeclared variables are used
 set -o nounset
 
-if [ $# -lt 2 ] || [ $# -gt 2 ] ; then
-    echo "Usage: ./run.sh [nameset] [binID]"
-    echo "  The following combinations of namesets and binIDs are available:"
+if [[ $# != 1 ]] ; then
+    echo "Usage: ./run.sh [nameset]"
+    echo "  The following namesets are available:"
 
     for i in $(find nnpdf31_proc/analyses -name *.f); do
         name=${i##*/}
-        nameset=${name%%_[0-9]*.f}
-        binid=${name%.f}
-        binid=${binid##*_}
-        echo "  - ${nameset} ${binid}"
+        nameset=${name%%.f}
+        echo "  - ${nameset}"
     done
 
     exit 2
 fi
 
 experiment="$1"
-bin="$2"
-experimentbin="$experiment""_""$bin"
 
-if [ -d $experimentbin ]; then
+if [ -d $experiment ]; then
     echo "Error: output directory already exists"
     exit 2
 fi
-
-#Copying dirs for binning purposes
-cp nnpdf31_proc/output/$experiment.txt nnpdf31_proc/output/$experimentbin.txt
-sed -i "s/$experiment/$experimentbin/g" nnpdf31_proc/output/$experimentbin.txt
-cp nnpdf31_proc/launch/$experiment.txt nnpdf31_proc/launch/$experimentbin.txt
-sed -i "s/$experiment/$experimentbin/g"	nnpdf31_proc/launch/$experimentbin.txt
 
 mg5amc=$(which mg5_aMC)
 
@@ -45,23 +35,19 @@ fi
 
 #Create output folder
 echo "Creating output folder"
-python2 "${mg5amc}" nnpdf31_proc/output/$experimentbin.txt
+python2 "${mg5amc}" nnpdf31_proc/output/$experiment.txt
 
 # Copy patches if there are any
 if [[ -d nnpdf31_proc/patches/$experiment ]]; then
     echo "Copying patches"
-    cp -r nnpdf31_proc/patches/$experiment/* $experimentbin/
+    cp -r nnpdf31_proc/patches/$experiment/* $experiment
 fi
 
 #Enforce proper analysis
 echo "Copying the relevant analysis"
-cp nnpdf31_proc/analyses/$experiment/$experimentbin.f $experimentbin/FixedOrderAnalysis
-sed -i "s/analysis_HwU_template/$experimentbin/g" $experimentbin/Cards/FO_analyse_card.dat
+cp nnpdf31_proc/analyses/$experiment.f $experiment/FixedOrderAnalysis
+sed -i "s/analysis_HwU_template/$experiment/g" $experiment/Cards/FO_analyse_card.dat
 
 ##Launch run
 echo "Launch mg5_aMC"
-python2 "${mg5amc}" nnpdf31_proc/launch/$experimentbin.txt
-
-#Cleanup
-rm nnpdf31_proc/output/$experimentbin.txt
-rm nnpdf31_proc/launch/$experimentbin.txt
+python2 "${mg5amc}" nnpdf31_proc/launch/$experiment.txt

@@ -42,14 +42,12 @@ after the corresponding data set included in a NNPDF fit.
   amended and stored in the right directory.
 
 Provided the above files, the production of the grids only requires the user to
-run the `./run.sh [nameset] [binID]` script. The script takes two variables as 
-an input:
+run the `./run.sh [nameset]` script. The script takes as input:
 
 * [nameset]: the name of the data set (e.g. `CMSTTBARTOT7TEV`);
-* [binID]:   the ID of the bin in the experiment (e.g. `3`, for the third bin).
 
-To list all possible combinations of `[nameset]` and `[binID]` simply run the
-script without parameters.
+To list all possibilities of `[nameset]` simply run the script without
+parameters.
 
 Once the grids are produced, the user should rename and store them in the 
 `applgrids_ew` folder following the same conventions in order for the NNPDF

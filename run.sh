@@ -54,7 +54,7 @@ sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
 cd "${output}"
 
 # create output folder
-python2 "${mg5amc}" "$output_file"
+python2 "${mg5amc}" "$output_file" |& tee output.log
 
 # copy patches if there are any
 if [[ -d ../nnpdf31_proc/patches/$experiment ]]; then
@@ -83,4 +83,4 @@ EOF
 sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' "$tmpdir"/variables.txt) -i "$launch_file"
 
 # launch run
-python2 "${mg5amc}" "$launch_file"
+python2 "${mg5amc}" "$launch_file" |& tee launch.log

@@ -6,5 +6,5 @@ for i in $(find nnpdf31_proc/analyses -name *.f); do
     name=${i##*/}
     nameset=${name%%.f}
 
-    ./run.sh ${nameset} | tee log-${nameset}.txt
+    ./run.sh ${nameset}
 done

@@ -32,6 +32,8 @@ if [[ -d $output ]]; then
     exit 2
 fi
 
+mkdir "${output}"
+
 mg5amc=$(which mg5_aMC)
 
 if [[ ! -x ${mg5amc} ]]; then
@@ -47,25 +49,27 @@ trap 'rm -rf "$tmpdir"' EXIT
 mkdir "$tmpdir"/output
 output_file="$tmpdir"/output/$experiment.txt
 cp nnpdf31_proc/output/$experiment.txt "$output_file"
-sed -i "s/@OUTPUT@/$output/g" "$output_file"
+sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
+
+cd "${output}"
 
 # create output folder
 python2 "${mg5amc}" "$output_file"
 
 # copy patches if there are any
-if [[ -d nnpdf31_proc/patches/$experiment ]]; then
-    cp -r nnpdf31_proc/patches/$experiment/* "$output"/
+if [[ -d ../nnpdf31_proc/patches/$experiment ]]; then
+    cp -r ../nnpdf31_proc/patches/$experiment/* "${experiment}"/
 fi
 
 # enforce proper analysis
-cp nnpdf31_proc/analyses/$experiment.f "$output"/FixedOrderAnalysis
-sed -i "s/analysis_HwU_template/$experiment/g" "$output"/Cards/FO_analyse_card.dat
+cp ../nnpdf31_proc/analyses/$experiment.f "${experiment}"/FixedOrderAnalysis
+sed -i "s/analysis_HwU_template/$experiment/g" "${experiment}"/Cards/FO_analyse_card.dat
 
 # copy the launch file to the temporary directory and replace the variables
 mkdir "$tmpdir"/launch
 launch_file="$tmpdir"/launch/$experiment.txt
-cp nnpdf31_proc/launch/$experiment.txt "$launch_file"
-sed -i "s/@OUTPUT@/$output/g" "$launch_file"
+cp ../nnpdf31_proc/launch/$experiment.txt "$launch_file"
+sed -i "s/@OUTPUT@/$experiment/g" "$launch_file"
 
 # write a list with variables that should be replaced in the launch file; for the time being we
 # create the file here, but in the future it should be read from the theory database

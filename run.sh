@@ -6,6 +6,9 @@ set -o errexit
 # the following exits if undeclared variables are used
 set -o nounset
 
+# exit if some program in a pipeline fails
+set -o pipefail
+
 # check arguments of the script
 if (( $# != 1 )); then
     echo "Usage: ./run.sh [nameset]" >&2

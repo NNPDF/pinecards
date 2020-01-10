@@ -47,7 +47,7 @@ std::array<bool, 14> flavour_map = {
 
 constexpr int index_to_pdg_id(std::size_t index)
 {
-    return (index == 7) ? 21 : ((index == 13) ? 22 : static_cast <int> (index) - 6);
+    return (index == gluon) ? 21 : ((index == photon) ? 22 : (static_cast <int> (index) - 6));
 }
 
 extern "C" void evolvepdf(double const& x, double const& q, double* xfx)

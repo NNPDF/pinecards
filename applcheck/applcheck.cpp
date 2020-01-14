@@ -107,9 +107,12 @@ int main(int argc, char* argv[])
                 continue;
             }
 
+            double const diff_xsec = xsecs.at(j);
+            double const inte_xsec = diff_xsec * g.deltaobs_internal(j);
+
             std::cout << " bin #" << std::setw(2) << j << ", O(as^" << order.alphs() << " a^"
-                << order.alpha() << "): "<< std::scientific << std::setw(13) << xsecs.at(j)
-                << " [pb(/GeV)]\n";
+                << order.alpha() << "): " << std::scientific << std::setw(13) << diff_xsec
+                << " [pb/GeV] or " << std::setw(13) << inte_xsec << " [pb]\n";
         }
     }
 
@@ -121,10 +124,13 @@ int main(int argc, char* argv[])
 
     for (std::size_t i = 0; i != g.Nobs_internal(); ++i)
     {
-        std::cout << " bin #" << std::setw(2) << i << ": " << std::scientific << std::setw(13)
-            << xsecs.at(i) << " [pb(/GeV)]\n";
+        double const diff_xsec = xsecs.at(i);
+        double const inte_xsec = diff_xsec * g.deltaobs_internal(i);
 
-        sum += xsecs.at(i) * g.deltaobs_internal(i);
+        std::cout << " bin #" << std::setw(2) << i << ": " << std::scientific << diff_xsec
+            << " [pb/GeV] or " << inte_xsec << " [pb]\n";
+
+        sum += inte_xsec;
     }
 
     std::cout << "\n>>> sum:\n\n " << std::scientific << sum << " [pb]\n";

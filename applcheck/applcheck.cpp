@@ -90,11 +90,14 @@ int main(int argc, char* argv[])
     // check if PDF set has a photon; disable it this isn't the case
     flavour_map[photon] = pdf->hasFlavor(index_to_pdg_id(photon));
 
-    std::vector<std::vector<double>> const& xsec_appl = g.vconvolute_orders(evolvepdf, evolvepdf, alphaspdf);
+    std::vector<std::vector<double>> const& xsec_appl_orders
+        = g.vconvolute_orders(evolvepdf, evolvepdf, alphaspdf);
+
+    std::cout << "\n>>> all bins, all orders:\n\n";
 
     for (std::size_t i = 0; i != g.order_ids().size(); ++i)
     {
-        auto const& xsecs = xsec_appl.at(i);
+        auto const& xsecs = xsec_appl_orders.at(i);
         auto const& order = g.order_ids().at(i);
 
         for (std::size_t j = 0; j != g.Nobs_internal(); ++j)
@@ -104,10 +107,27 @@ int main(int argc, char* argv[])
                 continue;
             }
 
-            std::cout << "O(as^" << order.alphs() << " a^" << order.alpha() << "):" << "    bin #"
-                << j << ": " << std::scientific << xsecs.at(j) << " [pb(/GeV)]\n";
+            std::cout << " bin #" << std::setw(2) << j << ", O(as^" << order.alphs() << " a^"
+                << order.alpha() << "): "<< std::scientific << std::setw(13) << xsecs.at(j)
+                << " [pb(/GeV)]\n";
         }
     }
+
+    std::vector<double> const& xsecs = g.vconvolute(evolvepdf, alphaspdf);
+
+    std::cout << "\n>>> all bins:\n\n";
+
+    double sum = 0.0;
+
+    for (std::size_t i = 0; i != g.Nobs_internal(); ++i)
+    {
+        std::cout << " bin #" << std::setw(2) << i << ": " << std::scientific << std::setw(13)
+            << xsecs.at(i) << " [pb(/GeV)]\n";
+
+        sum += xsecs.at(i) * g.deltaobs_internal(i);
+    }
+
+    std::cout << "\n>>> sum:\n\n " << std::scientific << sum << " [pb]\n";
 
     pdf.release();
 }

@@ -24,17 +24,19 @@ after the corresponding data set included in a NNPDF fit.
   [arXiv:1804.10017](http://arxiv.org/abs/arXiv:1804.10017) and 
   [arXiv:1405.0301](http://arxiv.org/abs/arXiv:1405.0301).
 
-* The *launch* file (compulsory). This is a `.txt` file containing the 
-  instructions to run the relevant process, including any values of the 
-  relevant physical parameters. For details about the parameters that can be
-  modified, please see the `Template/NLO/Cards/run_card.dat` file in 
-  Madgraph/MC@NLO.
+* The *launch* file (compulsory). This is a `.txt` file containing the
+  instructions to run the relevant process, including the relevant physical
+  parameters. Since the parameter values are inserted by `run.sh`, do not
+  insert numerical values but rather the the relevant variables run variables,
+  e.g. `@MZ@`, `@MW@`, etc. The names are the same as chosen by `mg5_aMC`, but
+  written in uppercase and fenced with `@`, e.g. `@MZ@` and `@MW@`. For details
+  about the parameters that can be modified, please see the
+  `Template/NLO/Cards/run_card.dat` file in Madgraph/MC@NLO.
 
 * The *analysis* file(s) (compulsory). These are one or more `.f` files
   containing the instructions for the kinematic analysis in the `HwU` format. 
-  Because of memory issues, one needs to write one different file for each 
-  kinematic bin so far. Examples on how to do so can be found in the
-  `Template/NLO/FixedOrderAnalysis/` folder of Madgraph/MC@NLO.
+  Examples on how to do so can be found in the `Template/NLO/FixedOrderAnalysis/`
+  folder of Madgraph/MC@NLO.
 
 * The *patch* file(s) (optional). These are one or more `.f` files
   containing any patches to the default Madgraph/MC@NLO. For instance should

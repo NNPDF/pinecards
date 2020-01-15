@@ -44,6 +44,20 @@ if [[ ! -x ${mg5amc} ]]; then
     exit 1
 fi
 
+applcheck=$(which applcheck 2> /dev/null || true)
+
+if [[ ! -x ${applcheck} ]]; then
+    echo "The binary \`applcheck\` wasn't found. Please adjust your PATH variable" >&2
+    exit 1
+fi
+
+merge_bins=$(which merge_bins 2> /dev/null || true)
+
+if [[ ! -x ${merge_bins} ]]; then
+    echo "The binary \`merge_bins\` wasn't found. Please adjust your PATH variable" >&2
+    exit 1
+fi
+
 # create a temporary directory and delete it when exiting
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
@@ -87,3 +101,40 @@ sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' "$tmpdir"/variables.txt) -i "$launch_
 
 # launch run
 python2 "${mg5amc}" "$launch_file" |& tee launch.log
+
+# TODO: the following assumes that all observables belong to the same distribution
+
+# merge the final bins
+"${merge_bins}" ${experiment}.root ${experiment}/Events/run_02*/amcblast_obs_*.root
+
+# TODO: figure out the PDF set of the run ...
+pdfset=NNPDF31_nlo_as_0118_luxqed
+
+# ... in the meantime, make sure our assumption is correct
+if ! grep -q 'set lhaid 324900' "${launch_file}"; then
+    echo ">>> WARNING: APPLgrid not generated with '$pdfset'; comparison will probably fail"
+fi
+
+# (re-)produce predictions
+"${applcheck}" ${pdfset} ${experiment}.root &> applcheck.log
+
+# extract the numerical results from mg5_aMC
+sed -e '/^  [+-]/!d' \
+    -e 's/^  [+-][0-9].[0-9]\+e[+-][0-9]\+   [+-][0-9].[0-9]\+e[+-][0-9]\+   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)$/\1 \2/' \
+    ${experiment}/Events/run_02*/MADatNLO.HwU > results.mg5_aMC
+
+# extract the numerical results from the APPLgrid
+sed -e '1,/all bins:/d' \
+    -e '/sum:/,$d' \
+    -e '/^$/d' \
+    -e 's/^ bin #[ 0-9]*: [^o]*or //' \
+    -e 's/ \[pb\]$//' applcheck.log > results.applgrid
+
+# compare the results from the APPLgrid and from mg5_aMC
+paste -d ' ' results.applgrid results.mg5_aMC | \
+    awk 'function abs(x) { return x < 0.0 ? -x : x; }
+         BEGIN { print "-----------------------------------------------------------"
+                 print "   APPLgrid       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
+                 print "-----------------------------------------------------------" }
+         { printf "% e % e %e %7.2f %7.2f%%\n", $1, $2, $3, abs($1-$2)/$3, abs($1-$2)/$2*100 }' | \
+    tee results.log

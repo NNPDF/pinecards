@@ -26,17 +26,6 @@ fi
 # name of the experiment
 experiment="$1"
 
-# name of the directory where the output is written to
-output="$experiment"-$(date +%Y%m%d%H%M%S)
-
-if [[ -d $output ]]; then
-    # since we add a date postfix to the name this shouldn't happen
-    echo "Error: output directory already exists" >&2
-    exit 2
-fi
-
-mkdir "${output}"
-
 mg5amc=$(which mg5_aMC 2> /dev/null || true)
 
 if [[ ! -x ${mg5amc} ]]; then
@@ -58,17 +47,24 @@ if [[ ! -x ${merge_bins} ]]; then
     exit 1
 fi
 
-# create a temporary directory and delete it when exiting
-tmpdir=$(mktemp -d)
-trap 'rm -rf "$tmpdir"' EXIT
+# name of the directory where the output is written to
+output="$experiment"-$(date +%Y%m%d%H%M%S)
 
-# copy the output file to the temporary directory and replace the variables
-mkdir "$tmpdir"/output
-output_file="$tmpdir"/output/$experiment.txt
-cp nnpdf31_proc/output/$experiment.txt "$output_file"
-sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
+if [[ -d $output ]]; then
+    # since we add a date postfix to the name this shouldn't happen
+    echo "Error: output directory already exists" >&2
+    exit 2
+fi
 
+# create and change into output directory
+mkdir "${output}"
 cd "${output}"
+
+# copy the output file to the directory and replace the variables
+mkdir output
+output_file=output/$experiment.txt
+cp ../nnpdf31_proc/output/$experiment.txt "$output_file"
+sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
 
 # create output folder
 python2 "${mg5amc}" "$output_file" |& tee output.log
@@ -82,22 +78,25 @@ fi
 cp ../nnpdf31_proc/analyses/$experiment.f "${experiment}"/FixedOrderAnalysis
 sed -i "s/analysis_HwU_template/$experiment/g" "${experiment}"/Cards/FO_analyse_card.dat
 
-# copy the launch file to the temporary directory and replace the variables
-mkdir "$tmpdir"/launch
-launch_file="$tmpdir"/launch/$experiment.txt
+# copy the launch file to the directory and replace the variables
+mkdir launch
+launch_file=launch/$experiment.txt
 cp ../nnpdf31_proc/launch/$experiment.txt "$launch_file"
 sed -i "s/@OUTPUT@/$experiment/g" "$launch_file"
 
 # TODO: write a list with variables that should be replaced in the launch file; for the time being
 # we create the file here, but in the future it should be read from the theory database
-cat > "$tmpdir"/variables.txt <<EOF
+cat > variables.txt <<EOF
 MT 172.5
 MZ 91.176
 YMT 172.5
 EOF
 
 # replace the variables with their values
-sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' "$tmpdir"/variables.txt) -i "$launch_file"
+sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' variables.txt) -i "$launch_file"
+
+# remove the variables file
+rm variables.txt
 
 # launch run
 python2 "${mg5amc}" "$launch_file" |& tee launch.log
@@ -138,3 +137,5 @@ paste -d ' ' results.applgrid results.mg5_aMC | \
                  print "-----------------------------------------------------------" }
          { printf "% e % e %e %7.2f %7.2f%%\n", $1, $2, $3, abs($1-$2)/$3, abs($1-$2)/$2*100 }' | \
     tee results.log
+
+rm results.mg5_aMC results.applgrid

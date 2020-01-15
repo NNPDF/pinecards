@@ -37,10 +37,10 @@ fi
 
 mkdir "${output}"
 
-mg5amc=$(which mg5_aMC)
+mg5amc=$(which mg5_aMC 2> /dev/null || true)
 
 if [[ ! -x ${mg5amc} ]]; then
-    echo "The binary \`mg5_aMC\' wasn't found. Please adjust your PATH variable" >&2
+    echo "The binary \`mg5_aMC\` wasn't found. Please adjust your PATH variable" >&2
     exit 1
 fi
 
@@ -74,8 +74,8 @@ launch_file="$tmpdir"/launch/$experiment.txt
 cp ../nnpdf31_proc/launch/$experiment.txt "$launch_file"
 sed -i "s/@OUTPUT@/$experiment/g" "$launch_file"
 
-# write a list with variables that should be replaced in the launch file; for the time being we
-# create the file here, but in the future it should be read from the theory database
+# TODO: write a list with variables that should be replaced in the launch file; for the time being
+# we create the file here, but in the future it should be read from the theory database
 cat > "$tmpdir"/variables.txt <<EOF
 MT 172.5
 MZ 91.176

@@ -106,16 +106,11 @@ python2 "${mg5amc}" "$launch_file" |& tee launch.log
 # merge the final bins
 "${merge_bins}" ${experiment}.root ${experiment}/Events/run_02*/amcblast_obs_*.root
 
-# TODO: figure out the PDF set of the run ...
-pdfset=NNPDF31_nlo_as_0118_luxqed
-
-# ... in the meantime, make sure our assumption is correct
-if ! grep -q 'set lhaid 324900' "${launch_file}"; then
-    echo ">>> WARNING: APPLgrid not generated with '$pdfset'; comparison will probably fail"
-fi
+# find out which PDF set was used to generate the predictions
+pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
 # (re-)produce predictions
-"${applcheck}" ${pdfset} ${experiment}.root &> applcheck.log
+"${applcheck}" ${pdfstring} ${experiment}.root &> applcheck.log
 
 # extract the numerical results from mg5_aMC
 sed -e '/^  [+-]/!d' \

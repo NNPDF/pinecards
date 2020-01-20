@@ -77,15 +77,32 @@ int main(int argc, char* argv[])
 
     if (argc != 3)
     {
-        std::cerr << "Usage: applcheck PDF-set-name applgrid-file\n";
+        std::cerr << "Usage: applcheck PDF-set-name/LHAID applgrid-file\n";
         return 1;
     }
 
     appl::grid g(argv[2]);
     const int nloops = g.nloops();
 
+    int lhaid = -1;
+
+    try
+    {
+        lhaid = std::stoi(argv[1]);
+    }
+    catch (...)
+    {
+    }
+
     // initialise the PDF set via LHAPDF6
-    pdf.reset(LHAPDF::mkPDF(argv[1], 0));
+    if (lhaid == -1)
+    {
+        pdf.reset(LHAPDF::mkPDF(argv[1], 0));
+    }
+    else
+    {
+        pdf.reset(LHAPDF::mkPDF(lhaid));
+    }
 
     // check if PDF set has a photon; disable it this isn't the case
     flavour_map[photon] = pdf->hasFlavor(index_to_pdg_id(photon));

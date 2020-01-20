@@ -23,7 +23,7 @@ HOPPETDIR    = @HOPPETDIR@
 HOPPETCFLAGS = @HOPPETCFLAGS@
 HOPPETLIBS   = @HOPPETLIBS@
 
-LHAPDFCFLAGS = @LHAPDFCFLAGS@
+LHAPDFCPPFLAGS = @LHAPDFCPPFLAGS@
 LHAPDFLIBS   = @LHAPDFLIBS@
 
 FRTLLIB = -lgfortran
@@ -141,6 +141,7 @@ merge_bins_LDADD = libAPPLgrid.la
 pdf_info_SOURCES = pdf_info.cpp
 pdf_info_LDADD = libAPPLgrid.la
 
+applcheck_CPPFLAGS = $(LHAPDFCPPFLAGS)
 applcheck_SOURCES = applcheck.cpp
 applcheck_LDADD = libAPPLgrid.la
 applcheck_LDFLAGS = $(LHAPDFLIBS)

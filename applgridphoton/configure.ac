@@ -49,7 +49,7 @@ AS_IF([test x"${LHAPDFCONFIG}" = x"no"], [], [
         AC_DEFINE_UNQUOTED(HAVE_LHAPDF,1,[Define 1 if LHAPDF is installed]) 
         LHAPDFCFLAGS=`lhapdf-config --cxxflags`
         LHAPDFLIBS=`lhapdf-config --libs`
-        AC_SUBST(LHAPDFCFLAGS)
+        AC_SUBST(LHAPDFCPPFLAGS)
         AC_SUBST(LHAPDFLIBS)
     ])
 ])

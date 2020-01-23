@@ -463,6 +463,28 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
 
 }
 
+appl::grid::grid(appl::grid&& g)
+    : m_obs_bins{g.m_obs_bins}
+    , m_obs_bins_combined{g.m_obs_bins_combined}
+    , m_grids{std::move(g.m_grids)}
+    , m_run{g.m_run}
+    , m_optimised{g.m_optimised}
+    , m_trimmed{g.m_trimmed}
+    , m_normalised{g.m_normalised}
+    , m_symmetrise{g.m_symmetrise}
+    , m_read{g.m_read}
+    , m_transform{std::move(g.m_transform)}
+    , m_genpdfname{std::move(g.m_genpdfname)}
+    , m_genpdf{std::move(g.m_genpdf)}
+    , m_documentation{std::move(g.m_documentation)}
+    , m_combine{std::move(g.m_combine)}
+    , m_subproc{g.m_subproc}
+    , m_order_ids{std::move(g.m_order_ids)}
+{
+    g.m_obs_bins = nullptr;
+    g.m_obs_bins_combined = nullptr;
+}
+
 std::vector<appl::order_id> const& appl::grid::order_ids() const
 {
     return m_order_ids;

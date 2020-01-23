@@ -185,7 +185,8 @@ appl::igrid::igrid(const appl::igrid& g) :
   m_weight(NULL),
   m_fg1(NULL),     m_fg2(NULL),
   m_fsplit1(NULL), m_fsplit2(NULL),
-  m_alphas(NULL)   
+  m_alphas(NULL),
+  m_DISgrid(g.m_DISgrid)
 {
   init_fmap();
   if ( m_fmap.find(m_transform)==m_fmap.end() ) throw exception("igrid::igrid() transform " + m_transform + " not found\n");

@@ -58,3 +58,4 @@ executable('applgrid-combine', 'combine.cxx', dependencies : dep, install : true
 executable('merge_bins', 'merge_bins.cpp', dependencies : dep, install : true)
 executable('pdf_info', 'pdf_info.cpp', dependencies : dep, install : true)
 executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
+executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)

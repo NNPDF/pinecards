@@ -95,7 +95,7 @@ public:
     const char* what() const noexcept override;
   };
 
-  grid(std::vector<grid>&& grids);
+  explicit grid(std::vector<grid>&& grids);
 
   grid( int Nobs, const double* obsbins,
 	int NQ2=50,  double Q2min=10000.0, double Q2max=25000000.0, int Q2order=5,
@@ -106,6 +106,14 @@ public:
 
   // read from a file
   grid(const std::string& filename="./grid.root", const std::string& dirname="grid");
+
+  grid(grid&& g);
+
+  grid(grid const&) = delete;
+  grid() = delete;
+
+  grid& operator=(grid const&) = delete;
+  grid& operator=(grid&&) = delete;
 
   virtual ~grid();
   

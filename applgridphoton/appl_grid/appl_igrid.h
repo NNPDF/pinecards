@@ -68,6 +68,11 @@ public:
 
   igrid(const igrid& g);
 
+  igrid(igrid&& g) = delete;
+  igrid() = delete;
+
+  igrid& operator=(igrid&&) = delete;
+
   // read grid from stored file
   igrid(void* pf, const std::string& s);
 

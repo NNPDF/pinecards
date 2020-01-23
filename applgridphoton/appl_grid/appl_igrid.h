@@ -97,6 +97,7 @@ public:
 
   // get the sparse structure for easier access  
   const SparseMatrix3d* weightgrid(int ip) const { return m_weight[ip]; }
+  SparseMatrix3d const* const* weightgrid() const { return m_weight; }
   SparseMatrix3d* weightgrid(int ip) { return m_weight[ip]; }
 
   // this section stores the available x<->y transforms.

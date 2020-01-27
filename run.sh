@@ -61,27 +61,25 @@ mkdir "${output}"
 cd "${output}"
 
 # copy the output file to the directory and replace the variables
-mkdir output
-output_file=output/$experiment.txt
-cp ../nnpdf31_proc/output/$experiment.txt "$output_file"
+output_file=output.txt
+cp ../nnpdf31_proc/$experiment/output.txt "$output_file"
 sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
 
 # create output folder
 python2 "${mg5amc}" "$output_file" |& tee output.log
 
 # copy patches if there are any
-if [[ -d ../nnpdf31_proc/patches/$experiment ]]; then
-    cp -r ../nnpdf31_proc/patches/$experiment/* "${experiment}"/
-fi
+for i in $(find ../nnpdf31_proc/$experiment -name '*.patch'); do
+    patch -p1 -d $experiment < $i
+done
 
 # enforce proper analysis
-cp ../nnpdf31_proc/analyses/$experiment.f "${experiment}"/FixedOrderAnalysis
+cp ../nnpdf31_proc/$experiment/analysis.f "${experiment}"/FixedOrderAnalysis/$experiment.f
 sed -i "s/analysis_HwU_template/$experiment/g" "${experiment}"/Cards/FO_analyse_card.dat
 
 # copy the launch file to the directory and replace the variables
-mkdir launch
-launch_file=launch/$experiment.txt
-cp ../nnpdf31_proc/launch/$experiment.txt "$launch_file"
+launch_file=launch.txt
+cp ../nnpdf31_proc/$experiment/launch.txt "$launch_file"
 sed -i "s/@OUTPUT@/$experiment/g" "$launch_file"
 
 # TODO: write a list with variables that should be replaced in the launch file; for the time being

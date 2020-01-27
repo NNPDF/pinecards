@@ -11,16 +11,14 @@ set -o pipefail
 
 # check arguments of the script
 if (( $# != 1 )); then
-    echo "Usage: ./run.sh [nameset]" >&2
-    echo "  The following namesets are available:" >&2
+    echo "Usage: ./run.sh [dataset]" >&2
+    echo "  The following datasets are available:" >&2
 
-    for i in $(find nnpdf31_proc/analyses -name *.f); do
-        name=${i##*/}
-        nameset=${name%%.f}
-        echo "  - ${nameset}" >&2
+    for i in $(ls -d nnpdf31_proc/*); do
+        echo "  - ${i##*/}" >&2
     done
 
-    exit 2
+    exit 1
 fi
 
 # name of the experiment
@@ -53,7 +51,7 @@ output="$experiment"-$(date +%Y%m%d%H%M%S)
 if [[ -d $output ]]; then
     # since we add a date postfix to the name this shouldn't happen
     echo "Error: output directory already exists" >&2
-    exit 2
+    exit 1
 fi
 
 # create and change into output directory

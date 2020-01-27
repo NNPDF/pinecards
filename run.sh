@@ -110,7 +110,7 @@ python2 "${mg5amc}" "$launch_file" |& tee launch.log
 pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
 # (re-)produce predictions
-"${applcheck}" ${pdfstring} ${experiment}.root &> applcheck.log
+"${applcheck}" ${pdfstring} ${experiment}.root > applcheck.log
 
 # extract the numerical results from mg5_aMC
 sed -e '/^  [+-]/!d' \

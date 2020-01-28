@@ -4,7 +4,7 @@ project(
     default_options : [ 'cpp_std=c++14', 'debug=false', 'optimization=2', 'warning_level=3' ],
     license : 'GPL3',
     meson_version : '>=0.51.0',
-    version : '0.1.0'
+    version : '1.4.70'
 )
 
 incdir = include_directories('.')

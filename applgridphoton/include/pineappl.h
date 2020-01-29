@@ -1,8 +1,8 @@
-#ifndef APPLSAFT_H
-#define APPLSAFT_H
+#ifndef PINEAPPL_H
+#define PINEAPPL_H
 
 /*
- * APPLsaft - Only the juicy bits of APPL(grid)
+ * PineAPPL - PineAPPL Is Not an Extension of APPLgrid
  * Copyright (C) 2019  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify

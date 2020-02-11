@@ -21,8 +21,8 @@ if (( $# != 1 )); then
     exit 1
 fi
 
-# name of the experiment
-experiment="$1"
+# name of the dataset
+dataset="$1"
 
 mg5amc=$(which mg5_aMC 2> /dev/null || true)
 
@@ -46,7 +46,7 @@ if [[ ! -x ${merge_bins} ]]; then
 fi
 
 # name of the directory where the output is written to
-output="$experiment"-$(date +%Y%m%d%H%M%S)
+output="$dataset"-$(date +%Y%m%d%H%M%S)
 
 if [[ -d $output ]]; then
     # since we add a date postfix to the name this shouldn't happen
@@ -60,25 +60,25 @@ cd "${output}"
 
 # copy the output file to the directory and replace the variables
 output_file=output.txt
-cp ../nnpdf31_proc/$experiment/output.txt "$output_file"
-sed -i "s/@OUTPUT@/$experiment/g" "$output_file"
+cp ../nnpdf31_proc/$dataset/output.txt "$output_file"
+sed -i "s/@OUTPUT@/$dataset/g" "$output_file"
 
 # create output folder
 python2 "${mg5amc}" "$output_file" |& tee output.log
 
 # copy patches if there are any
-for i in $(find ../nnpdf31_proc/$experiment -name '*.patch'); do
-    patch -p1 -d $experiment < $i
+for i in $(find ../nnpdf31_proc/$dataset -name '*.patch'); do
+    patch -p1 -d $dataset < $i
 done
 
 # enforce proper analysis
-cp ../nnpdf31_proc/$experiment/analysis.f "${experiment}"/FixedOrderAnalysis/$experiment.f
-sed -i "s/analysis_HwU_template/$experiment/g" "${experiment}"/Cards/FO_analyse_card.dat
+cp ../nnpdf31_proc/$dataset/analysis.f "${dataset}"/FixedOrderAnalysis/$dataset.f
+sed -i "s/analysis_HwU_template/$dataset/g" "${dataset}"/Cards/FO_analyse_card.dat
 
 # copy the launch file to the directory and replace the variables
 launch_file=launch.txt
-cp ../nnpdf31_proc/$experiment/launch.txt "$launch_file"
-sed -i "s/@OUTPUT@/$experiment/g" "$launch_file"
+cp ../nnpdf31_proc/$dataset/launch.txt "$launch_file"
+sed -i "s/@OUTPUT@/$dataset/g" "$launch_file"
 
 # TODO: write a list with variables that should be replaced in the launch file; for the time being
 # we create the file here, but in the future it should be read from the theory database
@@ -100,18 +100,18 @@ python2 "${mg5amc}" "$launch_file" |& tee launch.log
 # TODO: the following assumes that all observables belong to the same distribution
 
 # merge the final bins
-"${merge_bins}" ${experiment}.root ${experiment}/Events/run_02*/amcblast_obs_*.root
+"${merge_bins}" ${dataset}.root ${dataset}/Events/run_02*/amcblast_obs_*.root
 
 # find out which PDF set was used to generate the predictions
 pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
 # (re-)produce predictions
-"${applcheck}" ${pdfstring} ${experiment}.root > applcheck.log
+"${applcheck}" ${pdfstring} ${dataset}.root > applcheck.log
 
 # extract the numerical results from mg5_aMC
 sed -e '/^  [+-]/!d' \
     -e 's/^  [+-][0-9].[0-9]\+e[+-][0-9]\+   [+-][0-9].[0-9]\+e[+-][0-9]\+   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)$/\1 \2/' \
-    ${experiment}/Events/run_02*/MADatNLO.HwU > results.mg5_aMC
+    ${dataset}/Events/run_02*/MADatNLO.HwU > results.mg5_aMC
 
 # extract the numerical results from the APPLgrid
 sed -e '1,/all bins:/d' \

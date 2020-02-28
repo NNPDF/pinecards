@@ -40,7 +40,7 @@ TEST_CASE("", "")
     std::array<double, 2> bin_limits = { 0.0, 1.0 };
 
     // create a new file
-    int file_id = pineappl_file_open(
+    int grid_id = pineappl_grid_new(
         bin_limits.size() - 1,
         bin_limits.data(),
         lumi,
@@ -62,16 +62,16 @@ TEST_CASE("", "")
     pineappl_lumi_delete(lumi);
 
     // this is the first time that we call the function, thus the index must be zero
-    CHECK( file_id == 0 );
+    CHECK( grid_id == 0 );
 
     std::array<double, 1> const weights = { 1.0 };
 
-    pineappl_file_fill(file_id, 0.25, 0.25, 10000.0, 0.25, weights.data(), 0);
+    pineappl_grid_fill(grid_id, 0.25, 0.25, 10000.0, 0.25, weights.data(), 0);
 
     double result;
 
-    pineappl_file_convolute(
-        file_id,
+    pineappl_grid_convolute(
+        grid_id,
         simple_pdf,
         simple_pdf,
         alphas,

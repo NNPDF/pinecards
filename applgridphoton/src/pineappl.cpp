@@ -55,7 +55,7 @@ void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_p
     lumi->combinations.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 
-int pineappl_file_open(
+int pineappl_grid_new(
     int n_bins,
     double const* bin_limits,
     pineappl_lumi* lumi,
@@ -120,13 +120,13 @@ int pineappl_file_open(
     return index;
 }
 
-void pineappl_file_close(int /*file_id*/)
+void pineappl_grid_delete(int /*grid_id*/)
 {
     // TODO: deallocate memory
 }
 
-void pineappl_file_fill(
-    int file_id,
+void pineappl_grid_fill(
+    int grid_id,
     double x1,
     double x2,
     double q2,
@@ -134,21 +134,21 @@ void pineappl_file_fill(
     double const* weight,
     unsigned grid_index
 ) {
-    appl_grids().at(file_id).fill_grid(x1, x2, q2, observable, weight, grid_index);
+    appl_grids().at(grid_id).fill_grid(x1, x2, q2, observable, weight, grid_index);
 }
 
-void pineappl_file_scale(int file_id, double factor)
+void pineappl_grid_scale(int grid_id, double factor)
 {
-    appl_grids().at(file_id) *= factor;
+    appl_grids().at(grid_id) *= factor;
 }
 
-void pineappl_file_write(int file_id, char const* filename)
+void pineappl_grid_write(int grid_id, char const* filename)
 {
-    appl_grids().at(file_id).Write(filename);
+    appl_grids().at(grid_id).Write(filename);
 }
 
-void pineappl_file_convolute(
-    int file_id,
+void pineappl_grid_convolute(
+    int grid_id,
     pineappl_func_xfx pdf1,
     pineappl_func_xfx pdf2,
     pineappl_func_alphas alphas,
@@ -161,7 +161,7 @@ void pineappl_file_convolute(
     // TODO: selecting and deselecting grids is not completely possible with APPLgrid
     assert( grid_mask == nullptr );
 
-    auto const result = appl_grids().at(file_id).vconvolute(pdf1, pdf2, alphas, 99, scale_ren,
+    auto const result = appl_grids().at(grid_id).vconvolute(pdf1, pdf2, alphas, 99, scale_ren,
         scale_fac, scale_energy);
 
     std::copy(result.begin(), result.end(), bins);

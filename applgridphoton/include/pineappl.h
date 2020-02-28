@@ -47,7 +47,10 @@ typedef enum
 pineappl_grid_format;
 
 ///
-int pineappl_grid_new(
+struct pineappl_grid;
+
+///
+pineappl_grid* pineappl_grid_new(
     int n_bins,
     double const* bin_limits,
     pineappl_lumi* lumi,
@@ -66,11 +69,11 @@ int pineappl_grid_new(
 );
 
 ///
-void pineappl_grid_delete(int grid_id);
+void pineappl_grid_delete(pineappl_grid* grid);
 
 ///
 void pineappl_grid_fill(
-    int grid_id,
+    pineappl_grid* grid,
     double x1,
     double x2,
     double q2,
@@ -80,10 +83,10 @@ void pineappl_grid_fill(
 );
 
 ///
-void pineappl_grid_scale(int grid_id, double factor);
+void pineappl_grid_scale(pineappl_grid* grid, double factor);
 
 ///
-void pineappl_grid_write(int grid_id, char const* filename);
+void pineappl_grid_write(pineappl_grid* grid, char const* filename);
 
 // TODO: remove the `const&`
 
@@ -95,7 +98,7 @@ typedef double (*pineappl_func_alphas)(double const& q2);
 
 ///
 void pineappl_grid_convolute(
-    int grid_id,
+    pineappl_grid* grid,
     pineappl_func_xfx pdf1,
     pineappl_func_xfx pdf2,
     pineappl_func_alphas alphas,

@@ -12,24 +12,6 @@
 namespace
 {
 
-struct lumi_entry
-{
-    lumi_entry(double factor, std::vector<int> const& combinations)
-        : factor{factor}
-        , combinations{combinations}
-    {
-    }
-
-    double factor;
-    std::vector<int> combinations;
-};
-
-std::vector<std::vector<lumi_entry>>& luminosities()
-{
-    static std::vector<std::vector<lumi_entry>> luminosities_;
-    return luminosities_;
-}
-
 std::vector<appl::grid>& appl_grids()
 {
     static std::vector<appl::grid> appl_grids_;
@@ -38,16 +20,25 @@ std::vector<appl::grid>& appl_grids()
 
 }
 
-int pineappl_lumi_new()
+struct pineappl_lumi
 {
-    int const index = luminosities().size();
-    luminosities().emplace_back();
-    return index;
+    std::vector<double> factors;
+    std::vector<std::vector<int>> combinations;
+};
+
+pineappl_lumi* pineappl_lumi_new()
+{
+    return new pineappl_lumi();
 }
 
-void pineappl_lumi_add(int lumi, unsigned combinations, int* pdg_id_pairs, double factor)
+void pineappl_lumi_delete(pineappl_lumi* lumi)
 {
-    if ((lumi < 0) || (static_cast <unsigned> (lumi) >= luminosities().size()))
+    delete lumi;
+}
+
+void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_pairs, double factor)
+{
+    if (lumi == nullptr)
     {
         // TODO: error
     }
@@ -60,14 +51,14 @@ void pineappl_lumi_add(int lumi, unsigned combinations, int* pdg_id_pairs, doubl
     // TODO: non-unity factors are NYI
     assert( factor == 1.0 );
 
-    luminosities().at(lumi).emplace_back(factor,
-        std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
+    lumi->factors.push_back(factor);
+    lumi->combinations.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 
 int pineappl_file_open(
     int n_bins,
     double const* bin_limits,
-    int lumi_id,
+    pineappl_lumi* lumi,
     pineappl_grid_format format,
     int grids,
     int* grid_parameters,
@@ -104,17 +95,17 @@ int pineappl_file_open(
 
     std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_" + std::to_string(index);
     std::vector<int> lumi_vector;
-    lumi_vector.push_back(luminosities().at(lumi_id).size());
+    lumi_vector.push_back(lumi->combinations.size());
 
-    for (std::size_t i = 0; i != luminosities().at(lumi_id).size(); ++i)
+    for (std::size_t i = 0; i != lumi->combinations.size(); ++i)
     {
         lumi_vector.push_back(i);
-        lumi_vector.push_back(luminosities().at(lumi_id).at(i).combinations.size() / 2);
+        lumi_vector.push_back(lumi->combinations.at(i).size() / 2);
 
-        for (std::size_t j = 0; j != luminosities().at(lumi_id).at(i).combinations.size() / 2; ++j)
+        for (std::size_t j = 0; j != lumi->combinations.at(i).size() / 2; ++j)
         {
-            lumi_vector.push_back(luminosities().at(lumi_id).at(i).combinations.at(2 * j + 0));
-            lumi_vector.push_back(luminosities().at(lumi_id).at(i).combinations.at(2 * j + 1));
+            lumi_vector.push_back(lumi->combinations.at(i).at(2 * j + 0));
+            lumi_vector.push_back(lumi->combinations.at(i).at(2 * j + 1));
         }
     }
 

@@ -24,11 +24,18 @@ extern "C"
 {
 #endif
 
-/// Creates a new luminosity function and returns the index referring to it.
-int pineappl_lumi_new(void);
+/// Struture that captures the definition of the luminosity function.
+struct pineappl_lumi;
+
+/// Creates a new luminosity function and return a pointer to it. If no longer needed, the structure
+/// should be deleted using \ref pineappl_lumi_delete.
+pineappl_lumi* pineappl_lumi_new(void);
+
+/// Delete a previously created luminosity function using \ref pineappl_file_new.
+void pineappl_lumi_delete(pineappl_lumi* lumi);
 
 /// Adds a linear combination of initial states to the luminosity function `lumi`.
-void pineappl_lumi_add(int lumi, unsigned combinations, int* pdg_id_pairs, double factors);
+void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_pairs, double factors);
 
 /// Enumeration that determines the meaning of the entries of the array `grid_parameters` in the
 /// function \ref pineappl_file_new.
@@ -43,7 +50,7 @@ pineappl_grid_format;
 int pineappl_file_open(
     int n_bins,
     double const* bin_limits,
-    int lumi_id,
+    pineappl_lumi* lumi,
     pineappl_grid_format format,
     int grids,
     int* grid_parameters,

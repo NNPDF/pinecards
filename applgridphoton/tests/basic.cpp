@@ -17,14 +17,11 @@ double alphas(double const&)
 TEST_CASE("", "")
 {
     // create a new and empty luminosity function
-    int const lumi_id = pineappl_lumi_new();
-
-    // this is the first time that we call the function, thus the index must be zero
-    CHECK( lumi_id == 0 );
+    auto* lumi = pineappl_lumi_new();
 
     // add a new entry to the luminosity function; the combination `1.0 * (up up)`
     std::array<int, 2> pdg_id_pairs = { 2, 2 };
-    pineappl_lumi_add(lumi_id, pdg_id_pairs.size() / 2, pdg_id_pairs.data(), 1.0);
+    pineappl_lumi_add(lumi, pdg_id_pairs.size() / 2, pdg_id_pairs.data(), 1.0);
 
     // we'd like to have a single grid of order alpha^2 - for example LO Drell-Yan
     std::array<int, 4> grid_parameters = { 0, 2, 0, 0 };
@@ -46,7 +43,7 @@ TEST_CASE("", "")
     int file_id = pineappl_file_open(
         bin_limits.size() - 1,
         bin_limits.data(),
-        lumi_id,
+        lumi,
         pineappl_grid_format::as_a_logmur_logmuf,
         grid_parameters.size() / 4,
         grid_parameters.data(),
@@ -60,6 +57,9 @@ TEST_CASE("", "")
         x_order,
         "f2"
     );
+
+    // delete luminosity function
+    pineappl_lumi_delete(lumi);
 
     // this is the first time that we call the function, thus the index must be zero
     CHECK( file_id == 0 );

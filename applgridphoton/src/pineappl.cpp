@@ -7,18 +7,8 @@
 #include <array>
 #include <cassert>
 #include <string>
+#include <utility>
 #include <vector>
-
-namespace
-{
-
-std::vector<appl::grid>& appl_grids()
-{
-    static std::vector<appl::grid> appl_grids_;
-    return appl_grids_;
-}
-
-}
 
 struct pineappl_lumi
 {
@@ -55,7 +45,17 @@ void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_p
     lumi->combinations.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 
-int pineappl_grid_new(
+struct pineappl_grid
+{
+    pineappl_grid(appl::grid&& grid)
+        : grid(std::move(grid))
+    {
+    }
+
+    appl::grid grid;
+};
+
+pineappl_grid* pineappl_grid_new(
     int n_bins,
     double const* bin_limits,
     pineappl_lumi* lumi,
@@ -72,8 +72,6 @@ int pineappl_grid_new(
     unsigned x_order,
     char const* map
 ) {
-    int const index = appl_grids().size();
-
     // STEP 1: prepare the vector containing the grid parameters for all grids
 
     // TODO: other format are currently not implemented
@@ -93,7 +91,7 @@ int pineappl_grid_new(
 
     // STEP 2: prepare the PDF combinations
 
-    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_" + std::to_string(index);
+    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_0"; // TODO: add unique identifier
     std::vector<int> lumi_vector;
     lumi_vector.push_back(lumi->combinations.size());
 
@@ -114,19 +112,17 @@ int pineappl_grid_new(
 
     // STEP 3: create the appl grids
 
-    appl_grids().emplace_back(n_bins, bin_limits, nq2, q2_min, q2_max, q2_order, nx, x_min, x_max,
-        x_order, pdf_name, order_ids, map);
-
-    return index;
+    return new pineappl_grid(appl::grid(n_bins, bin_limits, nq2, q2_min, q2_max, q2_order, nx,
+        x_min, x_max, x_order, pdf_name, order_ids, map));
 }
 
-void pineappl_grid_delete(int /*grid_id*/)
+void pineappl_grid_delete(pineappl_grid* grid)
 {
-    // TODO: deallocate memory
+    delete grid;
 }
 
 void pineappl_grid_fill(
-    int grid_id,
+    pineappl_grid* grid,
     double x1,
     double x2,
     double q2,
@@ -134,21 +130,21 @@ void pineappl_grid_fill(
     double const* weight,
     unsigned grid_index
 ) {
-    appl_grids().at(grid_id).fill_grid(x1, x2, q2, observable, weight, grid_index);
+    grid->grid.fill_grid(x1, x2, q2, observable, weight, grid_index);
 }
 
-void pineappl_grid_scale(int grid_id, double factor)
+void pineappl_grid_scale(pineappl_grid* grid, double factor)
 {
-    appl_grids().at(grid_id) *= factor;
+    grid->grid *= factor;
 }
 
-void pineappl_grid_write(int grid_id, char const* filename)
+void pineappl_grid_write(pineappl_grid* grid, char const* filename)
 {
-    appl_grids().at(grid_id).Write(filename);
+    grid->grid.Write(filename);
 }
 
 void pineappl_grid_convolute(
-    int grid_id,
+    pineappl_grid* grid,
     pineappl_func_xfx pdf1,
     pineappl_func_xfx pdf2,
     pineappl_func_alphas alphas,
@@ -161,7 +157,7 @@ void pineappl_grid_convolute(
     // TODO: selecting and deselecting grids is not completely possible with APPLgrid
     assert( grid_mask == nullptr );
 
-    auto const result = appl_grids().at(grid_id).vconvolute(pdf1, pdf2, alphas, 99, scale_ren,
+    auto const result = grid->grid.vconvolute(pdf1, pdf2, alphas, 99, scale_ren,
         scale_fac, scale_energy);
 
     std::copy(result.begin(), result.end(), bins);

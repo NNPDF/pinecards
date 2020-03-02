@@ -35,7 +35,12 @@ pineappl_lumi* pineappl_lumi_new(void);
 void pineappl_lumi_delete(pineappl_lumi* lumi);
 
 /// Adds a linear combination of initial states to the luminosity function `lumi`.
-void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_pairs, double factors);
+void pineappl_lumi_add(
+    pineappl_lumi* lumi,
+    unsigned combinations,
+    int* pdg_id_pairs,
+    double* factors
+);
 
 /// Enumeration that determines the meaning of the entries of the array `grid_parameters` in the
 /// function \ref pineappl_file_new.

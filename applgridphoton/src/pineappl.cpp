@@ -12,7 +12,7 @@
 
 struct pineappl_lumi
 {
-    std::vector<double> factors;
+    std::vector<std::vector<double>> factors;
     std::vector<std::vector<int>> pdg_ids;
 };
 
@@ -26,8 +26,12 @@ void pineappl_lumi_delete(pineappl_lumi* lumi)
     delete lumi;
 }
 
-void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_pairs, double factor)
-{
+void pineappl_lumi_add(
+    pineappl_lumi* lumi,
+    unsigned combinations,
+    int* pdg_id_pairs,
+    double* factors
+) {
     if (lumi == nullptr)
     {
         // TODO: error
@@ -39,9 +43,9 @@ void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_p
     }
 
     // TODO: non-unity factors are NYI
-    assert( factor == 1.0 );
+    assert( std::all_of(factors, factors + combinations, [](double f) { return f == 1.0; }) );
 
-    lumi->factors.push_back(factor);
+    lumi->factors.emplace_back(std::vector<double>(factors, factors + combinations));
     lumi->pdg_ids.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 

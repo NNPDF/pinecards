@@ -21,7 +21,8 @@ TEST_CASE("", "")
 
     // add a new entry to the luminosity function; the combination `1.0 * (up up)`
     std::array<int, 2> pdg_id_pairs = { 2, 2 };
-    pineappl_lumi_add(lumi, pdg_id_pairs.size() / 2, pdg_id_pairs.data(), 1.0);
+    std::array<double, 1> factors = { 1.0 };
+    pineappl_lumi_add(lumi, pdg_id_pairs.size() / 2, pdg_id_pairs.data(), factors.data());
 
     // we'd like to have a single grid of order alpha^2 - for example LO Drell-Yan
     std::array<int, 4> grid_parameters = { 0, 2, 0, 0 };

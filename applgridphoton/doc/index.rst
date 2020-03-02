@@ -5,7 +5,8 @@ Welcome to PineAPPL's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   luminosity
+   reference
 
 Indices and tables
 ==================

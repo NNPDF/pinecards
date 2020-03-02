@@ -29,7 +29,9 @@ import('python').find_installation('python3', modules : 'sphinx_rtd_theme')
 sphinx_build = find_program('sphinx-build')
 
 doc_srcs = [
-    'index.rst'
+    'index.rst',
+    'luminosity.rst',
+    'reference.rst',
 ]
 
 custom_target(

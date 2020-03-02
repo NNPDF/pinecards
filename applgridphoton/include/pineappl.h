@@ -3,7 +3,7 @@
 
 /*
  * PineAPPL - PineAPPL Is Not an Extension of APPLgrid
- * Copyright (C) 2019  Christopher Schwan
+ * Copyright (C) 2019-2020  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,14 +24,18 @@ extern "C"
 {
 #endif
 
+/// @addtogroup lumi
+/// @{
+
+/// @struct pineappl_lumi
 /// Struture that captures the definition of the luminosity function.
 struct pineappl_lumi;
 
-/// Creates a new luminosity function and return a pointer to it. If no longer needed, the structure
-/// should be deleted using \ref pineappl_lumi_delete.
-pineappl_lumi* pineappl_lumi_new(void);
+/// Creates a new luminosity function and returns a pointer to it. If no longer needed, the object
+/// should be deleted using @ref pineappl_lumi_delete.
+pineappl_lumi* pineappl_lumi_new();
 
-/// Delete a previously created luminosity function using \ref pineappl_file_new.
+/// Delete luminosity function previously created with @ref pineappl_lumi_new.
 void pineappl_lumi_delete(pineappl_lumi* lumi);
 
 /// Adds a linear combination of initial states to the luminosity function `lumi`.
@@ -42,8 +46,13 @@ void pineappl_lumi_add(
     double* factors
 );
 
+/// @}
+
+/// @addtogroup grid
+/// @{
+
 /// Enumeration that determines the meaning of the entries of the array `grid_parameters` in the
-/// function \ref pineappl_file_new.
+/// function @ref pineappl_grid_new.
 typedef enum
 {
     ///
@@ -51,7 +60,7 @@ typedef enum
 }
 pineappl_grid_format;
 
-///
+/// @struct pineappl_grid
 struct pineappl_grid;
 
 ///
@@ -73,7 +82,7 @@ pineappl_grid* pineappl_grid_new(
     char const* map
 );
 
-///
+/// Delete a grid previously created with @ref pineappl_grid_new.
 void pineappl_grid_delete(pineappl_grid* grid);
 
 ///
@@ -113,6 +122,8 @@ void pineappl_grid_convolute(
     double scale_energy,
     double* results
 );
+
+/// @}
 
 #ifdef __cplusplus
 }

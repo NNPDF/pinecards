@@ -1,3 +1,5 @@
 incdir2 = include_directories('.')
 
-install_headers('pineappl.h')
+headers = files('pineappl.h')
+
+install_headers(headers)

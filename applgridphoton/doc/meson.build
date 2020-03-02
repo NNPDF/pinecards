@@ -1,6 +1,25 @@
-conf = configuration_data()
-conf.set('PACKAGE_NAME', meson.project_name())
-conf.set('PACKAGE_VERSION', meson.project_version())
+conf = configuration_data({
+    'builddir'        : meson.current_build_dir(),
+    'PACKAGE_NAME'    : meson.project_name(),
+    'PACKAGE_VERSION' : meson.project_version(),
+    'top_srcdir'      : meson.source_root(),
+})
+
+doxygen = find_program('doxygen')
+
+doxyfile = configure_file(
+    configuration : conf,
+    input : 'Doxyfile.in',
+    output : 'Doxyfile'
+)
+
+doxygen_xml = custom_target(
+    'doxygen-xml',
+    command : [ doxygen, doxyfile ],
+    depend_files : [ headers ],
+    input : doxyfile,
+    output : 'xml'
+)
 
 conf_py = configure_file(configuration : conf, input : 'conf.py.in', output : '@BASENAME@')
 
@@ -28,6 +47,7 @@ custom_target(
         meson.current_build_dir() / 'sphinx_build'
     ],
     depend_files : conf_py,
+    depends : doxygen_xml,
     input : doc_srcs,
     output : 'sphinx_build'
 )

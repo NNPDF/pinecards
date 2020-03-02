@@ -9,3 +9,9 @@ version = '@PACKAGE_VERSION@'
 # -- Options for HTML output -------------------------------------------------
 
 html_theme = 'sphinx_rtd_theme'
+
+# -- Options for Breathe -----------------------------------------------------
+
+extensions = [ 'breathe' ]
+breathe_projects = { '@PACKAGE_NAME@': '@builddir@/xml' }
+breathe_default_project = '@PACKAGE_NAME@'

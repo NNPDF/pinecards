@@ -13,7 +13,7 @@
 struct pineappl_lumi
 {
     std::vector<double> factors;
-    std::vector<std::vector<int>> combinations;
+    std::vector<std::vector<int>> pdg_ids;
 };
 
 pineappl_lumi* pineappl_lumi_new()
@@ -42,7 +42,7 @@ void pineappl_lumi_add(pineappl_lumi* lumi, unsigned combinations, int* pdg_id_p
     assert( factor == 1.0 );
 
     lumi->factors.push_back(factor);
-    lumi->combinations.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
+    lumi->pdg_ids.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 
 struct pineappl_grid
@@ -89,21 +89,21 @@ pineappl_grid* pineappl_grid_new(
         );
     }
 
-    // STEP 2: prepare the PDF combinations
+    // STEP 2: prepare the PDF pdg id pairs
 
     std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_0"; // TODO: add unique identifier
     std::vector<int> lumi_vector;
-    lumi_vector.push_back(lumi->combinations.size());
+    lumi_vector.push_back(lumi->pdg_ids.size());
 
-    for (std::size_t i = 0; i != lumi->combinations.size(); ++i)
+    for (std::size_t i = 0; i != lumi->pdg_ids.size(); ++i)
     {
         lumi_vector.push_back(i);
-        lumi_vector.push_back(lumi->combinations.at(i).size() / 2);
+        lumi_vector.push_back(lumi->pdg_ids.at(i).size() / 2);
 
-        for (std::size_t j = 0; j != lumi->combinations.at(i).size() / 2; ++j)
+        for (std::size_t j = 0; j != lumi->pdg_ids.at(i).size() / 2; ++j)
         {
-            lumi_vector.push_back(lumi->combinations.at(i).at(2 * j + 0));
-            lumi_vector.push_back(lumi->combinations.at(i).at(2 * j + 1));
+            lumi_vector.push_back(lumi->pdg_ids.at(i).at(2 * j + 0));
+            lumi_vector.push_back(lumi->pdg_ids.at(i).at(2 * j + 1));
         }
     }
 

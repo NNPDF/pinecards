@@ -1,31 +1,23 @@
+# we need the python modules `breathe` and `sphinx_rtd_theme` to build the documentation
+import('python').find_installation('python3', modules : [ 'breathe', 'sphinx_rtd_theme' ])
+
 conf = configuration_data({
     'builddir'        : meson.current_build_dir(),
     'PACKAGE_NAME'    : meson.project_name(),
     'PACKAGE_VERSION' : meson.project_version(),
+    'srcdir'          : meson.current_source_dir(),
     'top_srcdir'      : meson.source_root(),
+    'xmldir'          : 'xml',
+    'htmldir'         : 'html',
 })
 
-doxygen = find_program('doxygen')
-
-doxyfile = configure_file(
+run_doxygen_breathe = configure_file(
     configuration : conf,
-    input : 'Doxyfile.in',
-    output : 'Doxyfile'
+    input : 'run_doxygen_breathe.py.in',
+    output : 'run_doxygen_breathe.py'
 )
 
-doxygen_xml = custom_target(
-    'doxygen-xml',
-    command : [ doxygen, doxyfile ],
-    depend_files : [ headers ],
-    input : doxyfile,
-    output : 'xml'
-)
-
-conf_py = configure_file(configuration : conf, input : 'conf.py.in', output : '@BASENAME@')
-
-# we need the python modules `breathe` and `sphinx_rtd_theme` to build the documentation
-import('python').find_installation('python3', modules : [ 'breathe', 'sphinx_rtd_theme' ])
-
+doxygen = find_program('doxygen')
 sphinx_build = find_program('sphinx-build')
 
 doc_srcs = [
@@ -34,28 +26,16 @@ doc_srcs = [
     'reference.rst',
 ]
 
-custom_target(
-    'documentation',
+documentation = custom_target(
+    'doxygen-breathe',
     build_by_default : true,
-    command : [
-        sphinx_build,
-        '-n',
-        '-q',
-        # read the generated `conf.py` from the build directory
-        '-c', meson.current_build_dir(),
-        # this is where the `*.rst` sources are
-        meson.current_source_dir(),
-        # write all the output files in a subdirectory, so we can easily clean it
-        meson.current_build_dir() / 'sphinx_build'
-    ],
-    depend_files : conf_py,
-    depends : doxygen_xml,
-    input : doc_srcs,
-    output : 'sphinx_build'
+    command : [ run_doxygen_breathe, doxygen, sphinx_build, '@OUTPUT@' ],
+    depend_files : [ headers, doc_srcs ],
+    output : [ conf.get('xmldir'), conf.get('htmldir') ]
 )
 
 install_subdir(
-    meson.current_build_dir() / 'sphinx_build',
+    meson.current_build_dir() / conf.get('htmldir'),
     exclude_directories : '.doctrees',
     exclude_files : '.buildinfo',
     install_dir : get_option('datadir') / 'doc' / meson.project_name(),

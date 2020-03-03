@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import shutil
+import subprocess
+import sys
+
+from pathlib import Path
+
+DOXYGEN = sys.argv[1]
+SPHINX_BUILD = sys.argv[2]
+DOXYGEN_OUTPUT = Path(sys.argv[3])
+SPHINX_OUTPUT = sys.argv[4]
+
+DOXYFILE = """
+EXTRACT_ALL          = YES
+FILE_PATTERNS        = *.h
+GENERATE_HTML        = NO
+GENERATE_LATEX       = NO
+GENERATE_XML         = YES
+INCLUDE_PATH         = @top_srcdir@/include
+INPUT                = @top_srcdir@/include
+OUTPUT_DIRECTORY     = {}
+QUIET                = YES
+WARNINGS             = YES
+WARN_IF_UNDOCUMENTED = YES
+XML_OUTPUT           = {}
+""".format(DOXYGEN_OUTPUT.parent, DOXYGEN_OUTPUT.name)
+
+CONF_PY = """
+# -- Project information -----------------------------------------------------
+
+author = 'Christopher Schwan'
+copyright = '2019-2020, Christopher Schwan'
+project = '@PACKAGE_NAME@'
+release = '@PACKAGE_VERSION@'
+version = '@PACKAGE_VERSION@'
+
+# -- Options for HTML output -------------------------------------------------
+
+html_theme = 'sphinx_rtd_theme'
+
+# -- Options for Breathe -----------------------------------------------------
+
+extensions = [ 'breathe' ]
+breathe_projects = { '@PACKAGE_NAME@': '@builddir@/@xmldir@' }
+breathe_default_project = '@PACKAGE_NAME@'
+"""
+
+subprocess.run([ DOXYGEN, '-' ], check=True, input=DOXYFILE.encode('UTF-8'))
+
+# create conf.py for sphinx
+with open('@builddir@/conf.py', 'w') as conf_py:
+    print(CONF_PY, file=conf_py)
+
+subprocess.run([ SPHINX_BUILD,
+    # nit-pick mode
+    '-n',
+    # be quiet
+    '-q',
+    # always build everything to not miss any warnings
+    '-E',
+    # location of conf.py
+    '-c', '@builddir@',
+    # this is were the rst files are
+    '@srcdir@',
+    SPHINX_OUTPUT
+], check=True)

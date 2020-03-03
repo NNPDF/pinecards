@@ -7,8 +7,6 @@ conf = configuration_data({
     'PACKAGE_VERSION' : meson.project_version(),
     'srcdir'          : meson.current_source_dir(),
     'top_srcdir'      : meson.source_root(),
-    'xmldir'          : 'xml',
-    'htmldir'         : 'html',
 })
 
 run_doxygen_breathe = configure_file(
@@ -26,16 +24,18 @@ doc_srcs = [
     'reference.rst',
 ]
 
+builtdocs = 'html'
+
 documentation = custom_target(
     'doxygen-breathe',
     build_by_default : true,
-    command : [ run_doxygen_breathe, doxygen, sphinx_build, '@OUTPUT@' ],
+    command : [ run_doxygen_breathe, doxygen, sphinx_build, '@PRIVATE_DIR@', '@OUTPUT@' ],
     depend_files : [ headers, doc_srcs ],
-    output : [ conf.get('xmldir'), conf.get('htmldir') ]
+    output : builtdocs
 )
 
 install_subdir(
-    meson.current_build_dir() / conf.get('htmldir'),
+    meson.current_build_dir() / builtdocs,
     exclude_directories : '.doctrees',
     exclude_files : '.buildinfo',
     install_dir : get_option('datadir') / 'doc' / meson.project_name(),

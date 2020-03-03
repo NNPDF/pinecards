@@ -42,9 +42,9 @@ html_theme = 'sphinx_rtd_theme'
 # -- Options for Breathe -----------------------------------------------------
 
 extensions = [ 'breathe' ]
-breathe_projects = { '@PACKAGE_NAME@': '@builddir@/@xmldir@' }
+breathe_projects = {{ '@PACKAGE_NAME@': '{}' }}
 breathe_default_project = '@PACKAGE_NAME@'
-"""
+""".format(DOXYGEN_OUTPUT)
 
 subprocess.run([ DOXYGEN, '-' ], check=True, input=DOXYFILE.encode('UTF-8'))
 

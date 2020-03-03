@@ -23,8 +23,8 @@ doxygen_xml = custom_target(
 
 conf_py = configure_file(configuration : conf, input : 'conf.py.in', output : '@BASENAME@')
 
-# we need the python module `sphinx_rtd_theme` to build the documentation
-import('python').find_installation('python3', modules : 'sphinx_rtd_theme')
+# we need the python modules `breathe` and `sphinx_rtd_theme` to build the documentation
+import('python').find_installation('python3', modules : [ 'breathe', 'sphinx_rtd_theme' ])
 
 sphinx_build = find_program('sphinx-build')
 

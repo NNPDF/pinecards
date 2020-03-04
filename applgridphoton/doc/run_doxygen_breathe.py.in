@@ -8,8 +8,8 @@ from pathlib import Path
 
 DOXYGEN = sys.argv[1]
 SPHINX_BUILD = sys.argv[2]
-DOXYGEN_OUTPUT = Path(sys.argv[3])
-SPHINX_OUTPUT = sys.argv[4]
+PRIVATE_DIR = Path(sys.argv[3])
+OUTPUT = sys.argv[4]
 
 DOXYFILE = """
 EXTRACT_ALL          = YES
@@ -24,7 +24,7 @@ QUIET                = YES
 WARNINGS             = YES
 WARN_IF_UNDOCUMENTED = YES
 XML_OUTPUT           = {}
-""".format(DOXYGEN_OUTPUT.parent, DOXYGEN_OUTPUT.name)
+""".format(PRIVATE_DIR.parent, PRIVATE_DIR.name)
 
 CONF_PY = """
 # -- Project information -----------------------------------------------------
@@ -44,7 +44,7 @@ html_theme = 'sphinx_rtd_theme'
 extensions = [ 'breathe' ]
 breathe_projects = {{ '@PACKAGE_NAME@': '{}' }}
 breathe_default_project = '@PACKAGE_NAME@'
-""".format(DOXYGEN_OUTPUT)
+""".format(PRIVATE_DIR)
 
 subprocess.run([ DOXYGEN, '-' ], check=True, input=DOXYFILE.encode('UTF-8'))
 
@@ -63,5 +63,5 @@ subprocess.run([ SPHINX_BUILD,
     '-c', '@builddir@',
     # this is were the rst files are
     '@srcdir@',
-    SPHINX_OUTPUT
+    OUTPUT
 ], check=True)

@@ -49,7 +49,7 @@ breathe_default_project = '@PACKAGE_NAME@'
 subprocess.run([ DOXYGEN, '-' ], check=True, input=DOXYFILE.encode('UTF-8'))
 
 # create conf.py for sphinx
-with open('@builddir@/conf.py', 'w') as conf_py:
+with open(PRIVATE_DIR / 'conf.py', 'w') as conf_py:
     print(CONF_PY, file=conf_py)
 
 subprocess.run([ SPHINX_BUILD,
@@ -60,7 +60,7 @@ subprocess.run([ SPHINX_BUILD,
     # always build everything to not miss any warnings
     '-E',
     # location of conf.py
-    '-c', '@builddir@',
+    '-c', PRIVATE_DIR,
     # this is were the rst files are
     '@srcdir@',
     OUTPUT

@@ -44,7 +44,7 @@ html_theme = 'sphinx_rtd_theme'
 extensions = [ 'breathe' ]
 breathe_projects = {{ '@PACKAGE_NAME@': '{}' }}
 breathe_default_project = '@PACKAGE_NAME@'
-""".format(PRIVATE_DIR)
+""".format(PRIVATE_DIR.absolute())
 
 subprocess.run([ DOXYGEN, '-' ], check=True, input=DOXYFILE.encode('UTF-8'))
 

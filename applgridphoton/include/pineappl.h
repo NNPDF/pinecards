@@ -24,9 +24,6 @@ extern "C"
 {
 #endif
 
-/// @addtogroup lumi
-/// @{
-
 /// @struct pineappl_lumi
 /// Struture that captures the definition of a luminosity function.
 struct pineappl_lumi;
@@ -46,11 +43,6 @@ void pineappl_lumi_add(
     double* factors
 );
 
-/// @}
-
-/// @addtogroup grid
-/// @{
-
 /// Enumeration that determines the meaning of the entries of the array `grid_parameters` in the
 /// function @ref pineappl_grid_new. This is important only for @ref pineappl_grid_convolute, which
 /// reconstructs the hadronic cross section.
@@ -59,13 +51,13 @@ typedef enum
     /// For each grid, this requires `grid_parameters` be a tuple of four integers \f$ (a, b, c, d)
     /// \f$, denoting the grid's 1) strong coupling power, \f$ a \f$, 2) the electromagnetic
     /// coupling power, \f$ b \f$, 3) the power of the renormalisation scale logarithm, \f$ c \f$,
-    /// and finally, 4) the power of the factorisation scale logarithm, \f$ d \f$. For each bin,
-    /// @ref pineappl_grid_convolute reconstructs the cross section as follows:
+    /// and finally, 4) the power of the factorisation scale logarithm, \f$ d \f$. For each bin \f$
+    /// w_i \f$, @ref pineappl_grid_convolute reconstructs the cross section as follows:
     /// \f[
     ///     \sigma = \left( \frac{\alpha_\mathrm{s}}{2 \pi} \right)^a
     ///              \left( \alpha \right)^b
     ///              \log^c \left( \xi_\mathrm{R} \right)
-    ///              \log^d \left( \xi_\mathrm{F} \right) \sigma_{a,b,c,d}
+    ///              \log^d \left( \xi_\mathrm{F} \right) w_i
     /// \f]
     as_a_logmur_logmuf = 1
 }
@@ -119,10 +111,14 @@ void pineappl_grid_write(pineappl_grid* grid, char const* filename);
 
 // TODO: remove the `const&`
 
-///
-typedef void (*pineappl_func_xfx)(double const& x1, double const& q2, double* pdfs);
+/// Function pointer type for PDFs \f$ f_a(x, Q^2) \f$. The result of the PDFs must be written into
+/// `pdfs`, which must be an array of size 14. The value of the photon PDF must be written to the
+/// last element of `pdfs`. Quarks PDF values must be written into `pdfs[i]`, where `i` is
+/// calculated as follows: \f$ i = \mathrm{PDG value} + 6 \f$. The value of the gluon PDF must be
+/// written in between the quark PDFs, at index `6`.
+typedef void (*pineappl_func_xfx)(double const& x, double const& q2, double* pdfs);
 
-///
+/// Function pointer type for the evaluation of the strong coupling.
 typedef double (*pineappl_func_alphas)(double const& q2);
 
 /// Perform a convolution of the APPLgrid given as `grid` with the PDFs `pdf1` and `pdf2`. The
@@ -143,8 +139,6 @@ void pineappl_grid_convolute(
     double scale_energy,
     double* results
 );
-
-/// @}
 
 #ifdef __cplusplus
 }

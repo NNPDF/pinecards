@@ -84,3 +84,62 @@ TEST_CASE("", "")
 
     pineappl_grid_delete(grid);
 }
+
+TEST_CASE("", "")
+{
+    auto* lumi = pineappl_lumi_new();
+    std::array<int, 2> pdg_id_pairs = { 2, 2 };
+    std::array<double, 1> factors = { 1.0 };
+    pineappl_lumi_add(lumi, pdg_id_pairs.size() / 2, pdg_id_pairs.data(), factors.data());
+
+    std::array<int, 4 * 7> grid_parameters = {
+        // LO DY
+        0, 2, 0, 0,
+        // NLO QCD DY
+        1, 2, 1, 0,
+        1, 2, 0, 1,
+        1, 2, 0, 0,
+        // NLO EW DY
+        0, 3, 1, 0,
+        0, 3, 0, 1,
+        0, 3, 0, 0,
+    };
+
+    int const    nq2      = 30;
+    double const q2_min   = 100;
+    double const q2_max   = 1000000;
+    int const    q2_order = 1;//3;
+    int const    nx       = 50;
+    double const x_min    = 2e-7;
+    double const x_max    = 1;
+    int const    x_order  = 1;//3;
+
+    std::array<double, 2> bin_limits = { 0.0, 1.0 };
+
+    // create a new file
+    auto* grid = pineappl_grid_new(
+        lumi,
+        pineappl_subgrid_format::as_a_logxir_logxif,
+        grid_parameters.size() / 4,
+        grid_parameters.data(),
+        bin_limits.size() - 1,
+        bin_limits.data(),
+        nx,
+        x_min,
+        x_max,
+        x_order,
+        nq2,
+        q2_min,
+        q2_max,
+        q2_order,
+        "f2"
+    );
+
+    CHECK( pineappl_grid_get_subgrid_format(grid) == pineappl_subgrid_format::as_a_logxir_logxif );
+    CHECK( pineappl_grid_get_subgrids(grid) == (grid_parameters.size() / 4) );
+
+    std::array<int, 4 * 7> check_ints;
+    pineappl_grid_get_subgrid_params(grid, check_ints.data());
+
+    CHECK( std::equal(grid_parameters.begin(), grid_parameters.end(), check_ints.begin()) );
+}

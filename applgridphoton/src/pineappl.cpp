@@ -138,9 +138,39 @@ pineappl_grid* pineappl_grid_new(
         x_min, x_max, x_order, pdf_name, order_ids, map));
 }
 
+pineappl_grid* pineappl_grid_read(char const* filename)
+{
+    return new pineappl_grid(appl::grid(filename));
+}
+
 void pineappl_grid_delete(pineappl_grid* grid)
 {
     delete grid;
+}
+
+pineappl_subgrid_format pineappl_grid_get_subgrid_format(pineappl_grid* /*grid*/)
+{
+    // TODO: implement the general case
+    return pineappl_subgrid_format::as_a_logxir_logxif;
+}
+
+unsigned pineappl_grid_get_subgrids(pineappl_grid* grid)
+{
+    return grid->grid.order_ids().size();
+}
+
+void pineappl_grid_get_subgrid_params(pineappl_grid* grid, int* subgrid_params)
+{
+    // TODO: implement the general case
+    unsigned i = 0;
+
+    for (auto const& order_id : grid->grid.order_ids())
+    {
+        subgrid_params[i++] = order_id.alphs();
+        subgrid_params[i++] = order_id.alpha();
+        subgrid_params[i++] = order_id.lmur2();
+        subgrid_params[i++] = order_id.lmuf2();
+    }
 }
 
 void pineappl_grid_fill(

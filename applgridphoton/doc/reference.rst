@@ -18,8 +18,16 @@ Grid creation and deletion functions
 ------------------------------------
 
 .. doxygenfunction:: pineappl_grid_new
+.. doxygenfunction:: pineappl_grid_read
 .. doxygenenum:: pineappl_subgrid_format
 .. doxygenfunction:: pineappl_grid_delete
+
+Grid getters
+------------
+
+.. doxygenfunction:: pineappl_grid_get_subgrids
+.. doxygenfunction:: pineappl_grid_get_subgrid_format
+.. doxygenfunction:: pineappl_grid_get_subgrid_params
 
 Grid filling functions
 ----------------------

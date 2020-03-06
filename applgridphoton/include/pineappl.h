@@ -103,8 +103,20 @@ pineappl_grid* pineappl_grid_new(
     char const* map
 );
 
+/// Read a @ref pineappl_grid from a file with name `filename`.
+pineappl_grid* pineappl_grid_read(char const* filename);
+
 /// Delete a grid previously created with @ref pineappl_grid_new.
 void pineappl_grid_delete(pineappl_grid* grid);
+
+/// Return the @pineappl_subgrid_format that `grid` was created with.
+pineappl_subgrid_format pineappl_grid_get_subgrid_format(pineappl_grid* grid);
+
+/// Return the number of subgrids in `grid`.
+unsigned pineappl_grid_get_subgrids(pineappl_grid* grid);
+
+/// Write the subgrid parameters of `grid` into `subgrid_params`.
+void pineappl_grid_get_subgrid_params(pineappl_grid* grid, int* subgrid_params);
 
 /// Fill `grid` at the position specified with `x1`, `x2`, and `q2`. The array `weight` must be as
 /// long the corresponding luminosity function the grid was created with and contain the

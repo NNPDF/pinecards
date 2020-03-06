@@ -18,13 +18,13 @@ Grid creation functions
 -----------------------
 
 .. doxygenfunction:: pineappl_grid_new
+.. doxygenenum:: pineappl_subgrid_format
 .. doxygenfunction:: pineappl_grid_delete
 
 Grid filling functions
 ----------------------
 
 .. doxygenfunction:: pineappl_grid_fill
-.. doxygenenum:: pineappl_grid_format
 
 Grid helper functions
 ---------------------

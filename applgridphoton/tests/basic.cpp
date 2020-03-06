@@ -42,20 +42,20 @@ TEST_CASE("", "")
 
     // create a new file
     auto* grid = pineappl_grid_new(
-        bin_limits.size() - 1,
-        bin_limits.data(),
         lumi,
-        pineappl_grid_format::as_a_logmur_logmuf,
+        pineappl_subgrid_format::as_a_logxir_logxif,
         grid_parameters.size() / 4,
         grid_parameters.data(),
-        nq2,
-        q2_min,
-        q2_max,
-        q2_order,
+        bin_limits.size() - 1,
+        bin_limits.data(),
         nx,
         x_min,
         x_max,
         x_order,
+        nq2,
+        q2_min,
+        q2_max,
+        q2_order,
         "f2"
     );
 

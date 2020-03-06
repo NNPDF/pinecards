@@ -60,12 +60,12 @@ struct pineappl_grid
 };
 
 pineappl_grid* pineappl_grid_new(
+    pineappl_lumi* lumi,
+    pineappl_subgrid_format format,
+    unsigned subgrids,
+    int* subgrid_params,
     int n_bins,
     double const* bin_limits,
-    pineappl_lumi* lumi,
-    pineappl_grid_format format,
-    int grids,
-    int* grid_parameters,
     unsigned nq2,
     double q2_min,
     double q2_max,
@@ -79,17 +79,17 @@ pineappl_grid* pineappl_grid_new(
     // STEP 1: prepare the vector containing the grid parameters for all grids
 
     // TODO: other format are currently not implemented
-    assert( format == pineappl_grid_format::as_a_logmur_logmuf );
+    assert( format == pineappl_subgrid_format::as_a_logxir_logxif );
 
     std::vector<appl::order_id> order_ids;
 
-    for (int i = 0; i != grids; ++i)
+    for (unsigned i = 0; i != subgrids; ++i)
     {
         order_ids.emplace_back(
-            grid_parameters[4 * i + 0], // alphas
-            grid_parameters[4 * i + 1], // alpha
-            grid_parameters[4 * i + 3], // logmuf
-            grid_parameters[4 * i + 2]  // logmur
+            subgrid_params[4 * i + 0], // alphas
+            subgrid_params[4 * i + 1], // alpha
+            subgrid_params[4 * i + 3], // logmuf
+            subgrid_params[4 * i + 2]  // logmur
         );
     }
 

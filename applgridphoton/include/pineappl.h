@@ -25,7 +25,7 @@ extern "C"
 #endif
 
 /// @struct pineappl_lumi
-/// Struture that captures the definition of a luminosity function.
+/// Struture capturing the definition of a luminosity function.
 struct pineappl_lumi;
 
 /// Creates a new luminosity function and returns a pointer to it. If no longer needed, the object
@@ -67,7 +67,24 @@ pineappl_subgrid_format;
 /// Structure representing a PineAPPL grid.
 struct pineappl_grid;
 
-/// Create a new @ref pineappl_grid.
+/// Create a new @ref pineappl_grid. The creation requires four different sets of parameters:
+/// - Luminosity function: `lumi`. This parameter must be a previously created luminosity function,
+///   see @ref pineappl_lumi_new.
+/// - Subgrid specification: `format`, `subgrids`, and `subgrids_params`. Each PineAPPL grid
+///   contains a number of subgrids, given as `subgrids`, which usually store the grids for each
+///   perturbative order separately. The concrete meaning of the subgrids is determined by `format`
+///   and `subgrids_params`.
+/// - Observable definition: `bins` and `bin_limits`. Each subgrid can store observables from a
+///   one-dimensional distribution. To this end `bins` specifies how many observables are stored and
+///   `bin_limits` gives the boundaries for all of them. The parameter `bin_limits` must be an array
+///   with `bins + 1` entries.
+/// - Interpolation method. Each subgrid contains the cross section differentially over \f$ (x_1,
+///   x_2, Q^2) \f$ in the range specified by `x_min` and `x_max` and `q2_min` and `q2_max`. All
+///   information outside this region is thrown away. Since this information cannot be stored
+///   for each weight supplied by @ref pineappl_grid_fill, an interpolation method is used. It maps
+///   all three variables using a transformation specified by `map`, and divides the mapped range
+///   into `nx` (for \f$ x_1 \f$ and \f$ x_2 \f$) and `nq2` bins (for \f$ Q^2 \f$). The order of the
+///   interpolation method used must be specified by `x_order` and `q2_order`.
 pineappl_grid* pineappl_grid_new(
     pineappl_lumi* lumi,
     pineappl_subgrid_format format,

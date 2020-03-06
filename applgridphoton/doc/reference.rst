@@ -14,8 +14,8 @@ Lumi functions
 .. doxygenfunction:: pineappl_lumi_delete
 .. doxygenfunction:: pineappl_lumi_add
 
-Grid creation functions
------------------------
+Grid creation and deletion functions
+------------------------------------
 
 .. doxygenfunction:: pineappl_grid_new
 .. doxygenenum:: pineappl_subgrid_format

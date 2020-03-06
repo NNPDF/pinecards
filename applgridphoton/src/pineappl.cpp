@@ -6,9 +6,27 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <chrono>
 #include <string>
 #include <utility>
 #include <vector>
+
+namespace
+{
+
+std::string get_unique_id()
+{
+    using std::chrono::duration_cast;
+    using std::chrono::high_resolution_clock;
+    using std::chrono::nanoseconds;
+
+    auto const duration = high_resolution_clock::now().time_since_epoch();
+    auto const count = duration_cast<nanoseconds>(duration).count();
+
+    return std::to_string(count);
+}
+
+}
 
 struct pineappl_lumi
 {
@@ -95,7 +113,7 @@ pineappl_grid* pineappl_grid_new(
 
     // STEP 2: prepare the PDF pdg id pairs
 
-    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_0"; // TODO: add unique identifier
+    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_" + get_unique_id();
     std::vector<int> lumi_vector;
     lumi_vector.push_back(lumi->pdg_ids.size());
 

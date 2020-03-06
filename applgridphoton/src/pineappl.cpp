@@ -66,14 +66,14 @@ pineappl_grid* pineappl_grid_new(
     int* subgrid_params,
     int n_bins,
     double const* bin_limits,
-    unsigned nq2,
-    double q2_min,
-    double q2_max,
-    unsigned q2_order,
     unsigned nx,
     double x_min,
     double x_max,
     unsigned x_order,
+    unsigned nq2,
+    double q2_min,
+    double q2_max,
+    unsigned q2_order,
     char const* map
 ) {
     // STEP 1: prepare the vector containing the grid parameters for all grids

@@ -30,7 +30,7 @@ struct pineappl_lumi;
 
 /// Creates a new luminosity function and returns a pointer to it. If no longer needed, the object
 /// should be deleted using @ref pineappl_lumi_delete.
-pineappl_lumi* pineappl_lumi_new();
+pineappl_lumi* pineappl_lumi_new(void);
 
 /// Delete luminosity function previously created with @ref pineappl_lumi_new.
 void pineappl_lumi_delete(pineappl_lumi* lumi);

@@ -43,13 +43,13 @@ void pineappl_lumi_add(
     double* factors
 );
 
-/// Enumeration that determines the meaning of the entries of the array `grid_parameters` in the
+/// Enumeration that determines the meaning of the entries of the array `subgrid_params` in the
 /// function @ref pineappl_grid_new. This is important only for @ref pineappl_grid_convolute, which
 /// reconstructs the hadronic cross section.
 typedef enum
 {
-    /// For each grid, this requires `grid_parameters` be a tuple of four integers \f$ (a, b, c, d)
-    /// \f$, denoting the grid's 1) strong coupling power, \f$ a \f$, 2) the electromagnetic
+    /// For each grid, this requires `subgrid_params` be a tuple of four integers \f$ (a, b, c, d)
+    /// \f$, denoting the subgrid's 1) strong coupling power, \f$ a \f$, 2) the electromagnetic
     /// coupling power, \f$ b \f$, 3) the power of the renormalisation scale logarithm, \f$ c \f$,
     /// and finally, 4) the power of the factorisation scale logarithm, \f$ d \f$. For each bin \f$
     /// w_i \f$, @ref pineappl_grid_convolute reconstructs the cross section as follows:
@@ -59,9 +59,9 @@ typedef enum
     ///              \log^c \left( \xi_\mathrm{R} \right)
     ///              \log^d \left( \xi_\mathrm{F} \right) w_i
     /// \f]
-    as_a_logmur_logmuf = 1
+    as_a_logxir_logxif = 1
 }
-pineappl_grid_format;
+pineappl_subgrid_format;
 
 /// @struct pineappl_grid
 /// Structure representing a PineAPPL grid.
@@ -69,20 +69,20 @@ struct pineappl_grid;
 
 /// Create a new @ref pineappl_grid.
 pineappl_grid* pineappl_grid_new(
-    int n_bins,
-    double const* bin_limits,
     pineappl_lumi* lumi,
-    pineappl_grid_format format,
-    int grids,
-    int* grid_parameters,
-    unsigned nq2,
-    double q2_min,
-    double q2_max,
-    unsigned q2_order,
+    pineappl_subgrid_format format,
+    unsigned subgrids,
+    int* subgrid_params,
+    int bins,
+    double const* bin_limits,
     unsigned nx,
     double x_min,
     double x_max,
     unsigned x_order,
+    unsigned nq2,
+    double q2_min,
+    double q2_max,
+    unsigned q2_order,
     char const* map
 );
 

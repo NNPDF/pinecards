@@ -29,7 +29,7 @@ subdir('include')
 subdir('src')
 subdir('tests')
 
-if get_option('documentation')
+if get_option('doc')
     subdir('doc')
 endif
 

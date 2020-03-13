@@ -28,14 +28,10 @@ TEST_CASE("", "")
     std::array<int, 4> grid_parameters = { 0, 2, 0, 0 };
 
     // global grid parameters, not really that important here
-    int const    nq2      = 30;
-    double const q2_min   = 100;
-    double const q2_max   = 1000000;
-    int const    q2_order = 1;//3;
-    int const    nx       = 50;
-    double const x_min    = 2e-7;
-    double const x_max    = 1;
-    int const    x_order  = 1;//3;
+    auto* storage = pineappl_storage_new("papplgrid_f2");
+
+    pineappl_storage_set_int(storage, "q2_order", 1);
+    pineappl_storage_set_int(storage, "x_order", 1);
 
     // a distribution with only one bin
     std::array<double, 2> bin_limits = { 0.0, 1.0 };
@@ -48,16 +44,10 @@ TEST_CASE("", "")
         grid_parameters.data(),
         bin_limits.size() - 1,
         bin_limits.data(),
-        nx,
-        x_min,
-        x_max,
-        x_order,
-        nq2,
-        q2_min,
-        q2_max,
-        q2_order,
-        "f2"
+        storage
     );
+
+    pineappl_storage_delete(storage);
 
     // delete luminosity function
     pineappl_lumi_delete(lumi);
@@ -105,14 +95,10 @@ TEST_CASE("", "")
         0, 3, 0, 0,
     };
 
-    int const    nq2      = 30;
-    double const q2_min   = 100;
-    double const q2_max   = 1000000;
-    int const    q2_order = 1;//3;
-    int const    nx       = 50;
-    double const x_min    = 2e-7;
-    double const x_max    = 1;
-    int const    x_order  = 1;//3;
+    auto* storage = pineappl_storage_new("papplgrid_f2");
+
+    pineappl_storage_set_int(storage, "q2_order", 1);
+    pineappl_storage_set_int(storage, "x_order", 1);
 
     std::array<double, 2> bin_limits = { 0.0, 1.0 };
 
@@ -124,16 +110,10 @@ TEST_CASE("", "")
         grid_parameters.data(),
         bin_limits.size() - 1,
         bin_limits.data(),
-        nx,
-        x_min,
-        x_max,
-        x_order,
-        nq2,
-        q2_min,
-        q2_max,
-        q2_order,
-        "f2"
+        storage
     );
+
+    pineappl_storage_delete(storage);
 
     CHECK( pineappl_grid_get_subgrid_format(grid) == pineappl_subgrid_format::as_a_logxir_logxif );
     CHECK( pineappl_grid_get_subgrids(grid) == (grid_parameters.size() / 4) );

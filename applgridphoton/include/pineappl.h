@@ -63,6 +63,42 @@ typedef enum
 }
 pineappl_subgrid_format;
 
+/// @struct pineappl_storage
+/// Struct holding a definition how the events \f$ ( x_1, x_2, Q^2 ) \mapsto w_i \f$ are stored in
+/// memory.
+struct pineappl_storage;
+
+/// Return a pointer to newly-created @ref pineappl_storage object. The parameter method determines
+/// the storage layout.
+pineappl_storage* pineappl_storage_new(char const* method);
+
+/// Delete the previously created object pointed to by `storage`.
+void pineappl_storage_delete(pineappl_storage* storage);
+
+/// Set the double-valued parameter with name `key` to `value` for `storage`.
+void pineappl_storage_set_bool(pineappl_storage* storage, char const* key, bool value);
+
+/// Set the double-valued parameter with name `key` to `value` for `storage`.
+void pineappl_storage_set_double(pineappl_storage* storage, char const* key, double value);
+
+/// Set the int-valued parameter with name `key` to `value` for `storage`.
+void pineappl_storage_set_int(pineappl_storage* storage, char const* key, int value);
+
+/// Set the string-valued parameter with name `key` to `value` for `storage`.
+void pineappl_storage_set_string(pineappl_storage* storage, char const* key, char const* value);
+
+/// Get the boolean-valued parameter with name `key` for `storage`.
+bool pineappl_storage_get_bool(pineappl_storage* storage, char const* key);
+
+/// Get the double-valued parameter with name `key` for `storage`.
+double pineappl_storage_get_double(pineappl_storage* storage, char const* key);
+
+/// Get the string-valued parameter with name `key` for `storage`.
+int pineappl_storage_get_int(pineappl_storage* storage, char const* key);
+
+/// Get the int-valued parameter with name `key` for `storage`.
+char const* pineappl_storage_get_string(pineappl_storage* storage, char const* key);
+
 /// @struct pineappl_grid
 /// Structure representing a PineAPPL grid.
 struct pineappl_grid;
@@ -78,13 +114,7 @@ struct pineappl_grid;
 ///   one-dimensional distribution. To this end `bins` specifies how many observables are stored and
 ///   `bin_limits` gives the boundaries for all of them. The parameter `bin_limits` must be an array
 ///   with `bins + 1` entries.
-/// - Interpolation method. Each subgrid contains the cross section differentially over \f$ (x_1,
-///   x_2, Q^2) \f$ in the range specified by `x_min` and `x_max` and `q2_min` and `q2_max`. All
-///   information outside this region is thrown away. Since this information cannot be stored
-///   for each weight supplied by @ref pineappl_grid_fill, an interpolation method is used. It maps
-///   all three variables using a transformation specified by `map`, and divides the mapped range
-///   into `nx` (for \f$ x_1 \f$ and \f$ x_2 \f$) and `nq2` bins (for \f$ Q^2 \f$). The order of the
-///   interpolation method used must be specified by `x_order` and `q2_order`.
+/// - Storage information: `storage`.
 pineappl_grid* pineappl_grid_new(
     pineappl_lumi* lumi,
     pineappl_subgrid_format format,
@@ -92,15 +122,7 @@ pineappl_grid* pineappl_grid_new(
     int* subgrid_params,
     int bins,
     double const* bin_limits,
-    unsigned nx,
-    double x_min,
-    double x_max,
-    unsigned x_order,
-    unsigned nq2,
-    double q2_min,
-    double q2_max,
-    unsigned q2_order,
-    char const* map
+    pineappl_storage* storage
 );
 
 /// Read a @ref pineappl_grid from a file with name `filename`.

@@ -6,6 +6,7 @@ Structures
 
 .. doxygenstruct:: pineappl_lumi
 .. doxygenstruct:: pineappl_grid
+.. doxygenstruct:: pineappl_storage
 
 Lumi functions
 --------------
@@ -13,6 +14,20 @@ Lumi functions
 .. doxygenfunction:: pineappl_lumi_new
 .. doxygenfunction:: pineappl_lumi_delete
 .. doxygenfunction:: pineappl_lumi_add
+
+Storage functions
+-----------------
+
+.. doxygenfunction:: pineappl_storage_new
+.. doxygenfunction:: pineappl_storage_delete
+.. doxygenfunction:: pineappl_storage_get_bool
+.. doxygenfunction:: pineappl_storage_get_double
+.. doxygenfunction:: pineappl_storage_get_int
+.. doxygenfunction:: pineappl_storage_get_string
+.. doxygenfunction:: pineappl_storage_set_bool
+.. doxygenfunction:: pineappl_storage_set_double
+.. doxygenfunction:: pineappl_storage_set_int
+.. doxygenfunction:: pineappl_storage_set_string
 
 Grid creation and deletion functions
 ------------------------------------

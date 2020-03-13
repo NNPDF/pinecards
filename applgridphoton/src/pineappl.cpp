@@ -6,8 +6,10 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <cstddef>
 #include <chrono>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -67,6 +69,93 @@ void pineappl_lumi_add(
     lumi->pdg_ids.emplace_back(std::vector<int>(pdg_id_pairs, pdg_id_pairs + 2 * combinations));
 }
 
+struct pineappl_storage
+{
+    pineappl_storage(char const* method)
+        : method(method)
+    {
+    }
+
+    std::string method;
+    std::unordered_map<std::string, bool> bools;
+    std::unordered_map<std::string, double> doubles;
+    std::unordered_map<std::string, int> ints;
+    std::unordered_map<std::string, std::string> strings;
+};
+
+pineappl_storage* pineappl_storage_new(char const* method)
+{
+    auto* result = new pineappl_storage(method);
+
+    if (std::string(method) == "papplgrid_f2")
+    {
+        // amcblast default values
+        pineappl_storage_set_int(result, "nx", 50);
+        pineappl_storage_set_double(result, "x_min", 2e-7);
+        pineappl_storage_set_double(result, "x_max", 1.0);
+        pineappl_storage_set_int(result, "x_order", 3);
+        pineappl_storage_set_int(result, "nq2", 30);
+        pineappl_storage_set_double(result, "q2_min", 100);
+        pineappl_storage_set_double(result, "q2_max", 1000000);
+        pineappl_storage_set_int(result, "q2_order", 3);
+
+        pineappl_storage_set_bool(result, "reweight", false);
+        pineappl_storage_set_string(result, "documentation", "");
+    }
+    else
+    {
+        // TODO: implement other methods
+        return nullptr;
+    }
+
+    return result;
+}
+
+void pineappl_storage_delete(pineappl_storage* storage)
+{
+    delete storage;
+}
+
+void pineappl_storage_set_bool(pineappl_storage* storage, char const* key, bool value)
+{
+    storage->bools[key] = value;
+}
+
+void pineappl_storage_set_double(pineappl_storage* storage, char const* key, double value)
+{
+    storage->doubles[key] = value;
+}
+
+void pineappl_storage_set_int(pineappl_storage* storage, char const* key, int value)
+{
+    storage->ints[key] = value;
+}
+
+void pineappl_storage_set_string(pineappl_storage* storage, char const* key, char const* value)
+{
+    storage->strings[key] = value;
+}
+
+bool pineappl_storage_get_bool(pineappl_storage* storage, char const* key)
+{
+    return storage->bools.at(key);
+}
+
+double pineappl_storage_get_double(pineappl_storage* storage, char const* key)
+{
+    return storage->doubles.at(key);
+}
+
+int pineappl_storage_get_int(pineappl_storage* storage, char const* key)
+{
+    return storage->ints.at(key);
+}
+
+char const* pineappl_storage_get_string(pineappl_storage* storage, char const* key)
+{
+    return storage->strings.at(key).c_str();
+}
+
 struct pineappl_grid
 {
     pineappl_grid(appl::grid&& grid)
@@ -84,20 +173,16 @@ pineappl_grid* pineappl_grid_new(
     int* subgrid_params,
     int n_bins,
     double const* bin_limits,
-    unsigned nx,
-    double x_min,
-    double x_max,
-    unsigned x_order,
-    unsigned nq2,
-    double q2_min,
-    double q2_max,
-    unsigned q2_order,
-    char const* map
+    pineappl_storage* storage
 ) {
     // STEP 1: prepare the vector containing the grid parameters for all grids
 
     // TODO: other format are currently not implemented
     assert( format == pineappl_subgrid_format::as_a_logxir_logxif );
+
+    // TODO: at the moment only the modified APPLgrid package is supported (`papplgrid`)
+    auto const pos = storage->method.find('_');
+    assert( storage->method.substr(0, pos) == "papplgrid" );
 
     std::vector<appl::order_id> order_ids;
 
@@ -134,8 +219,21 @@ pineappl_grid* pineappl_grid_new(
 
     // STEP 3: create the appl grids
 
-    return new pineappl_grid(appl::grid(n_bins, bin_limits, nq2, q2_min, q2_max, q2_order, nx,
-        x_min, x_max, x_order, pdf_name, order_ids, map));
+    auto result = new pineappl_grid(appl::grid(n_bins, bin_limits,
+        pineappl_storage_get_int(storage, "nq2"),
+        pineappl_storage_get_double(storage, "q2_min"),
+        pineappl_storage_get_double(storage, "q2_max"),
+        pineappl_storage_get_int(storage, "q2_order"),
+        pineappl_storage_get_int(storage, "nx"),
+        pineappl_storage_get_double(storage, "x_min"),
+        pineappl_storage_get_double(storage, "x_max"),
+        pineappl_storage_get_int(storage, "x_order"),
+        pdf_name, order_ids, storage->method.substr(pos + 1)));
+
+    result->grid.reweight(pineappl_storage_get_bool(storage, "reweight"));
+    result->grid.setDocumentation(pineappl_storage_get_string(storage, "documentation"));
+
+    return result;
 }
 
 pineappl_grid* pineappl_grid_read(char const* filename)

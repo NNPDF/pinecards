@@ -123,4 +123,7 @@ TEST_CASE("", "")
     pineappl_grid_get_subgrid_params(grid, check_ints.data());
 
     CHECK( std::equal(grid_parameters.begin(), grid_parameters.end(), check_ints.begin()) );
+
+    pineappl_lumi_delete(lumi);
+    pineappl_grid_delete(grid);
 }

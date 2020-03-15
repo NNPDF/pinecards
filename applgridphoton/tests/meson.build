@@ -6,6 +6,7 @@ libcatch_dep = declare_dependency(dependencies : catch_dep, link_with : libcatch
 
 tests = [
     'basic',
+    'files',
     'storage',
 ]
 

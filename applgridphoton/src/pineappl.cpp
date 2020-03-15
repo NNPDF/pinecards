@@ -319,6 +319,7 @@ void pineappl_grid_scale(pineappl_grid* grid, double factor)
 
 void pineappl_grid_write(pineappl_grid* grid, char const* filename)
 {
+    grid->grid.run() = 1;
     grid->grid.Write(filename);
 }
 

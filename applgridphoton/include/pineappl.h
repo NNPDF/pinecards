@@ -160,17 +160,15 @@ void pineappl_grid_scale(pineappl_grid* grid, double factor);
 /// Write `grid` to a file with name `filename`.
 void pineappl_grid_write(pineappl_grid* grid, char const* filename);
 
-// TODO: remove the `const&`
-
 /// Function pointer type for PDFs \f$ f_a(x, Q^2) \f$. The result of the PDFs must be written into
 /// `pdfs`, which must be an array of size 14. The value of the photon PDF must be written to the
 /// last element of `pdfs`. Quarks PDF values must be written into `pdfs[i]`, where `i` is
 /// calculated as follows: \f$ i = \mathrm{PDG value} + 6 \f$. The value of the gluon PDF must be
 /// written in between the quark PDFs, at index `6`.
-typedef void (*pineappl_func_xfx)(double const& x, double const& q2, double* pdfs);
+typedef void (*pineappl_func_xfx)(double x, double q2, double* pdfs, void* state);
 
 /// Function pointer type for the evaluation of the strong coupling.
-typedef double (*pineappl_func_alphas)(double const& q2);
+typedef double (*pineappl_func_alphas)(double q2, void* state);
 
 /// Perform a convolution of the APPLgrid given as `grid` with the PDFs `pdf1` and `pdf2`. The
 /// value `grid_mask` must either be `NULL` or an array as long as the luminosity function, which
@@ -184,6 +182,7 @@ void pineappl_grid_convolute(
     pineappl_func_xfx pdf1,
     pineappl_func_xfx pdf2,
     pineappl_func_alphas alphas,
+    void* state,
     int* grid_mask,
     double scale_ren,
     double scale_fac,

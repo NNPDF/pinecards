@@ -60,9 +60,10 @@ TEST_CASE("", "")
 
     pineappl_grid_convolute(
         grid,
-        simple_pdf,
-        simple_pdf,
-        alphas,
+        [](double x, double /*q2*/, double* pdf, void* /*state*/) { std::fill_n(pdf, 14, x); },
+        [](double x, double /*q2*/, double* pdf, void* /*state*/) { std::fill_n(pdf, 14, x); },
+        [](double /*q2*/, void* /*state*/) { return 1.0; },
+        nullptr,
         nullptr,
         1.0,
         1.0,

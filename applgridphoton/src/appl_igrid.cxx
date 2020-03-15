@@ -501,6 +501,8 @@ void appl::igrid::write(const std::string& name) {
 
   setup->Write("Parameters");
 
+  delete setup;
+
   int igridsize     = 0;
   int igridtrimsize = 0;
 

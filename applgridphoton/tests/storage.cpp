@@ -13,6 +13,8 @@ TEST_CASE("check storage creation", "[storage]")
     auto* non_existent = pineappl_storage_new("doesn't exist");
 
     CHECK( non_existent == nullptr );
+
+    pineappl_storage_delete(f2);
 }
 
 TEST_CASE("check f2 storage default values", "[storage]")
@@ -27,6 +29,8 @@ TEST_CASE("check f2 storage default values", "[storage]")
     CHECK( pineappl_storage_get_double(f2, "q2_min") == 100);
     CHECK( pineappl_storage_get_double(f2, "q2_max") == 1000000);
     CHECK( pineappl_storage_get_int(f2, "q2_order") == 3);
+
+    pineappl_storage_delete(f2);
 }
 
 TEST_CASE("check storage getter and setter", "[storage]")
@@ -50,4 +54,6 @@ TEST_CASE("check storage getter and setter", "[storage]")
     pineappl_storage_set_string(f2, "documentation", "foobar");
 
     CHECK( pineappl_storage_get_string(f2, "documentation") == std::string("foobar") );
+
+    pineappl_storage_delete(f2);
 }

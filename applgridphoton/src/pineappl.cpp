@@ -1,6 +1,7 @@
 #include "pineappl.h"
 
 #include "appl_grid/appl_grid.h"
+#include "appl_grid/appl_pdf.h"
 #include "appl_grid/lumi_pdf.h"
 
 #include <algorithm>
@@ -114,10 +115,12 @@ struct pineappl_storage
 
 pineappl_storage* pineappl_storage_new(char const* method)
 {
-    auto* result = new pineappl_storage(method);
+    pineappl_storage* result = nullptr;
 
     if (std::string(method) == "papplgrid_f2")
     {
+        result = new pineappl_storage(method);
+
         // amcblast default values
         pineappl_storage_set_int(result, "nx", 50);
         pineappl_storage_set_double(result, "x_min", 2e-7);
@@ -131,12 +134,8 @@ pineappl_storage* pineappl_storage_new(char const* method)
         pineappl_storage_set_bool(result, "reweight", false);
         pineappl_storage_set_string(result, "documentation", "");
     }
-    else
-    {
-        // TODO: implement other methods
-        return nullptr;
-    }
 
+    // TODO: implement other methods
     return result;
 }
 
@@ -187,12 +186,14 @@ char const* pineappl_storage_get_string(pineappl_storage* storage, char const* k
 
 struct pineappl_grid
 {
-    pineappl_grid(appl::grid&& grid)
+    pineappl_grid(appl::grid&& grid, appl::appl_pdf const* lumi)
         : grid(std::move(grid))
+        , lumi(lumi)
     {
     }
 
     appl::grid grid;
+    appl::appl_pdf const* lumi;
 };
 
 pineappl_grid* pineappl_grid_new(
@@ -245,7 +246,7 @@ pineappl_grid* pineappl_grid_new(
     }
 
     // the object will be destroyed by APPLgrid (hopefully)
-    new lumi_pdf(pdf_name, lumi_vector);
+    auto* lumi_ptr = new lumi_pdf(pdf_name, lumi_vector);
 
     // STEP 3: create the appl grids
 
@@ -258,7 +259,7 @@ pineappl_grid* pineappl_grid_new(
         pineappl_storage_get_double(storage, "x_min"),
         pineappl_storage_get_double(storage, "x_max"),
         pineappl_storage_get_int(storage, "x_order"),
-        pdf_name, order_ids, storage->method.substr(pos + 1)));
+        pdf_name, order_ids, storage->method.substr(pos + 1)), lumi_ptr);
 
     result->grid.reweight(pineappl_storage_get_bool(storage, "reweight"));
     result->grid.setDocumentation(pineappl_storage_get_string(storage, "documentation"));
@@ -268,12 +269,24 @@ pineappl_grid* pineappl_grid_new(
 
 pineappl_grid* pineappl_grid_read(char const* filename)
 {
-    return new pineappl_grid(appl::grid(filename));
+    auto grid = appl::grid(filename);
+    auto* result = new pineappl_grid(std::move(grid), grid.genpdf(0));
+
+    for (std::size_t i = 1; i < result->grid.order_ids().size(); ++i)
+    {
+        assert( result->grid.genpdf(i) == result->lumi );
+    }
+
+    return result;
 }
 
 void pineappl_grid_delete(pineappl_grid* grid)
 {
+    auto* lumi = grid->lumi;
+
+    // TODO: not sure this order is needed
     delete grid;
+    delete lumi;
 }
 
 pineappl_subgrid_format pineappl_grid_get_subgrid_format(pineappl_grid* /*grid*/)

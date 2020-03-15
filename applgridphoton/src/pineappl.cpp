@@ -83,9 +83,18 @@ void pineappl_lumi_add(
     }
 
     // TODO: non-unity factors are NYI
-    assert( std::all_of(factors, factors + combinations, [](double f) { return f == 1.0; }) );
+    assert( (factors == nullptr) ||
+        std::all_of(factors, factors + combinations, [](double f) { return f == 1.0; }) );
 
-    lumi->factors.emplace_back(factors, factors + combinations);
+    if (factors == nullptr)
+    {
+        lumi->factors.emplace_back(combinations, 1.0);
+    }
+    else
+    {
+        lumi->factors.emplace_back(factors, factors + combinations);
+    }
+
     lumi->pdg_ids.emplace_back(pdg_id_pairs, pdg_id_pairs + 2 * combinations);
 }
 

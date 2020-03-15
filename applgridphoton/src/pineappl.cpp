@@ -16,6 +16,26 @@
 namespace
 {
 
+pineappl_func_xfx pdf1_ptr = nullptr;
+pineappl_func_xfx pdf2_ptr = nullptr;
+pineappl_func_alphas alphas_ptr = nullptr;
+void* state = nullptr;
+
+double alphas(double const& q2)
+{
+    return alphas_ptr(q2, state);
+}
+
+void xfx1(double const& x, double const& q2, double* pdfs)
+{
+    pdf1_ptr(x, q2, pdfs, state);
+}
+
+void xfx2(double const& x, double const& q2, double* pdfs)
+{
+    pdf2_ptr(x, q2, pdfs, state);
+}
+
 std::string get_unique_id()
 {
     using std::chrono::duration_cast;
@@ -298,6 +318,7 @@ void pineappl_grid_convolute(
     pineappl_func_xfx pdf1,
     pineappl_func_xfx pdf2,
     pineappl_func_alphas alphas,
+    void* state,
     int* grid_mask,
     double scale_ren,
     double scale_fac,
@@ -307,7 +328,12 @@ void pineappl_grid_convolute(
     // TODO: selecting and deselecting grids is not completely possible with APPLgrid
     assert( grid_mask == nullptr );
 
-    auto const result = grid->grid.vconvolute(pdf1, pdf2, alphas, 99, scale_ren,
+    pdf1_ptr = pdf1;
+    pdf2_ptr = pdf2;
+    alphas_ptr = alphas;
+    ::state = state;
+
+    auto const result = grid->grid.vconvolute(::xfx1, ::xfx2, ::alphas, 99, scale_ren,
         scale_fac, scale_energy);
 
     std::copy(result.begin(), result.end(), bins);

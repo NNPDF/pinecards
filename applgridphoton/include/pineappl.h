@@ -131,7 +131,7 @@ pineappl_grid* pineappl_grid_read(char const* filename);
 /// Delete a grid previously created with @ref pineappl_grid_new.
 void pineappl_grid_delete(pineappl_grid* grid);
 
-/// Return the @pineappl_subgrid_format that `grid` was created with.
+/// Return the @ref pineappl_subgrid_format that `grid` was created with.
 pineappl_subgrid_format pineappl_grid_get_subgrid_format(pineappl_grid* grid);
 
 /// Return the number of subgrids in `grid`.

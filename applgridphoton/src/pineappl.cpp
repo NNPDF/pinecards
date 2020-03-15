@@ -227,7 +227,8 @@ pineappl_grid* pineappl_grid_new(
 
     // STEP 2: prepare the PDF pdg id pairs
 
-    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_" + get_unique_id();
+    // important: `pdf_name` must have `.config` suffix, other loading will not work
+    std::string const pdf_name = "pineappl_appl_grid_pdf_bridge_" + get_unique_id() + ".config";
     std::vector<int> lumi_vector;
     lumi_vector.push_back(lumi->pdg_ids.size());
 

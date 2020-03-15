@@ -35,7 +35,7 @@ endif
 
 pkg = import('pkgconfig')
 pkg.generate(
-    description : 'TODO description',
+    description : 'PineAPPL is not an extension of APPLgrid',
     name : meson.project_name(),
     version : meson.project_version(),
     libraries : lib

@@ -62,11 +62,18 @@ executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], ins
 executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
 
 lib2 = library(
-    meson.project_name(),
-    meson.project_name() + '.cpp',
+    'pineappl',
+    'pineappl.cpp',
     include_directories : incdir2,
     dependencies : dep,
     install : true
 )
 
 dep2 = declare_dependency(include_directories : incdir2, link_with : lib2, dependencies : dep)
+
+import('pkgconfig').generate(
+    description : 'PineAPPL is not an extension of APPLgrid',
+    name : meson.project_name(),
+    version : meson.project_version(),
+    libraries : lib2
+)

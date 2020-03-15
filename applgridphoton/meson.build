@@ -32,11 +32,3 @@ subdir('tests')
 if get_option('doc')
     subdir('doc')
 endif
-
-pkg = import('pkgconfig')
-pkg.generate(
-    description : 'PineAPPL is not an extension of APPLgrid',
-    name : meson.project_name(),
-    version : meson.project_version(),
-    libraries : lib
-)

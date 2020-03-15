@@ -5,7 +5,7 @@ libcatch = static_library('catch', 'catch.cpp', dependencies : catch_dep)
 libcatch_dep = declare_dependency(dependencies : catch_dep, link_with : libcatch)
 
 tests = [
-	'basic'
+    'basic',
     'storage',
 ]
 

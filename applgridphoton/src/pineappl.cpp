@@ -144,7 +144,7 @@ void pineappl_storage_delete(pineappl_storage* storage)
     delete storage;
 }
 
-void pineappl_storage_set_bool(pineappl_storage* storage, char const* key, bool value)
+void pineappl_storage_set_bool(pineappl_storage* storage, char const* key, int value)
 {
     storage->bools[key] = value;
 }
@@ -164,7 +164,7 @@ void pineappl_storage_set_string(pineappl_storage* storage, char const* key, cha
     storage->strings[key] = value;
 }
 
-bool pineappl_storage_get_bool(pineappl_storage* storage, char const* key)
+int pineappl_storage_get_bool(pineappl_storage* storage, char const* key)
 {
     return storage->bools.at(key);
 }

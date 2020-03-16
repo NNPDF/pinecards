@@ -1,12 +1,15 @@
 Reference
 =========
 
-Structures
-----------
+Main structures and pointers to them
+------------------------------------
 
 .. doxygenstruct:: pineappl_lumi
+.. doxygentypedef:: pineappl_lumi_ptr
 .. doxygenstruct:: pineappl_grid
+.. doxygentypedef:: pineappl_grid_ptr
 .. doxygenstruct:: pineappl_storage
+.. doxygentypedef:: pineappl_storage_ptr
 
 Lumi functions
 --------------

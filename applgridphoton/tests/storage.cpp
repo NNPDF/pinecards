@@ -1,6 +1,6 @@
-#include <string>
-
 #include <pineappl.h>
+
+#include <string>
 
 #include <catch2/catch.hpp>
 

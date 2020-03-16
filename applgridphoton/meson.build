@@ -10,7 +10,7 @@ project(
 incdir = include_directories('.')
 
 headers = [
-    'appl_grid/SparseMatrix3d.h',
+	'appl_grid/SparseMatrix3d.h',
     'appl_grid/appl_grid.h',
     'appl_grid/appl_igrid.h',
     'appl_grid/appl_pdf.h',

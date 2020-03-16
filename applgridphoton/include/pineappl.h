@@ -2,7 +2,7 @@
 #define PINEAPPL_H
 
 /*
- * PineAPPL - PineAPPL Is Not an Extension of APPLgrid
+ * PineAPPL - PineAPPL is not an extension of APPLgrid
  * Copyright (C) 2019-2020  Christopher Schwan
  *
  * This program is free software: you can redistribute it and/or modify

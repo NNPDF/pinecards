@@ -1,18 +1,9 @@
 #include <pineappl.h>
 
-#include <catch2/catch.hpp>
-
+#include <algorithm>
 #include <array>
 
-void simple_pdf(double const& x, double const&, double* pdf)
-{
-    std::fill_n(pdf, 14, x);
-}
-
-double alphas(double const&)
-{
-    return 1.0;
-}
+#include <catch2/catch.hpp>
 
 TEST_CASE("", "")
 {

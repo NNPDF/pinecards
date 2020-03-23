@@ -12,6 +12,48 @@ In particular, the following features distinguish it from the two aforementioned
 \item converters to convert \textsc{APPLgrids} and \textsc{fastNLO} tables.
 \end{itemize}
 
+\subsubsection{Cross sections in a multi-coupling expansion}
+The structure of the cross-section weights needed by \textsc{PineAPPL} follows the scheme outlined in 
+Refs.~\cite{Frederix:2011ss, Bertone:2014zva}, embedded in a mixed-coupling expansion, see Ref.~\cite{Frederix:2018nkq} and Refs.CITE for
+specific examples. Starting 
+from the latter, an observable $\Sigma(\alphas, \alpha)$ is written as
+\begin{equation}
+    \Sigma(\alphas, \alpha) = \alpha^c \alphas^{c_S} \sum_{a_S, a} \alphas^{a_S} \alpha^a \Sigma_{a_S, a}\,.
+\end{equation}
+$c$ and $c_S$ are process-dependent; the contributions $\Sigma_{a_S, a}$ are in general non-zero for $a_S, a \ge 0$ and $a_S + a > q$, where also $q$ is a process-dependent quantity. For example,
+for (stable) top-pair production, $c=c_S=0$ and $q=2$; for Drell-Yan production, $c=2$, $c_S=0$, and $q=0$. Terms 
+with  $a_S + a = q + k$ correspond to different N$^k$LO contributions to $\Sigma$, usually
+labeled as N$^k$LO$_i$, $i =1,2, \ldots$, with $i=1$ assigned to the term with the largest power of $\alphas$. Given the hierarchy of the couplings,
+one expects that 
+\begin{equation}
+ \textrm{N}^k\textrm{LO}_1 \gg \textrm{N}^k\textrm{LO}_2 \gg\ldots \, ,
+\end{equation}
+however such a relation is not always respected, and sometimes blatantly violated~CITE.
+
+Given the perturbative order (LO, NLO, \ldots), different weights $\cal W$, with different kinematics expressed by the set $\cal P$, enter the various 
+terms $\Sigma_{a_S, a}$. One can write 
+\begin{equation}
+    \Sigma_{a_S, a}= \sum_{l\in \mathcal P} f_1(x_1^{(l)},\mu_F^{(l)}) \,f_2(x_2^{(l)},\mu_F^{(l)}) \mathcal W^{(l)}_{a_S, a} 
+    d \textrm{PS}\,,
+\end{equation}
+where we have introduced the parton distributions $f_{1,2}$ and the phase-space measure $d$PS.
+\begin{itemize}
+    \item At LO, $\mathcal P = \{B\}$, $B$ being the Born kinematics, and the weight structure is trivial,
+    \begin{equation}
+        \mathcal W^{(l)}_{a_S, a} = {\mathcal W^{(l),0}_{a_S, a}}\,.
+    \end{equation}
+    \item At NLO, $\mathcal P = \{E, S, C, SC\}$ with, $E$ being the event (or resolved) kinematics, and $S$, $C$, $SC$ being
+        respectively the soft, collinear, and soft-collinear kinematics. The weight structure includes three terms at NLO:
+    \begin{equation}
+        \mathcal W^{(l)}_{a_S, a} = {{\mathcal W}^{(l),0}_{a_S, a}} + 
+                                {\mathcal W^{(l),R}_{a_S, a}} \log\left(\frac{{\mu_R^{(l)}}^2}{Q^2}\right) + 
+                                {\mathcal W^{(l),F}_{a_S, a}} \log\left(\frac{{\mu_F^{(l)}}^2}{Q^2}\right) 
+    \end{equation}
+    where, besides the renormalisation and factorisation scales $\mu_{R,F}$, we have introduced the Ellis-Sexton scale $Q$
+\end{itemize}
+
+
+
 \subsection{Grid representation}
 \label{sec:grid-representation}
 

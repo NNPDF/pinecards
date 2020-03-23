@@ -1,0 +1,27 @@
+launch @OUTPUT@
+fixed_order = ON
+set mt @MT@
+set mz @MZ@
+set WT 0.0
+set WZ 0.0
+set WW 0.0
+set WH 0.0
+set ymt @YMT@
+set ebeam1 6500
+set ebeam2 6500
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed @MT@
+set muf_ref_fixed @MT@
+set reweight_scale False
+set req_acc_FO 0.01
+set iappl 1
+done
+launch @OUTPUT@
+fixed_order = ON
+set req_acc_FO 0.001
+set iappl 2
+done
+quit

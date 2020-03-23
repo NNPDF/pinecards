@@ -1,16 +1,17 @@
-\subsection{PineAPPL}
-\label{sec:pineappl}
-
-In this paper we introduce a new program called \textsc{PineAPPL}, which solves the same problem as \textsc{APPLgrid}~\cite{} and \textsc{fastNLO}~\cite{}, but also supports EW corrections, which are the main interest here.
-In particular, the following features distinguish it from the two aforementioned programs:
+In this paper we introduce a new library called \textsc{PineAPPL}, which is similar to \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
+Like to those two libraries, also \textsc{PineAPPL} bins phase-space weights in a PDF-independent manner, but it understands EW corrections, which are the main interest in this paper.
+The following features distinguish it:
 \begin{itemize}
-\item support for arbitrary fixed-order calculations in $\alpha$ and $\alpha_\mathrm{s}$ with
-\item support for scale variations in multiples of the central renormalization and factorization scale,
-\item support for all-order predictions from resummation and photon-/parton-showers,
-\item a simple \textsc{C}-interface, with a wrapper for \textsc{Fortran}
-\item and support for it implemented in \textsc{mg5\_aMC@NLO},
-\item converters to convert \textsc{APPLgrids} and \textsc{fastNLO} tables.
+\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alpha_\mathrm{s}$ or combinations thereof, e.g.\ in mixed QCD-EW corrections.
+Furthermore variations of the renormalization and factorization scale are supported, if needed.
+For each needed combination of the couplings and logarithms of renormalization and factorization scale a separate subgrid is created (see Sec.~\ref{sec:grid-representation} for more details);
+\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see Sec.~\ref{sec:results}),
+\item A simple \textsc{C}-interface, with a wrapper for \textsc{Fortran} and \textsc{Python} (see App.~\ref{app:pineappl-interface} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
+\textsc{PineAPPL} itself is written in Rust.
 \end{itemize}
+For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented in the most recent version, which replaces the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+The interfacing code for other Monte Carlo generators should be easy to write, see App.~\ref{app:pineappl-interface} for a small example program.
+Finally, \textsc{PineAPPL} provides programs to convert \textsc{APPLgrids} and \textsc{fastNLO} tables to \textsc{PineAPPL} grids.
 
 \subsubsection{Cross sections in a multi-coupling expansion}
 The structure of the cross-section weights needed by \textsc{PineAPPL} follows the scheme outlined in
@@ -53,8 +54,7 @@ where we have introduced the parton distributions $f_{1,2}$ and the phase-space 
     where, besides the renormalisation and factorisation scales $\mu_{R,F}$, we have introduced the Ellis-Sexton scale $Q$
 \end{itemize}
 
-
-\subsection{Grid representation}
+\subsection{Grid representation and accuracy}
 \label{sec:grid-representation}
 
 \subsection{Accuracy and performance}

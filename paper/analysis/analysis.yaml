@@ -1,0 +1,44 @@
+meta:
+    title: Plots for paper
+    keywords: [EW]
+    author: Stefano Carrazza
+
+use_cuts: "nocuts"
+      
+dataspecs:
+  - theoryid: 52
+    pdf: NNPDF31_nlo_as_0118_luxqed
+    speclabel: "NNPDF3.1 NLO luxQED (pure QCD)"
+    experiments:
+      - experiment: test
+        datasets:
+          - {  dataset: ATLASZHIGHMASS49FB }
+          - {  dataset: ATLASTTBARTOT }
+          - {  dataset: CMSTTBARTOT }
+          
+  - theoryid: 199
+    pdf: NNPDF31_nlo_as_0118_luxqed
+    speclabel: "NNPDF3.1 NLO luxQED (QCD+EW)"
+    experiments:
+      - experiment: test
+        datasets:
+          - {  dataset: ATLASZHIGHMASS49FB }
+          - {  dataset: ATLASTTBARTOT, cfac: [RES] }
+          - {  dataset: CMSTTBARTOT, cfac: [RES] }
+    
+datanorm:
+    normalize_to: data
+    
+template_text: |
+  # Chi2
+  {@ dataspecs_chi2_table @}
+
+  # Data-prediction
+  {@with matched_datasets_from_dataspecs@}
+  {@plot_fancy_dataspecs@}
+  {@datanorm plot_fancy_dataspecs@}
+  {@endwith@}
+
+
+actions_:
+  - report(main=true)

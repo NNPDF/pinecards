@@ -46,11 +46,38 @@ Pinappl kills amcfast and mcgrid, replace applgrid and fastnlo.\\
 \section{Results}
 \label{sec:results}
 
-SC
+In Table~\ref{table:chi2} we show the $\chi^2$ values for datasets..., using the NNPDF3.1 NLO luxQED set.
 
-For datasets in 3.1qed (+DY2), compute pure NLO QCD (born) vs NLO QCD + NLO EW (dressed) FKtables and:\\
-- compute data/prediction plots\\
-- compute chi2\\
+In Figure~\ref{fig:datacomparison} we present the data prediction comparison for the equivalent setup presented in Table~\ref{table:chi2}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|c|cc}
+        \multicolumn{1}{l}{} &  & \multicolumn{2}{c}{$\chi^{2}/n_{{\rm data}}$}\tabularnewline
+        \hline
+        Dataset & $n_{{\rm data}}$ & QCD & QCD+EW\tabularnewline
+        \hline
+        ATLAS HM DY 7 TeV & 13 & 1.151 & 1.036\tabularnewline
+        \hline
+        ATLAS $\sigma_{tt}^{{\rm tot}}$ & 3 & 2.549 & 3.271\tabularnewline
+        \hline
+        CMS $\sigma_{tt}^{{\rm tot}}$ & 3 & 0.986 & 1.654\tabularnewline
+        \hline
+    \end{tabular}
+    \caption{$\chi^2$ values for NNPDF3.1 NLO luxQED.}
+    \label{table:chi2}
+\end{table}
+
+\begin{figure}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs0_plot_fancy_dataspecs_0}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs0_datanorm_plot_fancy_dataspecs_0}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs1_plot_fancy_dataspecs_0}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs1_datanorm_plot_fancy_dataspecs_0}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs2_plot_fancy_dataspecs_0}
+    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs2_datanorm_plot_fancy_dataspecs_0}
+    \caption{Data prediction comparison plots.}
+    \label{fig:datacomparison}
+\end{figure}
 
 \section{Double counting}
 
@@ -69,7 +96,7 @@ ALL
 
 \acknowledgments
 
-C.S. is supported by the European Research Council under the European Unions Horizon 2020 research and innovation Programme (grant agreement no. 740006).
+S.C. and C.S. are supported by the European Research Council under the European Unions Horizon 2020 research and innovation Programme (grant agreement no. 740006).
 
 \section{More details about \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 \label{app:pineappl-interface}

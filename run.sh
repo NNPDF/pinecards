@@ -94,6 +94,15 @@ sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' variables.txt) -i "${launch_file}"
 # remove the variables file
 rm variables.txt
 
+# parse launch file for user-defined cuts
+user_defined_cuts=$(grep '^#user_defined_cut' launch.txt || true)
+
+# if there are user-defined cuts, implement them
+if [[ -n ${user_defined_cuts[@]} ]]; then
+    user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+[+-]?[0-9]+([.][0-9]+)?') )
+    ./run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
+fi
+
 # launch run
 python2 "${mg5amc}" "${launch_file}" |& tee launch.log
 

@@ -28,7 +28,7 @@ cuts_code = {
 }
 
 if __name__ == '__main__':
-    if len(sys.argv) < 4 or len(sys.argv) % 2 != 0:
+    if len(sys.argv) < 5:
         print('Error: wrong number of arguments: {}'.format(sys.argv))
         exit(1)
 
@@ -39,13 +39,17 @@ if __name__ == '__main__':
         print('Error: cut file `{}` does not exist'.format(filename))
         exit(2)
 
-    for i in zip(sys.argv[2::2], sys.argv[3::2]):
+    for i in zip(sys.argv[2::3], sys.argv[3::3], sys.argv[4::3]):
         name = i[0]
 
         # check if the cut is recognised
         if not name in cuts_code:
             print('Error: unrecognised cut: {}'.format(name))
             exit(3)
+
+        if i[1] != '=':
+            print('Error: wrong argument format')
+            exit(4)
 
     with open(filename, 'r') as fd:
         contents = fd.readlines()
@@ -61,14 +65,14 @@ if __name__ == '__main__':
     if marker_pos == -1:
         print('Error: could not find insertion marker `{}` in cut file `{}`'
             .format(insertion_marker, filename))
-        exit(4)
+        exit(5)
 
     # skip some lines with comments
     marker_pos = marker_pos + 4
     # insert and empty line
     contents.insert(marker_pos - 1, '\n')
 
-    for i in zip(reversed(sys.argv[2::2]), reversed(sys.argv[3::2])):
+    for i in zip(reversed(sys.argv[2::3]), reversed(sys.argv[4::3])):
         name = i[0]
         value = i[1]
         code = cuts_code[name].format(float(value))

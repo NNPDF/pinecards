@@ -99,8 +99,8 @@ user_defined_cuts=$(grep '^#user_defined_cut' launch.txt || true)
 
 # if there are user-defined cuts, implement them
 if [[ -n ${user_defined_cuts[@]} ]]; then
-    user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+[+-]?[0-9]+([.][0-9]+)?') )
-    ./run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
+    user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+=[[:blank:]]+[+-]?[0-9]+([.][0-9]+)?') )
+    ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
 fi
 
 # launch run

@@ -11,8 +11,7 @@ set fixed_fac_scale True
 set mur_ref_fixed @MZ@
 set muf_ref_fixed @MZ@
 set reweight_scale False
-#user_defined_cut set ptl1min = 14.0
-#user_defined_cut set ptl2min = 9.0
+set ptl = 9.0
 set etal = 2.4
 set mll = 20.0
 #user_defined_cut set mmllmax = 1500.0

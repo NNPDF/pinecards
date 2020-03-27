@@ -7,14 +7,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
+      call HwU_book(1,'lmlp inv m', 1,  20d0,   30d0)
+      call HwU_book(2,'lmlp inv m', 1,  30d0,   45d0)
+      call HwU_book(3,'lmlp inv m', 1,  45d0,   60d0)
+      call HwU_book(4,'lmlp inv m', 1,  60d0,  120d0)
+      call HwU_book(5,'lmlp inv m', 1, 120d0,  200d0)
+      call HwU_book(6,'lmlp inv m', 1, 200d0, 1500d0)
 
-c     slice from mll = 20-30 and \y\< 2.4, i.e. 24 with 1D binsize = (30-20)*(2.4-0.0) = 24
-      call HwU_book(1,'', 12 * 2, 0d0, 24d0)
-c     call HwU_book(2,'', 12 * 2,  , )
-c     call HwU_book(3,'', 12 * 2,  , )
-c     call HwU_book(4,'', 12 * 2,  , )
-c     call HwU_book(5,'', 12 * 2,  , )
-c     call HwU_book(6,'', 12 * 1,  , )
       return
       end
 
@@ -54,8 +53,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $                       p, iPDG, p_reco, iPDG_reco)
 
       do j = nincoming+1, nexternal
-        if (iPDG_reco(j).eq.11) ppl(0:3)=p_reco(0:3,j)
-        if (iPDG_reco(j).eq.-11) pplb(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.-13) pplb(0:3)=p_reco(0:3,j)
       enddo
       do i=0,3
         ppv(i)=ppl(i)+pplb(i)
@@ -64,12 +63,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
 
       call HwU_fill(1,xmll,wgts)
-c     call HwU_fill(2,xmll,wgts)
-c     call HwU_fill(3,xmll,wgts)
-c     call HwU_fill(4,xmll,wgts)
-c     call HwU_fill(5,xmll,wgts)
-c     call HwU_fill(6,xmll,wgts)
-c     call HwU_fill(7,xmll,wgts)
+      call HwU_fill(2,xmll,wgts)
+      call HwU_fill(3,xmll,wgts)
+      call HwU_fill(4,xmll,wgts)
+      call HwU_fill(5,xmll,wgts)
+      call HwU_fill(6,xmll,wgts)
 
  999  return      
       end

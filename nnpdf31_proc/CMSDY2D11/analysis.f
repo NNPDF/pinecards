@@ -65,7 +65,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
 
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
-      xyll=getabsy(ppv(0),ppv(1),ppv(2),ppv(3))
+      xyll=getabsy(ppv(0),ppv(3))
 
       bin = -1
 
@@ -121,9 +121,9 @@ c
       return
       end
 
-      function getabsy(en,ptx,pty,pl)
+      function getabsy(en,pl)
       implicit none
-      real*8 getabsy,en,ptx,pty,pl,tmp
+      real*8 getabsy,en,pl,tmp
 c
       tmp=pl/en
       if(abs(tmp).lt.1d0)then

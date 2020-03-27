@@ -7,12 +7,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp inv m yrap', 24, 0d0,   10d0*2.4)
-c      call HwU_book(2,'lmlp inv m yrap', 24, 0d0,   15d0*2.4)
-c      call HwU_book(3,'lmlp inv m yrap', 24, 0d0,   15d0*2.4)
-c      call HwU_book(4,'lmlp inv m yrap', 24, 0d0,   60d0*2.4)
-c      call HwU_book(5,'lmlp inv m yrap', 24, 0d0,   80d0*2.4)
-c      call HwU_book(6,'lmlp inv m yrap', 12, 0d0, 1300d0*2.4)
+      call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4,   30d0*2.4)
+      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4,   45d0*2.4)
+      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4,   60d0*2.4)
+      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4,  120d0*2.4)
+      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4,  200d0*2.4)
+      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4, 1500d0*2.4)
 
       return
       end
@@ -45,6 +45,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision xyll, gety
       external getinvm
       external gety
+      integer bin
+      double precision minmll, maxmll
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -65,19 +67,36 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
       xyll=gety(ppv(0),ppv(1),ppv(2),ppv(3))
 
+      bin = -1
+
       if (xmll.ge.20d0.and.xmll.lt.30d0) then
-        call HwU_fill(1,xyll*10d0,wgts)
-c      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
-c        call HwU_fill(2,xmll,wgts)
-c      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
-c        call HwU_fill(3,xmll,wgts)
-c      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
-c        call HwU_fill(4,xmll,wgts)
-c      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
-c        call HwU_fill(5,xmll,wgts)
-c      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
-c        call HwU_fill(6,xmll,wgts)
+        bin=1
+        minmll=20d0
+        maxmll=30d0
+      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
+        bin=2
+        minmll=30d0
+        maxmll=45d0
+      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
+        bin=3
+        minmll=45d0
+        maxmll=60d0
+      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
+        bin=4
+        minmll=60d0
+        maxmll=120d0
+      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
+        bin=5
+        minmll=120d0
+        maxmll=200d0
+      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
+        bin=6
+        minmll=200d0
+        maxmll=1500d0
       endif
+
+      call HwU_fill(bin,minmll*2.4+xyll*(maxmll-minmll),wgts)
+
 
  999  return      
       end

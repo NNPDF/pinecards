@@ -42,9 +42,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
-      double precision xyll, gety
+      double precision xyll, getabsy
       external getinvm
-      external gety
+      external getabsy
       integer bin
       double precision minmll, maxmll
 
@@ -65,7 +65,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
 
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
-      xyll=gety(ppv(0),ppv(1),ppv(2),ppv(3))
+      xyll=getabsy(ppv(0),ppv(1),ppv(2),ppv(3))
 
       bin = -1
 
@@ -121,18 +121,18 @@ c
       return
       end
 
-      function gety(en,ptx,pty,pl)
+      function getabsy(en,ptx,pty,pl)
       implicit none
-      real*8 gety,en,ptx,pty,pl,tmp
+      real*8 getabsy,en,ptx,pty,pl,tmp
 c
       tmp=pl/en
       if(abs(tmp).lt.1d0)then
-        tmp=atanh(tmp)
+        tmp=abs(atanh(tmp))
       else
         write(*,*)'Attempt to compute atanh(x) with x > 1'
         stop
       endif
-      gety=tmp
+      getabsy=tmp
       return
       end
 

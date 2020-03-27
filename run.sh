@@ -135,7 +135,8 @@ paste -d ' ' results.applgrid results.mg5_aMC | \
          BEGIN { print "-----------------------------------------------------------"
                  print "   APPLgrid       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
                  print "-----------------------------------------------------------" }
-         { printf "% e % e %e %7.2f %7.2f%%\n", $1, $2, $3, abs($1-$2)/$3, abs($1-$2)/$2*100 }' | \
+         { printf "% e % e %e %7.2f %7.2f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
+                                                $2 != 0.0 ? abs($1-$2)/$2*100 : 0.0 }' | \
     tee results.log
 
 rm results.mg5_aMC results.applgrid

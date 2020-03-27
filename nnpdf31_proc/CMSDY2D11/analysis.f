@@ -7,12 +7,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp inv m', 1,  20d0,   30d0)
-      call HwU_book(2,'lmlp inv m', 1,  30d0,   45d0)
-      call HwU_book(3,'lmlp inv m', 1,  45d0,   60d0)
-      call HwU_book(4,'lmlp inv m', 1,  60d0,  120d0)
-      call HwU_book(5,'lmlp inv m', 1, 120d0,  200d0)
-      call HwU_book(6,'lmlp inv m', 1, 200d0, 1500d0)
+      call HwU_book(1,'lmlp inv m yrap', 24, 0d0,   10d0*2.4)
+c      call HwU_book(2,'lmlp inv m yrap', 24, 0d0,   15d0*2.4)
+c      call HwU_book(3,'lmlp inv m yrap', 24, 0d0,   15d0*2.4)
+c      call HwU_book(4,'lmlp inv m yrap', 24, 0d0,   60d0*2.4)
+c      call HwU_book(5,'lmlp inv m yrap', 24, 0d0,   80d0*2.4)
+c      call HwU_book(6,'lmlp inv m yrap', 12, 0d0, 1300d0*2.4)
 
       return
       end
@@ -42,7 +42,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
+      double precision xyll, gety
       external getinvm
+      external gety
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -61,13 +63,21 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
 
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
+      xyll=gety(ppv(0),ppv(1),ppv(2),ppv(3))
 
-      call HwU_fill(1,xmll,wgts)
-      call HwU_fill(2,xmll,wgts)
-      call HwU_fill(3,xmll,wgts)
-      call HwU_fill(4,xmll,wgts)
-      call HwU_fill(5,xmll,wgts)
-      call HwU_fill(6,xmll,wgts)
+      if (xmll.ge.20d0.and.xmll.lt.30d0) then
+        call HwU_fill(1,xyll*10d0,wgts)
+c      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
+c        call HwU_fill(2,xmll,wgts)
+c      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
+c        call HwU_fill(3,xmll,wgts)
+c      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
+c        call HwU_fill(4,xmll,wgts)
+c      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
+c        call HwU_fill(5,xmll,wgts)
+c      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
+c        call HwU_fill(6,xmll,wgts)
+      endif
 
  999  return      
       end
@@ -89,6 +99,21 @@ c
         stop
       endif
       getinvm=tmp
+      return
+      end
+
+      function gety(en,ptx,pty,pl)
+      implicit none
+      real*8 gety,en,ptx,pty,pl,tmp
+c
+      tmp=pl/en
+      if(abs(tmp).lt.1d0)then
+        tmp=atanh(tmp)
+      else
+        write(*,*)'Attempt to compute atanh(x) with x > 1'
+        stop
+      endif
+      gety=tmp
       return
       end
 

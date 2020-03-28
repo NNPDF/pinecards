@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os.path;
+import os.path
 import sys
 
 cuts_code = {
@@ -20,9 +20,18 @@ cuts_code = {
 
 ''',
     'ptl1min': '''c     cut for ptl1min (leading lepton)
-
-''',
-    'ptl2min': '''c     cut for ptl2min (subleading lepton)
+      j = 0
+      do i=1,nexternal
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
+            j = i
+          endif
+        endif
+      enddo
+      if (pt_04(p_reco(0,j)) .lt. {}) then
+        passcuts_user=.false.
+        return
+      endif
 
 ''',
 }

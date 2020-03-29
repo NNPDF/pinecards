@@ -15,16 +15,17 @@ srcs1 = [
     'tsparse_base.cxx',
 ]
 
-root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist' ])
+root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist'
+#, 'ROOT::rootcling'
+])
 
-# TODO: instead of finding `rootcint` we should probably extract the CMake variable, but the
-# following doesn't work
-#root_int = root_dep.get_variable(cmake : 'ROOT_rootcint_CMD')
-root_int = find_program('rootcint')
+# TODO: instead of finding `rootcling` we should probably extract the CMake variable, but I'm not
+# sure how to do that
+root_int = find_program('rootcling')
 
 root_gen = generator(
     root_int,
-    arguments : [ '-f', '@OUTPUT0@', '-c', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'],
+    arguments : [ '-f', '@OUTPUT0@', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'],
     output : [ '@BASENAME@Dict.cxx', '@BASENAME@Dict_rdict.pcm' ]
 )
 

@@ -1,16 +1,16 @@
 project(
     'pineappl',
     'cpp',
-    default_options : [ 'cpp_std=c++14', 'warning_level=3' ],
+    default_options : [ 'cpp_std=c++14', 'debug=false', 'optimization=2', 'warning_level=3' ],
     license : 'GPL3',
-    meson_version : '>=0.50.0',
+    meson_version : '>=0.51.0',
     version : '1.4.70'
 )
 
 incdir = include_directories('.')
 
 headers = [
-    'appl_grid/SparseMatrix3d.h',
+	'appl_grid/SparseMatrix3d.h',
     'appl_grid/appl_grid.h',
     'appl_grid/appl_igrid.h',
     'appl_grid/appl_pdf.h',
@@ -25,12 +25,10 @@ headers = [
 install_headers(headers, subdir : 'appl_grid')
 
 subdir('bin')
+subdir('include')
 subdir('src')
+subdir('tests')
 
-pkg = import('pkgconfig')
-pkg.generate(
-    description : 'TODO description',
-    name : meson.project_name(),
-    version : meson.project_version(),
-    libraries : lib
-)
+if get_option('doc')
+    subdir('doc')
+endif

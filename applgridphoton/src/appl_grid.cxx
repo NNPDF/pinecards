@@ -809,6 +809,8 @@ void appl::grid::Write(const std::string& filename,
 
   }
 
+  delete setup;
+
   /// encode the pdf combination if appropriate
   
   if ( contains( m_genpdfname, ".config" ) ) { 
@@ -831,6 +833,8 @@ void appl::grid::Write(const std::string& filename,
       }
       
       _combinations->Write( label.c_str() );
+
+      delete _combinations;
       
       std::cout << "writing " << m_genpdf[i]->name() << std::endl;
       

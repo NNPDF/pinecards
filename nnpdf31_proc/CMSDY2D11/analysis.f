@@ -8,11 +8,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call HwU_inithist(nwgt,weights_info)
       call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4,   30d0*2.4)
-      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4,   45d0*2.4)
-      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4,   60d0*2.4)
-      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4,  120d0*2.4)
-      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4,  200d0*2.4)
-      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4, 1500d0*2.4)
+c      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4,   45d0*2.4)
+c      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4,   60d0*2.4)
+c      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4,  120d0*2.4)
+c      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4,  200d0*2.4)
+c      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4, 1500d0*2.4)
 
       return
       end
@@ -73,26 +73,30 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         bin=1
         minmll=20d0
         maxmll=30d0
-      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
-        bin=2
-        minmll=30d0
-        maxmll=45d0
-      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
-        bin=3
-        minmll=45d0
-        maxmll=60d0
-      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
-        bin=4
-        minmll=60d0
-        maxmll=120d0
-      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
-        bin=5
-        minmll=120d0
-        maxmll=200d0
-      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
-        bin=6
-        minmll=200d0
-        maxmll=1500d0
+c      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
+c        bin=2
+c        minmll=30d0
+c        maxmll=45d0
+c      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
+c        bin=3
+c        minmll=45d0
+c        maxmll=60d0
+c      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
+c        bin=4
+c        minmll=60d0
+c        maxmll=120d0
+c      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
+c        bin=5
+c        minmll=120d0
+c        maxmll=200d0
+c      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
+c        bin=6
+c        minmll=200d0
+c        maxmll=1500d0
+      endif
+
+      if (bin .eq. -1) then
+        stop "illegal bin number!"
       endif
 
       call HwU_fill(bin,minmll*2.4+xyll*(maxmll-minmll),wgts)

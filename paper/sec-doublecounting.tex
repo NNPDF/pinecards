@@ -1,0 +1,44 @@
+\section{Double counting}
+Count von Count, ALL
+
+Explain the problem to experimentalists (the bee and the flower).\\
+
+As it has been mentioned in the introduction, the ability to consistently include electro-weak correction in
+PDF fits is not enough to make a fully-fledged fit possible in a consistent manner. Indeed, experimental data should
+be provided in  a format that allows PDF collaborations to employ them in such fits in a theoretically sound manner. In this
+section, we will try to provide some guidelines, by highlighting some sources of inconsistency commonly occurring in experimental 
+analyses. These will either lead to accounting multiple times for EW effects (so-called double counting), or to not accounting at
+all for such effects.\footnote{By no means we intend to blame on our beloved experimental colleagues for what they write or do. However,
+    we think that by highlighting errors and making everybody more cautious about them is the only way to avoid repeating such
+    errors in the future.}
+
+A common source of inconsistency is the subtraction of backgrounds processes which must not be considered as such. The typical example
+is neutral-current Drell-Yan, where the signal process is an opposite-sign lepton pair, which starts
+at $\mathcal O(\alpha^2)$. Because this process is usually thought
+as a quark-initiated, $s$-channel mechanism ($q\bar q \to \gamma^*/Z \to \ell^+ \ell^-$), in many analyses the photon-induced component,
+$\gamma \gamma \to \ell^+ \ell^-$ in the $t$ channel, is considered as a different process, and it 
+subtracted (see e.g. Refs.~\cite{}). However, such a distinction cannot be physically
+justified beyond LO. Indeed, at $\mathcal O(\alpha^3)$, the reaction $q \gamma \to \ell^+ \ell^- q$ becomes possible, which
+includes both kind of topologies. {\bf MZ add Feynman diags} The problem here derives from the fact 
+that identifing a process based only on its 
+initial-state partons is plain wrong in quantum mechanics. While this fact is well established in QCD --nobody would ever 
+consider to ``subtract'' the gluon-initiated contribution to top-pair production in top analyses-- seemingly it is not so
+when EW corrections are considered.
+
+A second example is related to removing EW effects from data. These can be either the full EW corrections (Refs??) 
+or just a part, for example deconvolving multiple-photon radiation from light particles in the final state. This applies mostly
+to processes such as neutral- or charge-current Drell-Yan, specially when electrons are considered. The problem lie in the fact that
+ electrons, and to a lesser extent muons, tend to radiate photons, and such photons are typically not accounted
+for in hard matrix-elements. Thus, leptons that are measured in the detector are less energetic, and this fact is compensated for
+by undoing the photon shower before publishing data, which are referred to e.g. as \emph{Born-level electrons}~\cite{}. There are 
+at least two 
+problems related with this. The first, a quite obvious one, is that when EW corrections
+are included at fixed order, the first photon emission is included exactly at the matrix-element level. The second, which
+applies for electrons, is that they are never measured as bare particles, because of the finite resolution 
+of the electromagnetic calorimeter. Since collinear photonic emission cannot be resolved, at least data 
+involving electrons should also be published
+in terms of dressed particles, after applying some recombination scheme. This has the further advantage of being 
+inclusive on the effect of further collinear emissions. For what concerns muons, while in principle
+the concept of bare muons is a physical one, it should be kept in mind that modern, general-purpose codes employed to
+compute EW corrections treat leptons as massless. This fact encourages to explore the possibility of employing dressed
+muons, on the same footing as their electron counterpart.

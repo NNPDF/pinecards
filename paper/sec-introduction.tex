@@ -1,13 +1,79 @@
 \section{Introduction}
 \label{sec:introduction}
 
-The Large Hadron Collider (LHC) 
+With the recent completion of Run II, the Large Hadron Collider (LHC) has 
+accumulated data from an integrated luminosity of approximately 
+150~fb$^{-1}$~\cite{Mangano:2020icy}. This represents only a small fraction of 
+the anticipated 3000 fb$^{-1}$ that will eventually be recorded in the 
+forthcoming twenty years of LHC operation. Nevertheless the statistical 
+uncertainty of the data has already shrunk to unprecedentedly small values,
+typically 1\% or less, a fact that will allow for precision tests of the 
+Standard Model (SM) and for indirect searches of New Physics only if 
+theoretical predictions become comparatively precise. This entails the 
+computation of additional higher-order contributions to the fixed-order 
+coupling-constant perturbative expansion, on the one hand, and an increasingly 
+sophisticated determination of the Parton Distribution Functions (PDFs) of the 
+proton~\cite{Gao:2017yyd}, on the other hand. 
 
+In the first respect, because Quantum Chromodynamics (QCD) dominates the 
+interactions occurring within colliding protons at the LHC, much effort 
+has been devoted to the computation of higher-order QCD corrections: 
+fully-differential next-to-leading order (NLO) results, possibly matched to the
+parton shower, are currently automated in various general-purpose
+Monte Carlo generators~\cite{Gleisberg:2008ta,Alwall:2014hca,Bellm:2015jjp}, 
+while an increasing number of next-to-next-to-leading order (NNLO) predictions 
+are becoming available for processes with various degrees of inclusiveness
+(see {\it e.g.}~\cite{Amoroso:2020lgh} and references therein). The computation
+of higher-order corrections in the Electroweak (EW) theory has 
+witnessed a comparatively less comprehensive progress. Nevertheless frameworks 
+were developed in which the QCD and EW couplings are simultaneously treated as 
+small parameters in the perturbative expansion, and the computation of 
+theoretical predictions, accurate to NLO (including mixed-coupling QCD+EW 
+terms), is automated~\cite{Biedermann:2017yoi,Frederix:2018nkq}.
 
+In the second respect, contemporary PDF
+sets~\cite{Harland-Lang:2014zoa,Ball:2017nwa,Hou:2019efy}
+incorporate a significant amount of LHC data, which is analysed with NNLO QCD 
+theory by default. No EW corrections are included in the theoretical 
+description of the experimental observables to which PDFs are optimised,
+except for QED effects if a photon PDF is 
+determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}. 
+The resulting relative PDF uncertainy --- 
+which accounts only for the uncertainty of the data and of the 
+methodology inherent to each PDF determination --- can be as low as 1\% at the 
+EW scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
+size ({\it e.g.} from missing higher-order terms in the perturbative expansion),
+can also be included in a PDF determination and represented into PDF 
+uncertainties~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}.
+This leads to a noticeable improvement of PDF accuracy, in that the overall 
+statistical quality of the fit increases, at the price of a modest 
+deterioration of PDF precision, in that PDF uncertainties are slightly inflated.
 
-ERN
+The two respects are intertwined: PDFs provide a way of obtaining a prediction
+for a given process in terms of other processes, therefore the accuracy and 
+precision with which PDFs are able to make predictions crucially depend on 
+the accuracy of the perturbative computation used in the PDF determination
+(matched to the precision of the data). Electroweak (including mixed QCD+EW) 
+effects should therefore naturally be included in a PDF determination. The 
+reason is twofold. First, one expects NNLO QCD and NLO EW corrections to be of 
+comparable size because, at the EW scale, the QCD and EW coupling constants 
+become similar, $\alpha_s^2\sim \alpha$. If NNLO QCD corrections are included 
+by default in PDF determinations, NLO EW and NLO EW+QCD corrections should be 
+taken into account on the same footing. Second, the virtual exchange of soft or 
+collinear weak bosons leads to Sudakov 
+logarithms~\cite{Denner:2000jv,Denner:2001gw},
+which can make the coefficients of the EW series grow faster than 
+their QCD counterparts. Such a behaviour becomes relevant in
+phase-space regions associated with large mass scales (roughly of the order
+of the TeV), where several LHC data sets ({\it e.g.} $Z$ boson transverse 
+momentum distributions) enter both the determination of PDFs and the search
+for New Physics.
 
-The impact of EW corrections to LHC data.\\
+The systematic inclusion of EW corrections in a PDF determination entails
+the solution of two separate problems. efficiency (produce lookup tables)
+and consistency (avoid double counting).
+This paper addresses the first problem. How? By developing Pinanppl
+
 How to do that consistently, include systematically EW corrections, blabla.\\
 Outline a possible strategy to deal with EW correction in LHC observables (FSR, PHOTOS, dressed/born, ...).\\
 Pinappl kills amcfast and mcgrid, replace applgrid and fastnlo.\\

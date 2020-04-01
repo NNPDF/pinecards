@@ -70,10 +70,36 @@ momentum distributions) enter both the determination of PDFs and the search
 for New Physics.
 
 The systematic inclusion of EW corrections in a PDF determination entails
-the solution of two separate problems. efficiency (produce lookup tables)
-and consistency (avoid double counting).
-This paper addresses the first problem. How? By developing Pinanppl
+the solution of two separate problems. First, a problem of efficiency:
+fast interpolation grids should be constructed, whereby partonic matrix 
+elements, accurate to NLO QCD+EW, are precomputed in such a way that the 
+numerical convolution with generic input PDFs can be efficiently approximated
+by means of interpolation techniques. Such grids are a fundamental ingredient
+in any PDF fit, where the evaluation of the hadronic cross section needs to 
+be performed a large number of times. While two default formats exist for
+these grids, {\sc APPLgrid}~\cite{Carli:2010rw} and 
+{\sc fastNLO}~\cite{Kluge:2006xs}, none of them allows for the inlusion of EW
+corrections nor for the interface to a Monte Carlo generator accurate to 
+NLO QED+EW. Second, a problem of consistency: the way in which EW effects may
+(or may not) be folded into the data varies across different experimental 
+analyses, a fact that challenges their consistent theoretical interpretation. 
+Examples are the subtraction of background processes which should not be 
+considered as such ({\it e.g.} the $t$-channel photon-induced component in 
+neutral-current Drell-Yan, which are not different processes beyond LO) or of 
+just a part of the EW effects ({\it e.g.} multiple-photon radiation from light 
+particles in the final state of neutral- or charged-current Drell-Yan, 
+especially with electrons). Be that as it may if EW effects are systematically
+included in theoretical predictions, they should not be in the data,
+otherwise they will be double counted.
+
+In this paper we address the first of these two problems.
+How? By developing {\sc PineAPPL}
+
+the second problem, the solution of which, however, remains beyond the scope of 
+the current work.
 
 How to do that consistently, include systematically EW corrections, blabla.\\
 Outline a possible strategy to deal with EW correction in LHC observables (FSR, PHOTOS, dressed/born, ...).\\
 Pinappl kills amcfast and mcgrid, replace applgrid and fastnlo.\\
+
+The paper is organised as follows.

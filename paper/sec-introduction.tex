@@ -21,34 +21,35 @@ has been devoted to the computation of higher-order QCD corrections:
 fully-differential next-to-leading order (NLO) results, possibly matched to the
 parton shower, are currently automated in various general-purpose
 Monte Carlo generators~\cite{Gleisberg:2008ta,Alwall:2014hca,Bellm:2015jjp}
-(see also ref.~\cite{Buckley:2011ms} for a review),
+(see also~\cite{Buckley:2011ms} for a review),
 while an increasing number of next-to-next-to-leading order (NNLO) predictions 
 are becoming available for processes with various degrees of inclusiveness
 (see {\it e.g.}~\cite{Amoroso:2020lgh} and references therein). The computation
-of higher-order corrections in the Electroweak (EW) theory has 
+of higher-order corrections in the Electroweak (EW) and mixed QCD+EW theory has 
 witnessed a comparatively less comprehensive progress. Nevertheless frameworks 
 were developed in which the QCD and EW couplings are simultaneously treated as 
 small parameters in the perturbative expansion, and the computation of 
-theoretical predictions, accurate to NLO (including mixed-coupling QCD+EW 
-terms), is automated~\cite{Biedermann:2017yoi,Frederix:2018nkq}.
+theoretical predictions, accurate to NLO in both (including mixed-coupling 
+QCD+EW terms), is automated~\cite{Biedermann:2017yoi,Frederix:2018nkq}.
 
 In the second respect, contemporary PDF
 sets~\cite{Harland-Lang:2014zoa,Ball:2017nwa,Hou:2019efy}
 incorporate a significant amount of LHC data, which is analysed with NNLO QCD 
-theory by default. No EW corrections are included in the theoretical 
-description of the experimental observables to which PDFs are optimised,
-except for QED effects if a photon PDF is 
+theory by default. No EW corrections are systematically included in the 
+theoretical description of the experimental observables to which PDFs are 
+optimised, except for QED effects if a photon PDF is 
 determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}. 
-The resulting relative PDF uncertainy --- 
-which accounts only for the uncertainty of the data and of the 
-methodology inherent to each PDF determination --- can be as low as 1\% at the 
-EW scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
-size ({\it e.g.} from missing higher-order terms in the perturbative expansion),
-can also be included in a PDF determination and represented into PDF 
-uncertainties~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}.
-This leads to a noticeable improvement of PDF accuracy, in that the overall 
-statistical quality of the fit increases, at the price of a modest 
-deterioration of PDF precision, in that PDF uncertainties are slightly inflated.
+The resulting relative PDF uncertainy --- which accounts only for the 
+uncertainty of the data and of residual methodology inefficiencies inherent to 
+each PDF determination --- can be as low as 1\% at the EW 
+scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
+size ({\it e.g.} from missing higher-order terms in the QCD perturbative 
+expansion), have started to be included in a PDF determination and represented 
+into PDF uncertainties only very 
+recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}. This has led to a 
+noticeable improvement of PDF accuracy, in terms of an overall
+better statistical quality of the fit, at the price of a modest deterioration 
+of PDF precision, in terms of a slight inflation of PDF uncertainties.
 
 The two respects are intertwined: PDFs provide a way of obtaining a prediction
 for a given process in terms of other processes, therefore the accuracy and 
@@ -57,8 +58,8 @@ the accuracy of the perturbative computation used in the PDF determination
 (matched to the precision of the data). Electroweak (including mixed QCD+EW) 
 effects should therefore naturally be included in a PDF determination. The 
 reason is twofold. First, one expects NNLO QCD and NLO EW corrections to be of 
-comparable size because, at the EW scale, the QCD and EW coupling constants 
-become similar, $\alpha_s^2\sim \alpha$. If NNLO QCD corrections are included 
+comparable size because, at the EW scale, the QCD and EW running couplings 
+become similar, $\alpha_S^2\sim \alpha$. If NNLO QCD corrections are included 
 by default in PDF determinations, NLO EW and NLO EW+QCD corrections should be 
 taken into account on the same footing. Second, the virtual exchange of soft or 
 collinear weak bosons leads to Sudakov 
@@ -79,19 +80,19 @@ by means of interpolation techniques. Such grids are a fundamental ingredient
 in any PDF fit, where the evaluation of the hadronic cross section needs to 
 be performed a large number of times. While two default formats exist for
 these grids, {\sc APPLgrid}~\cite{Carli:2010rw} and 
-{\sc fastNLO}~\cite{Kluge:2006xs}, none of them allows for the inlusion of EW
-corrections nor for the interface to a Monte Carlo generator accurate to 
+{\sc fastNLO}~\cite{Kluge:2006xs}, none of them supports the inclusion of EW
+corrections nor the interface to a Monte Carlo generator accurate to 
 NLO QED+EW. Second, a problem of consistency: the way in which EW effects may
 (or may not) be folded into the data varies across different experimental 
 analyses, a fact that challenges their consistent theoretical interpretation. 
 Examples are the subtraction of background processes which should not be 
 considered as such ({\it e.g.} the $t$-channel photon-induced component in 
-neutral-current Drell-Yan, which are not different processes beyond LO) or of 
-just a part of the EW effects ({\it e.g.} multiple-photon radiation from light 
-particles in the final state of neutral- or charged-current Drell-Yan, 
-especially with electrons). Be that as it may, if EW effects are systematically
-included in theoretical predictions, they should not be included in the data,
-otherwise they will be double counted.
+neutral-current Drell-Yan, which is not a separate processes beyond the leading
+order) or of just a part of the EW effects ({\it e.g.} multiple-photon 
+radiation from light particles in the final state of neutral- or charged-current
+Drell-Yan, especially with electrons). Be that as it may, if EW effects are 
+systematically included in theoretical predictions, they should not be included 
+in the data, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
 we develop {\sc PineAPPL}, a new library that provides a direct interface 
@@ -113,8 +114,8 @@ assess its performance. In Sect.~\ref{sec:results}, by means of
 a representative set of data that is typically included in a fit of PDFs.
 In Sect.~\ref{sec:doublecounting} we use these results to formulate more 
 comprehensively the second problem sketched above, the solution of which, 
-however, remains beyond the scope of the current work. We provide an outlook in
-Sect~\ref{sec:conclusion}.
+however, remains beyond the scope of the current work. We provide our
+conclusions and an outlook in Sect.~\ref{sec:conclusion}.
 
 %Outline a possible strategy to deal with EW correction in LHC observables 
 %(FSR, PHOTOS, dressed/born, ...).

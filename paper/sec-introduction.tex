@@ -3,11 +3,11 @@
 
 With the recent completion of Run II, the Large Hadron Collider (LHC) has 
 accumulated data from an integrated luminosity of approximately 
-150~fb$^{-1}$~\cite{Mangano:2020icy}. This represents only a small fraction of 
-the anticipated 3000 fb$^{-1}$ that will eventually be recorded in the 
+\SI{150}{\per\femto\barn}~\cite{Mangano:2020icy}. This represents only a small fraction of
+the anticipated \SI{3000}{\per\femto\barn} that will eventually be recorded in the
 forthcoming twenty years of LHC operation. Nevertheless the statistical 
-uncertainty of the data has already shrunk to unprecedentedly small values,
-typically 1\% or less, a fact that will allow for precision tests of the 
+uncertainty of the data has already shrunk to unprecedented small values,
+typically \SI{1}{\percent} or less, a fact that will allow for precision tests of the
 Standard Model (SM) and for indirect searches of New Physics only if 
 theoretical predictions become comparatively precise. This entails the 
 computation of additional higher-order contributions to the fixed-order 
@@ -21,11 +21,11 @@ has been devoted to the computation of higher-order QCD corrections:
 fully-differential next-to-leading order (NLO) results, possibly matched to the
 parton shower, are currently automated in various general-purpose
 Monte Carlo generators~\cite{Gleisberg:2008ta,Alwall:2014hca,Bellm:2015jjp}
-(see also~\cite{Buckley:2011ms} for a review),
+(see also ref.~\cite{Buckley:2011ms} for a review),
 while an increasing number of next-to-next-to-leading order (NNLO) predictions 
 are becoming available for processes with various degrees of inclusiveness
-(see {\it e.g.}~\cite{Amoroso:2020lgh} and references therein). The computation
-of higher-order corrections in the Electroweak (EW) and mixed QCD+EW theory has 
+(see e.g.\ ref.~\cite{Amoroso:2020lgh} and references therein). The computation
+of higher-order corrections in the electroweak (EW) and mixed QCD+EW theory has
 witnessed a comparatively less comprehensive progress. Nevertheless frameworks 
 were developed in which the QCD and EW couplings are simultaneously treated as 
 small parameters in the perturbative expansion, and the computation of 
@@ -39,11 +39,11 @@ theory by default. No EW corrections are systematically included in the
 theoretical description of the experimental observables to which PDFs are 
 optimised, except for QED effects if a photon PDF is 
 determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}. 
-The resulting relative PDF uncertainy --- which accounts only for the 
+The resulting relative PDF uncertainty --- which accounts only for the
 uncertainty of the data and of residual methodology inefficiencies inherent to 
 each PDF determination --- can be as low as 1\% at the EW 
 scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
-size ({\it e.g.} from missing higher-order terms in the QCD perturbative 
+size (e.g.\ from missing higher-order terms in the QCD perturbative
 expansion), have started to be included in a PDF determination and represented 
 into PDF uncertainties only very 
 recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}. This has led to a 
@@ -86,11 +86,11 @@ NLO QED+EW. Second, a problem of consistency: the way in which EW effects may
 (or may not) be folded into the data varies across different experimental 
 analyses, a fact that challenges their consistent theoretical interpretation. 
 Examples are the subtraction of background processes which should not be 
-considered as such ({\it e.g.} the $t$-channel photon-induced component in 
-neutral-current Drell-Yan, which is not a separate processes beyond the leading
-order) or of just a part of the EW effects ({\it e.g.} multiple-photon 
+considered as such (e.g.\ the $t$-channel photon-induced component in
+neutral-current Drell--Yan, which is not a separate processes beyond the leading
+order) or of just a part of the EW effects (e.g.\ multiple-photon
 radiation from light particles in the final state of neutral- or charged-current
-Drell-Yan, especially with electrons). Be that as it may, if EW effects are 
+Drell--Yan, especially with electrons). Be that as it may, if EW effects are
 systematically included in theoretical predictions, they should not be included 
 in the data, otherwise they will be double counted.
 
@@ -98,7 +98,7 @@ In this paper we address the first of these two problems. Specifically,
 we develop {\sc PineAPPL}, a new library that provides a direct interface 
 from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
 fast interpolation grids. The library supports variations of the factorisation
-and renormalisations scales, resummation, and matching with a photon- and/or
+and renormalisation scales, resummation, and matching with a photon- and/or
 parton-shower. The library is included by default in 
 {\sc MadGraph5\_aMC@NLO} ({\sc mg5\_aMC@NLO} henceforth) within which it has 
 been designed and tested. However, it is suitable for use as a plugin in any 
@@ -107,15 +107,15 @@ Monte Carlo generator that supports NLO QCD+EW computations, such as
 supersedes the {\sc aMCfast} interface~\cite{Bertone:2014zva} and complements
 the {\sc MCgrid} interface~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
-The paper is organised as follows. In Sect.~\ref{sec:pineappl} we introduce
+The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 {\sc PineAPPL}, we describe its features, we illustrate its operation, and we
-assess its performance. In Sect.~\ref{sec:results}, by means of 
+assess its performance. In section~\ref{sec:results}, by means of
 {\sc mg5\_AMC@NLO} and {\sc PineAPPL}, we compute fast interpolation grids for 
 a representative set of data that is typically included in a fit of PDFs.
-In Sect.~\ref{sec:doublecounting} we use these results to formulate more 
+In section~\ref{sec:doublecounting} we use these results to formulate more
 comprehensively the second problem sketched above, the solution of which, 
 however, remains beyond the scope of the current work. We provide our
-conclusions and an outlook in Sect.~\ref{sec:conclusion}.
+conclusions and an outlook in section~\ref{sec:conclusion}.
 
 %Outline a possible strategy to deal with EW correction in LHC observables 
 %(FSR, PHOTOS, dressed/born, ...).

@@ -3,6 +3,7 @@
 
 \usepackage{jheppub}
 \usepackage[T1]{fontenc}
+\usepackage{pgf}
 
 \newcommand{\alphas}{\alpha_{S}}
 
@@ -52,16 +53,13 @@ In Figure~\ref{fig:datacomparison} we present the data prediction comparison for
 
 \begin{table}
     \centering
-    \begin{tabular}{l|c|cc}
-        \multicolumn{1}{l}{} &  & \multicolumn{2}{c}{$\chi^{2}/n_{{\rm data}}$}\tabularnewline
+    \begin{tabular}{l|c|c}
         \hline
-        Dataset & $n_{{\rm data}}$ & QCD & QCD+EW\tabularnewline
+        Dataset & $n_{{\rm data}}$ & $\chi^{2}/n_{{\rm data}}$ \tabularnewline
         \hline
-        ATLAS HM DY 7 TeV & 13 & 1.151 & 1.036\tabularnewline
+        ATLAS HM DY 7 TeV & 13 & 1.39 \tabularnewline
         \hline
-        ATLAS $\sigma_{tt}^{{\rm tot}}$ & 3 & 2.549 & 3.271\tabularnewline
-        \hline
-        CMS $\sigma_{tt}^{{\rm tot}}$ & 3 & 0.986 & 1.654\tabularnewline
+        CMS $\sigma_{tt}^{{\rm tot}}$ & 3 & 1.78\tabularnewline
         \hline
     \end{tabular}
     \caption{$\chi^2$ values for NNPDF3.1 NLO luxQED.}
@@ -69,12 +67,8 @@ In Figure~\ref{fig:datacomparison} we present the data prediction comparison for
 \end{table}
 
 \begin{figure}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs0_plot_fancy_dataspecs_0}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs0_datanorm_plot_fancy_dataspecs_0}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs1_plot_fancy_dataspecs_0}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs1_datanorm_plot_fancy_dataspecs_0}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs2_plot_fancy_dataspecs_0}
-    \includegraphics[width=0.5\textwidth]{plots/matched_datasets_from_dataspecs2_datanorm_plot_fancy_dataspecs_0}
+    \resizebox{0.5\textwidth}{!}{\input{plots/ATLASZHIGHMASS49FB.pgf}}
+    \resizebox{0.5\textwidth}{!}{\input{plots/CMSTTBARTOT.pgf}}
     \caption{Data prediction comparison plots.}
     \label{fig:datacomparison}
 \end{figure}

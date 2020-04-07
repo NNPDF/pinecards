@@ -20,6 +20,16 @@ Finally, \textsc{PineAPPL} provides programs to convert \textsc{APPLgrids} and \
 
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}
+{\bf MZ comments:}
+\begin{itemize}
+    \item I would prefer to keep the notation similar to the aMCfast paper, or at least to start with that, and then generalise it
+    \item drop eq 2.2, start already by 2.1 with a symmetric treatment of $\alpha$ and $\alpha_s$ (plus, the symbol $\sigma$ is overloaded there)
+    \item $Q$ is the Ellis-Sexton scale, a (unphysical) scale introduced to have all logs in the form $\log(\mu_R/F / Q)$, and hence to separate
+        the dependence of $\mu_R$ and $\mu_F$
+    \item the business of the different kinematics (born, resolved, counterterms, etc) is not mentioned at all
+    \item eq 2.1 assumes $\sigma_{ab}$ integrated over phase-space?
+\end{itemize}
+{\bf end MZ comments:}
 
 Fixed-order partonic cross sections supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alpha_\mathrm{s}$, the electromagnetic coupling $\alpha$, and, if scale variations are desired, also in the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
 \begin{equation}

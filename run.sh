@@ -132,10 +132,10 @@ sed -e '1,/all bins:/d' \
 # compare the results from the APPLgrid and from mg5_aMC
 paste -d ' ' results.applgrid results.mg5_aMC | \
     awk 'function abs(x) { return x < 0.0 ? -x : x; }
-         BEGIN { print "-----------------------------------------------------------"
+         BEGIN { print "------------------------------------------------------------"
                  print "   APPLgrid       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
-                 print "-----------------------------------------------------------" }
-         { printf "% e % e %e %7.2f %7.2f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
+                 print "------------------------------------------------------------" }
+         { printf "% e % e %e %7.2f %7.3f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
                                                 $2 != 0.0 ? abs($1-$2)/$2*100 : 0.0 }' | \
     tee results.log
 

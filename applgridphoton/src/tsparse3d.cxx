@@ -7,6 +7,7 @@ tsparse3d<T>::tsparse3d(int nx, int ny, int nz)
   m_v = new tsparse2d<T>*[m_Nx];
   for ( int i=0 ; i<m_Nx ; i++ ) m_v[i] = new tsparse2d<T>(m_Ny, m_Nz);
   //   setup_fast();
+  trim();
 }
 
 // Fixme: need to rewrite this constructor properly, so that

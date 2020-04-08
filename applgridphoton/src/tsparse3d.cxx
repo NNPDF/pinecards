@@ -3,11 +3,8 @@
 
 template <typename T>
 tsparse3d<T>::tsparse3d(int nx, int ny, int nz)
-  : tsparse_base(nx), m_Ny(ny), m_Nz(nz), m_v(NULL), m_trimmed(false) {
-  m_v = new tsparse2d<T>*[m_Nx];
-  for ( int i=0 ; i<m_Nx ; i++ ) m_v[i] = new tsparse2d<T>(m_Ny, m_Nz);
+  : tsparse_base(nx, 0, 0), m_Ny(ny), m_Nz(nz), m_v(NULL), m_trimmed(true) {
   //   setup_fast();
-  trim();
 }
 
 // Fixme: need to rewrite this constructor properly, so that

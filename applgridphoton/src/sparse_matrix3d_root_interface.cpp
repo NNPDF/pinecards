@@ -28,7 +28,12 @@ SparseMatrix3d* sparse_matrix3d_from_th3d(TH3D const& histogram)
         {
             for (int k = 0; k < matrix->zaxis().N(); ++k)
             {
-                (*matrix)(i,j,k) = histogram.GetBinContent(i + 1, j + 1, k + 1);
+                auto const value = histogram.GetBinContent(i + 1, j + 1, k + 1);
+
+                if (value != 0.0)
+                {
+                    (*matrix)(i,j,k) = value;
+                }
             }
         }
     }

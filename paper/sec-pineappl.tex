@@ -7,7 +7,7 @@ Finally they are the main theoretical input to a PDF determination.
 In that sense \textsc{PineAPPL} is similar to \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}, but it also understands EW, which are the main interest in this paper.
 The following features distinguish it:
 \begin{itemize}
-\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alpha_\mathrm{s}$ or combinations thereof, e.g.\ in mixed QCD-EW corrections.
+\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, e.g.\ in mixed QCD-EW corrections.
 Furthermore, variations of the renormalisation and factorisation scale are supported, if needed.
 For each needed combination of the couplings and logarithms of renormalisation and factorisation scale a separate subgrid is created (see section~\ref{sec:multi-coupling-expansion} for more details);
 \item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
@@ -23,7 +23,7 @@ Finally, \textsc{PineAPPL} provides programs to convert \textsc{APPLgrids} and \
 {\bf MZ comments:}
 \begin{itemize}
     \item I would prefer to keep the notation similar to the aMCfast paper, or at least to start with that, and then generalise it
-    \item drop eq 2.2, start already by 2.1 with a symmetric treatment of $\alpha$ and $\alpha_s$ (plus, the symbol $\sigma$ is overloaded there)
+    \item drop eq 2.2, start already by 2.1 with a symmetric treatment of $\alpha$ and $\alphas$ (plus, the symbol $\sigma$ is overloaded there)
     \item $Q$ is the Ellis-Sexton scale, a (unphysical) scale introduced to have all logs in the form $\log(\mu_R/F / Q)$, and hence to separate
         the dependence of $\mu_R$ and $\mu_F$
     \item the business of the different kinematics (born, resolved, counterterms, etc) is not mentioned at all
@@ -31,9 +31,9 @@ Finally, \textsc{PineAPPL} provides programs to convert \textsc{APPLgrids} and \
 \end{itemize}
 {\bf end MZ comments:}
 
-Fixed-order partonic cross sections supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alpha_\mathrm{s}$, the electromagnetic coupling $\alpha$, and, if scale variations are desired, also in the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
+Fixed-order partonic cross sections supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and, if scale variations are desired, also in the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
 \begin{equation}
-\sigma_{ab} (x_1, x_2, Q^2; \xi_\mathrm{R}, \xi_\mathrm{F}) = \sum_{k,l,m,n} \alpha_\mathrm{s}^k \left( \xi_\mathrm{R} Q^2 \right) \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) w_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2 \right) \text{,}
+\sigma_{ab} (x_1, x_2, Q^2; \xi_\mathrm{R}, \xi_\mathrm{F}) = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) w_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2 \right) \text{,}
 \label{eq:expansion}
 \end{equation}
 with the phase-space weights $w$ defined as
@@ -65,12 +65,12 @@ To give an example of eq.~\eqref{eq:expansion}, the following shows Drell--Yan l
 \begin{split}
 \sigma_{ab} (\xi_\mathrm{R}, \xi_\mathrm{F})
     &= \left[ \alpha^2 \sigma_{ab}^{(0,2,0,0)} \right] \\
-    &+ \alpha_\mathrm{s} \left( \xi_\mathrm{R} Q^2 \right) \left[ \alpha^2 \sigma_{ab}^{(1,2,0,0)} \right] + \alpha_\mathrm{s} \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \left[ \alpha^2 \sigma_{ab}^{(1,2,0,1)} (Q^2) \right] \\
+    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \left[ \alpha^2 \sigma_{ab}^{(1,2,0,0)} \right] + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \left[ \alpha^2 \sigma_{ab}^{(1,2,0,1)} (Q^2) \right] \\
     &+ \left[ \alpha^3 \sigma_{ab}^{(0,3,0,0)} \right] + \log (\xi_\mathrm{F}) \left[ \alpha^3 \sigma_{ab}^{(0,3,0,1)} (Q^2) \right] \text{.}
 \end{split}
 \end{equation}
 The first term with index $(0,2,0,0)$ is the LO term, the next line shows the NLO QCD correction, and the final line the NLO EW correction.
-Note that the dependence on the renormalisation scale is only indirectly through $\alpha_\mathrm{s}$, because the LO does not have any gluons in the initial or final state.
+Note that the dependence on the renormalisation scale is only indirectly through $\alphas$, because the LO does not have any gluons in the initial or final state.
 Terms proportional to $\log (\xi_\mathrm{R})$ vanish, because they require an explicit dependence on the renormalisation scale, which only enters through counterterms with more than two gluons.
 
 \subsubsection{General characteristics}
@@ -78,10 +78,10 @@ Terms proportional to $\log (\xi_\mathrm{R})$ vanish, because they require an ex
 In general, we define as leading order all terms for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
 This number is process dependent and usually determined by the number of external particles.
 For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, which allows for more than one leading order.
-To each leading order a higher-order correction with an additional power of $\alpha_\mathrm{s}$ and $\alpha$ can be calculated, which in general leads to at least two next-to-leading order corrections.
-Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alpha_\mathrm{s} \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
+To each leading order a higher-order correction with an additional power of $\alphas$ and $\alpha$ can be calculated, which in general leads to at least two next-to-leading order corrections.
+Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alphas \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
 
-Due to typical size of the couplings $\alpha_\mathrm{s}^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alpha_\mathrm{s}^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
+Due to typical size of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
 Some prominent examples are vector-boson scattering processes and TODO.
 
 \subsection{Grid representation and accuracy}
@@ -97,7 +97,7 @@ This is due to the fact that Monte Carlo integrators do not perform the phase sp
 
 In case of $n$-tuples, the reconstruction of the integrated cross section, eq.~\eqref{eq:pineappl-convolution}, is very straightforward, for example for the central scale choice,
 \begin{equation}
-w_{ab}^{(k,l,m,n)} = \sum_{i=1}^N f_a (x_1^i, Q^2_i) f_b (x_2^i, Q^2) \alpha_\mathrm{s} (Q^2) \frac{\mathrm{d}}{\mathrm{d} \phi_i} w^{(k,l,m,n)}_{ab} (x_1^i, x_2^i, Q^2_i) \text{,} \label{eq:n-tuple-integration}
+w_{ab}^{(k,l,m,n)} = \sum_{i=1}^N f_a (x_1^i, Q^2_i) f_b (x_2^i, Q^2) \alphas (Q^2) \frac{\mathrm{d}}{\mathrm{d} \phi_i} w^{(k,l,m,n)}_{ab} (x_1^i, x_2^i, Q^2_i) \text{,} \label{eq:n-tuple-integration}
 \end{equation}
 given a proper normalization of the integral measures; this equation is the same approximation that a Monte Carlo integrator evaluates.
 For the full hadronic cross section it is only required to sum eq.~\eqref{eq:n-tuple-integration} over all open indices.

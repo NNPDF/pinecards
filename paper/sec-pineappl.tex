@@ -13,6 +13,7 @@ For each needed combination of the couplings and logarithms of renormalisation a
 \item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
 \item A simple \textsc{C}-interface, with a wrapper for \textsc{Fortran} and \textsc{Python} (see appendix~\ref{app:example-program} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
 \textsc{PineAPPL} itself is written in Rust (see appendix~\ref{app:installation} for installation instructions).
+\item Superior efficiency for datasets with more then 100 observables.
 \end{itemize}
 For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented in the most recent version, which replaces the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
 The interfacing code for other Monte Carlo generators should be easy to write, see appendix~\ref{app:example-program} for a small example program.

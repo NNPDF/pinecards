@@ -39,9 +39,9 @@ theory by default. No EW corrections are systematically included in the
 theoretical description of the experimental observables to which PDFs are 
 optimised, except for QED effects if a photon PDF is 
 determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}. 
-The resulting relative PDF uncertainty --- which accounts only for the
+The resulting relative PDF uncertainty---which accounts only for the
 uncertainty of the data and of residual methodology inefficiencies inherent to 
-each PDF determination --- can be as low as 1\% at the EW 
+each PDF determination---can be as low as 1\% at the EW
 scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
 size (e.g.\ from missing higher-order terms in the QCD perturbative
 expansion), have started to be included in a PDF determination and represented 
@@ -67,7 +67,7 @@ logarithms~\cite{Denner:2000jv,Denner:2001gw},
 which can make the coefficients of the EW series grow faster than 
 their QCD counterparts. Such a behaviour becomes relevant in
 phase-space regions associated with large mass scales (roughly of the order
-of the TeV), where several LHC data sets ({\it e.g.} $Z$ boson transverse 
+of the \si{\tera\electronvolt}), where several LHC data sets (e.g.\ $Z$ boson transverse
 momentum distributions) enter both the determination of PDFs and the search
 for New Physics.
 
@@ -79,10 +79,10 @@ numerical convolution with generic input PDFs can be efficiently approximated
 by means of interpolation techniques. Such grids are a fundamental ingredient
 in any PDF fit, where the evaluation of the hadronic cross section needs to 
 be performed a large number of times. While two default formats exist for
-these grids, {\sc APPLgrid}~\cite{Carli:2010rw} and 
-{\sc fastNLO}~\cite{Kluge:2006xs}, none of them supports the inclusion of EW
+these grids, \textsc{APPLgrid}~\cite{Carli:2010rw} and
+\textsc{fastNLO}~\cite{Kluge:2006xs}, none of them supports the inclusion of EW
 corrections nor the interface to a Monte Carlo generator accurate to 
-NLO QED+EW. Second, a problem of consistency: the way in which EW effects may
+NLO QED+EW\@. Second, a problem of consistency: the way in which EW effects may
 (or may not) be folded into the data varies across different experimental 
 analyses, a fact that challenges their consistent theoretical interpretation. 
 Examples are the subtraction of background processes which should not be 
@@ -95,22 +95,22 @@ systematically included in theoretical predictions, they should not be included
 in the data, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
-we develop {\sc PineAPPL}, a new library that provides a direct interface 
+we develop \textsc{PineAPPL}, a new library that provides a direct interface
 from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
 fast interpolation grids. The library supports variations of the factorisation
 and renormalisation scales, resummation, and matching with a photon- and/or
 parton-shower. The library is included by default in 
-{\sc MadGraph5\_aMC@NLO} ({\sc mg5\_aMC@NLO} henceforth) within which it has 
+\textsc{MadGraph5\_aMC@NLO} (\textsc{mg5\_aMC@NLO} henceforth) within which it has
 been designed and tested. However, it is suitable for use as a plugin in any 
 Monte Carlo generator that supports NLO QCD+EW computations, such as 
-{\sc SHERPA}~\cite{Biedermann:2017yoi}. In this respect, {\sc PineAPPL}
-supersedes the {\sc aMCfast} interface~\cite{Bertone:2014zva} and complements
-the {\sc MCgrid} interface~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
+\textsc{SHERPA}~\cite{Biedermann:2017yoi}. In this respect, \textsc{PineAPPL}
+supersedes the \textsc{aMCfast} interface~\cite{Bertone:2014zva} and complements
+the \textsc{MCgrid} interface~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
-{\sc PineAPPL}, we describe its features, we illustrate its operation, and we
+\textsc{PineAPPL}, we describe its features, we illustrate its operation, and we
 assess its performance. In section~\ref{sec:results}, by means of
-{\sc mg5\_AMC@NLO} and {\sc PineAPPL}, we compute fast interpolation grids for 
+\textsc{mg5\_AMC@NLO} and \textsc{PineAPPL}, we compute fast interpolation grids for
 a representative set of data that is typically included in a fit of PDFs.
 In section~\ref{sec:doublecounting} we use these results to formulate more
 comprehensively the second problem sketched above, the solution of which, 

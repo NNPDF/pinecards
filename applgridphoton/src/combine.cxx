@@ -65,11 +65,9 @@ int main(int argc, char** argv) {
 
   /// scaling factors
   double d = 1;      /// overall
-  double hscale = 1; /// histogram only
   double rscale = 1; /// grid only
 
   /// flags to see whether hscale of rscale have been set
-  bool hset = false;
   bool rset = false;
 
 
@@ -132,14 +130,6 @@ int main(int argc, char** argv) {
       }
       else  return usage( std::cerr, argc, argv );
     }
-    else if ( std::string(argv[i])=="-r" || std::string(argv[i])=="--rscale" ) { 
-      ++i;
-      if ( i<argc ) { 
-	hscale = std::atof(argv[i]);
-	hset = true;
-      }
-      else  return usage( std::cerr, argc, argv );
-    }
     else if ( std::string(argv[i])=="-a" || std::string(argv[i])=="--all" ) addall = true;
     else { 
       grids.push_back(argv[i]);
@@ -147,7 +137,6 @@ int main(int argc, char** argv) {
   }
 
   if ( d!=1 ) { 
-    if ( !hset ) hscale = d;
     if ( !rset ) rscale = d; 
   }
 
@@ -210,11 +199,7 @@ int main(int argc, char** argv) {
 
   if ( rscale!=1 ) { 
     g *= rscale;
-    g.getReference()->Scale( 1/rscale );
   }
-
-  //  if ( hscale!=rscale ) g.getReference()->Scale( hscale/rscale );
-  if ( hscale!=1 ) g.getReference()->Scale( hscale );
 
   if      ( wscale!=1 ) g.run() *= wscale;
   else if ( weight!=0 ) g.run()  = weight;

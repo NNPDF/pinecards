@@ -21,10 +21,6 @@
 
 #include "appl_timer.h"
 
-
-#include "TH1D.h"
-#include "TFile.h"
-
 int usage(std::ostream& s, int argc, char** argv) { 
   if ( argc<1 ) return -1; /// should never be the case 
   s << "Usage: " << argv[0] << " [OPTIONS] -o output_grid.root  input_grid.root [input_grid1.root ... input_gridN.root]\n\n";
@@ -159,42 +155,11 @@ int main(int argc, char** argv) {
 
   if ( output_grid=="" ) return usage(std::cerr, argc, argv);
 
-  /// before adding the grids together, need tpo go through them to reject
-  /// the outliers
-
-  /// start by reading all the reference histograms and calculating the means etc
-
   std::cout << "reading grids:\n";
   for (auto const& grid: grids) {
     std::cout << ' ' << grid << '\n';
   }
   std::cout << "output to: "      << output_grid << std::endl;
-
-  std::vector<TH1D*> ref;
-  ref.reserve(grids.size());
-
-
-  std::vector<std::string>::iterator gitr=grids.begin();
-  while ( gitr!=grids.end()  ) { 
-    TFile f(gitr->c_str());
-    TH1D* _h = (TH1D*)f.Get("grid/reference");
-
-    /// remove obvious non-grid files
-    if ( _h ) { 
-      _h->SetDirectory(0);
-      ref.push_back(_h);
-      gitr++;
-    }
-    else {
-      grids.erase( gitr );
-    }
-  }
-
-
-  if ( ref.empty() ) { 
-    std::cerr << "grid list empty " << std::endl;
-    return 0;
-  }
 
   std::vector<std::string> newgrids;
   

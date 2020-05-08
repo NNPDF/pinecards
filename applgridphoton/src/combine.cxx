@@ -17,7 +17,7 @@
 #include <string>
 #include <cstdlib>
 
-#include "appl_grid/appl_grid.h"
+#include <pineappl_capi.h>
 #include "amconfig.h"
 
 int usage(std::ostream& s, int argc, char** argv) { 
@@ -169,15 +169,11 @@ int main(int argc, char** argv) {
 
   /// now add the grids together
   
-  appl::grid  g( grids[0] );
-
-  g.untrim();
+  auto* g = pineappl_grid_read(grids[0].c_str());
 
 
   /// will use the rms of the different reference histograms to estimate the proper 
   /// uncertainties
-
-  if ( verbose ) std::cout << g.getDocumentation() << std::endl;
 
   for ( unsigned i=1 ; i<grids.size() ; i++ ) { 
 
@@ -191,37 +187,37 @@ int main(int argc, char** argv) {
 	      << "\testimated time remaining " << remaining << "s"  
 	      << std::endl;  
 
-    appl::grid  _g( grids[i] );
-    _g.untrim();
-    if ( verbose ) std::cout << _g.getDocumentation() << std::endl;
-    g += _g;
+    auto* _g = pineappl_grid_read(grids[i].c_str());
+    pineappl_grid_merge_and_delete(g, _g);
   }
 
   if ( rscale!=1 ) { 
-    g *= rscale;
+    pineappl_grid_scale(g, rscale);
   }
 
-  if      ( wscale!=1 ) g.run() *= wscale;
-  else if ( weight!=0 ) g.run()  = weight;
+  if      ( wscale!=1 ) pineappl_grid_set_run_param(g, pineappl_grid_run_param(g) * wscale);
+  else if ( weight!=0 ) pineappl_grid_set_run_param(g, weight);
 
   if ( shrink ) { 
-    auto toptstart = std::chrono::high_resolution_clock::now();
-    g.shrink( newpdfname ); 
-    auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
-      std::chrono::high_resolution_clock::now() - toptstart).count();
-    std::cout << argv[0] << ": compressed grid in " << topt << " ms" << std::endl;   
+    assert( false );
+    //auto toptstart = std::chrono::high_resolution_clock::now();
+    //g.shrink( newpdfname );
+    //auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
+    //  std::chrono::high_resolution_clock::now() - toptstart).count();
+    //std::cout << argv[0] << ": compressed grid in " << topt << " ms" << std::endl;
   }
 
   if ( optimise ) { 
     auto toptstart = std::chrono::high_resolution_clock::now();
-    g.optimise();
+    pineappl_grid_optimize(g);
     auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::high_resolution_clock::now() - toptstart).count();
-    std::cout << argv[0] << ": optimised grid in " << topt << " ms" << std::endl;   
+    std::cout << argv[0] << ": optimised grid in " << topt << " ms" << std::endl;
   }
 
   //  std::cout << "writing " << output_grid << std::endl;
-  g.Write(output_grid);
+  pineappl_grid_write(g, output_grid.c_str());
+  pineappl_grid_delete(g);
 
   auto t = std::chrono::duration_cast<std::chrono::seconds>(
       std::chrono::high_resolution_clock::now() - tstart).count();

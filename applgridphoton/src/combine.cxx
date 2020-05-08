@@ -10,6 +10,7 @@
 
 
 #include <cassert>
+#include <chrono>
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -18,8 +19,6 @@
 
 #include "appl_grid/appl_grid.h"
 #include "amconfig.h"
-
-#include "appl_timer.h"
 
 int usage(std::ostream& s, int argc, char** argv) { 
   if ( argc<1 ) return -1; /// should never be the case 
@@ -166,7 +165,7 @@ int main(int argc, char** argv) {
 
   grids = newgrids;
 
-  struct timeval tstart = appl_timer_start();
+  auto tstart = std::chrono::high_resolution_clock::now();
 
   /// now add the grids together
   
@@ -182,7 +181,8 @@ int main(int argc, char** argv) {
 
   for ( unsigned i=1 ; i<grids.size() ; i++ ) { 
 
-    double t = appl_timer_stop( tstart )*0.001; 
+    auto t = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::high_resolution_clock::now() - tstart).count();
 
     double remaining = t*grids.size()/i - t;
 
@@ -205,23 +205,26 @@ int main(int argc, char** argv) {
   else if ( weight!=0 ) g.run()  = weight;
 
   if ( shrink ) { 
-    struct timeval toptstart = appl_timer_start(); 
+    auto toptstart = std::chrono::high_resolution_clock::now();
     g.shrink( newpdfname ); 
-    double topt = appl_timer_stop( toptstart ); 
+    auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::high_resolution_clock::now() - toptstart).count();
     std::cout << argv[0] << ": compressed grid in " << topt << " ms" << std::endl;   
   }
 
   if ( optimise ) { 
-    struct timeval toptstart = appl_timer_start(); 
+    auto toptstart = std::chrono::high_resolution_clock::now();
     g.optimise();
-    double topt = appl_timer_stop( toptstart ); 
+    auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::high_resolution_clock::now() - toptstart).count();
     std::cout << argv[0] << ": optimised grid in " << topt << " ms" << std::endl;   
   }
 
   //  std::cout << "writing " << output_grid << std::endl;
   g.Write(output_grid);
 
-  double t = appl_timer_stop( tstart )*0.001; 
+  auto t = std::chrono::duration_cast<std::chrono::seconds>(
+      std::chrono::high_resolution_clock::now() - tstart).count();
   
   std::cout << argv[0] << ": added " << grids.size() << " grids in " << t << " s" << std::endl; 
   std::cout << argv[0] << ": output to  " << output_grid << std::endl; 

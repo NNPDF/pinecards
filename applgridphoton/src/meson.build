@@ -62,8 +62,8 @@ executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], ins
 executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
 
 lib2 = library(
-    'pineappl',
-    'pineappl.cpp',
+    'pineappl_capi',
+    'pineappl_capi.cpp',
     include_directories : incdir2,
     dependencies : dep,
     install : true

@@ -6,68 +6,18 @@
 #include <vector>
 
 #include <LHAPDF/LHAPDF.h>
-#include <appl_grid/appl_grid.h>
+#include <pineappl_capi.h>
 
-std::unique_ptr<LHAPDF::PDF> pdf;
-
-enum flavour_map_index : std::size_t
+double xfx(int32_t pdg_id, double x, double q2, void* state)
 {
-    anti_top,      // -6: anti-top
-    anti_bottom,   // -5: anti-bottom
-    anti_charm,    // -4: anti-charm
-    anti_strange,  // -3: anti-strange
-    anti_up,       // -2: anti-up
-    anti_down,     // -1: anti-down
-    gluon,         // 21: gluon
-    down,          //  1: down
-    up,            //  2: up
-    strange,       //  3: strange
-    charm,         //  4: charm
-    bottom,        //  5: bottom
-    top,           //  6: top
-    photon,        // 22: photon
-};
-
-std::array<bool, 14> flavour_map = {
-    true,  // -6: anti-top
-    true,  // -5: anti-bottom
-    true,  // -4: anti-charm
-    true,  // -3: anti-strange
-    true,  // -2: anti-up
-    true,  // -1: anti-down
-    true,  // 21: gluon
-    true,  //  1: down
-    true,  //  2: up
-    true,  //  3: strange
-    true,  //  4: charm
-    true,  //  5: bottom
-    true,  //  6: top
-    true,  // 22: photon
-};
-
-constexpr int index_to_pdg_id(std::size_t index)
-{
-    return (index == gluon) ? 21 : ((index == photon) ? 22 : (static_cast <int> (index) - 6));
+    auto* pdf = static_cast <LHAPDF::PDF*> (state);
+    return pdf->xfxQ2(pdg_id, x, q2);
 }
 
-extern "C" void evolvepdf(double const& x, double const& q, double* xfx)
+double alphas(double q2, void* state)
 {
-    for (std::size_t i = 0; i != flavour_map.size(); ++i)
-    {
-        if (flavour_map.at(i))
-        {
-            xfx[i] = pdf->xfxQ(index_to_pdg_id(i), x, q);
-        }
-        else
-        {
-            xfx[i] = 0.0;
-        }
-    }
-}
-
-extern "C" double alphaspdf(double const& q)
-{
-    return pdf->alphasQ(q);
+    auto* pdf = static_cast <LHAPDF::PDF*> (state);
+    return pdf->alphasQ2(q2);
 }
 
 int main(int argc, char* argv[])
@@ -81,7 +31,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    appl::grid g(argv[2]);
+    std::unique_ptr<LHAPDF::PDF> pdf;
+
+    auto* g = pineappl_grid_read(argv[2]);
 
     int lhaid = -1;
 
@@ -103,45 +55,56 @@ int main(int argc, char* argv[])
         pdf.reset(LHAPDF::mkPDF(lhaid));
     }
 
-    // check if PDF set has a photon; disable it this isn't the case
-    flavour_map[photon] = pdf->hasFlavor(index_to_pdg_id(photon));
+    std::vector<uint32_t> orders(4 * pineappl_grid_order_count(g));
+    pineappl_grid_order_params(g, orders.data());
 
-    std::vector<std::vector<double>> const& xsec_appl_orders
-        = g.vconvolute_orders(evolvepdf, evolvepdf, alphaspdf);
+    std::vector<double> bins(pineappl_grid_bin_count(g));
+    std::vector<double> bin_sizes(bins.size());
+    pineappl_grid_bin_sizes(g, bin_sizes.data());
 
     std::cout << "\n>>> all bins, all orders:\n\n";
 
-    for (std::size_t i = 0; i != g.order_ids().size(); ++i)
+    for (std::size_t i = 0; i != orders.size() / 4; ++i)
     {
-        auto const& xsecs = xsec_appl_orders.at(i);
-        auto const& order = g.order_ids().at(i);
-
-        for (int j = 0; j != g.Nobs_internal(); ++j)
+        if ((orders.at(4 * i + 2) != 0) || (orders.at(4 * i + 3) != 0))
         {
-            if ((order.lmur2() != 0) || (order.lmuf2() != 0))
-            {
-                continue;
-            }
+            continue;
+        }
 
-            double const diff_xsec = xsecs.at(j);
-            double const inte_xsec = diff_xsec * g.deltaobs_internal(j);
+        auto const alphas = orders.at(4 * i + 0);
+        auto const alpha = orders.at(4 * i + 1);
 
-            std::cout << " bin #" << std::setw(2) << j << ", O(as^" << order.alphs() << " a^"
-                << order.alpha() << "): " << std::scientific << std::setw(13) << diff_xsec
-                << " [pb/GeV] or " << std::setw(13) << inte_xsec << " [pb]\n";
+        bool* order_mask = new bool[orders.size() / 4]();
+
+        order_mask[i] = true;
+
+        pineappl_grid_convolute(g, ::xfx, ::xfx, ::alphas, pdf.get(),
+            order_mask, nullptr, 1.0, 1.0, bins.data());
+
+        delete [] order_mask;
+
+        for (std::size_t j = 0; j != bins.size(); ++j)
+        {
+            double const diff_xsec = bins.at(j);
+            double const inte_xsec = diff_xsec * bin_sizes.at(j);
+
+            std::cout << " bin #" << std::setw(2) << j << ", O(as^" << alphas << " a^" << alpha
+                << "): " << std::scientific << std::setw(13) << diff_xsec << " [pb/GeV] or "
+                << std::setw(13) << inte_xsec << " [pb]\n";
         }
     }
 
-    std::vector<double> const& xsecs = g.vconvolute(evolvepdf, alphaspdf);
+    pineappl_grid_convolute(g, ::xfx, ::xfx, ::alphas, pdf.get(),
+        nullptr, nullptr, 1.0, 1.0, bins.data());
 
     std::cout << "\n>>> all bins:\n\n";
 
     double sum = 0.0;
 
-    for (int i = 0; i != g.Nobs_internal(); ++i)
+    for (std::size_t i = 0; i != bins.size(); ++i)
     {
-        double const diff_xsec = xsecs.at(i);
-        double const inte_xsec = diff_xsec * g.deltaobs_internal(i);
+        double const diff_xsec = bins.at(i);
+        double const inte_xsec = diff_xsec * bin_sizes.at(i);
 
         std::cout << " bin #" << std::setw(2) << i << ": " << std::scientific << diff_xsec
             << " [pb/GeV] or " << inte_xsec << " [pb]\n";
@@ -152,4 +115,6 @@ int main(int argc, char* argv[])
     std::cout << "\n>>> sum:\n\n " << std::scientific << sum << " [pb]\n";
 
     pdf.release();
+
+    pineappl_grid_delete(g);
 }

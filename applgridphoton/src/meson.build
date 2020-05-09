@@ -56,7 +56,6 @@ dep = declare_dependency(include_directories : incdir, link_with : lib, dependen
 lhapdf_dep = dependency('lhapdf')
 
 executable('pdf_info', 'pdf_info.cpp', dependencies : dep, install : true)
-executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
 executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
 
 lib2 = library(
@@ -69,6 +68,7 @@ lib2 = library(
 
 dep2 = declare_dependency(include_directories : incdir2, link_with : lib2, dependencies : dep)
 
+executable('applcheck', 'applcheck.cpp', dependencies : [ dep2, lhapdf_dep ], install : true)
 executable('applgrid-combine', 'combine.cxx', dependencies : dep2, install : true)
 executable('merge_bins', 'merge_bins.cpp', dependencies : dep2, install : true)
 

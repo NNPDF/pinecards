@@ -386,16 +386,70 @@ void pineappl_grid_convolute(
     alphas_ptr = alphas;
     ::state = state;
 
-    assert( order_mask == nullptr );
     assert( lumi_mask == nullptr );
 
-    auto const result = grid->grid.vconvolute(::xfx1, ::xfx2, ::alphas, 99, xi_ren, xi_fac, 1.0);
+    std::vector<double> result;
+
+    if (order_mask == nullptr)
+    {
+        result = grid->grid.vconvolute(::xfx1, ::xfx2, ::alphas, 99, xi_ren, xi_fac, 1.0);
+    }
+    else
+    {
+        auto const orders = grid->grid.vconvolute_orders(::xfx1, ::xfx2, ::alphas, xi_ren, xi_fac, 1.0);
+
+        result.resize(grid->grid.Nobs_internal());
+
+        for (std::size_t i = 0; i != orders.size(); ++i)
+        {
+            if (order_mask[i])
+            {
+                for (int j = 0; j != grid->grid.Nobs_internal(); ++j)
+                {
+                    result.at(j) = orders.at(i).at(j);
+                }
+            }
+        }
+    }
 
     std::copy(result.begin(), result.end(), results);
 }
 
 void pineappl_grid_merge_and_delete(pineappl_grid *grid, pineappl_grid *other)
 {
-    grid->grid += other->grid;
+    auto& g = grid->grid;
+    auto& o = other->grid;
+
+    bool same_bins =
+        (g.Nobs_internal() == o.Nobs_internal()) &&
+        (g.obsmin_internal() == o.obsmin_internal()) &&
+        (g.obsmax_internal() == o.obsmax_internal());
+
+    if (same_bins)
+    {
+        for (int i = 0; i != g.Nobs_internal(); ++i)
+        {
+            if (g.deltaobs_internal(i) != o.deltaobs_internal(i))
+            {
+                same_bins = false;
+            }
+        }
+    }
+
+    // if we want to merge grids with the same bins, we have to use `+=`
+    if (same_bins)
+    {
+        grid->grid += other->grid;
+    }
+    else
+    {
+        std::vector<appl::grid> grids;
+        grids.reserve(2);
+        grids.emplace_back(std::move(grid->grid));
+        grids.emplace_back(std::move(other->grid));
+
+        grid->grid = appl::grid(std::move(grids));
+    }
+
     delete other;
 }

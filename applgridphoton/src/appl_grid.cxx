@@ -1777,7 +1777,11 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
             {
                 m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
 
-                *m_grids.at(i)[obs] *= 1.0 / grids.at(grid_indices.at(j)).m_run;
+                auto const run = grids.at(grid_indices.at(j)).m_run;
+                if (run != 0.0)
+                {
+                    *m_grids.at(i)[obs] *= 1.0 / run;
+                }
 
                 ++obs;
             }

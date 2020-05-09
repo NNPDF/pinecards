@@ -1,9 +1,7 @@
-#include <appl_grid/appl_grid.h>
+#include <pineappl_capi.h>
 
-#include <fstream>
 #include <iostream>
 #include <string>
-#include <utility>
 #include <vector>
 
 int main(int argc, char* argv[])
@@ -15,16 +13,15 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::vector<std::string> args(&argv[2], &argv[argc]);
+    std::vector<std::string> args(&argv[3], &argv[argc]);
 
-    std::vector<appl::grid> grids;
-    grids.reserve(args.size());
+    auto* grid = pineappl_grid_read(argv[2]);
 
     for (auto const& arg : args)
     {
-        grids.emplace_back(arg);
+        auto* other = pineappl_grid_read(arg.c_str());
+        pineappl_grid_merge_and_delete(grid, other);
     }
 
-    appl::grid result(std::move(grids));
-    result.Write(argv[1]);
+    pineappl_grid_write(grid, argv[1]);
 }

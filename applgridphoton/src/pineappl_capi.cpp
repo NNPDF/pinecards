@@ -453,3 +453,16 @@ void pineappl_grid_merge_and_delete(pineappl_grid *grid, pineappl_grid *other)
 
     delete other;
 }
+
+uintptr_t pineappl_grid_bin_count(const pineappl_grid *grid)
+{
+    return grid->grid.Nobs_internal();
+}
+
+void pineappl_grid_bin_sizes(const pineappl_grid *grid, double *bin_sizes)
+{
+    for (int i = 0; i != grid->grid.Nobs_internal(); ++i)
+    {
+        bin_sizes[i] = grid->grid.deltaobs_internal(i);
+    }
+}

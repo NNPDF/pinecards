@@ -49,6 +49,9 @@ double pineappl_grid_run_param(const pineappl_grid *grid);
 void pineappl_grid_set_run_param(pineappl_grid *grid, double run);
 void pineappl_grid_optimize(pineappl_grid *grid);
 
+uintptr_t pineappl_grid_bin_count(const pineappl_grid *grid);
+void pineappl_grid_bin_sizes(const pineappl_grid *grid, double *bin_sizes);
+
 /**
  * Convolutes the specified grid with the PDFs `xfx1` and `xfx2` and strong coupling `alphas`.
  * These functions must evaluate the PDFs for the given `x` and `q2` and write the results for all

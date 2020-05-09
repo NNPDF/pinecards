@@ -108,12 +108,12 @@ public:
   grid(const std::string& filename="./grid.root", const std::string& dirname="grid");
 
   grid(grid&& g);
+  grid& operator=(grid&& g);
 
   grid(grid const&) = delete;
   grid() = delete;
 
   grid& operator=(grid const&) = delete;
-  grid& operator=(grid&&) = delete;
 
   virtual ~grid();
   

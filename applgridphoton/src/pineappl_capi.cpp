@@ -349,9 +349,20 @@ void pineappl_grid_scale(pineappl_grid *grid, double factor)
     grid->grid *= factor;
 }
 
-void pineappl_grid_optimize(pineappl_grid *grid)
+bool pineappl_grid_ext(pineappl_grid *grid, const char *name, pineappl_keyval *key_vals)
 {
-    grid->grid.optimise();
+    assert( key_vals == nullptr );
+
+    if (std::string(name) == "optimise")
+    {
+        grid->grid.optimise();
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void pineappl_grid_write(/*const*/ pineappl_grid *grid, const char *filename)

@@ -45,8 +45,6 @@ typedef struct pineappl_lumi pineappl_lumi;
 extern "C" {
 #endif // __cplusplus
 
-void pineappl_grid_optimize(pineappl_grid *grid);
-
 uintptr_t pineappl_grid_bin_count(const pineappl_grid *grid);
 void pineappl_grid_bin_sizes(const pineappl_grid *grid, double *bin_sizes);
 
@@ -78,6 +76,14 @@ void pineappl_grid_convolute(/*const*/ pineappl_grid *grid,
  * Delete a grid previously created with `pineappl_grid_new`.
  */
 void pineappl_grid_delete(pineappl_grid *grid);
+
+/**
+ * Performs an operation `name` on `grid` using as input or output parameters `key_vals`. This is
+ * used to get access to functions that are otherwise not available through other functions. If
+ * the operation was successful, returns `true`. Otherwise, or if the `name` wasn't recognized
+ * `false` is returned.
+ */
+bool pineappl_grid_ext(pineappl_grid *grid, const char *name, pineappl_keyval *key_vals);
 
 /**
  * Fill `grid` for the given momentum fractions `x1` and `x2`, at the scale `q2` for the given

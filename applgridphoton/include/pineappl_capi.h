@@ -45,7 +45,14 @@ typedef struct pineappl_lumi pineappl_lumi;
 extern "C" {
 #endif // __cplusplus
 
+/**
+ * Returns the number of bins in `grid`.
+ */
 uintptr_t pineappl_grid_bin_count(const pineappl_grid *grid);
+
+/**
+ * Stores the bin sizes of `grid` in `bin_sizes`.
+ */
 void pineappl_grid_bin_sizes(const pineappl_grid *grid, double *bin_sizes);
 
 /**

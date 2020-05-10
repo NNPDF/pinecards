@@ -190,10 +190,6 @@ public:
   // number of subprocesses 
   int subProcesses(int i) const;
 
-  // general status accessors
-  double& run() { return m_run; }
-  double run() const { return m_run; }
- 
   int  nloops() const;
 
   std::string getGenpdf()    const { return m_genpdfname; }

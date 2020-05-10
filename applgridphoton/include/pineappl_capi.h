@@ -45,8 +45,6 @@ typedef struct pineappl_lumi pineappl_lumi;
 extern "C" {
 #endif // __cplusplus
 
-double pineappl_grid_run_param(const pineappl_grid *grid);
-void pineappl_grid_set_run_param(pineappl_grid *grid, double run);
 void pineappl_grid_optimize(pineappl_grid *grid);
 
 uintptr_t pineappl_grid_bin_count(const pineappl_grid *grid);

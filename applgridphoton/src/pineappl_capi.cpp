@@ -349,16 +349,6 @@ void pineappl_grid_scale(pineappl_grid *grid, double factor)
     grid->grid *= factor;
 }
 
-double pineappl_grid_run_param(const pineappl_grid *grid)
-{
-    return grid->grid.run();
-}
-
-void pineappl_grid_set_run_param(pineappl_grid *grid, double run)
-{
-    grid->grid.run() = run;
-}
-
 void pineappl_grid_optimize(pineappl_grid *grid)
 {
     grid->grid.optimise();

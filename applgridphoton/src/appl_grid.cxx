@@ -395,7 +395,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   if ( m_obs_bins ) { 
     m_obs_bins_combined = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
     static_cast <TH1D*> (m_obs_bins_combined)->SetDirectory(0);
-    static_cast <TH1D*> (m_obs_bins_combined)->Scale(run());
   }
   else { 
     m_obs_bins = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
@@ -403,7 +402,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   }
 
   static_cast <TH1D*> (m_obs_bins)->SetDirectory(0);
-  static_cast <TH1D*> (m_obs_bins)->Scale(run());
   static_cast <TH1D*> (m_obs_bins)->SetName("referenceInternal");
   if ( m_normalised && m_optimised ) m_read = true;
 
@@ -918,10 +916,6 @@ void appl::grid::Write(const std::string& filename,
   //  std::cout << "normalised() " << getNormalised() << "\tread " << m_read << std::endl; 
   
   //  if ( !getNormalised() || m_read )  if ( run() ) reference->Scale(1/double(run()));
-  if ( run() ) { 
-    reference->Scale(1/double(run()));
-    if ( reference_internal ) reference_internal->Scale(1/double(run()));
-  }
 
   // if ( run() ) reference->Scale(1/double(run()));
   reference->Write();
@@ -1055,7 +1049,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
   std::vector<double> hvec;
 
   double invNruns = 1;
-  if ( (!m_normalised) && run() ) invNruns /= double(run());
 
   //  TH1D* h = new TH1D(*m_obs_bins);
   //  h->SetName("xsec");
@@ -1179,7 +1172,6 @@ std::vector<std::vector<double>> appl::grid::vconvolute_orders(void (*pdf1)(cons
   std::vector<std::vector<double>> hvec(m_order_ids.size());
 
   double invNruns = 1;
-  if ( (!m_normalised) && run() ) invNruns /= double(run());
 
   //  TH1D* h = new TH1D(*m_obs_bins);
   //  h->SetName("xsec");
@@ -1584,7 +1576,7 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
 
 appl::grid::grid(std::vector<appl::grid>&& grids)
     // TODO: check if all of the following member variables are set correctly
-    : m_run(0.0)
+    : m_run(1.0)
     , m_optimised(false)
     , m_trimmed(false)
     , m_normalised(false)

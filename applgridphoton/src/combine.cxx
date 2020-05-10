@@ -195,8 +195,11 @@ int main(int argc, char** argv) {
     pineappl_grid_scale(g, rscale);
   }
 
-  if      ( wscale!=1 ) pineappl_grid_set_run_param(g, pineappl_grid_run_param(g) * wscale);
-  else if ( weight!=0 ) pineappl_grid_set_run_param(g, weight);
+  if      ( wscale!=1 ) assert( false );
+  else if ( weight!=0 )
+  {
+    pineappl_grid_scale(g, 1.0 / weight);
+  }
 
   if ( shrink ) { 
     assert( false );

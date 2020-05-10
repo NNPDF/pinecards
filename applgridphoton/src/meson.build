@@ -55,9 +55,6 @@ dep = declare_dependency(include_directories : incdir, link_with : lib, dependen
 
 lhapdf_dep = dependency('lhapdf')
 
-executable('pdf_info', 'pdf_info.cpp', dependencies : dep, install : true)
-executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
-
 lib2 = library(
     'pineappl_capi',
     'pineappl_capi.cpp',

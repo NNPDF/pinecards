@@ -30,26 +30,26 @@ tmp=$( echo "$*" | egrep -- '--\<prefix\>')
 test -n "$tmp" && OUT="$OUT @prefix@"
 
 tmp=$( echo "$*" | egrep -- '--\<incdir\>')
-test -n "$tmp" && OUT="$OUT @includedir@"
+test -n "$tmp" && OUT="$OUT"
 
 tmp=$( echo "$*" | egrep -- '--\<cxxflags\>')
-test -n "$tmp" && OUT="$OUT -I@includedir@  @ROOTCFLAGS@ "
+test -n "$tmp" && OUT="$OUT"
 
 tmp=$( echo "$*" | egrep -- '--\<libdir\>')
-test -n "$tmp" && OUT="$OUT @exec_prefix@@libdir@"
+test -n "$tmp" && OUT="$OUT"
 
 
 tmp=$( echo "$*" | egrep -- '--\<ldfflags\>')
-test -n "$tmp" && OUT="$OUT -L@exec_prefix@@libdir@ -lfAPPLgrid -lAPPLgrid  @ROOTLDFLAGS@ @HOPPETLIBS@"
+test -n "$tmp" && OUT="$OUT"
 
 tmp=$( echo "$*" | egrep -- '--\<ldcflags\>')
-test -n "$tmp" && OUT="$OUT -L@exec_prefix@@libdir@ -lAPPLgrid  @ROOTLDFLAGS@ @HOPPETLIBS@"
+test -n "$tmp" && OUT="$OUT"
 
 tmp=$( echo "$*" | egrep -- '--\<ldflags\>')
-test -n "$tmp" && OUT="$OUT -L@exec_prefix@@libdir@ -lAPPLgrid @ROOTLDFLAGS@ @HOPPETLIBS@"
+test -n "$tmp" && OUT="$OUT"
 
 tmp=$( echo "$*" | egrep -- '--\<share\>')
-test -n "$tmp" && OUT="$OUT @datarootdir@/@PACKAGE@"
+test -n "$tmp" && OUT="$OUT"
 
 
 ## Version

@@ -339,7 +339,9 @@ void pineappl_grid_fill(
     double weight
 ) {
     // TODO: does `size` do what I think it does?
-    std::vector<double> weights(grid->lumi->size());
+    static std::vector<double> weights;
+    weights.clear();
+    weights.resize(grid->lumi->size());
     weights.at(lumi) = weight;
     grid->grid.fill_grid(x1, x2, q2, observable, weights.data(), order);
 }

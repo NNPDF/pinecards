@@ -22,45 +22,45 @@ double (*pdf2_ptr)(int32_t pdg_id, double x, double q2, void *state) = nullptr;
 double (*alphas_ptr)(double q2, void *state) = nullptr;
 void* state = nullptr;
 
-double alphas(double const& q2)
+double alphas(double const& q)
 {
-    return alphas_ptr(q2, state);
+    return alphas_ptr(q * q, state);
 }
 
-void xfx1(double const& x, double const& q2, double* pdfs)
+void xfx1(double const& x, double const& q, double* pdfs)
 {
-    pdfs[ 0] = pdf1_ptr(-6, x, q2, state);
-    pdfs[ 1] = pdf1_ptr(-5, x, q2, state);
-    pdfs[ 2] = pdf1_ptr(-4, x, q2, state);
-    pdfs[ 3] = pdf1_ptr(-3, x, q2, state);
-    pdfs[ 4] = pdf1_ptr(-2, x, q2, state);
-    pdfs[ 5] = pdf1_ptr(-1, x, q2, state);
-    pdfs[ 6] = pdf1_ptr(21, x, q2, state);
-    pdfs[ 7] = pdf1_ptr( 1, x, q2, state);
-    pdfs[ 8] = pdf1_ptr( 2, x, q2, state);
-    pdfs[ 9] = pdf1_ptr( 3, x, q2, state);
-    pdfs[10] = pdf1_ptr( 4, x, q2, state);
-    pdfs[11] = pdf1_ptr( 5, x, q2, state);
-    pdfs[12] = pdf1_ptr( 6, x, q2, state);
-    pdfs[13] = pdf1_ptr(22, x, q2, state);
+    pdfs[ 0] = pdf1_ptr(-6, x, q * q, state);
+    pdfs[ 1] = pdf1_ptr(-5, x, q * q, state);
+    pdfs[ 2] = pdf1_ptr(-4, x, q * q, state);
+    pdfs[ 3] = pdf1_ptr(-3, x, q * q, state);
+    pdfs[ 4] = pdf1_ptr(-2, x, q * q, state);
+    pdfs[ 5] = pdf1_ptr(-1, x, q * q, state);
+    pdfs[ 6] = pdf1_ptr(21, x, q * q, state);
+    pdfs[ 7] = pdf1_ptr( 1, x, q * q, state);
+    pdfs[ 8] = pdf1_ptr( 2, x, q * q, state);
+    pdfs[ 9] = pdf1_ptr( 3, x, q * q, state);
+    pdfs[10] = pdf1_ptr( 4, x, q * q, state);
+    pdfs[11] = pdf1_ptr( 5, x, q * q, state);
+    pdfs[12] = pdf1_ptr( 6, x, q * q, state);
+    pdfs[13] = pdf1_ptr(22, x, q * q, state);
 }
 
-void xfx2(double const& x, double const& q2, double* pdfs)
+void xfx2(double const& x, double const& q, double* pdfs)
 {
-    pdfs[ 0] = pdf2_ptr(-6, x, q2, state);
-    pdfs[ 1] = pdf2_ptr(-5, x, q2, state);
-    pdfs[ 2] = pdf2_ptr(-4, x, q2, state);
-    pdfs[ 3] = pdf2_ptr(-3, x, q2, state);
-    pdfs[ 4] = pdf2_ptr(-2, x, q2, state);
-    pdfs[ 5] = pdf2_ptr(-1, x, q2, state);
-    pdfs[ 6] = pdf2_ptr(21, x, q2, state);
-    pdfs[ 7] = pdf2_ptr( 1, x, q2, state);
-    pdfs[ 8] = pdf2_ptr( 2, x, q2, state);
-    pdfs[ 9] = pdf2_ptr( 3, x, q2, state);
-    pdfs[10] = pdf2_ptr( 4, x, q2, state);
-    pdfs[11] = pdf2_ptr( 5, x, q2, state);
-    pdfs[12] = pdf2_ptr( 6, x, q2, state);
-    pdfs[13] = pdf2_ptr(22, x, q2, state);
+    pdfs[ 0] = pdf2_ptr(-6, x, q * q, state);
+    pdfs[ 1] = pdf2_ptr(-5, x, q * q, state);
+    pdfs[ 2] = pdf2_ptr(-4, x, q * q, state);
+    pdfs[ 3] = pdf2_ptr(-3, x, q * q, state);
+    pdfs[ 4] = pdf2_ptr(-2, x, q * q, state);
+    pdfs[ 5] = pdf2_ptr(-1, x, q * q, state);
+    pdfs[ 6] = pdf2_ptr(21, x, q * q, state);
+    pdfs[ 7] = pdf2_ptr( 1, x, q * q, state);
+    pdfs[ 8] = pdf2_ptr( 2, x, q * q, state);
+    pdfs[ 9] = pdf2_ptr( 3, x, q * q, state);
+    pdfs[10] = pdf2_ptr( 4, x, q * q, state);
+    pdfs[11] = pdf2_ptr( 5, x, q * q, state);
+    pdfs[12] = pdf2_ptr( 6, x, q * q, state);
+    pdfs[13] = pdf2_ptr(22, x, q * q, state);
 }
 
 std::string get_unique_id()

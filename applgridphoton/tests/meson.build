@@ -11,6 +11,6 @@ tests = [
 ]
 
 foreach t : tests
-    exe = executable(t, t + '.cpp', dependencies : [ libcatch_dep, dep2 ])
+    exe = executable(t, t + '.cpp', dependencies : [ libcatch_dep, dep ])
     test(t, exe)
 endforeach

@@ -1,4 +1,4 @@
-incdir2 = include_directories('.')
+incdir = include_directories('.')
 
 headers = files('pineappl_capi.h')
 

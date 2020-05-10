@@ -212,7 +212,7 @@ int main(int argc, char** argv) {
 
   if ( optimise ) { 
     auto toptstart = std::chrono::high_resolution_clock::now();
-    pineappl_grid_optimize(g);
+    pineappl_grid_ext(g, "optimise", nullptr);
     auto topt = std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::high_resolution_clock::now() - toptstart).count();
     std::cout << argv[0] << ": optimised grid in " << topt << " ms" << std::endl;

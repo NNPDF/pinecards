@@ -43,35 +43,28 @@ config.set_quoted('DATADIR', get_option('prefix') / get_option('datadir'))
 
 conf_header = configure_file(configuration : config, output : 'amconfig.h')
 
+lhapdf_dep = dependency('lhapdf')
+
 lib = library(
-    'APPLgrid',
-    srcs1, srcs2,
-    include_directories : incdir,
+    'pineappl_capi',
+    [ srcs1, srcs2, 'pineappl_capi.cpp' ],
+    include_directories : [ incdir, papplgrid_incdir ],
     dependencies : root_dep,
     install : true
 )
 
-dep = declare_dependency(include_directories : incdir, link_with : lib, dependencies : root_dep)
-
-lhapdf_dep = dependency('lhapdf')
-
-lib2 = library(
-    'pineappl_capi',
-    'pineappl_capi.cpp',
-    include_directories : incdir2,
-    dependencies : dep,
-    install : true
+dep = declare_dependency(
+    include_directories : incdir,
+    link_with : lib
 )
 
-dep2 = declare_dependency(include_directories : incdir2, link_with : lib2, dependencies : dep)
-
-executable('applcheck', 'applcheck.cpp', dependencies : [ dep2, lhapdf_dep ], install : true)
-executable('applgrid-combine', 'combine.cxx', dependencies : dep2, install : true)
-executable('merge_bins', 'merge_bins.cpp', dependencies : dep2, install : true)
+executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
+executable('applgrid-combine', 'combine.cxx', dependencies : dep, install : true)
+executable('merge_bins', 'merge_bins.cpp', dependencies : dep, install : true)
 
 import('pkgconfig').generate(
     description : 'PineAPPL is not an extension of APPLgrid',
     name : meson.project_name(),
     version : meson.project_version(),
-    libraries : lib2
+    libraries : lib
 )

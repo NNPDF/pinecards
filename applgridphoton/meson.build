@@ -1,5 +1,5 @@
 project(
-    'pineappl',
+    'pineappl_capi',
     'cpp',
     default_options : [ 'cpp_std=c++14', 'debug=false', 'optimization=2', 'warning_level=3' ],
     license : 'GPL3',
@@ -7,22 +7,7 @@ project(
     version : '1.4.70'
 )
 
-incdir = include_directories('.')
-
-headers = [
-	'appl_grid/SparseMatrix3d.h',
-    'appl_grid/appl_grid.h',
-    'appl_grid/appl_igrid.h',
-    'appl_grid/appl_pdf.h',
-    'appl_grid/axis.h',
-    'appl_grid/combination.h',
-    'appl_grid/histo1d.hpp',
-    'appl_grid/lumi_pdf.h',
-    'appl_grid/tsparse3d.h',
-    'appl_grid/tsparse_base.h',
-]
-
-install_headers(headers, subdir : 'appl_grid')
+papplgrid_incdir = include_directories('.')
 
 subdir('bin')
 subdir('include')

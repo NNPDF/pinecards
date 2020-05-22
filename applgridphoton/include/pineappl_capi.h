@@ -167,6 +167,18 @@ pineappl_grid *pineappl_grid_read(const char *filename);
 void pineappl_grid_scale(pineappl_grid *grid, double factor);
 
 /**
+ * Scales each subgrid by a factor which is the product of the given values `alphas`, `alpha`,
+ * `logxir`, and `logxif`, each raised to the corresponding powers for each subgrid. In addition,
+ * every subgrid is scaled by a factor `global` independently of its order.
+ */
+void pineappl_grid_scale_by_order(pineappl_grid *grid,
+                                  double alphas,
+                                  double alpha,
+                                  double logxir,
+                                  double logxif,
+                                  double global);
+
+/**
  * Write `grid` to a file with name `filename`.
  */
 void pineappl_grid_write(/*const*/ pineappl_grid *grid, const char *filename);

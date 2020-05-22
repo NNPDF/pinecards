@@ -167,6 +167,7 @@ public:
 
   // access to internal grids if need be
   const igrid* weightgrid(int iorder, int iobs) const { return m_grids[iorder][iobs]; }
+  igrid* weightgrid(int iorder, int iobs) { return m_grids[iorder][iobs]; }
   
   // save grid to specified file
   void Write(const std::string& filename, const std::string& dirname="grid", const std::string& pdfname="" );

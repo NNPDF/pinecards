@@ -1,5 +1,6 @@
 #include "pineappl_capi.h"
 
+#include "appl_grid/appl_igrid.h"
 #include "appl_grid/appl_grid.h"
 #include "appl_grid/appl_pdf.h"
 #include "appl_grid/lumi_pdf.h"
@@ -9,6 +10,7 @@
 #include <cassert>
 #include <cstddef>
 #include <chrono>
+#include <cmath>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -349,6 +351,33 @@ void pineappl_grid_fill(
 void pineappl_grid_scale(pineappl_grid *grid, double factor)
 {
     grid->grid *= factor;
+}
+
+void pineappl_grid_scale_by_order(
+    pineappl_grid *grid,
+    double alphas,
+    double alpha,
+    double logxir,
+    double logxif,
+    double global
+) {
+    // for compatibility reasons with the old APPLgrid and mg5_aMC
+    alphas /= 4.0 * std::acos(-1.0);
+
+    for (std::size_t i = 0; i != grid->grid.order_ids().size(); ++i)
+    {
+        auto const& order = grid->grid.order_ids().at(i);
+        double const factor = global
+            * std::pow(alphas, order.alphs())
+            * std::pow(alpha, order.alpha())
+            * std::pow(logxir, order.lmur2())
+            * std::pow(logxif, order.lmuf2());
+
+        for (int j = 0; j != grid->grid.Nobs_internal(); ++j)
+        {
+            (*grid->grid.weightgrid(i, j)) *= factor;
+        }
+    }
 }
 
 bool pineappl_grid_ext(pineappl_grid *grid, const char *name, pineappl_keyval *key_vals)

@@ -149,3 +149,5 @@ check_args_and_cd_output "$@"
 # record the time and write it to stdout and `time.log`
 { { time { main 2>&3; } } 2>time.log; } 3>&2
 cat time.log
+
+echo "Output stored in ${output}"

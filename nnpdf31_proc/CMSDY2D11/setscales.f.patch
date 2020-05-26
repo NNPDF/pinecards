@@ -18,7 +18,7 @@
  c
        tmp=0
        if(ickkw.eq.-1)then
-@@ -568,10 +579,41 @@
+@@ -568,10 +579,42 @@
  cc                 dynamical_scale_choice = 10                                   cc
  cc      in the run_card (run_card.dat)                                           cc
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -58,8 +58,9 @@
 +         elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
 +           tmp=200d0+(1500d0-200d0)/2d0
 +         else
++c          may happen during checks when cuts are not applied
 +           write(*,*) "Error: wrong invariant mass:", xmll
-+           stop 1
++           tmp=xmll
 +         endif
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc

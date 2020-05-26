@@ -1097,186 +1097,186 @@ void appl::igrid::optimise(int NQ2, int Nx1, int Nx2) {
   std::cout << "\tsize(trimmed)=" << m_weight[0]->size() << std::endl;
 
 
-#if 1
-
-  // overall igrid optimisation limits
-
-  int _y1setmin = Ny1();
-  int _y1setmax = -1;
-  
-  int _y2setmin = Ny2();
-  int _y2setmax = -1;
-  
-  int _tausetmin = Ntau(); 
-  int _tausetmax = -1; 
-  
-  //  double oldy1min = m_y1min;
-  //  double oldy1max = m_y1max;
-  
-  //  double oldy2min = m_y2min;
-  //  double oldy2max = m_y2max;
-
-  // go through all the subprocess to get the limits
-  // FIXME: this is actually redundant, at the moment, it assumes all the subprocesses 
-  //        occupy the same phase space, so only the first need be tested, and if
-  //        they don;t all occupy the same phase space, then they should each be
-  //        optimised seperately
-
-  // find limits for this grid
-  // initialise to original grid limits
-  int y1setmin = _y1setmin;
-  int y1setmax = _y1setmax;
-  
-  int y2setmin = _y2setmin;
-  int y2setmax = _y2setmax;
-  
-  int tausetmin = _tausetmin; 
-  int tausetmax = _tausetmax; 
-  
-  for ( int ip=0 ; ip<m_Nproc ; ip++ ) { 
-    
-    // is it empty?
-    if ( m_weight[ip]->xmax()-m_weight[ip]->xmin()+1 == 0 ) continue;
-
-    //    m_weight[ip]->print();
-
-    //    m_weight[ip]->yaxis().print(fx);
-
-    //    std::cout << "initial ip=" << ip 
-    //	       << "\tm_y2min=" << m_y2min << "\tm_y2max=" << m_y2max
-    //         << "\tm_y1min=" << m_y1min << "\tm_y1max=" << m_y1max  
-    //         << std::endl;  
-
-    //    m_weight[ip]->print();
-
-    // find actual limits
-
-    // y1 optimisation
-    int ymin1 = m_weight[ip]->ymin();
-    int ymax1 = m_weight[ip]->ymax();
-    
-    if ( ymin1<y1setmin )                 y1setmin = ymin1;
-    if ( ymin1<=ymax1 && y1setmax<ymax1 ) y1setmax = ymax1; 
-
-    //    std::cout << "ip=" << ip << std::endl; // << "\tymin1=" << ymin1 << "\tymax1=" << ymax1 << std::endl;
-    
-    // y2 optimisation
-    int ymin2 = m_weight[ip]->zmin();    
-    int ymax2 = m_weight[ip]->zmax();
-
-    if ( ymin2<y2setmin )                 y2setmin = ymin2;
-    if ( ymin2<=ymax2 && y2setmax<ymax2 ) y2setmax = ymax2; 
-    
-    // tau optimisation
-    int taumin = m_weight[ip]->xmin();    
-    int taumax = m_weight[ip]->xmax();
-
-    if ( taumin<tausetmin )                   tausetmin = taumin;
-    if ( taumin<=taumax && taumax>tausetmax ) tausetmax = taumax;
-
-  }
-  
-  // if grid is empty, do "nothing" ie create the grid with the same
-  // limits as before but with the new required number of bins 
-  if (  y1setmax==-1 || y2setmax==-1 || tausetmax==-1 ) { 
-    m_Ny1  = Nx1;
-    m_Ny2  = Nx2;
-    m_Ntau = NQ2;
-    m_deltay1  = (m_y1max-m_y1min)/(m_Ny1-1);
-    m_deltay2  = (m_y2max-m_y2min)/(m_Ny2-1);
-    m_deltatau = (m_taumax-m_taumin)/(m_Ntau-1);
-  }
-  else { 
- 
-
-    
-    // y1 optimisation
-    //    double oldy1min = m_y1min;
-    //    double oldy1max = m_y1max;
-   
-
-    if ( isOptimised() ) { 
-      // add a bit on each side
-      if ( y1setmin>0 )        y1setmin--;
-      if ( y1setmax<m_Ny1-1 )  y1setmax++;
-    }
-    else { 
-      // not optimised yet so filled with phase space only so add 
-      // the order to the max filled grid element position also 
-      y1setmax += m_yorder+1;
-      if ( y1setmin>0 )           y1setmin--;
-      if ( y1setmax>=m_Ny1 )      y1setmax=m_Ny1-1; 
-    }
-    
-    double _min = gety1(y1setmin); 
-    double _max = gety1(y1setmax); 
-    
-    m_Ny1     = Nx1;
-    m_y1min   = _min;
-    m_y1max   = _max;
-    m_deltay1 = (m_y1max-m_y1min)/(m_Ny1-1);
-    
-    
-    
-    // y2 optimisation
-    //   double oldy2min = m_y2min;
-    //   double oldy2max = m_y2max;
-    
-    if ( isOptimised() ) { 
-      // add a bit on each side
-      if ( y2setmin>0 )        y2setmin--;
-      if ( y2setmax<m_Ny2-1 )  y2setmax++;
-    }
-    else { 
-      // not optimised yet so add the order to the  
-      // max filled grid element position also 
-      y2setmax+=m_yorder+1;
-      if ( y2setmin>0 )           y2setmin--;
-      if ( y2setmax>=m_Ny2 )      y2setmax=m_Ny2-1; 
-    }
-    
-    //  m_Ny2 =  y2setmax-y2setmin+1;
-    _min = gety2(y2setmin); 
-    _max = gety2(y2setmax); 
-    
-    m_Ny2     = Nx2;
-    m_y2min   = _min;
-    m_y2max   = _max;
-    m_deltay2 = (m_y2max-m_y2min)/(m_Ny2-1);
-    
-    
-    
-    // tau optimisation
-    //   double oldtaumin = m_taumin;
-    //   double oldtaumax = m_taumax;
-    
-    // add a bit on each side
-    if ( isOptimised() ) { 
-      // add a bit on each side
-      if ( tausetmin>0 )         tausetmin--;
-      if ( tausetmax<m_Ntau-1 )  tausetmax++;
-    }
-    else { 
-      // not optimised yet so add the order to the  
-      // max filled grid element position also 
-      tausetmax+=m_tauorder+1;
-      if ( tausetmin>0 )            tausetmin--;
-      if ( tausetmax>=m_Ntau )      tausetmax=m_Ntau-1; 
-    }  
-    
-    _min   = gettau(tausetmin); 
-    _max   = gettau(tausetmax);
-    
-    m_Ntau     = NQ2;
-    m_taumin   = _min;
-    m_taumax   = _max;
-    m_deltatau = (m_taumax-m_taumin)/(m_Ntau-1);
-    
-    //    std::cout << "done ip=" << ip << std::endl; 
-    
-  }
-  
-#endif
+//#if 1
+//
+//  // overall igrid optimisation limits
+//
+//  int _y1setmin = Ny1();
+//  int _y1setmax = -1;
+//  
+//  int _y2setmin = Ny2();
+//  int _y2setmax = -1;
+//  
+//  int _tausetmin = Ntau(); 
+//  int _tausetmax = -1; 
+//  
+//  //  double oldy1min = m_y1min;
+//  //  double oldy1max = m_y1max;
+//  
+//  //  double oldy2min = m_y2min;
+//  //  double oldy2max = m_y2max;
+//
+//  // go through all the subprocess to get the limits
+//  // FIXME: this is actually redundant, at the moment, it assumes all the subprocesses 
+//  //        occupy the same phase space, so only the first need be tested, and if
+//  //        they don;t all occupy the same phase space, then they should each be
+//  //        optimised seperately
+//
+//  // find limits for this grid
+//  // initialise to original grid limits
+//  int y1setmin = _y1setmin;
+//  int y1setmax = _y1setmax;
+//  
+//  int y2setmin = _y2setmin;
+//  int y2setmax = _y2setmax;
+//  
+//  int tausetmin = _tausetmin; 
+//  int tausetmax = _tausetmax; 
+//  
+//  for ( int ip=0 ; ip<m_Nproc ; ip++ ) { 
+//    
+//    // is it empty?
+//    if ( m_weight[ip]->xmax()-m_weight[ip]->xmin()+1 == 0 ) continue;
+//
+//    //    m_weight[ip]->print();
+//
+//    //    m_weight[ip]->yaxis().print(fx);
+//
+//    //    std::cout << "initial ip=" << ip 
+//    //	       << "\tm_y2min=" << m_y2min << "\tm_y2max=" << m_y2max
+//    //         << "\tm_y1min=" << m_y1min << "\tm_y1max=" << m_y1max  
+//    //         << std::endl;  
+//
+//    //    m_weight[ip]->print();
+//
+//    // find actual limits
+//
+//    // y1 optimisation
+//    int ymin1 = m_weight[ip]->ymin();
+//    int ymax1 = m_weight[ip]->ymax();
+//    
+//    if ( ymin1<y1setmin )                 y1setmin = ymin1;
+//    if ( ymin1<=ymax1 && y1setmax<ymax1 ) y1setmax = ymax1; 
+//
+//    //    std::cout << "ip=" << ip << std::endl; // << "\tymin1=" << ymin1 << "\tymax1=" << ymax1 << std::endl;
+//    
+//    // y2 optimisation
+//    int ymin2 = m_weight[ip]->zmin();    
+//    int ymax2 = m_weight[ip]->zmax();
+//
+//    if ( ymin2<y2setmin )                 y2setmin = ymin2;
+//    if ( ymin2<=ymax2 && y2setmax<ymax2 ) y2setmax = ymax2; 
+//    
+//    // tau optimisation
+//    int taumin = m_weight[ip]->xmin();    
+//    int taumax = m_weight[ip]->xmax();
+//
+//    if ( taumin<tausetmin )                   tausetmin = taumin;
+//    if ( taumin<=taumax && taumax>tausetmax ) tausetmax = taumax;
+//
+//  }
+//  
+//  // if grid is empty, do "nothing" ie create the grid with the same
+//  // limits as before but with the new required number of bins 
+//  if (  y1setmax==-1 || y2setmax==-1 || tausetmax==-1 ) { 
+//    m_Ny1  = Nx1;
+//    m_Ny2  = Nx2;
+//    m_Ntau = NQ2;
+//    m_deltay1  = (m_y1max-m_y1min)/(m_Ny1-1);
+//    m_deltay2  = (m_y2max-m_y2min)/(m_Ny2-1);
+//    m_deltatau = (m_taumax-m_taumin)/(m_Ntau-1);
+//  }
+//  else { 
+// 
+//
+//    
+//    // y1 optimisation
+//    //    double oldy1min = m_y1min;
+//    //    double oldy1max = m_y1max;
+//   
+//
+//    if ( isOptimised() ) { 
+//      // add a bit on each side
+//      if ( y1setmin>0 )        y1setmin--;
+//      if ( y1setmax<m_Ny1-1 )  y1setmax++;
+//    }
+//    else { 
+//      // not optimised yet so filled with phase space only so add 
+//      // the order to the max filled grid element position also 
+//      y1setmax += m_yorder+1;
+//      if ( y1setmin>0 )           y1setmin--;
+//      if ( y1setmax>=m_Ny1 )      y1setmax=m_Ny1-1; 
+//    }
+//    
+//    double _min = gety1(y1setmin); 
+//    double _max = gety1(y1setmax); 
+//    
+//    m_Ny1     = Nx1;
+//    m_y1min   = _min;
+//    m_y1max   = _max;
+//    m_deltay1 = (m_y1max-m_y1min)/(m_Ny1-1);
+//    
+//    
+//    
+//    // y2 optimisation
+//    //   double oldy2min = m_y2min;
+//    //   double oldy2max = m_y2max;
+//    
+//    if ( isOptimised() ) { 
+//      // add a bit on each side
+//      if ( y2setmin>0 )        y2setmin--;
+//      if ( y2setmax<m_Ny2-1 )  y2setmax++;
+//    }
+//    else { 
+//      // not optimised yet so add the order to the  
+//      // max filled grid element position also 
+//      y2setmax+=m_yorder+1;
+//      if ( y2setmin>0 )           y2setmin--;
+//      if ( y2setmax>=m_Ny2 )      y2setmax=m_Ny2-1; 
+//    }
+//    
+//    //  m_Ny2 =  y2setmax-y2setmin+1;
+//    _min = gety2(y2setmin); 
+//    _max = gety2(y2setmax); 
+//    
+//    m_Ny2     = Nx2;
+//    m_y2min   = _min;
+//    m_y2max   = _max;
+//    m_deltay2 = (m_y2max-m_y2min)/(m_Ny2-1);
+//    
+//    
+//    
+//    // tau optimisation
+//    //   double oldtaumin = m_taumin;
+//    //   double oldtaumax = m_taumax;
+//    
+//    // add a bit on each side
+//    if ( isOptimised() ) { 
+//      // add a bit on each side
+//      if ( tausetmin>0 )         tausetmin--;
+//      if ( tausetmax<m_Ntau-1 )  tausetmax++;
+//    }
+//    else { 
+//      // not optimised yet so add the order to the  
+//      // max filled grid element position also 
+//      tausetmax+=m_tauorder+1;
+//      if ( tausetmin>0 )            tausetmin--;
+//      if ( tausetmax>=m_Ntau )      tausetmax=m_Ntau-1; 
+//    }  
+//    
+//    _min   = gettau(tausetmin); 
+//    _max   = gettau(tausetmax);
+//    
+//    m_Ntau     = NQ2;
+//    m_taumin   = _min;
+//    m_taumax   = _max;
+//    m_deltatau = (m_taumax-m_taumin)/(m_Ntau-1);
+//    
+//    //    std::cout << "done ip=" << ip << std::endl; 
+//    
+//  }
+//  
+//#endif
 
   // now create the new subprocess grids with optimised limits
   for ( int ip=0 ; ip<m_Nproc ; ip++ ) { 

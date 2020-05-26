@@ -134,7 +134,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
          std::vector<order_id> const& order_ids,
 		 std::string transform ) :
   m_grids(MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
+  m_run(0), m_optimised(true), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_read(false),
   m_transform(transform), m_genpdfname(genpdfname),
   m_genpdf(MAXGRIDS),
@@ -173,7 +173,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_grids(MAXGRIDS),
-  m_optimised(false),  m_trimmed(false), 
+  m_optimised(true),  m_trimmed(false),
   m_normalised(false),
   m_symmetrise(false),
   m_read(false),
@@ -1577,7 +1577,7 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
 appl::grid::grid(std::vector<appl::grid>&& grids)
     // TODO: check if all of the following member variables are set correctly
     : m_run(1.0)
-    , m_optimised(false)
+    , m_optimised(true)
     , m_trimmed(false)
     , m_normalised(false)
     , m_symmetrise(false)

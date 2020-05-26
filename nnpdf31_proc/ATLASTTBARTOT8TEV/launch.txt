@@ -16,12 +16,7 @@ set fixed_fac_scale True
 set mur_ref_fixed @MT@
 set muf_ref_fixed @MT@
 set reweight_scale False
-set req_acc_FO 0.01
-set iappl 1
-done
-launch @OUTPUT@
-fixed_order = ON
 set req_acc_FO 0.001
-set iappl 2
+set iappl 1
 done
 quit

@@ -111,7 +111,7 @@ EOF
     # TODO: the following assumes that all observables belong to the same distribution
 
     # merge the final bins
-    "${merge_bins}" "${dataset}".root "${dataset}"/Events/run_02*/amcblast_obs_*.root
+    "${merge_bins}" "${dataset}".root "${dataset}"/Events/run_01*/amcblast_obs_*.root
 
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
@@ -122,7 +122,7 @@ EOF
     # extract the numerical results from mg5_aMC
     sed -e '/^  [+-]/!d' \
         -e 's/^  [+-][0-9].[0-9]\+e[+-][0-9]\+   [+-][0-9].[0-9]\+e[+-][0-9]\+   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)$/\1 \2/' \
-        "${dataset}"/Events/run_02*/MADatNLO.HwU > results.mg5_aMC
+        "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the numerical results from the APPLgrid
     sed -e '1,/all bins:/d' \

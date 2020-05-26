@@ -15,12 +15,7 @@ set ptl = 25.0
 set etal = 2.5
 set mll = 116
 #user_defined_cut set mmllmax = 1500.0
-set req_acc_FO 0.01
-set iappl 1
-done
-launch @OUTPUT@
-fixed_order = ON
 set req_acc_FO 0.0001
-set iappl 2
+set iappl 1
 done
 quit

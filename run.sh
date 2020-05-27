@@ -142,6 +142,10 @@ EOF
         tee results.log
 
     rm results.mg5_aMC results.applgrid
+
+    if ! $(file "${dataset}.root" | grep -q ROOT); then
+        mv "${dataset}".root "${dataset}".pineappl
+    fi
 }
 
 check_args_and_cd_output "$@"

@@ -8,7 +8,14 @@ To successfully generate an APPLgrid, the following packages are required:
 
 * the modfied version of **APPLgrid** available in the `applgridphoton` folder,
   which must be compiled and installed, so that its programs are found in
-  `PATH`;
+  `PATH`. Use the following commands:
+
+      cd applgridphoton
+      meson build -Dprefix=${prefix} -Dlibdir=lib
+      cd build
+      ninja && ninja install
+
+  Make sure that `${prefix}` points to the proper installation directory.
 * the modified version of **Madgraph/MC@NLO**
   (*https://code.launchpad.net/~amcblast/+junk/3.0.2*) installable as `bzr
   branch lp:~amcblast/+junk/3.0.2` (bazaar is available from
@@ -56,3 +63,28 @@ run the `./run.sh [dataset]` script. The script takes as only parameter the
 dataset, which is the name of the subdirectory containing the all the files
 described before. To list all possibilities of `[dataset]` simply run the
 script without parameters.
+
+## Switching to PineAPPL and back to the APPLgrid-based code
+To use the grid generation tools, a third repository is needed, which can be
+found at <https://github.com/N3PDF/pineappl>. Download this repository, and run
+
+    cargo build --release
+
+If `cargo` is not found, you first need to install Rust. Use either your
+package manager or follow the official instructions at
+<https://www.rust-lang.org/tools/install>. The above command will build the
+following file in the `PineAPPL` repository:
+
+    target/release/libpineappl_capi.so
+
+Copy this file over the old one installed by `applgridphoton` in
+`${prefix}/lib`, where `${prefix}` is the installation directory. You can use
+generate `PineAPPL` grids using `./run.sh` as usual.
+
+To switch back to the APPLgrid-based code, simply reinstall `applgridphoton` or
+copy it's `libpineappl_capi.so` from the `build` folder into the installation
+directory.
+
+Note that generated grids are different from each other. Grids generated with
+`applgridphoton` have the `.root` extension and grids generated with `PineAPPL`
+have the `.pineappl` extension (only the merged grid).

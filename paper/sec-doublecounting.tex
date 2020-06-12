@@ -10,14 +10,24 @@ all for such effects.\footnote{By no means we intend to blame on our beloved exp
     we think that by highlighting errors and making everybody more cautious about them is the only way to avoid repeating such
     errors in the future.}
 
-A common source of inconsistency is the subtraction of backgrounds processes which must not be considered as such. The typical example
+A common source of inconsistency is the subtraction of (irreducible) background processes which must not be considered as such. The typical example
 is neutral-current Drell--Yan, where the signal process is an opposite-sign lepton pair, which starts
 at $\mathcal O(\alpha^2)$. Because this process is usually thought
 as a quark-initiated, $s$-channel mechanism ($q\bar q \to \gamma^*/Z \to \ell^+ \ell^-$), in many analyses the photon-induced component,
 $\gamma \gamma \to \ell^+ \ell^-$ in the $t$ channel, is considered as a different process, and it 
-subtracted (see e.g.\ refs.~\cite{}). However, such a distinction cannot be physically
+subtracted, possibly evaluated with different parton densities and/or including (unphysical) higher-order 
+corrections. For example, in Ref.~\cite{Aaboud:2017ffb}, one reads:
+\begin{quote}
+The photon-induced process, $\gamma\gamma \to \ell \ell$, is simulated at LO using Pythia 8 
+and the MRST2004qed PDF set~\cite{Martin:2004dh}. The expected yield for this process also accounts for 
+NLO QED/EW corrections from references~\cite{Bardin:2012jk,Bondarenko:2013nu}, which decrease the yield by approximately 30\%.
+\end{quote}
+Such a distinction cannot be physically
 justified beyond LO\@. Indeed, at $\mathcal O(\alpha^3)$, the reaction $q \gamma \to \ell^+ \ell^- q$ becomes possible, which
-includes both kind of topologies. {\bf MZ add Feynman diags} The problem here derives from the fact 
+includes both kind of topologies. {\bf MZ add Feynman diags}
+
+{\bf It looks like CMS does things in a pretty consistent manner~\cite{Sirunyan:2018owv, CMS:2014jea}. Shall we mention? We should
+not make ATLAS appear as the bad guys, and CMS as the good ones.} The problem here derives from the fact 
 that identifying a process based only on its
 initial-state partons is plain wrong in quantum mechanics. While this fact is well established in QCD---nobody would ever
 consider to \enquote{subtract} the gluon-initiated contribution to top-pair production in top analyses---seemingly it is not so

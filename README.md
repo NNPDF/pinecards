@@ -73,6 +73,32 @@ dataset, which is the name of the subdirectory containing the all the files
 described before. To list all possibilities of `[dataset]` simply run the
 script without parameters.
 
+## Where's my output?
+After having run, `./run.sh [dataset]` (see above), the script prints some
+output useful to quickly validate the contents of the grid. The last shows the
+directory where all results are stored, which has the form `dataset-date`,
+where `date` is a numerical date when the generation was started.
+
+The contents of this directory are:
+
+* applcheck.log: The output of running `applcheck` with the grid and the
+  correct PDF set
+* `DATSET`: The directory created by `mg5_aMC`. A few interesting files in
+  subdirectories are:
+  * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
+  * `Events/*/amcblast_obs_*.root`: grids created by `mg5_aMC`, not yet merged
+    together
+* `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together
+* `launch.log`: Output of `mg5_aMC` during the 'launch' phase
+* `launch.txt`: Run card for the launch phase, with all variables substituted
+  to their final values
+* `output.log`: Output of `mg5_aMC` during the 'output' phase
+* `output.txt`: Run card for the output phase, with all variables substituted
+  to their final values
+* `results.log`: The numerical results of the run, comparing the results of the
+  grid against the results from `mg5_aMC`
+* `time.log`: Total `time` needed for the run
+
 ## Switching to PineAPPL and back to the APPLgrid-based code
 To use the grid generation tools, a third repository is needed, which can be
 found at <https://github.com/N3PDF/pineappl>. Download this repository, and run

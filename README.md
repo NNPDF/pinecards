@@ -74,26 +74,30 @@ described before. To list all possibilities of `[dataset]` simply run the
 script without parameters.
 
 ## Where's my output?
-After having run, `./run.sh [dataset]` (see above), the script prints some
-output useful to quickly validate the contents of the grid. The last shows the
-directory where all results are stored, which has the form `dataset-date`,
-where `date` is a numerical date when the generation was started.
+After having run `./run.sh [dataset]` (see above), the script prints some
+output, which is useful to quickly validate the contents of the grid. The last
+line shows the directory where all results are stored, which has the form
+`dataset-date`, where `dataset` is the value given to the run script and `date`
+is a numerical date when the generation was started. The date is added so runs
+for the same dataset do not overwrite each other's output.
 
 The contents of this directory are:
 
-* applcheck.log: The output of running `applcheck` with the grid and the
-  correct PDF set
-* `DATSET`: The directory created by `mg5_aMC`. A few interesting files in
-  subdirectories are:
+* `applcheck.log`: The output of running `applcheck` with the grid
+  `DATASET.{pineappl,root}` and the correct PDF set
+* `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
+  this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
   * `Events/*/amcblast_obs_*.root`: grids created by `mg5_aMC`, not yet merged
     together
-* `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together
+* `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together.
+  The file ending is either `.root` (generated with `applgridphoton`) or
+  `.pineappl` (generated with `PineAPPL`)
 * `launch.log`: Output of `mg5_aMC` during the 'launch' phase
-* `launch.txt`: Run card for the launch phase, with all variables substituted
+* `launch.txt`: Run card for the 'launch' phase, with all variables substituted
   to their final values
 * `output.log`: Output of `mg5_aMC` during the 'output' phase
-* `output.txt`: Run card for the output phase, with all variables substituted
+* `output.txt`: Run card for the 'output' phase, with all variables substituted
   to their final values
 * `results.log`: The numerical results of the run, comparing the results of the
   grid against the results from `mg5_aMC`

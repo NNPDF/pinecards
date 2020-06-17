@@ -129,23 +129,26 @@ EOF
         -e '/sum:/,$d' \
         -e '/^$/d' \
         -e 's/^ bin #[ 0-9]*: [^o]*or //' \
-        -e 's/ \[pb\]$//' applcheck.log > results.applgrid
-
-    # compare the results from the APPLgrid and from mg5_aMC
-    paste -d ' ' results.applgrid results.mg5_aMC | \
-        awk 'function abs(x) { return x < 0.0 ? -x : x; }
-             BEGIN { print "------------------------------------------------------------"
-                     print "   APPLgrid       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
-                     print "------------------------------------------------------------" }
-             { printf "% e % e %e %7.2f %7.3f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
-                                                    $2 != 0.0 ? abs($1-$2)/$2*100 : 0.0 }' | \
-        tee results.log
-
-    rm results.mg5_aMC results.applgrid
+        -e 's/ \[pb\]$//' applcheck.log > results.grid
 
     if ! $(file "${dataset}.root" | grep -q ROOT); then
         mv "${dataset}".root "${dataset}".pineappl
+        program=PineAPPL
+    else
+        program=APPLgrid
     fi
+
+    # compare the results from the grid and from mg5_aMC
+    paste -d ' ' results.grid results.mg5_aMC | awk -v program=${program} \
+        'function abs(x) { return x < 0.0 ? -x : x; }
+         BEGIN { print "------------------------------------------------------------"
+                 print "   " program "       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
+                 print "------------------------------------------------------------" }
+         { printf "% e % e %e %7.2f %7.3f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
+                                                    $2 != 0.0 ? abs($1-$2)/$2*100 : 0.0 }' | \
+        tee results.log
+
+    rm results.mg5_aMC results.grid
 }
 
 check_args_and_cd_output "$@"

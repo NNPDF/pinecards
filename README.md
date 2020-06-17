@@ -6,16 +6,25 @@ fit purposes).
 ## Prerequisites
 To successfully generate an APPLgrid, the following packages are required:
 
-* the modfied version of **APPLgrid** available in the `applgridphoton` folder,
-  which must be compiled and installed, so that its programs are found in
-  `PATH`. Use the following commands:
+* ROOT, which can downloaded from <https://root.cern.ch>. Follow the
+  instructions there, in particular pay attention to sourcing `thisroot.sh`, if
+  this is needed in your case.
+* `ninja` and `meson`, which are required to build `applgridphoton`. Both
+  packages can be installed using pip. Make sure you use a recent version of
+  both.
+* The modfied version of **APPLgrid** available in the `applgridphoton` folder,
+  which must be compiled and installed. Use the following commands:
 
       cd applgridphoton
       meson build -Dprefix=${prefix} -Dlibdir=lib
       cd build
       ninja && ninja install
 
-  Make sure that `${prefix}` points to the proper installation directory.
+  Make sure that `${prefix}` points to the proper installation directory, and that
+  `PATH` includes `${prefix}/bin`, where the binaries are installed. Finally,
+  make sure to also export/update `PKG_CONFIG_PATH` to
+  `${prefix}/lib/pkgconfig`, so that the library and header can be found by
+  `mg5_aMC`.
 * the modified version of **Madgraph/MC@NLO**
   (*https://code.launchpad.net/~amcblast/+junk/3.0.2*) installable as `bzr
   branch lp:~amcblast/+junk/3.0.2` (bazaar is available from
@@ -78,12 +87,12 @@ following file in the `PineAPPL` repository:
     target/release/libpineappl_capi.so
 
 Copy this file over the old one installed by `applgridphoton` in
-`${prefix}/lib`, where `${prefix}` is the installation directory. You can use
-generate `PineAPPL` grids using `./run.sh` as usual.
+`${prefix}/lib`, where `${prefix}` is the installation directory. You can then
+use `PineAPPL` to generate grids using `./run.sh` as usual.
 
 To switch back to the APPLgrid-based code, simply reinstall `applgridphoton` or
-copy it's `libpineappl_capi.so` from the `build` folder into the installation
-directory.
+copy it's `libpineappl_capi.so` from the `build` folder (of `applgridphoton`)
+into the installation directory.
 
 Note that generated grids are different from each other. Grids generated with
 `applgridphoton` have the `.root` extension and grids generated with `PineAPPL`

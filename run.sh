@@ -141,11 +141,11 @@ EOF
     # compare the results from the grid and from mg5_aMC
     paste -d ' ' results.grid results.mg5_aMC | awk -v program=${program} \
         'function abs(x) { return x < 0.0 ? -x : x; }
-         BEGIN { print "------------------------------------------------------------"
-                 print "   " program "       mg5_aMC   mg5_aMC unc.  sigmas  per cent"
-                 print "------------------------------------------------------------" }
-         { printf "% e % e %e %7.2f %7.3f%%\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
-                                                    $2 != 0.0 ? abs($1-$2)/$2*100 : 0.0 }' | \
+         BEGIN { print "---------------------------------------------------------------"
+                 print "   " program "       mg5_aMC   mg5_aMC unc.   sigmas   per mille"
+                 print "---------------------------------------------------------------" }
+         { printf "% e % e %e %8.3f %10.4f\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
+                                               $2 != 0.0 ? abs($1-$2)/$2*1000 : 0.0 }' | \
         tee results.log
 
     rm results.mg5_aMC results.grid

@@ -2,22 +2,29 @@
 \label{sec:pineappl}
 
 In this paper we introduce a new library called \textsc{PineAPPL}, which bins phase-space weights independently from the chosen PDF set.
-The files produced in this way, generally called grids, can be used to quickly evaluate several observables and also to assess the impact of different PDF sets and their PDF uncertainties.
-Finally they are the main theoretical input to a PDF determination.
-In that sense \textsc{PineAPPL} is similar to \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}, but it also understands EW, which are the main interest in this paper.
-The following features distinguish it:
+The resulting files, generally called grids, can be used to quickly convolute the observables with multiple PDF sets.
+This has at least two applications:
 \begin{itemize}
-\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, e.g.\ in mixed QCD-EW corrections.
+\item the study of the dependence of observables on PDF sets; e.g.\ to determine how the central predictions of observables change when changing the PDF set, the PDF uncertainties for different PDF set, etc.\ and
+\item the determination of PDF sets themselves; the grids together with the corresponding experimental data are the main inputs for a PDF fit.
+\end{itemize}
+This puts \textsc{PineAPPL} in the same category than \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
+What sets \textsc{PineAPPL} apart from the other libraries is its support for electroweak (EW) predictions/corrections, which are the main interest in this paper.
+More specifically, the following features are supported:
+\begin{itemize}
+\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, in particular also mixed QCD-EW corrections.
 Furthermore, variations of the renormalisation and factorisation scale are supported, if needed.
 For each needed combination of the couplings and logarithms of renormalisation and factorisation scale a separate subgrid is created (see section~\ref{sec:multi-coupling-expansion} for more details);
-\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
-\item A simple \textsc{C}-interface, with a wrapper for \textsc{Fortran} and \textsc{Python} (see appendix~\ref{app:example-program} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
+%\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
+\item A simple \textsc{C}-interface (see appendix~\ref{app:example-program} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
 \textsc{PineAPPL} itself is written in Rust (see appendix~\ref{app:installation} for installation instructions).
-\item Superior efficiency for datasets with more then 100 observables.
+\item Another interface is the command-line program \texttt{pineappl}, which allows users of the generated grids to perform convolutions of the grid with PDF sets.
+Additionally, it can print further information on how the corresponding luminosity function is constructed, which perturbative orders are stored, the relative size of each correction, the relative size of each partonic channel, etc.
+%\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
+\item Superior efficiency and moderate memory requirements for differential distributions with more then 100 bins.
 \end{itemize}
-For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented in the most recent version, which replaces the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented in a separate version, which is intended to replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
 The interfacing code for other Monte Carlo generators should be easy to write, see appendix~\ref{app:example-program} for a small example program.
-Finally, \textsc{PineAPPL} provides programs to convert \textsc{APPLgrids} and \textsc{fastNLO} tables to \textsc{PineAPPL} grids.
 
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}
@@ -36,7 +43,7 @@ Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL}
 Above $Q^2$ denotes the Ellis--Sexton scale, which, if chosen dynamically, depends on the phase space $\phi$, $Q^2 = Q^2 (\phi)$.
 If this is the case, then we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space, however.
 For the central scale choice, $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, the terms $m > 0$ and $n > 0$ are clearly not needed; they are only required if scale variations are desired.
-For example, a seven-point scale variation sets the fractions to following values,
+For example, a seven-point scale variation sets the fractions to the following values,
 \begin{equation}
 (\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{,}
 \end{equation}
@@ -92,7 +99,7 @@ For many processes there is only one LO, but when a process has multiple quark l
 To each leading order a higher-order correction with an additional power of $\alphas$ or $\alpha$ can be calculated, which in general leads to at least two next-to-leading order corrections.
 Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alphas \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
 
-Due to typical size of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
+Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
 Some prominent examples are vector-boson scattering processes and TODO.
 
 \subsection{Grid representation and accuracy}
@@ -131,7 +138,7 @@ With increasing size also the speed of the convolution degrades, because it basi
 
 \subsubsection{Interpolation grids}
 
-A different choice partition the $(x_1, x_2, Q^2)$ space,
+A different choice partitions the $(x_1, x_2, Q^2)$ space,
 \begin{equation}
 H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}] \ni (x_1, x_2, Q^2)
 \end{equation}

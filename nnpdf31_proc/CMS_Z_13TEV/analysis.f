@@ -84,6 +84,19 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(5,ptv,wgts)
       call HwU_fill(6,ptv,wgts)
       call HwU_fill(7,ptv,wgts)
+      call HwU_fill(8,ptv,wgts)
+      call HwU_fill(9,ptv,wgts)
+      call HwU_fill(10,ptv,wgts)
+      call HwU_fill(11,ptv,wgts)
+      call HwU_fill(12,ptv,wgts)
+      call HwU_fill(13,ptv,wgts)
+      call HwU_fill(14,ptv,wgts)
+      call HwU_fill(15,ptv,wgts)
+      call HwU_fill(16,ptv,wgts)
+      call HwU_fill(17,ptv,wgts)
+      call HwU_fill(18,ptv,wgts)
+      call HwU_fill(19,ptv,wgts)
+      call HwU_fill(20,ptv,wgts)
 
  999  return      
       end

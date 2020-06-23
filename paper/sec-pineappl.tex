@@ -13,7 +13,9 @@ What sets \textsc{PineAPPL} apart from the other libraries is its support for el
 More specifically, the following features are supported:
 \begin{itemize}
 \item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, in particular also mixed QCD-EW corrections.
-Furthermore, variations of the renormalisation and factorisation scale are supported, if needed.
+Electroweak corrections require the inclusion of photon-initiated contributions, which are supported.
+In fact \textsc{PineAPPL} supports arbitrary initial-state combinations, for example leptonic initial states, for which PDFs have recently calculated~\cite{}.
+\item Variations of the renormalisation and factorisation scale are supported, if needed.
 For each needed combination of the couplings and logarithms of renormalisation and factorisation scale a separate subgrid is created (see section~\ref{sec:multi-coupling-expansion} for more details);
 %\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
 \item A simple \textsc{C}-interface (see appendix~\ref{app:example-program} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
@@ -36,60 +38,95 @@ The interfacing code for other Monte Carlo generators should be easy to write, s
 {\bf end MZ comments:}
 
 Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
-\begin{equation}
-\sigma_{ab} (x_1, x_2, \phi) = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) w_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \phi \right) \text{.}
+\begin{multline}
+\frac{\mathrm{d} \sigma_{ab}}{\mathrm{d} \mathcal{O}} (x_1, x_2, \mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{F}) \\
+= \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
 \label{eq:expansion}
-\end{equation}
-Above $Q^2$ denotes the Ellis--Sexton scale, which, if chosen dynamically, depends on the phase space $\phi$, $Q^2 = Q^2 (\phi)$.
-If this is the case, then we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space, however.
-For the central scale choice, $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, the terms $m > 0$ and $n > 0$ are clearly not needed; they are only required if scale variations are desired.
-For example, a seven-point scale variation sets the fractions to the following values,
+\end{multline}
+The above cross section is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft- and collinear safety, \ldots).
+In experiments, but also for many calculations where the phase-space integration is performed using a Monte Carlo integrator, finite statistics does not allow us to reconstruct the exact dependence of the cross section on the observable $\mathcal{O}$.
+Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
 \begin{equation}
-(\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{,}
+W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right) \text{,}
 \end{equation}
-and estimates the perturbative QCD uncertainty---no EW uncertainty is covered by this method---as the envelope of the cross section evaluated with the previous values.
+which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\mathrm{max} \}_{o=1}^M$ to partition a finite range of the observable,
+\begin{equation}
+\mathcal{O}_0^\mathrm{min} < \mathcal{O}_0^\mathrm{max} = \mathcal{O}_1^\mathrm{min} < \ldots < \mathcal{O}_{M-1}^\mathrm{max} = \mathcal{O}_M^\mathrm{min} < \mathcal{O}_M^\mathrm{max} \text{.}
+\end{equation}
+
+If chosen dynamically the Ellis--Sexton scale $Q^2$ depends on the phase space as well, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
+This allows variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but not changing the scale arbitrarily.
+The terms with powers $m > 0$ and $n > 0$ vanish for the central scale choice and are only required for variations of the factorisation and renormalisation scales.
+To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by this method---one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
+\begin{equation}
+(\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{.}
+\end{equation}
+The (asymmetric) uncertainties are the given as the minimum and maximum value (the envelope), measured from the central value $(1, 1)$.
 
 As is clear from eq.~\eqref{eq:expansion}, the EW coupling $\alpha$ is assumed not to be a dynamically varying coupling, but instead a constant over phase space.
 This, however, includes the most common choices of the coupling, which are (not necessarily in this order), $\alpha (0)$, $\alpha (M_\mathrm{Z})$, and $\alpha_{G_\mu}$.
 
-The task that \textsc{PineAPPL} solves is to (approximately) reconstruct the function
+The task that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
 \begin{equation}
-w_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \phi \right)
+w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
 \end{equation}
-from a set of $N$ function evaluations for specific phase-space points and momentum fractions
+from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable:
 \begin{equation}
-\left\{ \phi_i, x_1^{(i)}, x_2^{(i)}, Q^2_i \right\}_{i=1}^N \text{,}
+\left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,}
 \end{equation}
 given by the Monte Carlo integrator.
 Using eq.~\eqref{eq:expansion} and
-\begin{equation}
-\sigma (\xi_\mathrm{R}, \xi_\mathrm{R}) = \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int \mathrm{d} \phi \, f_a (x_1, \xi_\mathrm{F} Q^2) f_b (x_2, \xi_\mathrm{F} Q^2) \sigma_{ab} (x_1, x_2, \phi) \text{,}
+\begin{multline}
+\frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
+= \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F} Q^2) f_b (x_2, \xi_\mathrm{F} Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
 \label{eq:pineappl-convolution}
-\end{equation}
-\textsc{PineAPPL} can calculate hadronic cross sections for arbitrarily many PDF sets and scale variations quickly.
+\end{multline}
+\textsc{PineAPPL} can quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
 
-\subsubsection{Example: Drell--Yan lepton-pair production}
+\subsubsection{Example: Drell--Yan lepton-pair production at the LHC}
 \label{sec:pineappl-example}
 
-To give an example of eq.~\eqref{eq:expansion}, the following shows Drell--Yan lepton-pair production up to terms at NLO (with arguments $x_1$, $x_2$, and $\phi$ suppressed for the phase-space weights):
+To give an example of eq.~\eqref{eq:expansion}, the following shows Drell--Yan lepton-pair production up to terms at NLO (with some arguments suppressed for the phase-space weights):
 \begin{equation}
 \begin{split}
 \sigma_{ab}
-    &= \alpha^2 w_{ab}^{(0,2,0,0)} \\
-    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 w_{ab}^{(1,2,0,0)} + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \alpha^2 w_{ab}^{(1,2,0,1)} (Q^2) \\
-    &+ \alpha^3 w_{ab}^{(0,3,0,0)} + \log (\xi_\mathrm{F}) \alpha^3 w_{ab}^{(0,3,0,1)} (Q^2) \text{.}
+    &= \alpha^2 W_{ab}^{(0,2,0,0)} \\
+    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 W_{ab}^{(1,2,0,0)} (Q^2) + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \alpha^2 W_{ab}^{(1,2,0,1)} (Q^2) \\
+    &+ \alpha^3 W_{ab}^{(0,3,0,0)} (Q^2) + \log (\xi_\mathrm{F}) \alpha^3 W_{ab}^{(0,3,0,1)} (Q^2) \text{.}
 \end{split}
 \end{equation}
 The first term with index $(0,2,0,0)$ is the LO term, the following line shows the NLO QCD correction, and the final line the NLO EW correction.
-Note that for all terms the dependence on the renormalisation scale is only indirectly through $\alphas$, because 1) higher-order terms in $\alpha$ never generate a renormalisation scale dependence (in the $\alpha$ schemes that are valid according to section~\ref{sec:multi-coupling-expansion}) and 2) higher-order QCD corrections only introduce an explicit renormalisation scale dependence in counterterms with vertices with more than two gluons.
-These terms, however, are not present in this process at NLO\@.
-Both NLOs, however, have a contribution from a collinear counterterm that depends on the factorisation scale.
+Note that all terms depend on the renormalisation scale only indirectly through $\alphas$, because 1) higher-order terms in $\alpha$ never generate a renormalisation scale dependence (in the $\alpha$ schemes that are valid according to section~\ref{sec:multi-coupling-expansion}) and 2) higher-order QCD corrections only introduce an explicit renormalisation scale dependence in counterterms with vertices with more than two gluons.
+At NLO these terms are not present in this process so that terms proportional to $\log (\xi_\mathrm{R})$ vanish.
+Both NLOs, however, have contributions from a collinear counterterm that depend on the factorisation scale.
+
+At NLO this process has 63 different initial states, of which there is one photon--photon initial state and 31 initial states with at least one (anti-)quark.
+The remaining 31 given by the transposition of the partons from the first 31 initial states.
 
 % TODO: add graphical representation of the multi-coupling expansion
 
-\subsubsection{Example: top-pair production}
-
-TODO
+%\subsubsection{Example: top-pair production}
+%
+%\begin{equation}
+%\begin{split}
+%\sigma_{ab}
+%&= \alpha^2                                                                   W_{ab}^{(0,2,0,0)}
+% + \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha                         W_{ab}^{(1,1,0,0)}
+% + \alphas^2 \left( \xi_\mathrm{R} Q^2 \right)                                W_{ab}^{(2,0,0,0)} \\
+%&+ \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)                                W_{ab}^{(3,0,0,0)} \\
+%&+ \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)          \log (\xi_\mathrm{F}) W_{ab}^{(3,0,0,1)} (Q^2)
+% + \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)          \log (\xi_\mathrm{R}) W_{ab}^{(3,0,1,0)} (Q^2) \\
+%&+ \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha                         W_{ab}^{(2,1,0,0)} \\
+%&+ \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha   \log (\xi_\mathrm{F}) W_{ab}^{(2,1,0,1)} (Q^2)
+% + \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha   \log (\xi_\mathrm{R}) W_{ab}^{(2,1,1,0)} (Q^2) \\
+%&+ \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2                       W_{ab}^{(1,2,0,0)} \\
+%&+ \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 \log (\xi_\mathrm{F}) W_{ab}^{(1,2,0,1)} (Q^2)
+% + \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 \log (\xi_\mathrm{R}) W_{ab}^{(1,2,1,0)} (Q^2) \\
+%&+           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3                       W_{ab}^{(0,3,0,0)} \\
+%&+           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3 \log (\xi_\mathrm{F}) W_{ab}^{(0,3,0,1)} (Q^2)
+% +           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3 \log (\xi_\mathrm{R}) W_{ab}^{(0,3,1,0)} (Q^2)
+%\end{split}
+%\end{equation}
 
 \subsubsection{General characteristics}
 
@@ -97,42 +134,30 @@ In general, we define as leading order all terms for which the sum of the coupli
 This number is process dependent and usually determined by the number of external particles.
 For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, which allows for more than one leading order.
 To each leading order a higher-order correction with an additional power of $\alphas$ or $\alpha$ can be calculated, which in general leads to at least two next-to-leading order corrections.
-Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alphas \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
+%Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alphas \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
 
 Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
-Some prominent examples are vector-boson scattering processes and TODO.
+Some prominent examples are vector-boson scattering processes~\cite{Biedermann:2017bss,Denner:2019tmn} and top-pair production with another top-pair or a W boson~\cite{Frederix:2017wme}.
 
 \subsection{Grid representation and accuracy}
 \label{sec:grid-representation}
 
-In this subsection we explain the details of how the phase-space weights $w_{ab}$ in eq.~\ref{eq:expansion} are represented.
+In this subsection we explain the details of how the phase-space weights $w_{ab}$ in eq.~\eqref{eq:expansion} are represented.
 
 \subsubsection{4-tuples}
 
-One very simple representation are 4-tuples, which for each phase-space point and combination $(a, b, k, l, m, n)$ saves a list of the parton fractions $x_1$ and $x_2$, the scale $Q^2$, and the phase-space weight $w$; this is sufficient for a total cross section.
-If, however, a differential cross section shall be reconstructed, we first need to generalise eq.~\eqref{eq:expansion}:
-\begin{equation}
-\frac{\mathrm{d} \sigma_{ab}}{\mathrm{d} \mathcal{O}} (x_1, x_2, \phi, \mathcal{O}) = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) \frac{\mathrm{d} w_{ab}^{(k,l,m,n)}}{\mathrm{d} \mathcal{O}} \left( x_1, x_2, Q^2, \phi \right) \\
-\end{equation}
-where, because of a finite number of phase-space points given by the Monte Carlo integrator, we numerically approximates the derivative as
-\begin{equation}
-\begin{split}
-\frac{\mathrm{d} w_{ab}^{(k,l,m,n)}}{\mathrm{d} \mathcal{O}} \left( x_1, x_2, Q^2, \phi \right) &\approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \phi \right) \\
-&= \sum_{o=1}^M w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2, \phi, \mathcal{O} \right) \text{,}
-\end{split}
-\end{equation}
-using $M$ discrete bins with boundaries $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\mathrm{max} \}_{o=1}^M$.
+A straightforward representation are 4-tuples, which for each phase-space point saves a list of the momentum fractions $x_1$ and $x_2$, the scale $Q^2$, and the phase-space weight $w$; this is sufficient to reconstruct a total cross section.
 
-This means that for each bin $o$ of the observable $\mathcal{O}$ and therefore for each combination $(a,b,k,l,m,n,o)$ we save the following 4-tuples:
+For each combination $(a,b,k,l,m,n,o)$ we save the following 4-tuples:
 \begin{equation}
-\left\{ x_1^i, x_2^i, Q^2_i, w^{(k,l,m,n,o)}_{ab} (x_1^i, x_2^i, Q^2_i, \phi_i, \mathcal{O}_i) \right\}_{i=1}^N \text{,} \label{eq:four-tuples}
+\left\{ x_1^i, x_2^i, Q^2_i, w^{(k,l,m,n,o)}_{ab} (x_1^i, x_2^i, Q^2_i, \mathcal{O}_i) \right\}_{i=1}^N \text{,} \label{eq:four-tuples}
 \end{equation}
-The reconstruction of the differential cross section for bin $o$ is then straightforwardly done by multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, and $i$.
+The reconstruction of the differential cross section is then done by simply multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, $o$, and $i$.
 
-Using 4-tuples has the clear advantage of being very easy to implement and therefore also easy to test.
+Using 4-tuples has the clear advantage of being very easy to implement and test.
 Furthermore, they reproduce the exact numerical value that is also calculated by the Monte Carlo integrator.
 However, the price one has to pay is the size of the 4-tuples, which scales linearly with the number of phase-space weights $N$.
-Because the uncertainties of Monte Carlo integrators shrink as $1/\sqrt{N}$, this typically means \numrange{e7}{e9} phase-space points.
+Because the uncertainties of Monte Carlo integrators shrink only as $1/\sqrt{N}$, however, this typically means \numrange{e6}{e9} phase-space points are necessary for a good convergence.
 In the case of the NLO Drell--Yan (section~\ref{sec:pineappl-example}) the 4-tuples need roughly TODO~\si{\giga\byte} of storage (see appendix~\ref{app:drell-yan-storage} for an explanation of this number).
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 
@@ -144,7 +169,24 @@ H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}
 \end{equation}
 along each axis into a small numbers of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
 This method is straightforward, but given a finite number of bins this usually yields a bad approximation for the cross section.
-This can be remedied by increasing the number of bins, which would also increase the space requirements of the grid.
-There are, however, more refined methods, which keep the number of bins constant, while improving the quality of the approximation: Interpolation grids.
+Increasing the number of bins improves the accuracy, but it also increases the space requirements of the grid.
+Interpolation methods offers more precision, while keeping the number of bins constants.
 
-TODO
+We use the same Lagrange-interpolation grid presented in Ref.~\cite{Carli:2010rw} with the parameters published in Ref.~\cite{Bertone:2014zva}, which give decent precision (see section~\ref{sec:results}).
+The method presented in previous references first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with the maps defined as
+\begin{equation}
+y(x) = 5 (1-x) - \log x \text{,} \qquad \tau (Q^2) = \log \log \frac{Q^2}{(\SI{0.25}{\giga\electronvolt})^2} \text{,}
+\end{equation}
+and then feeds the variables $(y_1, y_2, \tau)$ into the 3-dimensional Lagrange-interpolation grid with 50 bins in each $y$ direction and 30 bins in $\tau$ direction.
+The interpolation order is 3 for each variable, and only the subspace $[\num{2e7},1] \times [\num{2e-7},1] \times [100,\num{e6}] \subset H$\footnote{In Ref.~\cite{Bertone:2014zva} the upper limit for $Q$ is given as \SI{3162}{\giga\electronvolt} (which corresponds to $Q^2 \approx \SI{e7}{\giga\electronvolt}$), but in the code we found the value given above.} is mapped.
+For the convolution of a grid with a PDF set also the inverse functions are needed, which are
+\begin{equation}
+x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-x)) \text{,} \qquad Q^2 (\tau) = (\SI{0.25}{\giga\electronvolt})^2 \exp (\exp (\tau)) \text{,}
+\end{equation}
+where $\operatorname{W}_0 (x)$ is (the principle branch of) the Lambert W function or product logarithm, which satisfies the relation $\operatorname{W} (x) \exp (\operatorname{W} (x)) = x$.
+
+\subsubsection{Combination of differently weighed phase-spaces points}
+
+To improve the convergence of phase-space integrations Monte Carlo integrators usually use importance sampling, typically using one or both of VEGAS~\cite{} and multi-channel MC~\cite{}.
+Both algorithms are adaptive and perform a number of iterations, each iteration trying to improve the convergence by changing the distribution from which phase-space points are sampled.
+This raises the question if the differently sampled phase-space points are compatible with each other in the grid generation, and, if the answer is no, how this can be remedied.

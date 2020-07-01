@@ -1,41 +1,49 @@
-\section{PDF-independent binning of phase-space weights with \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
+\section{PDF-independent storage of phase-space weights with \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 \label{sec:pineappl}
 
-In this paper we introduce a new library called \textsc{PineAPPL}, which bins phase-space weights independently from the chosen PDF set.
-The resulting files, generally called grids, can be used to quickly convolute the observables with multiple PDF sets.
-This has at least two applications:
+In this paper we present a new library called \textsc{PineAPPL}, which stores phase-space weights of a Monte Carlo (MC) integration independently from the chosen PDFs.
+This separates the task of producing predictions for observables into two steps: 1) the generation of the \emph{grids}, which is how the generated files are called, and 2) the convolution of those grids with a set of PDFs.
+The advantage of this method is that the time-consuming first step has to be done only once and therefore allows for very quick convolutions of a grids with multiple PDF sets.
+
+The convolution is typically done in a few seconds or less, which offers at least two applications:
+\begin{enumerate}
+\item the study of PDF-dependence of observables; e.g.\ PDF set comparisons, PDF uncertainties for different PDF set, $\alphas$ variations, etc., and
+\item the determination of PDF sets themselves; the grids together with the corresponding experimental data constitute two important ingredients for a PDF fit.
+\end{enumerate}
+This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
+However, it supports electroweak (EW) predictions/corrections, which are the main interest in this paper.
+In particular, the following features are supported:
 \begin{itemize}
-\item the study of the dependence of observables on PDF sets; e.g.\ to determine how the central predictions of observables change when changing the PDF set, the PDF uncertainties for different PDF set, etc.\ and
-\item the determination of PDF sets themselves; the grids together with the corresponding experimental data are the main inputs for a PDF fit.
-\end{itemize}
-This puts \textsc{PineAPPL} in the same category than \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
-What sets \textsc{PineAPPL} apart from the other libraries is its support for electroweak (EW) predictions/corrections, which are the main interest in this paper.
-More specifically, the following features are supported:
-\begin{itemize}
-\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, in particular also mixed QCD-EW corrections.
-Electroweak corrections require the inclusion of photon-initiated contributions, which are supported.
-In fact \textsc{PineAPPL} supports arbitrary initial-state combinations, for example leptonic initial states, for which PDFs have recently calculated~\cite{}.
-\item Variations of the renormalisation and factorisation scale are supported, if needed.
-For each needed combination of the couplings and logarithms of renormalisation and factorisation scale a separate subgrid is created (see section~\ref{sec:multi-coupling-expansion} for more details);
+\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, in particular also mixed QCD--EW corrections.
+\item EW corrections require the inclusion of photon-initiated contributions, which are supported as well.
+In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states, for which PDFs have been calculated recently~\cite{Buonocore:2020nai}.
+\item Variations of the renormalisation and factorisation scale around the central scale choice are supported, which are needed to estimate the QCD scale uncertainty.
 %\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
-\item A simple \textsc{C}-interface (see appendix~\ref{app:example-program} for examples and documentation), which is needed for Monte Carlos and programs to read and write \textsc{PineAPPL} grids.
-\textsc{PineAPPL} itself is written in Rust (see appendix~\ref{app:installation} for installation instructions).
-\item Another interface is the command-line program \texttt{pineappl}, which allows users of the generated grids to perform convolutions of the grid with PDF sets.
-Additionally, it can print further information on how the corresponding luminosity function is constructed, which perturbative orders are stored, the relative size of each correction, the relative size of each partonic channel, etc.
-%\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
-\item Superior efficiency and moderate memory requirements for differential distributions with more then 100 bins.
 \end{itemize}
-For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented in a separate version, which is intended to replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
-The interfacing code for other Monte Carlo generators should be easy to write, see appendix~\ref{app:example-program} for a small example program.
+On a more technical level, we further point out the following differences of \textsc{PineAPPL}:
+\begin{itemize}
+\item Earlier experiments with APPLgrid (only QCD corrections) showed that it uses a substantial amount memory (close to \SI{80}{\giga\byte}), if a grid for a differential distributions with more than 10 bins was generated.
+The memory usage is substantially reduced (roughly \SI{1}{\giga\byte}) after \enquote{optimisation} of the grids, i.e.\ an optimisation of the grid representation in memory.
+However, this means that this two-step procedure of 1) producing an unoptimised grid and 2) filling an optimised grid effectively limits the bins to a small number.
+\textsc{PineAPPL} avoids this by using a more space-efficient representation from the start.
+\item \textsc{PineAPPL} offers an easy-to-use interface written in the C programming language, to allow MC integrators to read and write \textsc{PineAPPL} grids.
+C was chosen because it plays well with Fortran and C++, in which most MC integrators are written.
+The interface consists of roughly 30 functions of which basically only a handful are needed.
+See appendix~\ref{app:example-program} for an example.
+%\textsc{PineAPPL} itself is written in Rust (see appendix~\ref{app:installation} for installation instructions).
+\item The program \texttt{pineappl}, which performs convolutions on the command line (see appendix~\ref{app:pineappl-demo}), without requiring the user to write a new program.
+In addition to convolutions, it can also print how the luminosity function is constructed, which perturbative orders are stored, their size, the size of each partonic channel, etc., separately for each bin.
+%\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
+\end{itemize}
+For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented\footnote{It can be downloaded from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}}, which is intended to replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+Its usage is very similar to that of \textsc{mg5\_aMC 2}+\textsc{aMCfast}+\textsc{APPLgrid}.
+However, using \textsc{PineAPPL} is much faster especially for small runs, because the grids do not need to be optimised and are merged faster.
+See appendix~\ref{app:sample-runcard} for an example of a runcard.
+
+Interfacing code for other MC generators should be easy to write, see appendix~\ref{app:example-program} for a small example program.
 
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}
-{\bf MZ comments:}
-\begin{itemize}
-    \item I would prefer to keep the notation similar to the aMCfast paper, or at least to start with that, and then generalise it
-    \item the business of the different kinematics (born, resolved, counterterms, etc) is not mentioned at all
-\end{itemize}
-{\bf end MZ comments:}
 
 Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
 \begin{multline}
@@ -43,8 +51,9 @@ Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL}
 = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
 \label{eq:expansion}
 \end{multline}
-The above cross section is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft- and collinear safety, \ldots).
-In experiments, but also for many calculations where the phase-space integration is performed using a Monte Carlo integrator, finite statistics does not allow us to reconstruct the exact dependence of the cross section on the observable $\mathcal{O}$.
+The cross section shown above is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft- and collinear safety, etc.).
+
+In experiments, but also for many calculations where the phase-space integration is performed using MC techniques, finite statistics does not allow us to reconstruct the exact dependence of the cross section on the observable $\mathcal{O}$.
 Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
 \begin{equation}
 W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right) \text{,}
@@ -52,16 +61,30 @@ W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^
 which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\mathrm{max} \}_{o=1}^M$ to partition a finite range of the observable,
 \begin{equation}
 \mathcal{O}_0^\mathrm{min} < \mathcal{O}_0^\mathrm{max} = \mathcal{O}_1^\mathrm{min} < \ldots < \mathcal{O}_{M-1}^\mathrm{max} = \mathcal{O}_M^\mathrm{min} < \mathcal{O}_M^\mathrm{max} \text{.}
+\label{eq:bins-of-diff-xsection}
 \end{equation}
 
-If chosen dynamically the Ellis--Sexton scale $Q^2$ depends on the phase space as well, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
+% TODO: add table with aMCfast notation
+
+%\begin{table}
+%\begin{tabular}{ll}
+%\toprule
+%Old notation & new notation \\
+%\midrule
+%\bottomrule
+%\end{tabular}
+%\caption{Translation table for the notation of ref.~\cite{Bertone:2014zva} to the one used in eq.~\eqref{eq:expansion}.}
+%\label{tab:amcfast-notation}
+%\end{table}
+
+If chosen dynamically the Ellis--Sexton scale $Q^2$ depends on the phase space, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
 This allows variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but not changing the scale arbitrarily.
 The terms with powers $m > 0$ and $n > 0$ vanish for the central scale choice and are only required for variations of the factorisation and renormalisation scales.
 To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by this method---one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
 \begin{equation}
 (\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{.}
 \end{equation}
-The (asymmetric) uncertainties are the given as the minimum and maximum value (the envelope), measured from the central value $(1, 1)$.
+The (asymmetric) uncertainties are then given as the minimum and maximum value (the envelope), measured from the central value $(1, 1)$.
 
 As is clear from eq.~\eqref{eq:expansion}, the EW coupling $\alpha$ is assumed not to be a dynamically varying coupling, but instead a constant over phase space.
 This, however, includes the most common choices of the coupling, which are (not necessarily in this order), $\alpha (0)$, $\alpha (M_\mathrm{Z})$, and $\alpha_{G_\mu}$.
@@ -74,14 +97,29 @@ from a set of $N$ function evaluations for specific momentum fractions, scales, 
 \begin{equation}
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,}
 \end{equation}
-given by the Monte Carlo integrator.
+given by the MC integrator.
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
 = \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F} Q^2) f_b (x_2, \xi_\mathrm{F} Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
 \label{eq:pineappl-convolution}
 \end{multline}
-\textsc{PineAPPL} can quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
+\textsc{PineAPPL} can then quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
+
+\subsubsection{General characteristics}
+
+In general, we define leading order (LO) as the set of all possible initial states $a b$ which lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
+This number is process dependent and usually determined by the number of external particles.
+For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one LO.
+An important example at the LHC is di-jet production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
+Each LO receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
+The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.
+All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin.
+%Sometimes there are higher orders that cannot directly be understood as a correction to a LO, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one LO, $\mathcal{O} (\alphas \alpha^2)$, but three NLOs, one of which is $\mathcal{O} (\alpha^4)$~TODO.
+
+Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers.
+In practice, however, this naive expectation is not always true due to dynamic effects.
+Some examples are vector-boson scattering processes~\cite{Biedermann:2017bss,Denner:2019tmn}, top-pair production with a W boson and four-top production~\cite{Frederix:2017wme}, and Higgs production with a bottom-pair~\cite{Pagani:2020rsg}.
 
 \subsubsection{Example: Drell--Yan lepton-pair production at the LHC}
 \label{sec:pineappl-example}
@@ -91,17 +129,23 @@ To give an example of eq.~\eqref{eq:expansion}, the following shows Drell--Yan l
 \begin{split}
 \sigma_{ab}
     &= \alpha^2 W_{ab}^{(0,2,0,0)} \\
-    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 W_{ab}^{(1,2,0,0)} (Q^2) + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \alpha^2 W_{ab}^{(1,2,0,1)} (Q^2) \\
-    &+ \alpha^3 W_{ab}^{(0,3,0,0)} (Q^2) + \log (\xi_\mathrm{F}) \alpha^3 W_{ab}^{(0,3,0,1)} (Q^2) \text{.}
+    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 W_{ab}^{(1,2,0,0)} (Q^2) + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \alpha^2 W_{ab}^{(1,2,0,1)} \\
+    &+ \alpha^3 W_{ab}^{(0,3,0,0)} (Q^2) + \log (\xi_\mathrm{F}) \alpha^3 W_{ab}^{(0,3,0,1)} \text{.}
 \end{split}
 \end{equation}
 The first term with index $(0,2,0,0)$ is the LO term, the following line shows the NLO QCD correction, and the final line the NLO EW correction.
 Note that all terms depend on the renormalisation scale only indirectly through $\alphas$, because 1) higher-order terms in $\alpha$ never generate a renormalisation scale dependence (in the $\alpha$ schemes that are valid according to section~\ref{sec:multi-coupling-expansion}) and 2) higher-order QCD corrections only introduce an explicit renormalisation scale dependence in counterterms with vertices with more than two gluons.
-At NLO these terms are not present in this process so that terms proportional to $\log (\xi_\mathrm{R})$ vanish.
-Both NLOs, however, have contributions from a collinear counterterm that depend on the factorisation scale.
+At NLO these terms are not present for this process so that terms proportional to $\log (\xi_\mathrm{R})$ vanish.
+Both NLOs, however, have contributions from a collinear counterterm that depends on the factorisation scale.
 
-At NLO this process has 63 different initial states, of which there is one photon--photon initial state and 31 initial states with at least one (anti-)quark.
-The remaining 31 given by the transposition of the partons from the first 31 initial states.
+Since this process has a single LO, mixed QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which includes the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single mixed correction at $\mathcal{O} (\alphas \alpha^3)$.
+
+Note that all initial states have to be taken into account that lead to the same final state.
+This includes the photon-photon initial state, which appears already at LO.
+The particles in the corresponding Feynman diagrams are all colourless, so that it does not receive a QCD correction.
+However, it does receive EW corrections, which also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.
+%At NLO this process has 63 different initial states, of which there is one photon--photon initial state and 31 initial states with at least one (anti-)quark.
+%The remaining 31 are given by the transposition of the partons from the first 31 initial states.
 
 % TODO: add graphical representation of the multi-coupling expansion
 
@@ -128,21 +172,10 @@ The remaining 31 given by the transposition of the partons from the first 31 ini
 %\end{split}
 %\end{equation}
 
-\subsubsection{General characteristics}
-
-In general, we define as leading order all terms for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
-This number is process dependent and usually determined by the number of external particles.
-For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, which allows for more than one leading order.
-To each leading order a higher-order correction with an additional power of $\alphas$ or $\alpha$ can be calculated, which in general leads to at least two next-to-leading order corrections.
-%Sometimes there are higher orders that cannot directly be understood as a correction to a leading order, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one leading order, $\mathcal{O} (\alphas \alpha^2)$, but three next-to-leading orders, one of which is $\mathcal{O} (\alpha^4)$~TODO.
-
-Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers; however, in practise this naive expectation is not always true due to dynamic effects.
-Some prominent examples are vector-boson scattering processes~\cite{Biedermann:2017bss,Denner:2019tmn} and top-pair production with another top-pair or a W boson~\cite{Frederix:2017wme}.
-
 \subsection{Grid representation and accuracy}
 \label{sec:grid-representation}
 
-In this subsection we explain the details of how the phase-space weights $w_{ab}$ in eq.~\eqref{eq:expansion} are represented.
+In this subsection we explain the details of how the phase-space weights $w_{ab}$ in eq.~\eqref{eq:bins-of-diff-xsection} are represented.
 
 \subsubsection{4-tuples}
 
@@ -155,9 +188,9 @@ For each combination $(a,b,k,l,m,n,o)$ we save the following 4-tuples:
 The reconstruction of the differential cross section is then done by simply multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, $o$, and $i$.
 
 Using 4-tuples has the clear advantage of being very easy to implement and test.
-Furthermore, they reproduce the exact numerical value that is also calculated by the Monte Carlo integrator.
+Furthermore, they reproduce the exact numerical value that is also calculated by the MC integrator.
 However, the price one has to pay is the size of the 4-tuples, which scales linearly with the number of phase-space weights $N$.
-Because the uncertainties of Monte Carlo integrators shrink only as $1/\sqrt{N}$, however, this typically means \numrange{e6}{e9} phase-space points are necessary for a good convergence.
+Because the uncertainties of MC integrators shrink only as $1/\sqrt{N}$ this typically means \numrange{e6}{e9} phase-space points are necessary for a good convergence.
 In the case of the NLO Drell--Yan (section~\ref{sec:pineappl-example}) the 4-tuples need roughly TODO~\si{\giga\byte} of storage (see appendix~\ref{app:drell-yan-storage} for an explanation of this number).
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 
@@ -170,15 +203,15 @@ H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}
 along each axis into a small numbers of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
 This method is straightforward, but given a finite number of bins this usually yields a bad approximation for the cross section.
 Increasing the number of bins improves the accuracy, but it also increases the space requirements of the grid.
-Interpolation methods offers more precision, while keeping the number of bins constants.
+Interpolation methods offer more precision, while keeping the number of bins constants.
 
 We use the same Lagrange-interpolation grid presented in Ref.~\cite{Carli:2010rw} with the parameters published in Ref.~\cite{Bertone:2014zva}, which give decent precision (see section~\ref{sec:results}).
-The method presented in previous references first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with the maps defined as
+The method presented in the previous references first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with the maps defined as
 \begin{equation}
 y(x) = 5 (1-x) - \log x \text{,} \qquad \tau (Q^2) = \log \log \frac{Q^2}{(\SI{0.25}{\giga\electronvolt})^2} \text{,}
 \end{equation}
 and then feeds the variables $(y_1, y_2, \tau)$ into the 3-dimensional Lagrange-interpolation grid with 50 bins in each $y$ direction and 30 bins in $\tau$ direction.
-The interpolation order is 3 for each variable, and only the subspace $[\num{2e7},1] \times [\num{2e-7},1] \times [100,\num{e6}] \subset H$\footnote{In Ref.~\cite{Bertone:2014zva} the upper limit for $Q$ is given as \SI{3162}{\giga\electronvolt} (which corresponds to $Q^2 \approx \SI{e7}{\giga\electronvolt}$), but in the code we found the value given above.} is mapped.
+The interpolation order is 3 for each variable, and only the subspace $[\num{2e7},1] \times [\num{2e-7},1] \times [100,\num{e6}] \subset H$\footnote{In Ref.~\cite{Bertone:2014zva} the upper limit for $Q$ is given as \SI{3162}{\giga\electronvolt} (which corresponds to $Q_\mathrm{max}^2 \approx \SI{e7}{\giga\electronvolt}$), but in the code we found the value $Q_\mathrm{max}^2 = \SI{e6}{\giga\electronvolt\squared}$.} is mapped.
 For the convolution of a grid with a PDF set also the inverse functions are needed, which are
 \begin{equation}
 x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-x)) \text{,} \qquad Q^2 (\tau) = (\SI{0.25}{\giga\electronvolt})^2 \exp (\exp (\tau)) \text{,}
@@ -187,6 +220,6 @@ where $\operatorname{W}_0 (x)$ is (the principle branch of) the Lambert W functi
 
 \subsubsection{Combination of differently weighed phase-spaces points}
 
-To improve the convergence of phase-space integrations Monte Carlo integrators usually use importance sampling, typically using one or both of VEGAS~\cite{} and multi-channel MC~\cite{}.
+To improve the convergence of phase-space integrations MC integrators usually use importance sampling, typically using one or both of VEGAS~\cite{} and multi-channel MC~\cite{}.
 Both algorithms are adaptive and perform a number of iterations, each iteration trying to improve the convergence by changing the distribution from which phase-space points are sampled.
 This raises the question if the differently sampled phase-space points are compatible with each other in the grid generation, and, if the answer is no, how this can be remedied.

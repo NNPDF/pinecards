@@ -1,46 +1,59 @@
 \section{PDF-independent storage of phase-space weights with \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 \label{sec:pineappl}
 
-In this paper we present a new library called \textsc{PineAPPL}, which stores phase-space weights of a Monte Carlo (MC) integration independently from the chosen PDFs.
+In this paper we present a new library called \textsc{PineAPPL}, which stores phase-space weights of a Monte Carlo (MC) integration independently from the chosen PDFs,
+including higher-order corrections.
 This separates the task of producing predictions for observables into two steps: 1) the generation of the \emph{grids}, which is how the generated files are called, and 2) the convolution of those grids with a set of PDFs.
-The advantage of this method is that the time-consuming first step has to be done only once and therefore allows for very quick convolutions of a grids with multiple PDF sets.
+The advantage of this method is that the time-consuming step 1) has to be done only once and it allows for very quick convolutions of a given grids with multiple PDF sets.
 
 The convolution is typically done in a few seconds or less, which offers at least two applications:
 \begin{enumerate}
 \item the study of PDF-dependence of observables; e.g.\ PDF set comparisons, PDF uncertainties for different PDF set, $\alphas$ variations, etc., and
 \item the determination of PDF sets themselves; the grids together with the corresponding experimental data constitute two important ingredients for a PDF fit.
 \end{enumerate}
-This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
-However, it supports electroweak (EW) predictions/corrections, which are the main interest in this paper.
+This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}. With
+respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to electroweak (EW)
+(and in general mixed QCD-EW) effects. Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is the main interest of this paper.
+
 In particular, the following features are supported:
 \begin{itemize}
-\item Support for arbitrary fixed-order calculations in powers of $\alpha$, $\alphas$ or combinations thereof, in particular also mixed QCD--EW corrections.
-\item EW corrections require the inclusion of photon-initiated contributions, which are supported as well.
-In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states, for which PDFs have been calculated recently~\cite{Buonocore:2020nai}.
-\item Variations of the renormalisation and factorisation scale around the central scale choice are supported, which are needed to estimate the QCD scale uncertainty.
+\item The inclusion of pertrubative corrections (at fixed-order, i.e. without parton-shower matching) with any given set of powers of $\alpha$, $\alphas$, in particular 
+    including mixed QCD--EW corrections.
+\item The support for non-coloured initial-state partons, such as photon-initiated contributions.
+In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states~\cite{Bertone:2015lqa,Buonocore:2020nai}.
+\item The estimate of theory uncertainty via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale independent, 
+    consistently with the most commonly used renormalisation schemes).
 %\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
 \end{itemize}
-On a more technical level, we further point out the following differences of \textsc{PineAPPL}:
+On a more technical level, we further point out the following differences and improvements in \textsc{PineAPPL}:
 \begin{itemize}
-\item Earlier experiments with APPLgrid (only QCD corrections) showed that it uses a substantial amount memory (close to \SI{80}{\giga\byte}), if a grid for a differential distributions with more than 10 bins was generated.
+    \item \textsc{APPLgrid} typically required a substantial amount of memory (close to \SI{80}{\giga\byte}), if a grid for a 
+        differential distributions with more than 10 bins was generated.
 The memory usage is substantially reduced (roughly \SI{1}{\giga\byte}) after \enquote{optimisation} of the grids, i.e.\ an optimisation of the grid representation in memory.
-However, this means that this two-step procedure of 1) producing an unoptimised grid and 2) filling an optimised grid effectively limits the bins to a small number.
+However, this required a two-step procedure: first, to produce an unoptimised grid in order to identify those parts where
+the cross section is either zero or extremely suppressed; second, after those parts are removed, to fill
+an optimised grid with a a small number of bins.
 \textsc{PineAPPL} avoids this by using a more space-efficient representation from the start.
 \item \textsc{PineAPPL} offers an easy-to-use interface written in the C programming language, to allow MC integrators to read and write \textsc{PineAPPL} grids.
-C was chosen because it plays well with Fortran and C++, in which most MC integrators are written.
-The interface consists of roughly 30 functions of which basically only a handful are needed.
+C was chosen because it can be easily interfaced with both Fortran and C++, in which most MC integrators are written.
+The interface consists of roughly 30 functions, among which only a handful are needed in practice.
 See appendix~\ref{app:example-program} for an example.
 %\textsc{PineAPPL} itself is written in Rust (see appendix~\ref{app:installation} for installation instructions).
-\item The program \texttt{pineappl}, which performs convolutions on the command line (see appendix~\ref{app:pineappl-demo}), without requiring the user to write a new program.
+\item The shell command \texttt{pineappl}, which performs convolutions on the c
+    ommand line (see appendix~\ref{app:pineappl-demo}), without requiring the user to write a new program.
 In addition to convolutions, it can also print how the luminosity function is constructed, which perturbative orders are stored, their size, the size of each partonic channel, etc., separately for each bin.
 %\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
 \end{itemize}
-For \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq} the interfacing code is already implemented\footnote{It can be downloaded from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}}, which is intended to replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
-Its usage is very similar to that of \textsc{mg5\_aMC 2}+\textsc{aMCfast}+\textsc{APPLgrid}.
-However, using \textsc{PineAPPL} is much faster especially for small runs, because the grids do not need to be optimised and are merged faster.
+
+We have interfaced \textsc{PineAPPL} with the new version (v3+) of
+\textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq}\footnote{It can be downloaded 
+    from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}, and will soon be merged in the official code release}, where it will replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+Its usage is very similar to that of \textsc{mg5\_aMC v2}+\textsc{aMCfast}+\textsc{APPLgrid}.
+In practice, using \textsc{PineAPPL} leads to substantially faster run times, in particular for simple processes, because the grids do not need to be optimised 
+and their combination is faster.
 See appendix~\ref{app:sample-runcard} for an example of a runcard.
 
-Interfacing code for other MC generators should be easy to write, see appendix~\ref{app:example-program} for a small example program.
+Building an interface for other MC generators poses no difficulties, see appendix~\ref{app:example-program} for a small example program.
 
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}

@@ -1,11 +1,147 @@
 \section{More technical details about \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 
+%\subsection{Efficiency of the grid representation}
+%\label{app:pineappl-representation-efficiency}
+%
+%Using a similar notation introduced in eq.~\eqref{eq:expansion}, we single out a specific NLO correction:
+%\begin{equation}
+%\begin{split}
+%\alphas^k \bigl( \mu_\mathrm{R}^2 \bigr) \alpha^l \Bigl[ \log \bigl( \mu_\mathrm{R}^2 \bigr) &W_{ab}^{(k,l,1,0)} (x_1, x_2) \\
+%+ \log \bigl( \mu_\mathrm{F}^2 \bigr) &W_{ab}^{(k,l,0,1)} (x_1, x_2) \\
+%&W_{ab}^{(k,l,0,0)} (x_1, x_2) \Bigr] \text{.}
+%\end{split}
+%\end{equation}
+%If we assume the case of a dynamic scale choice, i.e.\ $\mu_\mathrm{R}^2 \equiv \mu_\mathrm{R}^2 \bigl( x_1, x_2 \bigr)$ and $\mu_\mathrm{F}^2 \equiv \mu_\mathrm{F}^2 \bigl( x_1, x_2 \bigr)$,
+
 \subsection{Installation}
 \label{app:installation}
+
+\textsc{PineAPPL} currently consists of three parts: 1) the library itself, which is a dependency for the other parts, 2) the helper program \texttt{pineappl}, which allows to read \textsc{PineAPPL} grids from the command line and make predictions with it, and finally 3) the C interface, which is intended to be used in Monte Carlo integrators to generate the grids.
+
+\lstset{
+  basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+
+All parts are written in Rust and therefore need a Rust compiler and other tools.
+On computers with a \texttt{bash} shell the installation is as simple as
+\begin{lstlisting}[language=bash]
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+\end{lstlisting}
+which downloads the compiler \texttt{rustc}, the package manager \texttt{cargo}, and a few other helpful tools.
+When the installation has completed make sure to read and follow the instructions printed before.
+See also \url{https://www.rust-lang.org/tools/install} for more details and for installation instructions for other systems.
+
+The command-line program \texttt{pineappl} is compiled and installed using
+\begin{lstlisting}[language=bash]
+cargo install pineappl_cli
+\end{lstlisting}
+This program also needs \texttt{LHAPDF} installed.
+For usage instructions simply type \texttt{pineappl} in your shell and read the help message.
+
+For the C interface you need to first install \texttt{cargo-c}, download the \textsc{PineAPPL} repository, and compile and finally install into it into a directory \texttt{\$prefix} as follows:
+\begin{lstlisting}[language=bash]
+cargo install cargo-c
+git clone https://github.com/N3PDF/pineappl/
+cd pineappl_capi/
+cargo cinstall --release --prefix=${prefix}
+\end{lstlisting}
+The last line will install the C header \texttt{pineappl\_capi.h}, the library, and a pkg-config\footnote{A standard way on Linux to express how dependencies are compiled/linked against, see \url{https://www.freedesktop.org/wiki/Software/pkg-config/}} file (\texttt{pineappl\_capi.pc}).
+Make sure that the environment variables \texttt{PATH}, \texttt{LD\_LIBRARY\_PATH}, and \texttt{PKG\_CONFIG\_PATH} are properly set.
+The latter is needed for \texttt{pkg-config -{}-cflags -{}-libs pineappl\_capi} to work, which prints the necessary compiler/linker flags.
+See App.~\ref{app:example-program} for an example.
+
+Updated installation instructions are kept in the file \texttt{README.md} in \textsc{PineAPPL}'s repository at \url{https://github.com/N3PDF/pineappl/}.
 
 \subsection{Drell--Yan \texorpdfstring{$n$}{n}-tuple storage size}
 \label{app:drell-yan-storage}
 
-\subsection{Example program}
+TODO
+
+\subsection{Example Monte Carlo program}
 \label{app:example-program}
 
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  numbers=left,
+  xleftmargin=\parindent,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC.
+All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
+The full example can be found at TODO.
+\begin{lstlisting}[language=C++,mathescape=true]
+// create a new luminosity function for the $\gamma\gamma$ initial state
+auto* lumi = pineappl_lumi_new();
+int32_t pdg_ids[] = { 22, 22 };
+double ckm_factors[] = { 1.0 };
+pineappl_lumi_add(lumi, 2, pdg_ids, ckm_factors);
+
+// only LO $\alpha_\mathrm{s}^0 \alpha^2 \log^0(\xi_\mathrm{R}) \log^0(\xi_\mathrm{F})$
+uint32_t orders[] = { 0, 2, 0, 0 };
+
+// we bin in rapidity from 0 to 2.4 in steps of 0.1
+double bins[] = {
+    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2,
+    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4
+};
+
+// create the PineAPPL grid with default interpolation and binning parameters
+auto* keyval = pineappl_keyval_new();
+auto* grid = pineappl_grid_new(lumi, 1, orders, 24, bins, keyval);
+
+// now we no longer need `keyval` and `lumi`
+pineappl_keyval_delete(keyval);
+pineappl_lumi_delete(lumi);
+
+// fill the grid with phase-space points
+fill_grid(grid, 10000000);
+
+// perform a convolution of the grid with PDFs
+auto* pdf = LHAPDF::mkPDF("NNPDF31_nlo_as_0118_luxqed", 0);
+auto xfx = [](int32_t id, double x, double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->xfxQ2(id, x, q2);
+};
+auto alphas = [](double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->alphasQ2(q2);
+};
+
+std::vector<double> dxsec(24);
+pineappl_grid_convolute(grid, xfx, xfx, alphas, pdf, nullptr,
+    nullptr, 1.0, 1.0, dxsec.data());
+
+// print the results
+for (std::size_t i = 0; i != 24; ++i) {
+    std::printf("%.1f %.1f %.3e\n", bins[i], bins[i + 1], dxsec[i]);
+}
+
+// write the grid to disk
+pineappl_grid_write(grid, "DY-LO-AA.pineappl");
+
+// destroy the object
+pineappl_grid_delete(grid);
+\end{lstlisting}
+
+\subsection{Demonstration of \texorpdfstring{\texttt{pineappl}}{pineappl}}
+\label{app:pineappl-demo}
+
+TODO
+
+\subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC@NLO}}{mg5\_aMC@NLO}}
+\label{app:sample-runcard}
+
+TODO

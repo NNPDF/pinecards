@@ -111,6 +111,8 @@ from a set of $N$ function evaluations for specific momentum fractions, scales, 
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,}
 \end{equation}
 given by the MC integrator.
+Note that in the above equation we do not differentiate w.r.t.\ which phase-space integration (Born, real, subtraction term, etc.) the weight came from, because e.g.\ for a certain NLO all weights are filled into a single grid with fixed $k$ and $l$ and $m=n=0$.
+
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\

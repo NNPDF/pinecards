@@ -153,12 +153,13 @@ Note that all terms depend on the renormalisation scale only indirectly through 
 At NLO these terms are not present for this process so that terms proportional to $\log (\xi_\mathrm{R})$ vanish.
 Both NLOs, however, have contributions from a collinear counterterm that depends on the factorisation scale.
 
-Since this process has a single LO, mixed QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which includes the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single mixed correction at $\mathcal{O} (\alphas \alpha^3)$.
+Since this process has a single LO, mixed QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which include the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single mixed correction at $\mathcal{O} (\alphas \alpha^3)$.
 
 Note that all initial states have to be taken into account that lead to the same final state.
-This includes the photon-photon initial state, which appears already at LO.
-The particles in the corresponding Feynman diagrams are all colourless, so that it does not receive a QCD correction.
-However, it does receive EW corrections, which also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.
+This includes the photon--photon initial state, which appears already at LO.
+In the corresponding Feynman diagrams all particles are colourless, so that this subprocess only receives EW and mixed QCD--EW corrections, but never (pure) QCD corrections.
+The EW corrections also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.
+
 %At NLO this process has 63 different initial states, of which there is one photon--photon initial state and 31 initial states with at least one (anti-)quark.
 %The remaining 31 are given by the transposition of the partons from the first 31 initial states.
 
@@ -196,9 +197,9 @@ In this subsection we explain the details of how the phase-space weights $w_{ab}
 
 A straightforward representation are 4-tuples, which for each phase-space point saves a list of the momentum fractions $x_1$ and $x_2$, the scale $Q^2$, and the phase-space weight $w$; this is sufficient to reconstruct a total cross section.
 
-For each combination $(a,b,k,l,m,n,o)$ we save the following 4-tuples:
+For each combination $(a,b,k,l,m,n,o)$ we save the following 4-tuples,
 \begin{equation}
-\left\{ x_1^i, x_2^i, Q^2_i, w^{(k,l,m,n,o)}_{ab} (x_1^i, x_2^i, Q^2_i, \mathcal{O}_i) \right\}_{i=1}^N \text{,} \label{eq:four-tuples}
+\left\{ x_1^i, x_2^i, Q^2_i, w^{(k,l,m,n,o)}_{ab} (x_1^i, x_2^i, Q^2_i, \mathcal{O}_i) \right\}_{i=1}^N \text{.} \label{eq:four-tuples}
 \end{equation}
 The reconstruction of the differential cross section is then done by simply multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, $o$, and $i$.
 

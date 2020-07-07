@@ -43,7 +43,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         pttx(i)=p(i,3)+p(i,4)
       enddo
       
-      yttx  = getrapidity(pttx(0,3), pttx(3,3))
+      yttx  = getrapidity(pttx(0), pttx(3))
 
       call HwU_fill(1,yttx,wgts)
       call HwU_fill(2,yttx,wgts)

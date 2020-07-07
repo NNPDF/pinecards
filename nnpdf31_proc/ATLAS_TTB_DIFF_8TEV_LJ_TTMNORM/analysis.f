@@ -42,6 +42,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision pttx(0:3), mtt
+      double precision dot
 
       do i=0,3
          pttx(i)=p(i,3)+p(i,4)

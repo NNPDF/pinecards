@@ -111,7 +111,7 @@ EOF
     # TODO: the following assumes that all observables belong to the same distribution
 
     # merge the final bins
-    "${merge_bins}" "${dataset}".root "${dataset}"/Events/run_01*/amcblast_obs_*.root
+    "${merge_bins}" "${dataset}".root $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.root)
 
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')

@@ -7,27 +7,22 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call set_error_estimation(1)
-      call HwU_inithist(nwgt,weights_info)
-      call HwU_book( 1,'Z pT', 14,   0.5d0,  13.5d0)
-      call HwU_book( 2,'Z pT',  1,  13.5d0,  15.0d0)
-      call HwU_book( 3,'Z pT',  4,  15.0d0,  21.0d0)
-      call HwU_book( 4,'Z pT',  1,  21.0d0,  23.5d0)
-      call HwU_book( 5,'Z pT',  1,  23.5d0,  26.5d0)
-      call HwU_book( 6,'Z pT',  1,  26.5d0,  30.0d0)
-      call HwU_book( 7,'Z pT',  1,  30.0d0,  34.5d0)
-      call HwU_book( 8,'Z pT',  1,  34.5d0,  40.0d0)
-      call HwU_book( 9,'Z pT',  1,  40.0d0,  47.5d0)
-      call HwU_book(10,'Z pT',  1,  47.5d0,  58.5d0)
-      call HwU_book(11,'Z pT',  1,  58.5d0,  75.0d0)
-      call HwU_book(12,'Z pT',  1,  75.0d0, 102.5d0)
-      call HwU_book(13,'Z pT',  1, 102.5d0, 140.0d0)
-      call HwU_book(14,'Z pT',  1, 140.0d0, 175.0d0)
-      call HwU_book(15,'Z pT',  2, 175.0d0, 235.0d0)
-      call HwU_book(16,'Z pT',  1, 235.0d0, 275.0d0)
-      call HwU_book(17,'Z pT',  1, 275.0d0, 350.0d0)
-      call HwU_book(18,'Z pT',  1, 350.0d0, 450.0d0)
-      call HwU_book(19,'Z pT',  1, 450.0d0, 650.0d0)
-      call HwU_book(20,'Z pT',  1, 650.0d0,1150.0d0)
+ 
+      call HwU_book( 1,'Z pT',  1,  20.0d0,  22.0d0)
+      call HwU_book( 2,'Z pT',  2,  22.0d0,  28.0d0)
+      call HwU_book( 3,'Z pT',  1,  28.0d0,  32.0d0)
+      call HwU_book( 4,'Z pT',  1,  32.0d0,  37.0d0)
+      call HwU_book( 5,'Z pT',  1,  37.0d0,  43.0d0)
+      call HwU_book( 6,'Z pT',  1,  43.0d0,  52.0d0)
+      call HwU_book( 7,'Z pT',  1,  52.0d0,  65.0d0)
+      call HwU_book( 8,'Z pT',  1,  65.0d0,  85.0d0)
+      call HwU_book( 9,'Z pT',  1,  85.0d0, 120.0d0)
+      call HwU_book(10,'Z pT',  1, 120.0d0, 160.0d0)
+      call HwU_book(11,'Z pT',  3, 160.0d0, 250.0d0)
+      call HwU_book(12,'Z pT',  1, 250.0d0, 300.0d0)
+      call HwU_book(13,'Z pT',  2, 300.0d0, 500.0d0)
+      call HwU_book(14,'Z pT',  1, 500.0d0, 800.0d0)
+      call HwU_book(15,'Z pT',  1, 800.0d0,1500.0d0)
       
       return
       end
@@ -62,8 +57,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
 
-
-
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
      $                       p, iPDG, p_reco, iPDG_reco)
 
@@ -92,11 +85,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(13,ptv,wgts)
       call HwU_fill(14,ptv,wgts)
       call HwU_fill(15,ptv,wgts)
-      call HwU_fill(16,ptv,wgts)
-      call HwU_fill(17,ptv,wgts)
-      call HwU_fill(18,ptv,wgts)
-      call HwU_fill(19,ptv,wgts)
-      call HwU_fill(20,ptv,wgts)
 
  999  return      
       end

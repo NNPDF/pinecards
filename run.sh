@@ -93,6 +93,29 @@ EOF
     # replace the variables with their values
     sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' variables.txt) -i "${launch_file}"
 
+    # perform simple arithmetic on lines containing 'set' and '=' and arithmetic operators
+    awk '{
+        if (match($0, /set[^=]+=[^+-]+[+-]/)) {
+            a = ""
+            set_at = 0
+            for (i=1;i<=NF;++i) {
+                if ($i == "set") {
+                    set_at = i
+                }
+
+                if ((set_at == 0) || (i < set_at + 3)) {
+                    printf $i " "
+                } else {
+                    a = a $i
+                }
+            }
+            system("echo " a " | bc -l")
+        } else { print $0 }
+    }' "${launch_file}" > "${launch_file}".arithmetic
+
+    # replace launch file
+    mv "${launch_file}".arithmetic "${launch_file}"
+
     # remove the variables file
     rm variables.txt
 

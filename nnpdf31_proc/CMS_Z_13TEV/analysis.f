@@ -7,7 +7,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call set_error_estimation(1)
- 
+      call HwU_inithist(nwgt,weights_info)
       call HwU_book( 1,'Z pT',  1,  20.0d0,  22.0d0)
       call HwU_book( 2,'Z pT',  2,  22.0d0,  28.0d0)
       call HwU_book( 3,'Z pT',  1,  28.0d0,  32.0d0)

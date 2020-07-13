@@ -225,6 +225,74 @@ x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-x)) \text{,} \qquad Q^2 (\tau) 
 \end{equation}
 where $\operatorname{W}_0 (x)$ is (the principle branch of) the Lambert W function or product logarithm, which satisfies the relation $\operatorname{W} (x) \exp (\operatorname{W} (x)) = x$.
 
+Following ref.~\cite{Carli:2010rw} (see eq.~(17) therein), we divide the weights before filling them into the grid by the function
+\begin{equation}
+\omega (x_1, x_2) = \left( \frac{\sqrt{x_1}}{1 - 0.99 x_1} \right)^3 \left( \frac{\sqrt{x_2}}{1 - 0.99 x_2} \right)^3 \text{.}
+\end{equation}
+This flattens the interpolated function in the region $x \to 1$, where the PDFs are small and tend towards zero, and enhances the function in the small-$x$ region.
+The effect of this step is an improvement of the accuracy that depends on the initial states and the process, but it can be as large as a factor of \numrange{10}{100} (one or two more correct digits), see section~TODO.
+Before performing a convolution this step is inverted by simply multiplying the interpolated grid values with $\omega (x_1, x_2)$.
+
+The final step is filling the weights into the grid, which maps the variables $(y_1, y_2, \tau)$ onto the 3-dimensional Lagrange-interpolation grid with $N_y = 50$ points in each $y$ direction and $N_\tau = 30$ points in $\tau$ direction.
+The interpolation orders $s_y$ and $s_\tau$ are 3 for each dimension, and only the subspace $[\num{2e-7},1] \times [\num{2e-7},1] \times [\num{e2},\num{e6}] \subset H$\footnote{In ref.~\cite{Bertone:2014zva} the upper limit for $Q$ is given as \SI{3162}{\giga\electronvolt} (which corresponds to $Q_\mathrm{max}^2 \approx \SI{e7}{\giga\electronvolt}$), but in the code we found the value $Q_\mathrm{max}^2 = \SI{e6}{\giga\electronvolt\squared}$.} is mapped.
+
+\begin{figure}
+\centering
+\parbox{0.6\textwidth}{\includegraphics{figures/grid-insertion}}
+\begin{tabular}{ll}
+\toprule
+$u_1$/$u_2$ & $x_1$/$x_2$ \\
+\midrule
+0 & \num{1.00e0} \\
+1 & \num{6.36e-1} \\
+2 & \num{3.20e-1} \\
+3 & \num{9.96e-2} \\
+4 & \num{1.57e-2} \\
+5 & \num{1.74e-3} \\
+6 & \num{1.81e-4} \\
+7 & \num{1.87e-5} \\
+8 & \num{1.93e-6} \\
+9 & \num{2.00e-7} \\
+\bottomrule
+\end{tabular}
+\caption{Example for a 2-dimensional $10 \times 10$ grid, which is being filled at the location marked with the small black square, at $(5.8,4.8)$.
+Each side of the grey square starting at $k_i = 4$ and $k_j = 3$ has a length of $N_y + 1 = 4$.
+This square marks the grid values that are being updated using eq.~\eqref{eq:interpolation}.
+The table on the right-hand side marks gives the parton-momentum fractions for each grid point.
+Note that around $u=3$ the values are linearly distributed, then logarithmically.}
+\label{fig:grid}
+\end{figure}
+
+To illustrate the filling step we give an example in figure~\ref{fig:grid}, where, for simplicity, we assume we have chosen a static scale, so that we do not need to interpolate $\tau$ direction, and where we also limited the number of grid points to $N_y = 10$.
+To each grid point a numerical value $a_{i,j}$ is associated, and the set of all numerical values $\{ a_{i,j} \}$ for all grid indices $(i,j) \in [0,N_y) \times [0,N_y)$ constitute \enquote{the grid}.
+Inserting a specific weight $W = w (x_1, x_2) / \omega(x_1, x_2)$ into the grid is shown in figure~\ref{fig:grid} as a small black square, inside the larger grey one.
+We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them\footnote{The technical term for this interpolation problem is sometimes called \emph{subtabulation}.}.
+The interpolation order $s_y$ then defines a square with length $s_y + 1$ around its centre $(u_1(y_1(x_1)),u_2(y_2(x_2)))$, given by the MC.
+All grid points with indices $(i,j)$ covered by the grey square are then updated according to the following formula:
+\begin{equation}
+a_{i,j} = a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2)
+\label{eq:interpolation}
+\end{equation}
+with the Lagrange basis functions
+\begin{equation}
+I_i (u) = \prod_{\substack{k=k_i \\ k \neq i}}^{k_i + s_y} \frac{u-k}{i-k}
+\end{equation}
+where the product runs over all indices of the grid points covered by the grey square in figure~\ref{fig:grid}, starting the smallest index in the square, $k_i$ and $k_j$.
+We also remapped
+\begin{equation}
+u(y) = \frac{y-y_\text{min}}{\Delta y} \text{,} \quad
+\end{equation}
+using $y_\text{min} = y(x_\text{max})$ and $y_\text{max} = y(x_\text{min})$ and the grid spacing $\Delta y = (y_\text{max} - y_\text{min})/(N_y-1)$, so that the integer part of $u(y)$ gives the grid index, e.g.\ $u(y_\text{min}) = 0$ and $u(y_\text{max}) = N_y - 1$.
+
+\begin{figure}
+\centering
+TODO
+\caption{TODO}
+\label{fig:example-grid}
+\end{figure}
+
+Finally, figure~\ref{fig:example-grid} shows an example of a convoluted grid, but differential in $x_1$ and $x_2$.
+
 \subsubsection{Combination of differently weighed phase-spaces points}
 
 To improve the convergence of phase-space integrations MC integrators usually use importance sampling, typically using one or both of VEGAS~\cite{} and multi-channel MC~\cite{}.

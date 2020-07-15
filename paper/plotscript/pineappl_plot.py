@@ -60,7 +60,7 @@ def load_results_log(logfolder, bins, nbins):
         data[:, 0:3] *= args.multiply
         columns = ['pineappl', 'mg5_amc', 'mg5_amc_unc', 'sigmas',
                    'permille', 'bin']
-        df = pd.DataFrame(data[:,:-1], columns=columns)
+        df = pd.DataFrame(data[:, :-1], columns=columns)
     return df
 
 
@@ -92,16 +92,20 @@ def plot_pineappl(qcd_data, qcdew_data):
 
     # physics plot ratio
     axs[1].fill_between(qcd_data['bin'],
-                        (qcd_data['mg5_amc']-qcd_data['mg5_amc_unc'])/qcdew_data['mg5_amc'],
-                        (qcd_data['mg5_amc']+qcd_data['mg5_amc_unc'])/qcdew_data['mg5_amc'],
+                        (qcd_data['mg5_amc']-qcd_data['mg5_amc_unc']) /
+                        qcdew_data['mg5_amc'],
+                        (qcd_data['mg5_amc']+qcd_data['mg5_amc_unc']) /
+                        qcdew_data['mg5_amc'],
                         step='post', color=colors[0], alpha=alpha)
     axs[1].fill_between(qcd_data['bin'],
                         qcd_data['pineappl']/qcdew_data['mg5_amc'],
                         qcd_data['pineappl']/qcdew_data['mg5_amc'],
                         step='post', color=colors[0])
     axs[1].fill_between(qcdew_data['bin'],
-                        (qcdew_data['mg5_amc']-qcdew_data['mg5_amc_unc'])/qcdew_data['mg5_amc'],
-                        (qcdew_data['mg5_amc']+qcdew_data['mg5_amc_unc'])/qcdew_data['mg5_amc'],
+                        (qcdew_data['mg5_amc']-qcdew_data['mg5_amc_unc']
+                         )/qcdew_data['mg5_amc'],
+                        (qcdew_data['mg5_amc']+qcdew_data['mg5_amc_unc']
+                         )/qcdew_data['mg5_amc'],
                         step='post', color=colors[1], alpha=alpha)
     axs[1].fill_between(qcdew_data['bin'],
                         qcdew_data['pineappl']/qcdew_data['mg5_amc'],
@@ -111,8 +115,10 @@ def plot_pineappl(qcd_data, qcdew_data):
 
     # ratio pineappl/mg5 qcd
     axs[2].fill_between(qcdew_data['bin'],
-                        (qcdew_data['pineappl']/qcdew_data['mg5_amc'] - 1)*1000,
-                        (qcdew_data['pineappl']/qcdew_data['mg5_amc'] - 1)*1000,
+                        (qcdew_data['pineappl'] /
+                         qcdew_data['mg5_amc'] - 1)*1000,
+                        (qcdew_data['pineappl'] /
+                         qcdew_data['mg5_amc'] - 1)*1000,
                         step='post', color=colors[0],
                         label='NLO QCD+EW')
 
@@ -129,9 +135,9 @@ def plot_pineappl(qcd_data, qcdew_data):
 
     # lim
     if args.ylim is not None:
-        axs[2].set_ylim([ np.float64(l) for l in args.ylim])
+        axs[2].set_ylim([np.float64(l) for l in args.ylim])
     if args.xlim is not None:
-        axs[0].set_xlim([ np.float64(l) for l in args.xlim])
+        axs[0].set_xlim([np.float64(l) for l in args.xlim])
 
     # scales
     axs[0].set_yscale(args.yscale)

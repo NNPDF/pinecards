@@ -121,7 +121,7 @@ def plot_pineappl(qcd_data, qcdew_data):
                         (qcd_data['pineappl']/qcd_data['mg5_amc'] - 1)*1000,
                         step='post', color=colors[1],
                         label='NLO QCD')
-    axs[2].set_ylabel('PineAPPL / MC [‰]')
+    axs[2].set_ylabel('PineAPPL / MC - 1 [‰]')
     axs[2].legend(loc=args.legend_lower, frameon=False)
 
     for i in range(2):

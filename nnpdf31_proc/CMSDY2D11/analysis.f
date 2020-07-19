@@ -8,12 +8,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4,   30d0*2.4)
-      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4,   45d0*2.4)
-      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4,   60d0*2.4)
-      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4,  120d0*2.4)
-      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4,  200d0*2.4)
-      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4, 1500d0*2.4)
+      call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4d0,   30d0*2.4d0)
+      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4d0,   45d0*2.4d0)
+      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4d0,   60d0*2.4d0)
+      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4d0,  120d0*2.4d0)
+      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4d0,  200d0*2.4d0)
+      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4d0, 1500d0*2.4d0)
 
       return
       end

@@ -64,6 +64,54 @@ cuts_code = {
       endif
 
 ''',
+    'ptzmin': '''c     cut on the pt of SFOS lepton pairs
+      do i=1,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (ipdg_reco(i) .eq. -ipdg_reco(j)) then
+              if (((p_reco(1,i)+p_reco(1,j))**2+
+     &            (p_reco(2,i)+p_reco(2,j))**2) .lt. {}**2) then
+                passcuts_user=.false.
+                return
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
+''',
+    'ptzmax': '''c     cut on the pt of SFOS lepton pairs
+      do i=1,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (ipdg_reco(i) .eq. -ipdg_reco(j)) then
+              if (((p_reco(1,i)+p_reco(1,j))**2+
+     &            (p_reco(2,i)+p_reco(2,j))**2) .gt. {}**2) then
+                passcuts_user=.false.
+                return
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
+''',
+    'yz': '''c     cut on the rapidity of SFOS lepton pairs
+      do i=1,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (ipdg_reco(i) .eq. -ipdg_reco(j)) then
+              if (abs(atanh((p_reco(3,i)+p_reco(3,j))
+     &            /(p_reco(0,i)+p_reco(0,j)))) .gt. {}) then
+                passcuts_user=.false.
+                return
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
+''',
 }
 
 if __name__ == '__main__':

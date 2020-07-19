@@ -93,6 +93,29 @@ EOF
     # replace the variables with their values
     sed -f <(sed -E 's|(.*) (.*)|s/@\1@/\2/|g' variables.txt) -i "${launch_file}"
 
+    # perform simple arithmetic on lines containing 'set' and '=' and arithmetic operators
+    awk '{
+        if (match($0, /set[^=]+=[^+-]+[+-]/)) {
+            a = ""
+            set_at = 0
+            for (i=1;i<=NF;++i) {
+                if ($i == "set") {
+                    set_at = i
+                }
+
+                if ((set_at == 0) || (i < set_at + 3)) {
+                    printf $i " "
+                } else {
+                    a = a $i
+                }
+            }
+            system("echo " a " | bc -l")
+        } else { print $0 }
+    }' "${launch_file}" > "${launch_file}".arithmetic
+
+    # replace launch file
+    mv "${launch_file}".arithmetic "${launch_file}"
+
     # remove the variables file
     rm variables.txt
 
@@ -111,7 +134,7 @@ EOF
     # TODO: the following assumes that all observables belong to the same distribution
 
     # merge the final bins
-    "${merge_bins}" "${dataset}".root "${dataset}"/Events/run_01*/amcblast_obs_*.root
+    "${merge_bins}" "${dataset}".root $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.root)
 
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')

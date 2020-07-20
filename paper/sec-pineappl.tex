@@ -3,7 +3,7 @@
 
 In this paper we present a new library called \textsc{PineAPPL}, which stores phase-space weights of a Monte Carlo (MC) integration of a fixed-order calculation independently from the chosen PDFs.
 This separates the task of producing predictions for observables into two steps: 1) the generation of the \emph{grids}, which is how the generated files are called, and 2) the convolution of those grids with a set of PDFs.
-The advantage of this method is that the time-consuming step 1) has to be done only once and, therefore, allows for very quick convolutions of a given grid with multiple PDF sets.
+The advantage of this method is that the time-consuming step 1) has to be done only once and, therefore, allows in step 2) for very quick convolutions of a given grid with multiple PDF sets.
 
 The convolution is typically done in a few seconds or less, which offers at least two applications:
 \begin{enumerate}
@@ -94,12 +94,14 @@ This, however, includes the most common choices of the coupling, which are (not 
 The task that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
 \begin{equation}
 w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
+\label{eq:weight-map}
 \end{equation}
 from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable:
 \begin{equation}
-\left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,}
+\left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,} \label{eq:phase-space-weights}
 \end{equation}
 given by the MC integrator.
+
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
@@ -187,7 +189,7 @@ The EW corrections also introduce quark--photon contributions, in analogy of QCD
 %\end{split}
 %\end{equation}
 
-\subsection{Grid representation and accuracy}
+\subsection{Grid representations}
 \label{sec:grid-representation}
 
 In this subsection we explain the details of how the phase-space weights $w_{ab}$ in eq.~\eqref{eq:bins-of-diff-xsection} are represented.
@@ -209,27 +211,29 @@ Because the uncertainties of MC integrators shrink only as $1/\sqrt{N}$ this typ
 In the case of the NLO Drell--Yan (section~\ref{sec:pineappl-example}) the 4-tuples need roughly TODO~\si{\giga\byte} of storage (see appendix~\ref{app:drell-yan-storage} for an explanation of this number).
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 
-\subsubsection{Interpolation grids}
+\subsubsection{Lagrange-interpolation grid}
 
-A different choice partitions the $(x_1, x_2, Q^2)$ space,
+A different strategy is to partition the $(x_1, x_2, Q^2)$ space,
 \begin{equation}
 H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}] \ni (x_1, x_2, Q^2)
 \end{equation}
 along each axis into a small numbers of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
-This method is straightforward, but given a finite number of bins this usually yields a bad approximation for the cross section.
-Increasing the number of bins improves the accuracy, but it also increases the space requirements of the grid.
-Interpolation methods offer more precision, while keeping the number of bins constants.
+Using the bin centres and their values one already has a straightforward implementation of eq.~\eqref{eq:weight-map}, but given a finite number of bins it usually yields an insufficient approximation for the cross section.
+Increasing the number of bins improves the accuracy, but it also increases the space requirements.
+Interpolation methods offer more accuracy with the same number of bins.
 
-We use the same Lagrange-interpolation grid presented in Ref.~\cite{Carli:2010rw} with the parameters published in Ref.~\cite{Bertone:2014zva}, which give decent precision (see section~\ref{sec:results}).
-The method presented in the previous references first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with the maps defined as
+We use the same \enquote{Lagrange-interpolation grid} presented in ref.~\cite{Carli:2010rw} with the parameters published in ref.~\cite{Bertone:2014zva}, which give sufficient precision (see section~\ref{sec:results}).
+
+This method first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with
 \begin{equation}
-y(x) = 5 (1-x) - \log x \text{,} \qquad \tau (Q^2) = \log \log \frac{Q^2}{(\SI{0.25}{\giga\electronvolt})^2} \text{,}
+y(x) = 5 (1-x) - \log x \text{,} \qquad \tau (Q^2) = \log \log \frac{Q^2}{(\SI{0.25}{\giga\electronvolt})^2} \text{.}
+\label{eq:maps}
 \end{equation}
-and then feeds the variables $(y_1, y_2, \tau)$ into the 3-dimensional Lagrange-interpolation grid with 50 bins in each $y$ direction and 30 bins in $\tau$ direction.
-The interpolation order is 3 for each variable, and only the subspace $[\num{2e7},1] \times [\num{2e-7},1] \times [100,\num{e6}] \subset H$\footnote{In Ref.~\cite{Bertone:2014zva} the upper limit for $Q$ is given as \SI{3162}{\giga\electronvolt} (which corresponds to $Q_\mathrm{max}^2 \approx \SI{e7}{\giga\electronvolt}$), but in the code we found the value $Q_\mathrm{max}^2 = \SI{e6}{\giga\electronvolt\squared}$.} is mapped.
+The function $y(x)$ maps events with large $x$ effectively linearly and small $x$ effectively logarithmically onto $y$.
+This reflects our knowledge of PDFs, which behave differently in those regions, and thereby increases the accuracy of the interpolation.
 For the convolution of a grid with a PDF set also the inverse functions are needed, which are
 \begin{equation}
-x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-x)) \text{,} \qquad Q^2 (\tau) = (\SI{0.25}{\giga\electronvolt})^2 \exp (\exp (\tau)) \text{,}
+x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-y)) \text{,} \qquad Q^2 (\tau) = (\SI{0.25}{\giga\electronvolt})^2 \exp (\exp (\tau)) \text{,}
 \end{equation}
 where $\operatorname{W}_0 (x)$ is (the principle branch of) the Lambert W function or product logarithm, which satisfies the relation $\operatorname{W} (x) \exp (\operatorname{W} (x)) = x$.
 
@@ -263,11 +267,11 @@ $u_1$/$u_2$ & $x_1$/$x_2$ \\
 9 & \num{2.00e-7} \\
 \bottomrule
 \end{tabular}
-\caption{Example for a 2-dimensional $10 \times 10$ grid, which is being filled at the location marked with the small black square, at $(5.8,4.8)$.
+\caption{Example for a 2-dimensional $10 \times 10$ grid, which is being filled at the location marked with the small black square at $(5.8,4.8)$.
 Each side of the grey square starting at $k_i = 4$ and $k_j = 3$ has a length of $N_y + 1 = 4$.
-This square marks the grid values that are being updated using eq.~\eqref{eq:interpolation}.
-The table on the right-hand side marks gives the parton-momentum fractions for each grid point.
-Note that around $u=3$ the values are linearly distributed, then logarithmically.}
+This square marks the grid values (grey dots) that are being updated using eq.~\eqref{eq:interpolation}.
+The table on the right-hand side gives the parton-momentum fractions for each grid point according to eq.~\eqref{eq:maps}.
+Note that for $u \in [0, 3]$ the values are roughly linearly distributed, then logarithmically.}
 \label{fig:grid}
 \end{figure}
 

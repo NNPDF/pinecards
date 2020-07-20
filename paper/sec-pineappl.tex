@@ -89,10 +89,8 @@ To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by t
 (\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{.}
 \end{equation}
 The (asymmetric) uncertainties are then given as the minimum and maximum value (the envelope), measured from the central value $(1, 1)$.
-
 As is clear from eq.~\eqref{eq:expansion}, the EW coupling $\alpha$ is assumed not to be a dynamically varying coupling, but instead a constant over phase space.
 This, however, includes the most common choices of the coupling, which are (not necessarily in this order), $\alpha (0)$, $\alpha (M_\mathrm{Z})$, and $\alpha_{G_\mu}$.
-
 The task that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
 \begin{equation}
 w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
@@ -102,15 +100,25 @@ from a set of $N$ function evaluations for specific momentum fractions, scales, 
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,}
 \end{equation}
 given by the MC integrator.
-Note that in the above equation we do not differentiate w.r.t.\ which phase-space integration (Born, real, subtraction term, etc.) the weight came from, because e.g.\ for a certain NLO all weights are filled into a single grid with fixed $k$ and $l$ and $m=n=0$.
-
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
 = \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
 \label{eq:pineappl-convolution}
 \end{multline}
-\textsc{PineAPPL} can then quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
+\textsc{PineAPPL} can then quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.\\
+
+Note that in this section we have omitted the dependence of the weights, observable and scales on the specific kinematics for 
+which they are compured. Indeed, beyond LO,
+different kinematic contributions have to be considered (in Ref.~\cite{Bertone:2014zva}, they are labeled by the index $\alpha$, see
+Eq. 12 therein). Their consistent treatment must be ensured by the interface between
+\textsc{PineAPPL} and the specific cross-section compuation at hand\footnote{
+    For example, while in the FKS subtraction scheme~\cite{Frixione:1995ms,Frixione:1997np} employed in \textsc{mg5\_aMC@NLO}
+    maximally one kind of kinematics for each counterterm (soft, collinear and soft-collinear) is needed, this 
+    is not the general case, for example in the Catani-Seymour one~\cite{Catani:1996jh}}.
+However, \textsc{PineAPPL} remains completely blind to this fact, as all weights are filled into a given grid
+identified only by the indices $k, l, m, n$.
+
 
 \subsubsection{General characteristics}
 

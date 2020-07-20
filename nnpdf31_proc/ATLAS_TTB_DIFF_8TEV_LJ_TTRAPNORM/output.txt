@@ -1,6 +1,6 @@
 import model loop_qcd_qed_sm_Gmu
 define p = p b b~
 define j = p
-generate p p > t t~ [QCD QED]
+generate p p > t t~ QCD=2 QED=1 [QCD]
 output @OUTPUT@
 quit

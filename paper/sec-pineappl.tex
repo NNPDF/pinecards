@@ -49,10 +49,10 @@ Building an interface for other MC generators poses no difficulties, see appendi
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}
 
-Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R}^2 / Q^2$ and $\xi_\mathrm{F} = \mu_\mathrm{F}^2 / Q^2$,
+Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R} / Q$ and $\xi_\mathrm{F} = \mu_\mathrm{F} / Q$,
 \begin{multline}
 \frac{\mathrm{d} \sigma_{ab}}{\mathrm{d} \mathcal{O}} (x_1, x_2, \mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{F}) \\
-= \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R} Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R} ) \log^n ( \xi_\mathrm{F} ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
+= \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R}^2 ) \log^n ( \xi_\mathrm{F}^2 ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
 \label{eq:expansion}
 \end{multline}
 The cross section shown above is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft- and collinear safety, etc.).
@@ -107,7 +107,7 @@ Note that in the above equation we do not differentiate w.r.t.\ which phase-spac
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
-= \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F} Q^2) f_b (x_2, \xi_\mathrm{F} Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
+= \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
 \label{eq:pineappl-convolution}
 \end{multline}
 \textsc{PineAPPL} can then quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
@@ -135,13 +135,13 @@ To give an example of eq.~\eqref{eq:expansion}, the following shows Drell--Yan l
 \begin{split}
 \sigma_{ab}
     &= \alpha^2 W_{ab}^{(0,2,0,0)} \\
-    &+ \alphas \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 W_{ab}^{(1,2,0,0)} (Q^2) + \alphas \left( \xi_\mathrm{R} Q^2 \right) \log (\xi_\mathrm{F}) \alpha^2 W_{ab}^{(1,2,0,1)} \\
-    &+ \alpha^3 W_{ab}^{(0,3,0,0)} (Q^2) + \log (\xi_\mathrm{F}) \alpha^3 W_{ab}^{(0,3,0,1)} \text{.}
+    &+ \alphas \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^2 W_{ab}^{(1,2,0,0)} (Q^2) + \alphas \left( \xi_\mathrm{R}^2 Q^2 \right) \log (\xi_\mathrm{F}^2) \alpha^2 W_{ab}^{(1,2,0,1)} \\
+    &+ \alpha^3 W_{ab}^{(0,3,0,0)} (Q^2) + \log (\xi_\mathrm{F}^2) \alpha^3 W_{ab}^{(0,3,0,1)} \text{.}
 \end{split}
 \end{equation}
 The first term with index $(0,2,0,0)$ is the LO term, the following line shows the NLO QCD correction, and the final line the NLO EW correction.
 Note that all terms depend on the renormalisation scale only indirectly through $\alphas$, because 1) higher-order terms in $\alpha$ never generate a renormalisation scale dependence (in the $\alpha$ schemes that are valid according to section~\ref{sec:multi-coupling-expansion}) and 2) higher-order QCD corrections only introduce an explicit renormalisation scale dependence in counterterms with vertices with more than two gluons.
-At NLO these terms are not present for this process so that terms proportional to $\log (\xi_\mathrm{R})$ vanish.
+At NLO these terms are not present for this process so that terms proportional to $\log (\xi_\mathrm{R}^2)$ vanish.
 Both NLOs, however, have contributions from a collinear counterterm that depends on the factorisation scale.
 
 Since this process has a single LO, mixed QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which include the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single mixed correction at $\mathcal{O} (\alphas \alpha^3)$.
@@ -161,21 +161,21 @@ The EW corrections also introduce quark--photon contributions, in analogy of QCD
 %\begin{equation}
 %\begin{split}
 %\sigma_{ab}
-%&= \alpha^2                                                                   W_{ab}^{(0,2,0,0)}
-% + \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha                         W_{ab}^{(1,1,0,0)}
-% + \alphas^2 \left( \xi_\mathrm{R} Q^2 \right)                                W_{ab}^{(2,0,0,0)} \\
-%&+ \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)                                W_{ab}^{(3,0,0,0)} \\
-%&+ \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)          \log (\xi_\mathrm{F}) W_{ab}^{(3,0,0,1)} (Q^2)
-% + \alphas^3 \left( \xi_\mathrm{R} Q^2 \right)          \log (\xi_\mathrm{R}) W_{ab}^{(3,0,1,0)} (Q^2) \\
-%&+ \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha                         W_{ab}^{(2,1,0,0)} \\
-%&+ \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha   \log (\xi_\mathrm{F}) W_{ab}^{(2,1,0,1)} (Q^2)
-% + \alphas^2 \left( \xi_\mathrm{R} Q^2 \right) \alpha   \log (\xi_\mathrm{R}) W_{ab}^{(2,1,1,0)} (Q^2) \\
-%&+ \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2                       W_{ab}^{(1,2,0,0)} \\
-%&+ \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 \log (\xi_\mathrm{F}) W_{ab}^{(1,2,0,1)} (Q^2)
-% + \alphas   \left( \xi_\mathrm{R} Q^2 \right) \alpha^2 \log (\xi_\mathrm{R}) W_{ab}^{(1,2,1,0)} (Q^2) \\
-%&+           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3                       W_{ab}^{(0,3,0,0)} \\
-%&+           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3 \log (\xi_\mathrm{F}) W_{ab}^{(0,3,0,1)} (Q^2)
-% +           \left( \xi_\mathrm{R} Q^2 \right) \alpha^3 \log (\xi_\mathrm{R}) W_{ab}^{(0,3,1,0)} (Q^2)
+%&= \alpha^2                                                                       W_{ab}^{(0,2,0,0)}
+% + \alphas   \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha                           W_{ab}^{(1,1,0,0)}
+% + \alphas^2 \left( \xi_\mathrm{R}^2 Q^2 \right)                                  W_{ab}^{(2,0,0,0)} \\
+%&+ \alphas^3 \left( \xi_\mathrm{R}^2 Q^2 \right)                                  W_{ab}^{(3,0,0,0)} \\
+%&+ \alphas^3 \left( \xi_\mathrm{R}^2 Q^2 \right)          \log (\xi_\mathrm{F}^2) W_{ab}^{(3,0,0,1)} (Q^2)
+% + \alphas^3 \left( \xi_\mathrm{R}^2 Q^2 \right)          \log (\xi_\mathrm{R}^2) W_{ab}^{(3,0,1,0)} (Q^2) \\
+%&+ \alphas^2 \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha                           W_{ab}^{(2,1,0,0)} \\
+%&+ \alphas^2 \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha   \log (\xi_\mathrm{F}^2) W_{ab}^{(2,1,0,1)} (Q^2)
+% + \alphas^2 \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha   \log (\xi_\mathrm{R}^2) W_{ab}^{(2,1,1,0)} (Q^2) \\
+%&+ \alphas   \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^2                         W_{ab}^{(1,2,0,0)} \\
+%&+ \alphas   \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^2 \log (\xi_\mathrm{F}^2) W_{ab}^{(1,2,0,1)} (Q^2)
+% + \alphas   \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^2 \log (\xi_\mathrm{R}^2) W_{ab}^{(1,2,1,0)} (Q^2) \\
+%&+           \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^3                         W_{ab}^{(0,3,0,0)} \\
+%&+           \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^3 \log (\xi_\mathrm{F}^2) W_{ab}^{(0,3,0,1)} (Q^2)
+% +           \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^3 \log (\xi_\mathrm{R}^2) W_{ab}^{(0,3,1,0)} (Q^2)
 %\end{split}
 %\end{equation}
 

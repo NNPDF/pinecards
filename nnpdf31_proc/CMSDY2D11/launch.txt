@@ -7,7 +7,7 @@ set ebeam2 3500
 set pdlabel lhapdf
 set lhaid 324900
 set dynamical_scale_choice 10
-set reweight_scale False
+set reweight_scale True
 #user_defined_cut set ptl1min = 14.0
 set ptl = 9.0
 #user_defined_cut set yll = 2.4

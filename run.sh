@@ -143,9 +143,7 @@ EOF
     "${applcheck}" "${pdfstring}" "${dataset}".root > applcheck.log
 
     # extract the numerical results from mg5_aMC
-    sed -e '/^  [+-]/!d' \
-        -e 's/^  [+-][0-9].[0-9]\+e[+-][0-9]\+   [+-][0-9].[0-9]\+e[+-][0-9]\+   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)   [+]*\([0-9].[0-9]\+e[+-][0-9]\+\)$/\1 \2/' \
-        "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
+    sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the numerical results from the APPLgrid
     sed -e '1,/all bins:/d' \
@@ -167,8 +165,8 @@ EOF
          BEGIN { print "---------------------------------------------------------------"
                  print "   " program "       mg5_aMC   mg5_aMC unc.   sigmas   per mille"
                  print "---------------------------------------------------------------" }
-         { printf "% e % e %e %8.3f %10.4f\n", $1, $2, $3, $3 != 0.0 ? abs($1-$2)/$3 : 0.0,
-                                               $2 != 0.0 ? abs($1-$2)/$2*1000 : 0.0 }' | \
+         { printf "% e % e %e %8.3f %10.4f\n", $1, $4, $5, $5 != 0.0 ? abs($1-$4)/$5 : 0.0,
+                                               $4 != 0.0 ? abs($1-$4)/$4*1000 : 0.0 }' | \
         tee results.log
 
     rm results.mg5_aMC results.grid

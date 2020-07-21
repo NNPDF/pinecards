@@ -1,12 +1,69 @@
 \section{Results}
 \label{sec:results}
 
-In this section we present a comparison of NLO QCD and NLO QCD+EW predictions for three different processes: DY lepton-pair production, top-pair production, and finally Z-boson (lepton-pair) production with non-zero transverse momentum at the LHC.
+In this section we demonstrate the capabilities of \textsc{PineAPPL} by
+computing fast interpolation grids, accurate to NLO QCD and NLO QCD+EW,
+for a representative set of processes in which EW corrections are expected 
+to be sizeable. In order to consider some realistic kinematics for these
+processes, we resort to measurements commonly devised for inclusion in PDF
+fits. Our aim is twofold. On the one hand, we want to validate the results
+obtained with \textsc{PineAPPL}; on the other hand, we want to assess the
+impact of the EW corrections for usual experimental setups. We describe first
+the processes and measurements that we consider, then the computational
+settings that we adopt, and finally the results that we obtain.
 
-Our first aim is a technical one, namely to show the validity of the results reconstructed with the \textsc{PineAPPL} grids introduced in section~\ref{sec:pineappl} and to give a measure of accuracy that can be achieved with them.
-The second aim is to quantify the size of the EW corrections for the setups defined by the experimental collaborations for the processes given below.
+\subsection{Processes and measurements}
+\label{subsec:processes_and_measurements}
 
-The following processes are either already part of PDF determinations (7 and \SI{8}{\tera\electronvolt}) in refs.~\cite{} or will likely be part of next-generation PDF fits (\SI{13}{\tera\electronvolt}).
+We focus on the following three processes: DY lepton-pair production, top-quark
+pair production, and Z-boson (lepton-pair) production with non-zero transverse
+momentum at the LHC. For each of these processes, we consider the measurments
+described below.
+
+\paragraph{DY lepton pair production.}
+We select the distribution, single-differential in the invariant mass of the
+lepton pair, $M_{\ell \bar\ell}$, measured by the ATLAS experiment at a centre-of
+mass energy of 7~TeV in the high-mass region
+($M_{\ell\bar\ell}>116$~GeV)~\cite{Aad:2013iua}.
+We also select the distribution, double-differential in the rapidity and in
+the invariant mass of the lepton pair, $y_{\ell\bar\ell}$ and $M_{\ell\bar\ell}$,
+measured by the CMS experiment at 7~TeV~\cite{Chatrchyan:2013tia}.
+These measurements are currently included as standard in the
+NNPDF3.1~\cite{Ball:2017nwa} and MMHT2014~\cite{Harland-Lang:2014zoa} PDF sets,
+although with appropriate kinematic cuts that remove the bins at the largest
+values of invariant mass, where EW corrections become sizeable.
+
+\paragraph{Top-quark pair production.}
+We select the distributions, single-differential in either the transverse
+momentum of the top quark, $p_T^t$, or the invariant mass of the top-quark
+pair, $m_{t\bar t}$, measured by the ATLAS and CMS experiments at a centre-of-mass
+energy of 8~TeV~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
+been extensively studied in the context of PDF fits in
+Refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml}.
+Because EW corrections are significantly smaller for distributions differential
+in the rapidity of either the top quark or the top-quark
+pair~\cite{Czakon:2017wor}, these were preferred for inclusion in the NNPDF3.1
+set~\cite{Ball:2017nwa}.
+
+\paragraph{$Z$-boson production with non-zero transverse momentum.}
+We select the distribution, single-differential in the transverse momentum of
+the $Z$ boson, $p_T^Z$, measured by the CMS experiment at a centre-of-mass
+energy of 13~TeV~\cite{Sirunyan:2019bzr}. This measurement has not been
+included in a PDF determination yet. Given that it has sub-percent
+uncertainties, it is expected that EW corrections will be essential to
+achieve a good description of it, and to constrain accurately the PDFs.
+A similar challenge was observed in similar measurements, from the
+ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa} experiment at a
+centre-of-mass energy of 8~TeV, in Ref.~\cite{Boughezal:2017nla}, which lead to
+their partial inclusion (upon the selection of an appropriate kinematic cut)
+in the NNDPF3.1 PDF set~\cite{Ball:2017nwa} and in variants of the CT18 PDF
+set~\cite{Hou:2019efy}.
+
+\subsection{Computational settings}
+\label{subsec:computational_settings}
+
+
+
 We discuss,
 \begin{itemize}
 \item in section~\ref{sec:atlas-high-mass-dy}, ATLAS high-mass DY lepton-pair production at \SI{7}{\tera\electronvolt} \cite{Aad:2013iua}, measuring $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ for the lepton-pair invariant mass $M_{\ell \bar{\ell}} > \SI{116}{\giga\electronvolt}$,
@@ -115,6 +172,13 @@ p_\mathrm{T}^\ell > \SI{25}{\giga\electronvolt} \text{,} \quad |\eta_\ell| < 2.4
     \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TPT}%
     \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TTM}
     \caption{PineAPPL comparison for ATLAS top pair.}
+    \label{fig:cmsdy2d11_bins56}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV}
+    \caption{PineAPPL comparison for CMS $Z$ $p_T$ distribution.}
     \label{fig:cmsdy2d11_bins56}
 \end{figure}
 

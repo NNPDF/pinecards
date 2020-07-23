@@ -1,30 +1,13 @@
-\section{Double counting EW corrections}
+\section{On the presentation of experimental data}
 \label{sec:doublecounting}
 
 As it has been mentioned in the introduction, the ability to consistently include electro-weak correction in
 PDF fits is not enough to make a fully-fledged fit possible in a consistent manner. Indeed, experimental data should
-be provided in  a format that allows PDF collaborations to employ them in such fits in a theoretically sound manner. In this
-section, we will try to provide some guidelines, by highlighting some sources of inconsistency commonly occurring in experimental 
-analyses. These will either lead to accounting multiple times for EW effects (so-called double counting), or to not accounting at
-all for such effects.\footnote{By no means we intend to blame on our beloved experimental colleagues for what they write or do. However,
-    we think that by highlighting errors and making everybody more cautious about them is the only way to avoid repeating such
-    errors in the future.}
+be provided in  a format that allows PDF collaborations to employ them in such fits in a theoretically sound manner. Before concluding the paper,
+we will try to provide some guidelines, to facilitate a consistent presentation of experimental data. Common sources of inconsistency in the extraction of data
+typically lead to accounting multiple times for EW effects (so-called double counting), or to not accounting at
+all for such effects.
 
-A common source of inconsistency is the subtraction of (irreducible) background processes which must not be considered as such. The typical example
-is neutral-current Drell--Yan, where the signal process is an opposite-sign lepton pair, which starts
-at $\mathcal O(\alpha^2)$. Because this process is usually thought
-as a quark-initiated, $s$-channel mechanism ($q\bar q \to \gamma^*/Z \to \ell^+ \ell^-$), in many analyses the photon-induced component,
-$\gamma \gamma \to \ell^+ \ell^-$ in the $t$ channel, is considered as a different process, and it 
-subtracted, possibly evaluated with different parton densities and/or including (unphysical) higher-order 
-corrections. For example, in refs.~\cite{Aaboud:2017ffb,Aad:2016zzw}, one reads:
-\begin{quote}
-The photon-induced process, $\gamma\gamma \to \ell \ell$, is simulated at LO using Pythia 8 
-and the MRST2004qed PDF set~\cite{Martin:2004dh}. The expected yield for this process also accounts for 
-NLO QED/EW corrections from references~\cite{Bardin:2012jk,Bondarenko:2013nu}, which decrease the yield by approximately 30\%.
-\end{quote}
-A similar statement appears also in an older analysis~\cite{Aad:2013iua}. Such a distinction cannot be physically
-justified beyond LO\@. Indeed, at $\mathcal O(\alpha^3)$, the reaction $q \gamma \to \ell^+ \ell^- q$ becomes possible, which
-includes both kind of topologies, see Fig.~\ref{fig:dy-pi}. 
 \begin{figure}[ht!]
     \centering
     \begin{overpic}[width=0.6\textwidth, trim=0.cm 11cm 0.cm 10cm, clip=True]{figures/dy-pi.pdf}
@@ -45,31 +28,51 @@ includes both kind of topologies, see Fig.~\ref{fig:dy-pi}.
     In red, the initial-state splitting leading to the real-emission $q \gamma \to \ell^+ \ell^- q$ is highlighted. Such a 
     real emission enters in the NLO EW corrections.}
 \end{figure}
-
-{\bf It looks like CMS does things in a pretty consistent manner~\cite{Sirunyan:2018owv, CMS:2014jea}. Shall we mention? We should
-not make ATLAS appear as the bad guys, and CMS as the good ones.} The problem here derives from the fact 
-that identifying a process based only on its
-initial-state partons is plain wrong in quantum mechanics. While this fact is well established in QCD---nobody would ever
+An example is the subtraction of (irreducible) background processes which must not be considered as such. A very blatant case
+is neutral-current Drell--Yan, where the signal process is an opposite-sign lepton pair, which starts
+at $\mathcal O(\alpha^2)$. Because this process is usually thought
+as a quark-initiated, $s$-channel mechanism ($q\bar q \to \gamma^*/Z \to \ell^+ \ell^-$), in many analyses the photon-induced component,
+$\gamma \gamma \to \ell^+ \ell^-$ in the $t$ channel, is considered as a different process, and it 
+subtracted, possibly evaluated with different parton densities and/or including (unphysical) higher-order 
+corrections. For example, in refs.~\cite{Aaboud:2017ffb,Aad:2016zzw} (a similar statement appears also in an older analysis~\cite{Aad:2013iua}), one reads:
+\begin{quote}
+The photon-induced process, $\gamma\gamma \to \ell \ell$, is simulated at LO using Pythia 8 
+and the MRST2004qed PDF set~\cite{Martin:2004dh}. The expected yield for this process also accounts for 
+NLO QED/EW corrections from references~\cite{Bardin:2012jk,Bondarenko:2013nu}, which decrease the yield by approximately 30\%.
+\end{quote}
+Such a distinction, which is unphysical and incorrect in quantum mechanics, may be somehow justified at LO. Beyond this order, it is simply wrong.
+Indeed, at $\mathcal O(\alpha^3)$, the reaction $q \gamma \to \ell^+ \ell^- q$ becomes possible, which
+includes both kind of topologies discussed above, see Fig.~\ref{fig:dy-pi}. While it is common sense that the QCD counterpart of this subtraction should never 
+be performed---nobody would ever
 consider to \enquote{subtract} the gluon-initiated contribution to top-pair production in top analyses---seemingly it is not so
 when EW corrections are considered.
 
-A second example is related to removing EW effects from data. These can be either the full EW corrections (Refs??) 
+{\bf It looks like CMS does things in a pretty consistent manner~\cite{Sirunyan:2018owv, CMS:2014jea}. Shall we mention? We should
+not make ATLAS appear as the bad guys, and CMS as the good ones.} 
+
+A second example is related to removing EW effects from data. These can be either the full EW corrections
 or just a part, for example deconvolving multiple-photon radiation from light particles in the final state. This applies mostly
 to processes such as neutral- or charge-current Drell--Yan, specially when electrons are considered. The problem lie in the fact that
  electrons, and to a lesser extent muons, tend to radiate photons, and such photons are typically not accounted
 for in hard matrix-elements. Thus, leptons that are measured in the detector are less energetic, and this fact is compensated for
-by undoing the photon shower before publishing data, which are referred to e.g.\ as \emph{Born-level electrons}~\cite{}. There are
-at least two 
+by undoing the photon shower before publishing data, which are referred to e.g.\ as \emph{Born-level electrons} (see e.g. Ref.~\cite{Aad:2015auj} for
+its definition). There are at least two 
 problems related with this. The first, a quite obvious one, is that when EW corrections
-are included at fixed order, the first photon emission is included exactly at the matrix-element level. The second, which
+are included at fixed order, the first photon emission is included exactly at the matrix-element level. The inclusion of 
+subsequent emission would require the matching with the QED shower, which is not yet available for general processes. It is interesting
+to note that one can tune the QED parton shower in order to mimick NLO EW effects, so that a prediction only accurate at NLO
+QCD displays a remarkable agreement with another at NLO QCD+EW when the photonic shower is included (see example the behaviour of predictions showered with
+\textsc{Photos}~\cite{Barberio:1990ms,Barberio:1993qi,Golonka:2005pn}in Ref.~\cite{CarloniCalame:2016ouw}). However, this kind of agreement
+always comes \emph{a posteriori}, and cannot be ensured in general. The second, which
 applies for electrons, is that they are never measured as bare particles, because of the finite resolution 
-of the electromagnetic calorimeter. Since collinear photonic emission cannot be resolved, at least data 
+of the electromagnetic calorimeter. Since collinear photonic emission cannot be resolved, data 
 involving electrons should also be published
 in terms of dressed particles, after applying some recombination scheme. This has the further advantage of being 
 inclusive on the effect of further collinear emissions. For what concerns muons, while in principle
 the concept of bare muons is a physical one, it should be kept in mind that modern, general-purpose codes employed to
 compute EW corrections treat leptons as massless. This fact encourages to explore the possibility of employing dressed
-muons, on the same footing as their electron counterpart.
+muons, on the same footing as their electron counterpart. It is reassuring to acknowledge that this practice is already quite common in experimental analyses:
+indeed, to mention two examples of analyses discussed in this paper, in Ref.~\cite{Aad:2015auj} data for dressed leptons are published, together with the pre- and post-ISR ones, while Refs.~\cite{Sirunyan:2019bzr} employs a dressed-lepton definition.
 
 \clearpage
 \noindent

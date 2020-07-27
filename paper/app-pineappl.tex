@@ -1,4 +1,4 @@
-\section{More technical details about \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
+\section{Installation and usage of \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 
 %\subsection{Efficiency of the grid representation}
 %\label{app:pineappl-representation-efficiency}
@@ -30,7 +30,7 @@
 All parts are written in Rust and therefore need a Rust compiler and other tools.
 On computers with a \texttt{bash} shell the installation is as simple as
 \begin{lstlisting}[language=bash]
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+ $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 \end{lstlisting}
 which downloads the compiler \texttt{rustc}, the package manager \texttt{cargo}, and a few other helpful tools.
 When the installation has completed make sure to read and follow the instructions printed before.
@@ -40,7 +40,7 @@ See also \url{https://www.rust-lang.org/tools/install} for more details and for 
 
 The command-line program \texttt{pineappl} is compiled and installed using
 \begin{lstlisting}[language=bash]
-cargo install pineappl_cli
+ $ cargo install pineappl_cli
 \end{lstlisting}
 This program also needs \texttt{LHAPDF} \cite{Buckley:2014ana} installed.
 For usage instructions simply type \texttt{pineappl} in your shell and read the help message.
@@ -49,25 +49,22 @@ For usage instructions simply type \texttt{pineappl} in your shell and read the 
 
 For the C interface you need to first install \texttt{cargo-c},
 \begin{lstlisting}[language=bash]
-cargo install cargo-c
+ $ cargo install cargo-c
 \end{lstlisting}
 and then download the \textsc{PineAPPL} repository, compile and finally install into it into a directory \texttt{\$prefix} as follows:
 \begin{lstlisting}[language=bash]
-git clone https://github.com/N3PDF/pineappl/
-cd pineappl_capi/
-cargo cinstall --release --prefix=${prefix}
+ $ git clone https://github.com/N3PDF/pineappl/
+ $ cd pineappl_capi/
+ $ cargo cinstall --release --prefix=DIRECTORY
 \end{lstlisting}
-The last line will install the C header \texttt{pineappl\_capi.h}, the library, and a pkg-config\footnote{A standard way on Linux to express how dependencies are compiled/linked against, see \url{https://www.freedesktop.org/wiki/Software/pkg-config/}} file (\texttt{pineappl\_capi.pc}).
+The last line will install the C header \texttt{pineappl\_capi.h}, the library, and a pkg-config\footnote{A standard way on Linux to express how dependencies are compiled/linked against, see \url{https://www.freedesktop.org/wiki/Software/pkg-config/}} file (\texttt{pineappl\_capi.pc}) into the directory specified as \texttt{DIRECTORY}.
 Make sure that the environment variables \texttt{PATH}, \texttt{LD\_LIBRARY\_PATH}, and \texttt{PKG\_CONFIG\_PATH} are properly set.
 The latter is needed for \texttt{pkg-config -{}-cflags -{}-libs pineappl\_capi} to work, which prints the necessary compiler/linker flags.
+
+After being installed, you can compile and link against the library.
 See App.~\ref{app:example-program} for an example.
 
 Updated installation instructions are kept in the file \texttt{README.md} in \textsc{PineAPPL}'s repository at \url{https://github.com/N3PDF/pineappl/}.
-
-\subsection{Drell--Yan \texorpdfstring{$n$}{n}-tuple storage size}
-\label{app:drell-yan-storage}
-
-TODO
 
 \subsection{Example Monte Carlo program}
 \label{app:example-program}
@@ -94,7 +91,6 @@ The following listing shows how to setup \textsc{PineAPPL} using its C interface
 All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
 The full example can be found at \url{https://github.com/N3PDF/pineappl/tree/master/examples/capi-dy-aa}.
 
-\clearpage
 \begin{lstlisting}[language=C++,mathescape=true]
 // create a new luminosity function for the $\gamma\gamma$ initial state
 auto* lumi = pineappl_lumi_new();
@@ -146,14 +142,99 @@ pineappl_grid_write(grid, "DY-LO-AA.pineappl");
 // destroy the object
 pineappl_grid_delete(grid);
 \end{lstlisting}
-\clearpage
 
 \subsection{Demonstration of \texorpdfstring{\texttt{pineappl}}{pineappl}}
 \label{app:pineappl-demo}
 
-TODO
+The program \texttt{pineappl} can be used to perform quick convolutions and other calculations with existing grids on the command line.
+If started without any arguments, it prints its help and lists all supported subcommands:
+\begin{lstlisting}[language=bash]
+ $ pineappl
+pineappl 0.1.0
+Read, write, and query PineAPPL grids
+
+USAGE:
+    pineappl <SUBCOMMAND>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+SUBCOMMANDS:
+    channels           Shows the contribution for each partonic channel
+    convolute          Convolutes a PineAPPL grid with a PDF set
+    help               Prints this message or the help of the given
+                       subcommand(s)
+    luminosity         Shows the luminosity function
+    merge              Merges one or more PineAPPL grids together
+    orders             Shows the predictions for all bins for each order
+                       separately
+    pdf_uncertainty    Calculates PDF uncertainties
+\end{lstlisting}
+As an example we show the grid produced for the ATLAS DY high-mass lepton-pair production (from section~\ref{sec:atlas-high-mass-dy}).
+The output shows all 13 bins with lower (\texttt{xmin}) and upper limit (\texttt{xmax}) of the invariant mass $M_{\ell \bar{\ell}}$ of the lepton pair, with the differential cross section $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{diff}), integrated cross section $(M_{\ell \bar{\ell}}^\mathrm{max} - M_{\ell \bar{\ell}}^\mathrm{min}) \mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{integ}), together with the perturbative uncertainty estimated from a 7-point scale variation (\texttt{neg unc} and \texttt{pos unc}).
+\begin{lstlisting}[language=bash]
+ $ pineappl convolute ATLASZHIGHMASS49FB.pineappl \
+ > NNPDF31_nlo_as_0118_luxqed
+bin xmin xmax     diff        integ     neg unc pos unc
+---+----+----+------------+------------+-------+-------
+  0  116  130 2.0630698e-1  2.8882978e0  -2.08%   1.69%
+  1  130  150 9.1818985e-2  1.8363797e0  -1.79%   1.86%
+  2  150  170 4.5306370e-2 9.0612740e-1  -1.60%   1.98%
+  3  170  190 2.5894856e-2 5.1789712e-1  -1.66%   2.06%
+  4  190  210 1.6075267e-2 3.2150534e-1  -1.70%   2.10%
+  5  210  230 1.0526659e-2 2.1053317e-1  -1.71%   2.12%
+  6  230  250 7.1928162e-3 1.4385632e-1  -1.71%   2.13%
+  7  250  300 4.0776555e-3 2.0388277e-1  -1.70%   2.44%
+  8  300  400 1.4775481e-3 1.4775481e-1  -1.94%   2.87%
+  9  400  500 4.5473785e-4 4.5473785e-2  -2.30%   3.19%
+ 10  500  700 1.2164277e-4 2.4328555e-2  -2.41%   3.12%
+ 11  700 1000 1.9792340e-5 5.9377019e-3  -2.05%   2.12%
+ 12 1000 1500 2.0228761e-6 1.0114381e-3  -1.29%   0.47%
+\end{lstlisting}
 
 \subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC@NLO}}{mg5\_aMC@NLO}}
 \label{app:sample-runcard}
 
-TODO
+The following run card was used to produce the results shown in section~\ref{sec:atlas-high-mass-dy}.
+The only difference to a normal \textsc{mg5\_aMC@NLO} run is the switch \texttt{set iappl 1}, which enables filling a \textsc{PineAPPL} grid.
+For a complete set of runcards and patches see TODO.
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  commentstyle=\ttfamily\small,
+  keywordstyle=\ttfamily\small,
+  identifierstyle=\color{black},
+  stringstyle=\color{black},
+}
+
+\begin{lstlisting}
+set complex_mass_scheme True
+import model loop_qcd_qed_sm_Gmu
+define p = p b b~
+define j = p
+generate p p > e+ e- [QCD QED]
+output @OUTPUT@
+launch @OUTPUT@
+fixed_order = ON
+set mz @MZ@
+set ymt @YMT@
+set ebeam1 3500
+set ebeam2 3500
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed @MZ@
+set muf_ref_fixed @MZ@
+set reweight_scale True
+set ptl = 25.0
+set etal = 2.5
+set mll = 116
+#user_defined_cut set mmllmax = 1500.0
+set req_acc_FO 0.0001
+set iappl 1
+done
+quit
+\end{lstlisting}

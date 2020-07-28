@@ -55,7 +55,7 @@ from light particles in the final state. This applies mostly
 to processes such as neutral- or charge-current Drell--Yan, specially when electrons are considered. The problem lies in the fact that
  electrons, and to a lesser extent muons, tend to radiate photons, and such photons are typically not accounted
 for in QCD matrix-elements. Thus, leptons that are measured in the detector are less energetic, and this fact is compensated for
-by inverting the photon shower. The resulting dataset is e.g.\ referred to as \emph{pre-FSR} with observables of \emph{Born-level electrons} (see e.g.\ Ref.~\cite{Aad:2015auj} for
+by inverting the photon shower. The resulting dataset is e.g.\ referred to as \emph{pre-FSR} or \emph{Born-level electrons} (see e.g.\ Ref.~\cite{Aad:2015auj} for
 its definition).
 These datasets are needed for and correctly used in QCD-only PDF determinations, since the EW corrections to some DY observables can be significant, and excluding them would therefore degrade the fit.
 In fits including fixed-order EW corrections the problem with this definition is that the first photon emission is included exactly at the matrix-element level. The inclusion of
@@ -63,8 +63,8 @@ subsequent emission would require the matching with the QED shower, which is not
 to note that one can tune the QED parton shower in order to mimic NLO EW effects, so that a prediction only accurate at NLO
 QCD displays a remarkable agreement with another at NLO QCD+EW when the photonic shower is included (see example the behaviour of predictions showered with
 \textsc{Photos}~\cite{Barberio:1990ms,Barberio:1993qi,Golonka:2005pn}in Ref.~\cite{CarloniCalame:2016ouw}). However, this kind of agreement
-always comes \emph{a posteriori}, and cannot be ensured in general. A more physical definition would be either the one of bare leptons (post FSR; \textbf{CS}: post FSR is for recombined leptons, I haven't seen a dataset for bare leptons, but they should exist)
-or of recombined ones. The problem with the former is that 
+always comes \emph{a posteriori}, and cannot be ensured in general. A more physical definition would be either the one of bare leptons (the leptons as they emerge after FSR)
+or of recombined ones (leptons and photons are clustered together and their momenta are combined, in analogy with jets in QCD). The problem with the former is that 
 electrons are never measured as bare particles, because of the finite resolution 
 of the electromagnetic calorimeter. For what concerns muons, while in principle the concept of a bare muon is physical (\textbf{CS}: cite papers for non-collinear safe observables/subtraction?), it should be kept in
 mind that modern, general-purpose codes employed to
@@ -73,6 +73,6 @@ leptons avoid all these shortcomings, with the further advantage of being
 inclusive on the effect of extra collinear emissions. This fact encourages to explore the possibility of employing a dressed-lepton
 definition, regardless of the leptonic flavour. It is reassuring to acknowledge that this practice is already being followed in experimental analyses:
 indeed, to mention two examples of analyses discussed in this paper, in Ref.~\cite{Aad:2015auj} data for dressed leptons are published, together with the Born-level
-and bare ones (\textbf{CS}: wrong?), while Refs.~\cite{Sirunyan:2019bzr} employs a dressed-lepton definition.
+and bare ones, while Refs.~\cite{Sirunyan:2019bzr} employs a dressed-lepton definition.
 
 {\bf this section may be troublesome with part of our community, e.g. paper of Tackmann suggests to use born-level electrons https://arxiv.org/pdf/2006.11382.pdf}

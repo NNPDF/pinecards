@@ -17,7 +17,7 @@ settings that we adopt, and finally the results that we obtain.
 
 We focus on the following three processes: DY lepton-pair production, top-quark
 pair production, and Z-boson (lepton-pair) production with non-zero transverse
-momentum at the LHC. For each of these processes, we consider the measurments
+momentum at the LHC. For each of these processes, we consider the measurements
 described below.
 
 \paragraph{DY lepton pair production.}
@@ -27,7 +27,8 @@ mass energy of 7~TeV in the high-mass region
 ($M_{\ell\bar\ell}>116$~GeV)~\cite{Aad:2013iua}.
 We also select the distribution, double-differential in the rapidity and in
 the invariant mass of the lepton pair, $y_{\ell\bar\ell}$ and $M_{\ell\bar\ell}$,
-measured by the CMS experiment at 7~TeV~\cite{Chatrchyan:2013tia}.
+measured by the CMS experiment at a centre-of-mass energy of
+7~TeV~\cite{Chatrchyan:2013tia}.
 These measurements are currently included as standard in the
 NNPDF3.1~\cite{Ball:2017nwa} and MMHT2014~\cite{Harland-Lang:2014zoa} PDF sets,
 although with appropriate kinematic cuts that remove the bins at the largest
@@ -39,100 +40,107 @@ momentum of the top quark, $p_T^t$, or the invariant mass of the top-quark
 pair, $m_{t\bar t}$, measured by the ATLAS and CMS experiments at a centre-of-mass
 energy of 8~TeV~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
 been extensively studied in the context of PDF fits in
-Refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml}.
+Refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml}, and
+included by default in the CT18~\cite{Hou:2019efy} analysis.
 Because EW corrections are significantly smaller for distributions differential
 in the rapidity of either the top quark or the top-quark
-pair~\cite{Czakon:2017wor}, these were preferred for inclusion in the NNPDF3.1
-set~\cite{Ball:2017nwa}.
+pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
+in the NNPDF3.1 analysis~\cite{Ball:2017nwa}.
 
 \paragraph{$Z$-boson production with non-zero transverse momentum.}
 We select the distribution, single-differential in the transverse momentum of
 the $Z$ boson, $p_T^Z$, measured by the CMS experiment at a centre-of-mass
-energy of 13~TeV~\cite{Sirunyan:2019bzr}. This measurement has not been
-included in a PDF determination yet. Given that it has sub-percent
-uncertainties, it is expected that EW corrections will be essential to
-achieve a good description of it, and to constrain accurately the PDFs.
-A similar challenge was observed in similar measurements, from the
-ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa} experiment at a
-centre-of-mass energy of 8~TeV, in Ref.~\cite{Boughezal:2017nla}, which lead to
-their partial inclusion (upon the selection of an appropriate kinematic cut)
-in the NNDPF3.1 PDF set~\cite{Ball:2017nwa} and in variants of the CT18 PDF
-set~\cite{Hou:2019efy}.
+energy of 13~TeV~\cite{Sirunyan:2019bzr}. So far, this measurement has not been
+included in any PDF determination. Because it has sub-percent uncertainties,
+EW corrections are expected to be essential in order to achieve a good
+description of it, and to constrain accurately the PDFs. Analogous measurements,
+from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
+experiments at a centre-of-mass energy of 8~TeV were partly included (upon the
+selection of an appropriate kinematic cut that excluded bins with large EW
+corrections) in the NNDPF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
+the CT18 PDF set~\cite{Hou:2019efy}.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}
 
+We generate each process by means of the Universal FeynRules Output
+(UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
+included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
+counterterms relevant to NLO QCD and EW corrections, the latter in the
+$\overline{G}_\mu$ scheme. The model features five massless quark flavours,
+sets the CKM matrix equal to the identity, and is compatible with the usage of
+the complex mass (CM) scheme for all massive particles, see
+Ref.~\cite{Frederix:2018nkq} for details. We use this scheme
+for all processes that do not involve stable top quarks in the final state.
+The photon is always considered as part of the proton in the initial state and
+of any hadronic jet produced in the final state: PI effects and EW corrections
+are therefore treated on the same footing. We use a PDF set that contains a
+consistently defined photon PDF, namely
+{\tt NNPDF31\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
+uncertainty associated to the theoretical predictions a posteriori, that is,
+we convolve the fast interpolation grid generated with {\sc PineAPPL} with
+each member in the PDF set, and we compute the associated standard deviation.
 
+The central values of the renormalisation and factorisation scales, $\mu_R$ and
+$\mu_F$, are chosen, for each process, as follows. In the case of DY lepton pair
+production, we use the fixed scale $\mu_R=\mu_F=M_Z$, where $M_Z$ is the mass
+of the $Z$-boson, for the ATLAS measurement, and the dynamic scale
+$\mu_R=\mu_F=$ for the CMS measurement.
+In the case of top-quark pair production, we use the dynamic scales
+$\mu_R=\mu_F=\sqrt{m_t^2+(p_T^t)^2}{\Big /}2$ for the distribution differential
+in the transverse momentum of the top quark, and $\mu_R=\mu_F=H_T/4$ for the
+distribution differential in the invariant mass of the top-quark pair, where
+$H_T=\sqrt{m_t^2+(p_T^t)^2}+\sqrt{m_t^2+(p_T^{\bar{t}})}$, with $m_t$,
+$p_T^t$ and $p_T^{\bar t}$ the mass of the top quark and the transverse momenta
+of the top and antitop quarks, respectively. These choices were demonstrated
+to maximise the convergence of the perturbative expansion~\cite{Czakon:2016dgf}.
+In the case of $Z$-boson production with non-zero transverse momentum, we use
+$\mu_R=\mu_F=M_Z$. In order to estimate the missing higher-order uncertainty,
+we allow the events to be reweighted in the Monte Carlo generation upon scale
+variations. As is customary, the factorisation and renormalisation scales
+are varied down to a factor $1/2$ and up to a factor $2$.
 
-We discuss,
-\begin{itemize}
-\item in section~\ref{sec:atlas-high-mass-dy}, ATLAS high-mass DY lepton-pair production at \SI{7}{\tera\electronvolt} \cite{Aad:2013iua}, measuring $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ for the lepton-pair invariant mass $M_{\ell \bar{\ell}} > \SI{116}{\giga\electronvolt}$,
-\item in section~\ref{sec:cms-dy}, CMS DY lepton-pair production at \SI{7}{\tera\electronvolt} \cite{Chatrchyan:2013tia}, measuring $\mathrm{d} \sigma / \mathrm{d} y_{\ell \bar{\ell}}$ for six slices in the range $\SI{20}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{1500}{\giga\electronvolt}$,
-\item in section~\ref{sec:atlas-top-pair-production}, ATLAS top-pair production at \SI{8}{\tera\electronvolt} \cite{Aad:2015mbv}, measuring
-\begin{itemize}
-\item the transverse momentum of the reconstructed top, $\mathrm{d} \sigma / \mathrm{d} p_\mathrm{T}^\mathrm{t}$,
-\item its rapidity, $\mathrm{d} \sigma / \mathrm{d} y_\mathrm{t}$,
-\item the invariant mass of the reconstructed top pair, $\mathrm{d} \sigma / \mathrm{d} M_{\mathrm{t} \bar{\mathrm{t}}}$, and
-\item its rapidity, $\mathrm{d} \sigma / \mathrm{d} M_{\mathrm{t} \bar{\mathrm{t}}}$,
-\end{itemize}
-\item in section~\ref{sec:cms-transverse-momentum}, CMS transverse momentum of the Z boson at \SI{13}{\tera\electronvolt} \cite{Sirunyan:2019bzr}, measuring $\mathrm{d} \sigma / \mathrm{d} p_\mathrm{Z}$ for $p_\mathrm{Z} > \SI{20}{\giga\electronvolt}$.
-\end{itemize}
-We used the MC \texttt{mg5\_aMC@NLO}~\cite{} and the PDF set \texttt{NNPDF31\_as\_0118\_luxqed}~\cite{} to generate the predictions.
-The chosen PDF set contains a photon PDF calculated from the LUXQED method~\cite{}.
-For each process---except top-pair production, which has stable tops in the final state---we use a complex-mass scheme~\cite{} as described in ref.~\cite{}.
-The values of the most important parameters are
+The values of the relevant physical parameters are chosen as
 \begin{equation}
-\begin{aligned}
-M_\mathrm{W} &= \SI{80}{\giga\electronvolt} \text{,} \quad &
-M_\mathrm{Z} &= \SI{90}{\giga\electronvolt} \text{,} \quad &
-m_\mathrm{t} &= \SI{170}{\giga\electronvolt} \text{,} \\
-\Gamma_\mathrm{W} &= \SI{2}{\giga\electronvolt} \text{,} &
-\Gamma_\mathrm{Z} &= \SI{2}{\giga\electronvolt} \text{,} &
-G_\mu &= \text{.}
-\end{aligned}
+%\begin{aligned}
+M_\mathrm{W} = \SI{80}{\giga\electronvolt} \text{,} \quad 
+M_\mathrm{Z} = \SI{90}{\giga\electronvolt} \text{,} \quad 
+m_\mathrm{t} = \SI{170}{\giga\electronvolt} \text{,} \quad
+\Gamma_\mathrm{W} = \SI{2}{\giga\electronvolt} \text{,} \quad
+\Gamma_\mathrm{Z} = \SI{2}{\giga\electronvolt} \text{,} 
+\label{eq:parameters}
+%\end{aligned}
 \end{equation}
+where $M_W$, $M_Z$ and $m_t$ are the values of the $W$-boson, $Z$-boson and
+top quark masses, respectively, and $\Gamma_W$ and $\Gamma_Z$ are the width of
+the $W$-boson and of the $Z$-boson, respectively. The value of the strong
+coupling is chosen consistently with the PDF set, $\alpha_s(M_Z)=0.118$.
 
-\noindent
-TODO for each of the following subsections:
-\begin{itemize}
-\item size of the photon-initiated contributions,
-\item largest partonic channel,
-\item most important $x$ region,
-\item PDF uncertainty,
-\end{itemize}
+Finally, we implement the kinematic cuts specified in the corresponding
+experimental analyses. In the case of high-mass DY lepton pair
+production at 7~TeV measured by ATLAS, we require $p_T^\ell>25$~GeV,
+$|\eta_\ell|<2.5$ and 116~GeV$<M_{\ell\bar\ell}<$ 1500~GeV for the transverse
+momentum and the rapidity of each lepton and for the invariant mass of the
+lepton pair, respectively. In the case of the DY lepton-pair production at
+7~TeV measured by CMS, we require $p_T^{\ell_1}>14$~GeV, $p_T^{\ell_2}>9$~GeV,
+$|\eta_\ell|<2.4$, $|\eta_{\ell\bar\ell}|<2.4$ and 20~GeV$<M_{\ell\bar\ell}<$ 1500~GeV
+for the transverse momentum and the rapidity of each lepton, and for the
+rapidity and the invariant mass of the lepton pair. In the case of $Z$-boson
+production with non-zero transverse momentum at 13~TeV measured by CMS, we
+require $p_T^\ell>25$~GeV, $|\eta_\ell|<2.4$,
+$M_Z$-15~GeV$<M_{\ell\bar\ell}<M_Z$+20~GeV,
+$|\eta_{\ell\bar\ell}|<2.4$ and 20~GeV$<p_T^{\ell\bar\ell}<1500$~GeV for the
+transverse momentum and rapidity of each lepton, and for the invariant mass,
+rapidity and transverse momentum of the lepton pair.
 
-\subsection{ATLAS high-mass DY lepton-pair production at \SI{7}{\tera\electronvolt}}
-\label{sec:atlas-high-mass-dy}
+\subsection{Numerical results}
+\label{subsec:numerical_results}
 
-\begin{equation}
-\begin{gathered}
-p_\mathrm{T}^\ell > \SI{25}{\giga\electronvolt} \text{,} \quad |\eta_\ell| < 2.5 \text{,} \\
-\SI{116}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{1500}{\giga\electronvolt} \text{,}
-\end{gathered}
-\end{equation}
 
-\subsection{CMS DY lepton-pair production at \SI{7}{\tera\electronvolt}}
-\label{sec:cms-dy}
 
-\begin{equation}
-\begin{gathered}
-p_\mathrm{T}^{\ell_1} > \SI{14}{\giga\electronvolt} \text{,} \quad p_\mathrm{T}^{\ell_2} > \SI{9}{\giga\electronvolt} \text{,} \quad |\eta_\ell| < 2.4 \text{,} \\
-|\eta_{\ell \bar{\ell}}| < 2.4 \text{,} \quad \SI{20}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{1500}{\giga\electronvolt} \text{,}
-\end{gathered}
-\end{equation}
 
-\subsection{ATLAS top-pair production at \SI{8}{\tera\electronvolt}}
-\label{sec:atlas-top-pair-production}
 
-\subsection{CMS transverse momentum of the Z boson at \SI{13}{\tera\electronvolt}}
-\label{sec:cms-transverse-momentum}
 
-\begin{equation}
-\begin{gathered}
-p_\mathrm{T}^\ell > \SI{25}{\giga\electronvolt} \text{,} \quad |\eta_\ell| < 2.4 \text{,} \quad M_\mathrm{Z} - \SI{15}{\giga\electronvolt} < M_{\ell \bar{\ell}} < M_\mathrm{Z} + \SI{20}{\giga\electronvolt} \text{,} \\
-|\eta_{\ell \bar{\ell}}| < 2.4 \text{,} \quad \SI{20}{\giga\electronvolt} < p_\mathrm{T}^{\ell \bar{\ell}} < \SI{1500}{\giga\electronvolt} \text{,}
-\end{gathered}
-\end{equation}
 
 \begin{figure}
     \centering
@@ -181,6 +189,18 @@ p_\mathrm{T}^\ell > \SI{25}{\giga\electronvolt} \text{,} \quad |\eta_\ell| < 2.4
     \caption{PineAPPL comparison for CMS $Z$ $p_T$ distribution.}
     \label{fig:cmsdy2d11_bins56}
 \end{figure}
+
+\noindent
+TODO for each of the following subsections:
+\begin{itemize}
+\item size of the photon-initiated contributions,
+\item largest partonic channel,
+\item most important $x$ region,
+\item PDF uncertainty,
+\end{itemize}
+
+
+
 
 %ERN 7 Apr: there is consensus on the fact that we should present results for the
 %following data sets:

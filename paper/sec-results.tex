@@ -84,8 +84,9 @@ each member in the PDF set, and we compute the associated standard deviation.
 The central values of the renormalisation and factorisation scales, $\mu_R$ and
 $\mu_F$, are chosen, for each process, as follows. In the case of DY lepton pair
 production, we use the fixed scale $\mu_R=\mu_F=M_Z$, where $M_Z$ is the mass
-of the $Z$-boson, for the ATLAS measurement, and the dynamic scale
-$\mu_R=\mu_F=$ for the CMS measurement.
+of the $Z$-boson, for the ATLAS measurement, and the scale
+$\mu_R=\mu_F=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
+invariant mass bin, for the CMS measurement.
 In the case of top-quark pair production, we use the dynamic scales
 $\mu_R=\mu_F=\sqrt{m_t^2+(p_T^t)^2}{\Big /}2$ for the distribution differential
 in the transverse momentum of the top quark, and $\mu_R=\mu_F=H_T/4$ for the
@@ -137,10 +138,22 @@ rapidity and transverse momentum of the lepton pair.
 \subsection{Numerical results}
 \label{subsec:numerical_results}
 
+Given one of the measurements discussed in
+Sect.~\ref{subsec:processes_and_measurements}, we compute the expectation
+value of the corresponding observable in for each bin in two different ways:
+directly, by means of {\sc MG5\_aMC}, and a posteriori, by convolving the
+fast interpolation grid produced by {\sc PineAPPL} with the PDF set specified
+in Sect.~\ref{subsec:computational_settings}. In order to validate the 
 
 
 
+\paragraph{DY lepton pair production.}
 
+
+\paragraph{Top-quark pair production.}
+
+
+\paragraph{$Z$-boson production with non-zero transverse momentum.}
 
 
 \begin{figure}

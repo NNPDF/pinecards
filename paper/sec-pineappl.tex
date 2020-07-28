@@ -12,15 +12,14 @@ The convolution is typically done in a few seconds or less, which offers at leas
 \end{enumerate}
 This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
 With respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to electroweak (EW), and in general mixed QCD--EW, effects.
-Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is the main interest of this paper.
+Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is of the main interests of this paper.
 
 In particular, the following features are supported:
 \begin{itemize}
 \item The inclusion of perturbative corrections (fixed-order, i.e.\ without parton-shower matching) with any given set of powers of $\alpha$, $\alphas$, in particular including mixed QCD--EW corrections.
 \item The support for non-coloured initial-state partons, such as photon-initiated contributions.
 In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states~\cite{Bertone:2015lqa,Buonocore:2020nai}.
-\item The estimate of theory uncertainty via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale-independent, consistently with the commonest renormalisation schemes).
-%\item Support for all-order predictions coming from a resummation calculation or a photon-/parton-shower, which are important for some observables (see section~\ref{sec:results}),
+\item The estimate of theory uncertainty via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale-independent, consistently with the most common renormalisation schemes).
 \end{itemize}
 On a more technical level, we further point out the following differences and improvements in \textsc{PineAPPL}:
 \begin{itemize}
@@ -67,8 +66,8 @@ which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\m
 \label{eq:bins-of-diff-xsection}
 \end{equation}
 
-If chosen dynamically the Ellis--Sexton scale $Q^2$ depends on the phase space, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
-This allows variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but not changing the scale arbitrarily.
+The Ellis--Sexton scale $Q^2$, if chosen dynamically, depends on the phase space, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
+This allows variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but it does not allow changing the scale arbitrarily.
 The terms with powers $m > 0$ and $n > 0$ vanish for the central scale choice and are only required for variations of the factorisation and renormalisation scales.
 To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by this method---one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
 \begin{equation}
@@ -77,7 +76,8 @@ To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by t
 The (asymmetric) uncertainties are then given as the minimum and maximum value (the envelope), measured from the central value $(1, 1)$.
 As is clear from eq.~\eqref{eq:expansion}, the EW coupling $\alpha$ is assumed not to be a dynamically varying coupling, but instead a constant over phase space.
 This, however, includes the most common choices of the coupling, which are (not necessarily in this order), $\alpha (0)$, $\alpha (M_\mathrm{Z})$, and $\alpha_{G_\mu}$.
-The task that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
+
+The problem that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
 \begin{equation}
 w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
 \label{eq:weight-map}
@@ -86,9 +86,7 @@ from a set of $N$ function evaluations for specific momentum fractions, scales, 
 \begin{equation}
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,} \label{eq:phase-space-weights}
 \end{equation}
-given by the MC integrator.
-
-Using eq.~\eqref{eq:expansion} and
+given by the MC integrator. Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
 = \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
@@ -107,7 +105,7 @@ However, \textsc{PineAPPL} remains completely blind to this fact, and consistent
 In general, we define leading order (LO) as the set of all possible initial states $a b$ which lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
 This number is process dependent and usually determined by the number of external particles.
 For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one LO.
-An important example at the LHC is di-jet production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
+An important example at the LHC is dijet production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each LO receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
 The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.
 All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin.
@@ -182,7 +180,7 @@ The reconstruction of the differential cross section is then done by simply mult
 Using 4-tuples has the clear advantage of being very easy to implement and test.
 Furthermore, they reproduce the exact numerical value that is also calculated by the MC integrator.
 However, the price one has to pay is the size of the 4-tuples.
-To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:atlas-high-mass-dy}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section with this precision.
+To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:atlas-high-mass-dy}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
 While this is an acceptable size, increasing the precision by an order of magnitude would require roughly 100 times the size, due to the Monte Carlo convergence that goes as $1/\sqrt{N}$ with $N$ being the number of 4-tuples.
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 However, due to the uncompressed nature of this representation it can serve as a intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.

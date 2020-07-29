@@ -1,8 +1,16 @@
-\section{Outlook}
+\section{Conclusions and Outlook}
 \label{sec:conclusion}
 
-ALL
+We presented a new tool called \textsc{PineAPPL}, which stores perturbative calculations calculated from an external Monte Carlo in a PDF-independent way using interpolation grids.
+This offers the advantage of fast a-posteriori convolutions with PDFs, for example to study the uncertainties coming from different PDF sets and/or the strong coupling constant $\alphas$.
+Another application that we focused on is in PDF fitting, where the interpolation grids constitute the theoretical input.
 
-\cite{Carli:2010rw}
-\cite{Bertone:2014zva}
+A distinguishing feature of \textsc{PineAPPL} is the support for arbitrary coupling orders not only in the strong, but also in the electroweak coupling.
+This enables us to generate, for the first time, NLO EW and NLO mixed QCD--EW interpolation grids.
+Using \textsc{mg5\_aMC@NLO} we calculated and showcased the impact of these corrections for important PDF processes for specific analyses from ATLAS and CMS: Drell--Yan lepton-pair production, top-pair production, and Z-boson production with non-zero transverse momentum.
 
+Finally, we discussed the issue of subtracting EW corrections in experimental data, which becomes an important consideration when combining the interpolations grids with the corresponding experimental data in a PDF fit including EW and mixed QCD--EW corrections.
+
+Having developed and thoroughly tested \textsc{PineAPPL} with the Monte Carlo generator \textsc{mg5\_aMC@NLO}, all technical requirements are fulfilled for producing the first global PDF fit including EW and mixed QCD--EW corrections.
+This has at least two advantages: in PDF fits phase-space regions are usually discarded if they exhibited large EW corrections; including them enables one to enlarge the number of data points of a fit and therefore enlarging the PDFs interpolation region.
+Secondly, this allows to use experimental data that, in some cases, is closer to the actual measurements and does not contain subtractions from theoretical calculation such as \textsc{Photos}.

@@ -1,4 +1,4 @@
-\section{Results}
+\section{PineAPPL at work: generation and validation of interpolation grids}
 \label{sec:results}
 
 In this section we demonstrate the capabilities of \textsc{PineAPPL} by
@@ -138,12 +138,33 @@ rapidity and transverse momentum of the lepton pair.
 \subsection{Numerical results}
 \label{subsec:numerical_results}
 
-Given one of the measurements discussed in
+For each of the measurements discussed in
 Sect.~\ref{subsec:processes_and_measurements}, we compute the expectation
-value of the corresponding observable in for each bin in two different ways:
-directly, by means of {\sc MG5\_aMC}, and a posteriori, by convolving the
+value of the corresponding observable for each kinematic bin in two different
+ways: directly, by means of {\sc MG5\_aMC}, and a posteriori, by convolving the
 fast interpolation grid produced by {\sc PineAPPL} with the PDF set specified
-in Sect.~\ref{subsec:computational_settings}. In order to validate the 
+in Sect.~\ref{subsec:computational_settings}. In the following, we will refer
+to the the first result as the {\sc MC} result, and to the second as the
+{\sc PineAPPL} result. We repeat the computation for theories accurate to NLO
+QCD and to NLO QCD+EW, respectively. In each case, we determine the PDF
+uncertainty (coming from the PDF ensemble), the scale uncertainty (coming from
+variations of the factorisation and renormalisation scales), and the Monte
+Carlo uncertainty (coming from the finite number of events generated). In this
+last respect, we consider by default high-statistics computations, whereby we
+require a relative Monte Carlo precision of a fraction of permille. This choice
+ensures that the statistical uncertainty of the computation is negligible
+in comparison to the PDF and scale uncertainties, as we will explicitly
+demonstrate.
+%Add here a sentence on a low-statistics run?
+
+Our goal is twofold. On the one hand, we aim to validate the fast interpolation
+grids generated with {\sc PineAPPL}: to this purpose we shall verify that the
+MC and the {\sc PineAPPL} results are identical up to numerical inaccuracies
+due to the grid interpolation. This equivalence must hold for any choice of
+renormalisation and factorisation scale. On the other hand, we aim to study
+the size of the EW corrections, in particular with respect to the kinematics of
+each process, and to an array of relative uncertainties coming from the PDFs,
+the scale variations, and the experimental data.
 
 
 

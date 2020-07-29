@@ -1,9 +1,11 @@
 \section{Conclusions and Outlook}
 \label{sec:conclusion}
 
-We presented a new tool called \textsc{PineAPPL}, which stores perturbative calculations calculated from an external Monte Carlo in a PDF-independent way using interpolation grids.
+We presented a new tool called \textsc{PineAPPL}, which stores perturbative calculations from an external Monte Carlo in a PDF-independent way using interpolation grids.
 This offers the advantage of fast a-posteriori convolutions with PDFs, for example to study the uncertainties coming from different PDF sets and/or the strong coupling constant $\alphas$.
-Another application that we focused on is in PDF fitting, where the interpolation grids constitute the theoretical input.
+Another application that we focused on is PDF fitting, where the interpolation grids constitute the theoretical input.
+We tested \textsc{PineAPPL} together with \textsc{mg5\_aMC@NLO} and found a precision of \numrange{e-4}{e-5} relative to the MC result, which is more than enough for the applications described before.
+Although we used \textsc{mg5\_aMC@NLO}, we note that \textsc{PineAPPL} is not tied in any way to a specific MC and can be easily interfaced with any generator.
 
 A distinguishing feature of \textsc{PineAPPL} is the support for arbitrary coupling orders not only in the strong, but also in the electroweak coupling.
 This enables us to generate, for the first time, NLO EW and NLO mixed QCD--EW interpolation grids.
@@ -11,6 +13,6 @@ Using \textsc{mg5\_aMC@NLO} we calculated and showcased the impact of these corr
 
 Finally, we discussed the issue of subtracting EW corrections in experimental data, which becomes an important consideration when combining the interpolations grids with the corresponding experimental data in a PDF fit including EW and mixed QCD--EW corrections.
 
-Having developed and thoroughly tested \textsc{PineAPPL} with the Monte Carlo generator \textsc{mg5\_aMC@NLO}, all technical requirements are fulfilled for producing the first global PDF fit including EW and mixed QCD--EW corrections.
-This has at least two advantages: in PDF fits phase-space regions are usually discarded if they exhibited large EW corrections; including them enables one to enlarge the number of data points of a fit and therefore enlarging the PDFs interpolation region.
-Secondly, this allows to use experimental data that, in some cases, is closer to the actual measurements and does not contain subtractions from theoretical calculation such as \textsc{Photos}.
+Having developed and thoroughly tested \textsc{PineAPPL}, all technical requirements are fulfilled for producing the first global PDF fit including EW and mixed QCD--EW corrections.
+This will have at least two advantages: in PDF fits phase-space regions are usually cut away if they exhibit large EW corrections; including them therefore increases the number of data points in a fit and therefore indirectly enlarges a PDF set's interpolation region.
+Secondly, this makes it possible to use experimental data that are closer to the actual measurement, without the need to compensate for missing EW corrections.

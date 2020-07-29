@@ -171,7 +171,7 @@ SUBCOMMANDS:
                        separately
     pdf_uncertainty    Calculates PDF uncertainties
 \end{lstlisting}
-As an example we show the grid produced for the ATLAS DY high-mass lepton-pair production (from section~\ref{sec:atlas-high-mass-dy}).
+As an example we show the grid produced for the ATLAS DY high-mass lepton-pair production (from section~\ref{subsec:numerical_results}).
 The output shows all 13 bins with lower (\texttt{xmin}) and upper limit (\texttt{xmax}) of the invariant mass $M_{\ell \bar{\ell}}$ of the lepton pair, with the differential cross section $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{diff}), integrated cross section $(M_{\ell \bar{\ell}}^\mathrm{max} - M_{\ell \bar{\ell}}^\mathrm{min}) \mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{integ}), together with the perturbative uncertainty estimated from a 7-point scale variation (\texttt{neg unc} and \texttt{pos unc}).
 \begin{lstlisting}[language=bash]
  $ pineappl convolute ATLASZHIGHMASS49FB.pineappl \
@@ -196,7 +196,7 @@ bin xmin xmax     diff        integ     neg unc pos unc
 \subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC@NLO}}{mg5\_aMC@NLO}}
 \label{app:sample-runcard}
 
-The following run card was used to produce the results shown in section~\ref{sec:atlas-high-mass-dy}.
+The following run card was used to produce the results shown in section~\ref{subsec:numerical_results}.
 The only difference to a normal \textsc{mg5\_aMC@NLO} run is the switch \texttt{set iappl 1}, which enables filling a \textsc{PineAPPL} grid.
 For a complete set of runcards and patches see TODO.
 

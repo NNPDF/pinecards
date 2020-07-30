@@ -76,7 +76,7 @@ The photon is always considered as part of the proton in the initial state and
 of any hadronic jet produced in the final state: PI effects and EW corrections
 are therefore treated on the same footing. We use a PDF set that contains a
 consistently defined photon PDF, namely
-{\tt NNPDF31\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
+{\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
 uncertainty associated to the theoretical predictions a posteriori, that is,
 we convolve the fast interpolation grid generated with {\sc PineAPPL} with
 each member in the PDF set, and we compute the associated standard deviation.
@@ -100,7 +100,7 @@ $\mu_R=\mu_F=M_Z$. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted in the Monte Carlo generation upon scale
 variations. As is customary, the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and an envelope
-from the nine-point scale variations is constructed.
+from the seven-point scale variations is constructed.
 
 The values of the relevant physical parameters are chosen as
 \begin{equation}
@@ -151,24 +151,40 @@ uncertainty (coming from the PDF ensemble), the scale uncertainty (coming from
 variations of the factorisation and renormalisation scales), and the Monte
 Carlo uncertainty (coming from the finite number of events generated). In this
 last respect, we consider by default high-statistics computations, whereby we
-require a relative Monte Carlo precision of a fraction of permille. This choice
-ensures that the statistical uncertainty of the computation is negligible
-in comparison to the PDF and scale uncertainties, as we will explicitly
-demonstrate.
-%Add here a sentence on a low-statistics run?
+require a relative Monte Carlo precision of a fraction of permille. While
+this choice does not affect the validation of the {\sc PineAPPL} result against
+the {\sc MC} result, it ensures that the statistical uncertainty of the
+computation remains negligible in comparison to the PDF and scale uncertainties,
+as we will explicitly demonstrate. This is a desirable feature to correctly
+interpret the size of the theoretical corrections.
 
-Our goal is twofold. On the one hand, we aim to validate the fast interpolation
-grids generated with {\sc PineAPPL}: to this purpose we shall verify that the
-MC and the {\sc PineAPPL} results are identical up to numerical inaccuracies
-due to the grid interpolation. This equivalence must hold for any choice of
-renormalisation and factorisation scale. On the other hand, we aim to study
-the size of the EW corrections, in particular with respect to the kinematics of
-each process, and to an array of relative uncertainties arising from the PDFs,
-the scale variations, and the experimental data.
+Our goal is indeed twofold. On the one hand, we aim to validate the
+interpolation grids generated with {\sc PineAPPL}: to this purpose we shall
+verify that the MC and the {\sc PineAPPL} results are identical up to numerical
+inaccuracies due to the grid interpolation. This equivalence must hold for any
+choice of renormalisation and factorisation scale. On the other hand, we aim to
+study the size of the EW corrections, in particular with respect to the
+kinematics of each process, and to three kinds of uncertainties: the PDF
+uncertainty, the scale variation uncertainty, and the uncertainty of the
+experimental data.
 
-
+We present these comparisons in
+Figs.~\ref{fig:atlaszhighmass49fb}-\ref{fig:cmsZ13TeV} for each of the processes
+and data sets outlined in Sect.~\ref{subsec:processes_and_measurements}.
+The format of the plots is the same across all figures. The first panel
+displays the relative difference (in permille) between the {\sc PineAPPL} and
+the {\sc MC} results for the central, upper and lower scale choices, for
+theories accurate to both NLO QCD and NLO QCD+EW. The following three panels
+present the theoretical predictions, accurate to either NLO QCD or NLO QCD+EW,
+always normalised to the former: the second displays the PDF uncertainty, the
+third the scale uncertainty and the fourth the Monte Carlo statistical
+uncertainty. The relative uncertainty of the experimental data points is also
+shown for comparison. We shall now discuss the results for each
+process and data set in turn.
 
 \paragraph{DY lepton pair production.}
+
+
 
 
 \paragraph{Top-quark pair production.}
@@ -215,18 +231,19 @@ the scale variations, and the experimental data.
     \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TPT}%
     \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TTM}
     \caption{PineAPPL comparison for ATLAS top pair.}
-    \label{fig:cmsdy2d11_bins56}
+    \label{fig:atlastop}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV}
     \caption{PineAPPL comparison for CMS $Z$ $p_T$ distribution.}
-    \label{fig:cmsdy2d11_bins56}
+    \label{fig:cmsZ13TeV}
 \end{figure}
 
 \noindent
-TODO for each of the following subsections:
+
+TODO for each process:
 \begin{itemize}
 \item size of the photon-initiated contributions,
 \item largest partonic channel,
@@ -235,34 +252,3 @@ TODO for each of the following subsections:
 \end{itemize}
 
 
-
-
-%ERN 7 Apr: there is consensus on the fact that we should present results for the
-%following data sets:
-%\begin{itemize}
-%\item ATLAS high mass DY distributions, 7 TeV~\cite{Aad:2013iua} (CS);
-%\item CMS 2D DY distributions, 7 TeV~\cite{Chatrchyan:2013tia} (CS);
-%\item ATLAS top pair differential distributions ($m_{t\bar{t}}$ and $p_T^t$),
-%8 TeV~\cite{Aad:2015mbv} (ERN);
-%\item CMS $Z$ $pT$ distributions, 13 TeV~\cite{Sirunyan:2019bzr} (ERN).
-%\end{itemize}
-%
-%We agree not to display any LHCb measurement, given that they won't add
-%further value to our discussion.
-%Note added: we might also want to have a look at the ATLAS 2D and 3D DY
-%distributions, 8 TeV~\cite{Aad:2016zzw,Aaboud:2017ffb}, if time allows
-%us to do so.
-%
-%CS 25 Jun: We've agreed to show basically two types of plots: 1) technical plots showing the good agreement between the MC compared to the results from the grids, and 2) phenomenological results showing larger EW corrections, for example.
-%In the aMCfast paper both is shown in single plot, but since we have more to show, I suggest the following: for the technical plots we show a 2x2 matrix of plots, each showing the difference of the grid result compared to the MC result, in the following fashion:
-%\begin{itemize}
-%\item NLO QCD with low statistics,
-%\item NLO QCD+EW with low statistics,
-%\item NLO QCD with high statistics, and finally
-%\item NLO QCD+EW with high statistics,
-%\end{itemize}
-%each showing a few scale variations.
-%These plots then clearly show that no matter what corrections you choose, no matter the statistics, and no matter the scale variation, the agreement is always excellent.
-%In any case I would like to avoid showing a plot with absolute numbers and low statistics, which looks a bit ridiculous in my opinion (look at figure 1, left side, top plot of the aMCfast paper).
-%
-%Finally we can show another series of plots, which in my opinion should be very similar to the usual pheno paper plots: absolute numbers with a scale variation band, maybe a few corrections shown in the same plot and then in the bottom relative corrections.

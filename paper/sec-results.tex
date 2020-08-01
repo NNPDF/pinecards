@@ -281,7 +281,7 @@ include the EW corrections in order to obtain an accurate description of the
 large invariant mass bins. Finally, the Monte Carlo statistical
 uncertainty remains negligible in comparison to the data, PDF and scale
 uncertainties, and to the size of the EW correction. Our conclusions are
-therefore not affected by a poor simultaion of the underlying events.
+therefore not affected by a poor simulation of the underlying events.
 
 We then turn our attention to the double-differential measurement performed by
 the CMS experiment at 7~TeV. For illustrative purposes, we report only four out
@@ -349,28 +349,56 @@ rapidities. For this reason, for instance, the data points with
 $M_{\ell\bar\ell}>200$~GeV and $y_{\ell\bar\ell}>2.2$ were not included in the
 NNPDF3.1 analysis~\cite{Ball:2017nwa}.
 
-In general, the size of the EW corrections is
+In general, the size of the EW corrections is comparable to or slightly larger
+than the data uncertainty, except for the invariant mass bin 
+45~GeV$<M_{\ell\bar\ell}<$60~GeV, where the shift due to the EW correction
+overshoots the data uncertainty by about a factor of ten, and at large
+rapidities, where the shift due to the EW correction, although it can become
+large, is always a fraction of the data uncertainty. As already observed in the
+case of the ATLAS measurement, should EW corrections be included in a fit of
+PDFs, the description of the precise bins in the low invariant mass range is
+likely to benefit from the more accurate theory and the kinematic cut that
+excludes any data point at large invariant mass and/or rapidity can be safely
+removed.
 
-
+In comparison to the PDF uncertainty, the size of the EW corrections is always
+larger. We therefore anticipate that, once included in a PDF fit, they would
+recast the relative weight of each data set included in the fit, and possibly
+lead to an improvement in their overall description. In comparison to the scale
+uncertainty, the size of the EW correction is similar, except on the $Z$-boson
+mass peak, 60~GeV$<M_{\ell\bar\ell}<$120~GeV, where the scale uncertainty exceeds
+the size of the EW correction by about a factor of five. These facts confirm,
+as expected, that EW corrections are almost immaterial at the $Z$-boson mass
+peak, but that NNLO QCD corrections are otherwise as relevant as NLO QCD+EW
+corrections. Finally, the Monte Carlo statistical uncertainty remains negligible
+in comparison to the data, PDF and scale uncertainties, and to the size of the
+EW correction, except for a couple of bins at forward rapidity in the highest
+invariant mass bins. Improving the Monte Carlo statistical precision will
+require to generate an unrealistically large number of events; therefore, it
+might be desirable to treat this uncertainty as an additional theoretical
+uncertainty in the PDF fit~\cite{Ball:2018lag}.
 
 \paragraph{Top-quark pair production.}
+
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TPT}%
+    \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TTM}
+    \caption{Same as Fig.~\ref{fig:atlaszhighmass49fb}, but for the ATLAS
+      differential top-quark pair measuremen at a centre-of-mass energy of
+      8~TeV~\cite{Aad:2015mbv}. Displayed are the distributions in the
+      transverse momentum of the top quark $p_T^t$ (left), and in the invariant
+      mass of the top-quark pair $m_{t\bar{t}}$ (right).}
+    \label{fig:atlastop}
+\end{figure}
+
 
 
 \paragraph{$Z$-boson production with non-zero transverse momentum.}
 
 
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TPT}%
-    \includegraphics[width=0.5\textwidth]{figures/pineappl_ATLAS_TTB_DIFF_8TEV_LJ_TTM}
-    \caption{PineAPPL comparison for ATLAS top pair.}
-    \label{fig:atlastop}
-\end{figure}
-
-\begin{figure}
+\begin{figure}[!t]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV}
     \caption{PineAPPL comparison for CMS $Z$ $p_T$ distribution.}

@@ -1,6 +1,6 @@
 --- a/SubProcesses/setscales.f	2020-01-27 11:05:35.004477044 +0000
 +++ b/SubProcesses/setscales.f	2020-01-27 11:06:31.970840053 +0000
-@@ -568,10 +568,12 @@
+@@ -568,10 +568,10 @@
  cc                 dynamical_scale_choice = 10                                   cc
  cc      in the run_card (run_card.dat)                                           cc
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -9,11 +9,9 @@
 -         temp_scale_id='User-defined dynamical scale' ! use a meaningful string
 -         tmp = 0d0
 +         tmp=0d0
-+         do i=3
-+           tmp=tmp+dsqrt(max(0d0,(pp(0,i)+pp(3,i))*(pp(0,i)-pp(3,i))))
-+         enddo
++         tmp=tmp+dsqrt(max(0d0,(pp(0,3)+pp(3,3))*(pp(0,3)-pp(3,3))))
 +         tmp=tmp/2d0
-+         temp_scale_id='H_T/2 := sum_i mT(i)/2, i=final state'
++         temp_scale_id='H_T/2 := mT(3)/2, 3=final state'
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc

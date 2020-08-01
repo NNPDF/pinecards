@@ -15,17 +15,17 @@ settings that we adopt, and finally the results that we obtain.
 \subsection{Processes and measurements}
 \label{subsec:processes_and_measurements}
 
-We focus on the following three processes: Drell--Yan lepton-pair production, top-quark
-pair production, and Z-boson (lepton-pair) production with non-zero transverse
-momentum in proton-proton collisions. For each of these processes, we consider the measurements
-described below.
+We focus on the following three processes: Drell--Yan lepton-pair production,
+top-quark pair production, and Z-boson (lepton-pair) production with non-zero
+transverse momentum in proton-proton collisions. For each of these processes,
+we consider the measurements described below.
 
 \paragraph{Drell--Yan lepton pair production.}
 We select the distribution, single-differential in the invariant mass of the
 lepton pair, $M_{\ell \bar\ell}$, measured by the ATLAS experiment at a centre-of
 mass energy of 7~TeV in the high-mass region
 ($M_{\ell\bar\ell}>116$~GeV)~\cite{Aad:2013iua}.
-We also select the distribution, double-differential in the rapidity and in
+We also select the distributions, double-differential in the rapidity and in
 the invariant mass of the lepton pair, $y_{\ell\bar\ell}$ and $M_{\ell\bar\ell}$,
 measured by the CMS experiment at a centre-of-mass energy of
 7~TeV~\cite{Chatrchyan:2013tia}.
@@ -41,7 +41,8 @@ QCD computation, but it is in the NLO QCD+EW computation. Mixed QCD-EW
 corrections occur only at NNLO, and are therefore not considered here.
 EW corrections for this process were computed in
 Refs.~\cite{Baur:2001ze,Dittmaier:2009cr}. The process receives contributions
-from 12 (34) parton luminosities at NLO QCD (NLO QCD+EW).
+from 12 (34) parton luminosities at NLO QCD (NLO QCD+EW), mainly from $q\bar{q}$
+scattering, see Appendix~\ref{app:lumis} for details.
 
 \paragraph{Top-quark pair production.}
 We select the distributions, single-differential in either the transverse
@@ -56,14 +57,15 @@ in the rapidity of either the top quark or the top-quark
 pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
 in the NNPDF3.1 analysis~\cite{Ball:2017nwa}. The process receives
 pure QCD contributions at LO, $\mathcal{O}(\alpha_s^2)$, and
-at NLO, $\mathcal{O}(\alpha_s^3)$. They are included in the NLO QCD
+at NLO, $\mathcal{O}(\alpha_s^3)$. They make up the NLO QCD
 computation. The NLO QCD+EW computation includes the LO contribution
 $\mathcal{O}(\alpha_s\alpha)$ and the NLO contributions
 $\mathcal{O}(\alpha_s^2\alpha)$ and $\mathcal{O}(\alpha_s\alpha^2)$.
 We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ and the
 corresponding higher-order EW correction. EW corrections for this process
 were computed in Refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
-6 (36) parton luminositites at NLO QCD (NLO QCD+EW), mainly from $gg$ fusion.
+6 (36) parton luminositites at NLO QCD (NLO QCD+EW), mainly from $gg$ fusion,
+see Appendix~\ref{app:lumis} for details.
 
 \paragraph{$Z$-boson production with non-zero transverse momentum.}
 We select the distribution, single-differential in the transverse momentum of
@@ -75,17 +77,17 @@ description of it, and to constrain accurately the PDFs. Analogous measurements,
 from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
 experiments at a centre-of-mass energy of 8~TeV, were partly included (upon
 selection of an appropriate kinematic cut that excluded bins with large EW
-corrections) in the NNDPF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
+corrections) in the NNPDF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
 the CT18 PDF set~\cite{Hou:2019efy}. In the QCD computation, we consider a
 single LO contribution $\mathcal{O}(\alpha_s\alpha^2)$ and a single NLO
 contribution $\mathcal{O}(\alpha_s^2\alpha^2)$. In the NLO QCD+EW computation,
-they are supplemented with the LO and NLO EW corrections,
+we supplement these with the LO and NLO EW corrections,
 $\mathcal{O}(\alpha^3)$ and $\mathcal{O}(\alpha^4)$, and with the NLO
 QCD-EW mixed correction, $\mathcal{O}(\alpha_s\alpha^3)$. EW corrections for
 this process were computed in
 Refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
 The process receives contributions from 100 (165) parton luminosities, mainly
-from $qg$ and $\bar{q}g$ scattering.
+from $qg$ and $\bar{q}g$ scattering, see Appendix~\ref{app:lumis} for details.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}
@@ -109,9 +111,9 @@ we convolve the fast interpolation grid generated with {\sc PineAPPL} with
 each member in the PDF set, and we compute the associated standard deviation.
 
 The central values of the renormalisation and factorisation scales, $\mu_R$ and
-$\mu_F$, are chosen, for each process, as follows. In the case of Drell--Yan lepton pair
-production, we use the fixed scale $\mu_R=\mu_F=M_Z$, where $M_Z$ is the mass
-of the $Z$-boson, for the ATLAS measurement, and the scale
+$\mu_F$, are chosen, for each process, as follows. In the case of Drell--Yan
+lepton pair production, we use the fixed scale $\mu_R=\mu_F=M_Z$, where $M_Z$ is
+the mass of the $Z$-boson, for the ATLAS measurement, and the scale
 $\mu_R=\mu_F=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
 invariant mass bin, for the CMS measurement.
 In the case of top-quark pair production, we use the dynamic scales
@@ -125,20 +127,21 @@ to maximise the convergence of the perturbative expansion~\cite{Czakon:2016dgf}.
 In the case of $Z$-boson production with non-zero transverse momentum, we use
 $\mu_R=\mu_F=M_Z$. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted in the Monte Carlo generation upon scale
-variations. As is customary, the factorisation and renormalisation scales
+variations. To this purpose, we use the default \textsc{MG5\_aMC}
+implementation, whereby the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
-from the nine-point scale variations is constructed.
+from the nine-point scale variations is constructed. However, we note that
+\textsc{PineAPPL} allows the user to determine the envelope with any point
+prescription, see Appendix~\ref{app:pineappl-demo} for an example.
 
 The values of the relevant physical parameters are chosen as
 \begin{equation}
-%\begin{aligned}
 M_\mathrm{W} = \SI{80}{\giga\electronvolt} \text{,} \quad 
 M_\mathrm{Z} = \SI{91.176}{\giga\electronvolt} \text{,} \quad 
 m_\mathrm{t} = \SI{172.5}{\giga\electronvolt} \text{,} \quad
 \Gamma_\mathrm{W} = \SI{2.50}{\giga\electronvolt} \text{,} \quad
 \Gamma_\mathrm{Z} = \SI{2.09}{\giga\electronvolt} \text{,} 
 \label{eq:parameters}
-%\end{aligned}
 \end{equation}
 where $M_W$, $M_Z$ and $m_t$ are the values of the $W$-boson, $Z$-boson and
 top quark masses, respectively, and $\Gamma_W$ and $\Gamma_Z$ are the width of
@@ -150,8 +153,9 @@ experimental analyses. In the case of high-mass Drell--Yan lepton pair
 production at 7~TeV measured by ATLAS, we require $p_T^\ell>25$~GeV,
 $|\eta_\ell|<2.5$ and 116~GeV$<M_{\ell\bar\ell}<$ 1500~GeV for the transverse
 momentum and the rapidity of each lepton and for the invariant mass of the
-lepton pair, respectively. In the case of the Drell--Yan lepton-pair production at
-7~TeV measured by CMS, we require $p_T^{\ell_1}>14$~GeV, $p_T^{\ell_2}>9$~GeV,
+lepton pair, respectively. In the case of double-differential Drell--Yan
+lepton-pair production
+at 7~TeV measured by CMS, we require $p_T^{\ell_1}>14$~GeV, $p_T^{\ell_2}>9$~GeV,
 $|\eta_\ell|<2.4$, $|\eta_{\ell\bar\ell}|<2.4$ and 20~GeV$<M_{\ell\bar\ell}<$ 1500~GeV
 for the transverse momentum and the rapidity of each lepton, and for the
 rapidity and the invariant mass of the lepton pair. In the case of $Z$-boson
@@ -168,31 +172,33 @@ rapidity and transverse momentum of the lepton pair.
 For each of the measurements discussed in
 Sect.~\ref{subsec:processes_and_measurements}, we compute the expectation
 value of the corresponding observable for each kinematic bin in two different
-ways: directly, by means of {\sc MG5\_aMC}, and a posteriori, by convolving the
-fast interpolation grid produced by {\sc PineAPPL} with the PDF set specified
-in Sect.~\ref{subsec:computational_settings}. In the following, we will refer
-to the first result as the {\sc MC} result, and to the second as the
-{\sc PineAPPL} result. We repeat the computation for theories accurate to NLO
-QCD and to NLO QCD+EW, respectively. In each case, we determine the PDF
-uncertainty (coming from the PDF ensemble), the scale uncertainty (coming from
-variations of the factorisation and renormalisation scales), and the Monte
+ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
+the fast interpolation grid produced by \textsc{PineAPPL} with the PDF set
+specified in Sect.~\ref{subsec:computational_settings}. In the following, we
+will refer to the first result as the \textsc{MC} result, and to the second as
+the \textsc{PineAPPL} result. We repeat the computation for theories accurate
+to NLO QCD and to NLO QCD+EW, respectively. The corresponding orders of the
+strong and electroweak couplings that we consider have been specified in
+Sect.~\ref{subsec:processes_and_measurements}. In each case, we determine the
+PDF uncertainty (coming from the PDF ensemble), the scale uncertainty (coming
+from variations of the factorisation and renormalisation scales), and the Monte
 Carlo uncertainty (coming from the finite number of events generated). In this
 last respect, we consider by default high-statistics computations, whereby we
 require a relative Monte Carlo precision of a fraction of permille. While
-this choice does not affect the validation of the {\sc PineAPPL} result against
-the {\sc MC} result, it ensures that the statistical uncertainty of the
-computation remains negligible in comparison to the PDF and scale uncertainties,
-as we will explicitly demonstrate. This is a desirable feature to correctly
-interpret the size of the theoretical corrections.
+this choice does not affect the validation of the \textsc{PineAPPL} result
+against the \textsc{MC} result, it ensures that the statistical uncertainty of
+the computation remains negligible in comparison to the PDF and scale
+uncertainties, as we will explicitly demonstrate. This is a desirable feature
+to correctly interpret the size of the EW corrections.
 
 Our goal is indeed twofold. On the one hand, we aim to validate the
-interpolation grids generated with {\sc PineAPPL}: to this purpose we shall
-verify that the MC and the {\sc PineAPPL} results are identical up to numerical
-inaccuracies due to the grid interpolation. This equivalence must hold for any
-choice of renormalisation and factorisation scale. On the other hand, we aim to
-study the size of the EW corrections, in particular with respect to the
-kinematics of each process, and to three kinds of uncertainties: the PDF
-uncertainty, the scale variation uncertainty, and the uncertainty of the
+interpolation grids generated with \textsc{PineAPPL}: to this purpose we shall
+verify that the MC and the \textsc{PineAPPL} results are identical up to
+numerical inaccuracies due to the grid interpolation. This equivalence must
+hold for any choice of renormalisation and factorisation scale. On the other
+hand, we aim to study the size of the EW corrections, in particular with
+respect to the kinematics of each process, and to three kinds of uncertainties:
+the PDF uncertainty, the scale uncertainty, and the uncertainty of the
 experimental data.
 
 We present these comparisons in
@@ -241,14 +247,14 @@ choice.
 %-------------------------------------------------------------------------------
 
 The measurement is mainly driven by $q\bar q$ scattering: specifically, the
-leading contribution comes from a $u\bar{u}$ ($d\bar{d}$) parton luminosity,
-which accounts for about 55\% (49\%) of the cross section for the lowest
-invariant mass bins, and 68\% (22\%) for the largest invariant mass bins.
-The PI contribution raises from about 1.3\% in the lowest bin to about 3.6\% in
-the highest bin. Overall, the EW corrections range between 5\% around
-$M_{\ell\bar\ell}\sim 150$~GeV, 2\%-3\% for intermediate invariant mass values,
-$150~\textrm{GeV}\lesssim M_{\ell\bar\ell}\lesssim 700~\textrm{GeV}$, and
-15\%-20\% for the largest invariant mass bins, $M_{\ell\bar\ell}\sim 1000$~GeV,
+leading (next-to-leading) contribution comes from a $u\bar{u}$ ($d\bar{d}$)
+parton luminosity, which accounts for about 55\% (49\%) of the cross section
+for the lowest invariant mass bins, and 68\% (22\%) for the largest invariant
+mass bins. The PI contribution raises from about 1.3\% in the lowest bin to
+about 3.6\% in the highest bin. Overall, the EW corrections range between 5\%
+around $M_{\ell\bar\ell}\sim 150$~GeV, 2\%-3\% for intermediate invariant mass
+values, $150~\textrm{GeV}\lesssim M_{\ell\bar\ell}\lesssim 700~\textrm{GeV}$, and
+15\%-20\% for the argest invariant mass bin, $M_{\ell\bar\ell}>1000$~GeV,
 see Fig.~\ref{fig:atlaszhighmass49fb}. For this reason, the data points with
 $M_{\ell\bar\ell}>210$~GeV were not included in the NNPDF3.1
 analysis~\cite{Ball:2017nwa}.
@@ -266,7 +272,7 @@ excludes any data point at large $M_{\ell\bar\ell}$ can be safely removed: any
 shift in the predictions induced by the more accurate NLO QCD+EW theory is
 likely to be easily accommodated by the large data uncertainty.
 
-In comparison to the PDF uncertainty, the size of the EW correction is
+In comparison to the PDF uncertainty, the size of the EW corrections is
 always larger, especially at the boundaries of the distribution. This fact
 suggests that, once included in a global fit, EW corrections could recast the
 relative weight of each data set included in the fit, and possibly lead to
@@ -288,9 +294,9 @@ the CMS experiment at 7~TeV. For illustrative purposes, we report only four out
 of the six invariant mass bins, respectively below the $Z$-boson mass peak,
 45~GeV$<M_{\ell\bar\ell}<$60~GeV, on the $Z$-boson mass peak,
 60~GeV$<M_{\ell\bar\ell}<$120~GeV, above the mass peak,
-120~GeV$<M_{\ell\bar\ell}<$200~GeV, and at very high invarinat masses,
+120~GeV$<M_{\ell\bar\ell}<$200~GeV, and at very high invariant masses,
 200~GeV$<M_{\ell\bar\ell}<$1500~GeV, see Fig.~\ref{fig:cmsdy2d11_bins3456}.
-Analogous plots for the remaining invariant mass bins are collected in
+Analogous plots for the remaining low invariant mass bins are collected in
 Appendix~\ref{app:add_plots}. From Fig.~\ref{fig:cmsdy2d11_bins3456},
 first of all we validate the \textsc{PineAPPL} result: its relative difference
 with respect to the \textsc{MC} result is always below a fraction of permille,
@@ -305,20 +311,21 @@ of the kinematic bin considered.
     \includegraphics[width=0.5\textwidth]{figures/pineappl_CMSDY2D11_bin5}%
     \includegraphics[width=0.5\textwidth]{figures/pineappl_CMSDY2D11_bin6}\\
     \caption{Same as Fig.~\ref{fig:atlaszhighmass49fb}, but for the CMS
-      double-differential Drell--Yan lepton pair measurement at a centre-of-mass energy
-      of 7~TeV~\cite{Chatrchyan:2013tia}. Displayed are only two of the six
-      invariant mass bins available, respectively below the $Z$-boson mass peak,
-      45~GeV$<M_{\ell\bar\ell}<$60~GeV, on the $Z$-boson mass peak,
-      60~GeV$<M_{\ell\bar\ell}<$120~GeV, above the mass peak,
+      double-differential Drell--Yan lepton pair measurement at a
+      centre-of-mass energy of 7~TeV~\cite{Chatrchyan:2013tia}. Displayed are
+      only two of the six invariant mass bins available, respectively below the
+      $Z$-boson mass peak, 45~GeV$<M_{\ell\bar\ell}<$60~GeV, on the $Z$-boson mass
+      peak, 60~GeV$<M_{\ell\bar\ell}<$120~GeV, above the mass peak,
       120~GeV$<M_{\ell\bar\ell}<$200~GeV, and at very high invarinat masses,
       200~GeV$<M_{\ell\bar\ell}<$1500~GeV.}
     \label{fig:cmsdy2d11_bins3456}
 \end{figure}
 %-------------------------------------------------------------------------------
 
-As in the case of the ATLAS high-mass Drell--Yan measurement, the CMS measurement is
-also dominated by $q\bar{q}$ scattering. The leading (next-to-leading)
-contribution to the 45~GeV$<M_{\ell\bar\ell}<$60~GeV invariant mass bin comes from
+As in the case of the ATLAS high-mass Drell--Yan measurement, the CMS
+measurement is also dominated by $q\bar{q}$ scattering. The leading
+(next-to-leading) contribution to the 45~GeV$<M_{\ell\bar\ell}<$60~GeV invariant
+mass bin comes from
 the $u\bar{u}$ ($d\bar{d}$) parton luminosity, which accounts for about 70\%
 (22\%) of the double differential cross section, with small fluctuations across
 the rapidity range. The PI contribution decreases from about 4\% at zero
@@ -330,10 +337,11 @@ double differential cross section at small rapidities, and for about 56\% (50\%)
 at large rapidities. In the remaining two invariant mass bins, the leading
 (next-to-leading) contribution comes again from the $u\bar{u}$ ($d\bar{d}$)
 parton luminosity, which accounts for about 69\%-95\% (38\%-30\%) and
-57\%-70\% (48\%-34\%), respectively for 120~GeV$<M_{\ell\bar\ell}<$200~GeV and
-200~GeV$<M_{\ell\bar\ell}<$1500~GeV in the corresponding rapidity intervals; PI
-contributions range between 7.3\%-1.2\% and 3.7\%-0.6\% in the two invariant
-mass bins, respectively, for increasing rapidity.
+57\%-70\% (48\%-34\%) of the cross section, respectively for
+120~GeV$<M_{\ell\bar\ell}<$200~GeV and 200~GeV$<M_{\ell\bar\ell}<$1500~GeV in the
+corresponding rapidity intervals; PI contributions range between 7.3\%-1.2\%
+and 3.7\%-0.6\% in the two invariant mass bins, respectively, for increasing
+rapidity.
 
 The way in which NLO QCD+EW corrections affect the theoretical prediction for
 the double differential cross section (with respect to its counterpart accurate
@@ -357,9 +365,9 @@ rapidities, where the shift due to the EW correction, although it can become
 large, is always a fraction of the data uncertainty. As already observed in the
 case of the ATLAS measurement, should EW corrections be included in a fit of
 PDFs, the description of the precise bins in the low invariant mass range is
-likely to benefit from the more accurate theory and the kinematic cut that
-excludes any data point at large invariant mass and/or rapidity can be safely
-removed.
+likely to benefit from the more accurate theory; furthermore, the kinematic cut
+that excludes any data point at large invariant mass and/or rapidity can be
+safely removed.
 
 In comparison to the PDF uncertainty, the size of the EW corrections is always
 larger. We therefore anticipate that, once included in a PDF fit, they would
@@ -405,13 +413,4 @@ uncertainty in the PDF fit~\cite{Ball:2018lag}.
     \label{fig:cmsZ13TeV}
 \end{figure}
 
-\noindent
-
-%TODO for each process:
-%\begin{itemize}
-%\item size of the photon-initiated contributions,
-%\item largest partonic channel,
-%\item most important $x$ region,
-%\item PDF uncertainty,
-%\end{itemize}
 

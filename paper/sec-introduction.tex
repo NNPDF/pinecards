@@ -13,7 +13,7 @@ theoretical predictions become comparatively precise. This entails the
 computation of additional higher-order contributions to the fixed-order 
 coupling-constant perturbative expansion, on the one hand, and an increasingly 
 sophisticated determination of the Parton Distribution Functions (PDFs) of the 
-proton~\cite{Gao:2017yyd}, on the other hand. 
+proton~\cite{Gao:2017yyd,Ethier:2020way}, on the other hand. 
 
 In the first respect, because Quantum Chromodynamics (QCD) dominates the 
 interactions occurring within colliding protons at the LHC, much effort 
@@ -26,7 +26,7 @@ while an increasing number of next-to-next-to-leading order (NNLO) predictions
 are becoming available for processes with various degrees of inclusiveness
 (see e.g.\ ref.~\cite{Amoroso:2020lgh} and references therein). The computation
 of higher-order corrections in the electroweak (EW) and mixed QCD+EW theory has
-witnessed a comparatively less comprehensive progress. Nevertheless frameworks 
+also witnessed a comprehensive progress. Frameworks 
 were developed in which the QCD and EW couplings are simultaneously treated as 
 small parameters in the perturbative expansion, and the computation of 
 theoretical predictions, accurate to NLO in both (including mixed-coupling 
@@ -38,16 +38,18 @@ incorporate a significant amount of LHC data, which is analysed with NNLO QCD
 theory by default. No EW corrections are systematically included in the 
 theoretical description of the experimental observables to which PDFs are 
 optimised, except for QED effects if a photon PDF is 
-determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}. 
-The resulting relative PDF uncertainty---which accounts only for the
-uncertainty of the data and of residual methodology inefficiencies inherent to 
-each PDF determination---can be as low as 1\% at the EW
+determined~\cite{Schmidt:2015zda,Bertone:2017bme,Harland-Lang:2019pla}.
+Data points in kinematic regions where EW corrections are expected to affect
+the accuracy of the theoretical predictions are usually removed from the fits.
+The resulting relative PDF uncertainty --- which accounts only for the
+uncertainty of the data and of residual methodological inefficiencies inherent to 
+each PDF determination --- can be as low as 1\% at the EW
 scale~\cite{Ball:2017nwa}. Theoretical uncertainties, possibly of comparable 
 size (e.g.\ from missing higher-order terms in the QCD perturbative
 expansion), have started to be included in a PDF determination and represented 
 into PDF uncertainties only very 
-recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}. This has led to a 
-noticeable improvement of PDF accuracy, in terms of an overall
+recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}. This has led to an 
+improvement of PDF accuracy, in terms of an overall
 better statistical quality of the fit, at the price of a modest deterioration 
 of PDF precision, in terms of a slight inflation of PDF uncertainties.
 
@@ -95,27 +97,32 @@ systematically included in theoretical predictions, they should not be included
 in the data, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
-we develop \textsc{PineAPPL}, a new library that provides a direct interface
+we develop \textsc{PineAPPL}, a new computer library that provides a direct interface
 from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
 fast interpolation grids. The library supports variations of the factorisation
 and renormalisation scales, resummation, and matching with a photon- and/or
 parton-shower. The library is included by default in 
-\textsc{MadGraph5\_aMC@NLO} (\textsc{mg5\_aMC@NLO} henceforth) within which it has
+\textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth) within which it has
 been designed and tested. However, it is suitable for use as a plugin in any 
 Monte Carlo generator that supports NLO QCD+EW computations, such as 
 \textsc{SHERPA}~\cite{Biedermann:2017yoi}. In this respect, \textsc{PineAPPL}
-supersedes the \textsc{aMCfast} interface~\cite{Bertone:2014zva} and complements
-the \textsc{MCgrid} interface~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
+supersedes \textsc{aMCfast}~\cite{Bertone:2014zva} and complements
+\textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 \textsc{PineAPPL}, we describe its features, we illustrate its operation, and we
-assess its performance. In section~\ref{sec:results}, by means of
-\textsc{mg5\_AMC@NLO} and \textsc{PineAPPL}, we compute fast interpolation grids for
-a representative set of data that is typically included in a fit of PDFs.
+assess its performance. In section~\ref{sec:results} we validate
+\textsc{PineAPPL} and demonstrate its capabilities by computing fast
+interpolation grids, accurate to NLO QCD and NLO QCD+EW, for a representative
+set of processes, usually included in PDF fits, for which EW corrections may
+have a sizeable effect on the accuracy of the theoretical predictions.
 In section~\ref{sec:doublecounting} we use these results to formulate more
 comprehensively the second problem sketched above, the solution of which, 
 however, remains beyond the scope of the current work. We provide our
-conclusions and an outlook in section~\ref{sec:conclusion}.
+conclusions and an outlook in section~\ref{sec:conclusion}. Examples of
+installation and usage of \textsc{PineAPPL} are provided in
+appendix~\ref{app:pineappl}; appendix~\ref{app:lumis} collects the parton
+luminosities for each process considered in section~\ref{sec:results}; and
+appendix~\ref{app:add_plots} complements some of the results presented
+in section~\ref{sec:results}.
 
-%Outline a possible strategy to deal with EW correction in LHC observables 
-%(FSR, PHOTOS, dressed/born, ...).

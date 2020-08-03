@@ -75,7 +75,7 @@ for New Physics.
 
 The systematic inclusion of EW corrections in a PDF determination entails
 the solution of two separate problems. First, a problem of efficiency:
-fast interpolation grids should be constructed, whereby partonic matrix 
+fast-interpolation grids should be constructed, whereby partonic matrix 
 elements, accurate to NLO QCD+EW, are precomputed in such a way that the 
 numerical convolution with generic input PDFs can be efficiently approximated
 by means of interpolation techniques. Such grids are a fundamental ingredient
@@ -99,7 +99,7 @@ in the data, otherwise they will be double counted.
 In this paper we address the first of these two problems. Specifically, 
 we develop \textsc{PineAPPL}, a new computer library that provides a direct interface
 from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
-fast interpolation grids. The library supports variations of the factorisation
+fast-interpolation grids. The library supports variations of the factorisation
 and renormalisation scales, resummation, and matching with a photon- and/or
 parton-shower. The library is included by default in 
 \textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth) within which it has
@@ -112,8 +112,7 @@ supersedes \textsc{aMCfast}~\cite{Bertone:2014zva} and complements
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 \textsc{PineAPPL}, we describe its features, we illustrate its operation, and we
 assess its performance. In section~\ref{sec:results} we validate
-\textsc{PineAPPL} and demonstrate its capabilities by computing fast
-interpolation grids, accurate to NLO QCD and NLO QCD+EW, for a representative
+\textsc{PineAPPL} and demonstrate its capabilities by computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW, for a representative
 set of processes, usually included in PDF fits, for which EW corrections may
 have a sizeable effect on the accuracy of the theoretical predictions.
 In section~\ref{sec:doublecounting} we use these results to formulate more

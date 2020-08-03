@@ -1,7 +1,7 @@
 \section{PDF-independent storage of phase-space weights with \texorpdfstring{\textsc{PineAPPL}}{PineAPPL}}
 \label{sec:pineappl}
 
-In this paper we present a new library called \textsc{PineAPPL}, which stores phase-space weights of a Monte Carlo (MC) integration of a fixed-order calculation independently from the chosen PDFs.
+\textsc{PineAPPL} is a new library which stores phase-space weights of a Monte Carlo (MC) integration of a fixed-order calculation independently from the chosen PDFs.
 This separates the task of producing predictions for observables into two steps: 1) the generation of the \emph{grids}, which is how the generated files are called, and 2) the convolution of those grids with a set of PDFs.
 The advantage of this method is that the time-consuming step 1) has to be done only once and, therefore, allows in step 2) for very quick convolutions of a given grid with multiple PDF sets.
 
@@ -11,8 +11,8 @@ The convolution is typically done in a few seconds or less, which offers at leas
 \item the determination of PDF sets themselves; the grids together with the corresponding experimental data constitute two important ingredients for a PDF fit.
 \end{enumerate}
 This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
-With respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to electroweak (EW), and in general mixed QCD--EW, effects.
-Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is of the main interests of this paper.
+With respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to EW, and in general mixed QCD--EW, effects.
+Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is the main interest of this paper.
 
 In particular, the following features are supported:
 \begin{itemize}
@@ -36,12 +36,11 @@ In addition to convolutions, it can also print how the luminosity function is co
 %\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
 \end{itemize}
 
-We have interfaced \textsc{PineAPPL} with the new version (v3+) of \textsc{mg5\_aMC@NLO}~\cite{Alwall:2014hca,Frederix:2018nkq}\footnote{It can be downloaded from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}, and will soon be merged in the official code release.}, where it will replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+We have interfaced \textsc{PineAPPL} with the new version (v3+) of \textsc{mg5\_aMC}~\cite{Alwall:2014hca,Frederix:2018nkq}\footnote{It can be downloaded from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}, and will soon be merged in the official code release.}, where it will replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
 Its usage is very similar to that of \textsc{mg5\_aMC v2}+\textsc{aMCfast}+\textsc{APPLgrid}.
 In practice, using \textsc{PineAPPL} leads to substantially faster run times, in particular for simple processes, because the grids do not need to be optimised 
 and their combination is faster.
 See appendix~\ref{app:sample-runcard} for an example of a runcard.
-
 Building an interface for other MC generators poses no difficulties, see appendix~\ref{app:example-program} for a small example program.
 
 \subsection{Cross sections in a multi-coupling expansion}
@@ -53,7 +52,7 @@ Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL}
 = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R}^2 ) \log^n ( \xi_\mathrm{F}^2 ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
 \label{eq:expansion}
 \end{multline}
-The cross section shown above is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft- and collinear safety, etc.).
+The cross section shown above is differential w.r.t.\ the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft and collinear safety, etc.).
 
 In experiments, but also for many calculations where the phase-space integration is performed using MC techniques, finite statistics does not allow us to reconstruct the exact dependence of the cross section on the observable $\mathcal{O}$.
 Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
@@ -67,9 +66,9 @@ which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\m
 \end{equation}
 
 The Ellis--Sexton scale $Q^2$, if chosen dynamically, depends on the phase space, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
-This allows variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but it does not allow changing the scale arbitrarily.
+This allows for variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but it does not otherwise allow for arbitrary changes of the scale.
 The terms with powers $m > 0$ and $n > 0$ vanish for the central scale choice and are only required for variations of the factorisation and renormalisation scales.
-To estimate the perturbative QCD uncertainty---no EW uncertainty is covered by this method---one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
+To estimate the perturbative QCD uncertainty --- no EW uncertainty is covered by this method --- one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
 \begin{equation}
 (\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{.}
 \end{equation}
@@ -77,12 +76,12 @@ The (asymmetric) uncertainties are then given as the minimum and maximum value (
 As is clear from eq.~\eqref{eq:expansion}, the EW coupling $\alpha$ is assumed not to be a dynamically varying coupling, but instead a constant over phase space.
 This, however, includes the most common choices of the coupling, which are (not necessarily in this order), $\alpha (0)$, $\alpha (M_\mathrm{Z})$, and $\alpha_{G_\mu}$.
 
-The problem that \textsc{PineAPPL} solves can now be described: Approximately reconstruct the functions
+The problem that \textsc{PineAPPL} solves can now be described: approximately reconstruct the functions
 \begin{equation}
 w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
 \label{eq:weight-map}
 \end{equation}
-from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable:
+from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable
 \begin{equation}
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,} \label{eq:phase-space-weights}
 \end{equation}
@@ -96,9 +95,9 @@ given by the MC integrator. Using eq.~\eqref{eq:expansion} and
 
 Note that in this section we have omitted the dependence of the weights $w$, the observable $\mathcal{O}$, and the scales $\mu_\mathrm{F}, \mu_\mathrm{R}, Q^2$ on the specific kinematics for which they are computed.
 Indeed, beyond LO, different kinematic contributions have to be considered (in ref.~\cite{Bertone:2014zva}, for example, they are labelled with an index $\alpha$, see eq.~(12) therein).
-In the FKS subtraction scheme~\cite{Frixione:1995ms,Frixione:1997np} employed in \textsc{mg5\_aMC@NLO} maximally one type of kinematics for each counterterm (soft, collinear, and soft-collinear) is needed, but this is not the general case.
+In the FKS subtraction scheme~\cite{Frixione:1995ms,Frixione:1997np} employed in \textsc{mg5\_aMC} maximally one type of kinematics for each counterterm (soft, collinear, and soft-collinear) is needed, but this is not the general case.
 In Catani--Seymour subtraction~\cite{Catani:1996jh}, for example, different dipoles have different phase spaces and therefore different scales.
-However, \textsc{PineAPPL} remains completely blind to this fact, and consistent treatment is ensured by correctly using the interface between \textsc{PineAPPL}, which fills each event into a grid using the \emph{numerical value} of $Q^2$.
+However, \textsc{PineAPPL} remains completely blind to this fact, and a consistent treatment is ensured by correctly using the interface between \textsc{PineAPPL}, which fills each event into a grid using the \emph{numerical value} of $Q^2$.
 
 \subsubsection{General characteristics}
 
@@ -183,7 +182,7 @@ However, the price one has to pay is the size of the 4-tuples.
 To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{subsec:numerical_results}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
 While this is an acceptable size, increasing the precision by an order of magnitude would require roughly 100 times the size, due to the Monte Carlo convergence that goes as $1/\sqrt{N}$ with $N$ being the number of 4-tuples.
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
-However, due to the uncompressed nature of this representation it can serve as a intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.
+However, due to the uncompressed nature of this representation it can serve as an intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.
 
 \subsubsection{Lagrange-interpolation grid}
 
@@ -191,7 +190,7 @@ A different strategy is to partition the $(x_1, x_2, Q^2)$ space,
 \begin{equation}
 H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}] \ni (x_1, x_2, Q^2)
 \end{equation}
-along each axis into a small numbers of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
+along each axis into a small number of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
 Using the bin centres and their values one already has a straightforward implementation of eq.~\eqref{eq:weight-map}, but given a finite number of bins usually yields an insufficient approximation for the cross section.
 Increasing the number of bins improves the precision, but it also increases the space requirements.
 Interpolation methods offer more precision using the same number of bins.

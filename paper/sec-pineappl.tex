@@ -88,8 +88,8 @@ from a set of $N$ function evaluations for specific momentum fractions, scales, 
 given by the MC integrator.
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
-\frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{R}) \\
-= \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{R}) \text{,}
+\frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{F}) \\
+= \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{F}) \text{,}
 \label{eq:pineappl-convolution}
 \end{multline}
 \textsc{PineAPPL} can then quickly calculate hadronic cross sections for arbitrarily many PDF sets and perform scale variations.
@@ -102,7 +102,7 @@ However, \textsc{PineAPPL} remains completely blind to this fact, and a consiste
 
 \subsubsection{General characteristics}
 
-In general, we define leading order (LO) as the set of all possible initial states $a b$ which lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
+In general, we define leading order (LO) as the set of contributions for all possible initial states $a b$ that lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
 This number is process dependent and usually determined by the number of external particles.
 For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one LO.
 An important example at the LHC is dijet production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
@@ -136,7 +136,7 @@ Since this process has a single LO, mixed QCD--EW corrections first appear at ne
 
 Note that all initial states have to be taken into account that lead to the same final state.
 This includes the photon--photon initial state, which appears already at LO.
-In the corresponding Feynman diagrams all particles are colourless, so that this subprocess only receives EW and mixed QCD--EW corrections, but never (pure) QCD corrections.
+In the corresponding Feynman diagrams all particles are colourless, so that the photon--photon initiated contributions only receive EW and mixed QCD--EW corrections, but never (pure) QCD corrections.
 The EW corrections also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.
 
 %\subsubsection{Example: top-pair production}

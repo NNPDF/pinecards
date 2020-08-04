@@ -43,7 +43,7 @@ corrections occur only at NNLO, and are therefore not considered here.
 EW corrections for this process were computed in
 refs.~\cite{Baur:2001ze,Dittmaier:2009cr}. The process receives contributions
 from 12 (34) parton luminosities at NLO QCD (NLO QCD+EW),
-see Appendix~\ref{app:lumis} for details.
+see appendix~\ref{app:lumis} for details.
 
 \paragraph{Top-quark pair production.}
 We select the distributions, single-differential in either the transverse
@@ -66,7 +66,7 @@ We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ and the
 corresponding higher-order EW correction. EW corrections for this process
 were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
 6 (36) parton luminosities at NLO QCD (NLO QCD+EW),
-see Appendix~\ref{app:lumis} for details.
+see appendix~\ref{app:lumis} for details.
 
 \paragraph{Z-boson production with non-zero transverse momentum.}
 We select the distribution, single-differential in the transverse momentum of
@@ -88,7 +88,7 @@ QCD-EW mixed correction, $\mathcal{O}(\alphas\alpha^3)$. EW corrections for
 this process were computed in
 refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
 The process receives contributions from 100 (165) parton luminosities,
-see Appendix~\ref{app:lumis} for details.
+see appendix~\ref{app:lumis} for details.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}
@@ -114,7 +114,7 @@ each member in the PDF set, and we compute the associated standard deviation.
 The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
 $\mu_\mathrm{F}$, are chosen, for each process, as follows. In the case of Drell--Yan
 lepton pair production, we use the fixed scale $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where $M_\mathrm{Z}$ is
-the mass of the Z-boson, for the ATLAS measurement, and the scale
+the mass of the Z boson, for the ATLAS measurement, and the scale
 $\mu_\mathrm{R}=\mu_\mathrm{F}=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
 invariant mass bin, for the CMS measurement.
 In the case of top-quark pair production, we use the dynamic scales
@@ -133,7 +133,7 @@ implementation, whereby the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
 from the nine-point scale variations is constructed. However, we note that
 \textsc{PineAPPL} allows the user to determine the envelope with any point
-prescription, see Appendix~\ref{app:pineappl-demo} for an example.
+prescription, see appendix~\ref{app:pineappl-demo} for an example.
 
 The values of the relevant physical parameters are chosen as
 \begin{equation}
@@ -144,16 +144,16 @@ m_\mathrm{t} = \SI{172.5}{\giga\electronvolt} \text{,} \quad
 \Gamma_\mathrm{Z} = \SI{2.09}{\giga\electronvolt} \text{,} 
 \label{eq:parameters}
 \end{equation}
-where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson and
+where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson, and
 top quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ are the width of
-the W-boson and of the Z-boson, respectively. The value of the strong
+the W boson and of the Z boson, respectively. The value of the strong
 coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
 When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
-if they statisfy the condition $\Delta R_{f \gamma} < 0.1$. In this case the
+if they satisfy the condition $\Delta R_{f \gamma} < 0.1$. In this case the
 sum of their momenta is assigned to the charged fermion, and the photon is removed
 from the event. Kinematics observables and cuts are defined starting from recombined momenta. In 
 case we would have been interested also to jet-related observables,
-photons surviving the recombination should have to be clustered together with colored 
+photons surviving the recombination should have to be clustered together with coloured
 partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
     see refs.~\cite{Frederix:2016ost,Denner:2019zfp}} 
     
@@ -184,7 +184,7 @@ value of the corresponding observable for each kinematic bin in two different
 ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
 the fast-interpolation grid produced by \textsc{PineAPPL} with the PDF set
 specified in section~\ref{subsec:computational_settings}. In the following, we
-will refer to the first result as the \textsc{MC} result, and to the second as
+will refer to the first result as the MC result, and to the second as
 the \textsc{PineAPPL} result. We repeat the computation for theories accurate
 to NLO QCD and to NLO QCD+EW, respectively. The corresponding orders of the
 strong and electroweak couplings that we consider have been specified in
@@ -195,7 +195,7 @@ Carlo uncertainty (coming from the finite number of events generated). In this
 last respect, we consider by default high-statistics computations, whereby we
 require a relative Monte Carlo precision of a fraction of per mille. While
 this choice does not affect the validation of the \textsc{PineAPPL} result
-against the \textsc{MC} result, it ensures that the statistical uncertainty of
+against the MC result, it ensures that the statistical uncertainty of
 the computation remains negligible in comparison to the PDF and scale
 uncertainties, as we will explicitly demonstrate. This is a desirable feature
 to correctly interpret the size of the EW corrections.
@@ -211,11 +211,11 @@ the PDF uncertainty, the scale uncertainty, and the uncertainty of the
 experimental data.
 
 We present these comparisons in
-figures~\ref{fig:atlaszhighmass49fb}-\ref{fig:cmsZ13TeV} for each of the processes
+figures~\ref{fig:atlaszhighmass49fb}--\ref{fig:cmsZ13TeV} for each of the processes
 and data sets outlined in section~\ref{subsec:processes_and_measurements}.
 The format of the plots is the same across all figures. The first panel
 displays the relative difference (in per mille) between the {\sc PineAPPL} and
-the {\sc MC} results for the central, upper and lower scale choices, for
+the MC results for the central, upper and lower scale choices, for
 theories accurate to both NLO QCD and NLO QCD+EW. The following three panels
 present the theoretical predictions, accurate to either NLO QCD or NLO QCD+EW,
 always normalised to the former; on top of the theoretical predictions, the
@@ -244,7 +244,7 @@ choice.
       high-mass Drell--Yan lepton pair measurement in the high-mass region at
       a centre-of-mass energy of \SI{7}{\tera\electronvolt}~\cite{Aad:2013iua}. The first panel
       displays the relative difference (in per mille) between the {\sc PineAPPL}
-      and the {\sc MC} results for the central, upper and lower scale choices,
+      and the MC results for the central, upper and lower scale choices,
       for theories accurate to both NLO QCD and NLO QCD+EW. The second, third
       and fourth panels present the theoretical predictions, accurate to either
       NLO QCD or NLO QCD+EW, always normalised to the former; on top of the
@@ -263,7 +263,7 @@ mass bins. The PI contribution raises from about \SI{1.3}{\percent} in the lowes
 about \SI{3.6}{\percent} in the highest bin. Overall, the EW corrections range between \SI{5}{\percent}
 around $M_{\ell\bar\ell}\sim \SI{150}{\giga\electronvolt}$, \SIrange{2}{3}{\percent} for intermediate invariant mass
 values, $\SI{150}{\giga\electronvolt}\lesssim M_{\ell\bar\ell}\lesssim \SI{700}{\giga\electronvolt}$, and
-\SIrange{15}{20}{\percent} for the argest invariant mass bin, $M_{\ell\bar\ell}>\SI{1000}{\giga\electronvolt}$,
+\SIrange{15}{20}{\percent} for the largest invariant mass bin, $M_{\ell\bar\ell}>\SI{1000}{\giga\electronvolt}$,
 see figure~\ref{fig:atlaszhighmass49fb}. For this reason, the data points with
 $M_{\ell\bar\ell}>\SI{210}{\giga\electronvolt}$ were not included in the NNPDF3.1
 analysis~\cite{Ball:2017nwa}.
@@ -306,9 +306,9 @@ $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, abo
 $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$, and at very high invariant masses,
 $\SI{200}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$, see figure~\ref{fig:cmsdy2d11_bins3456}.
 Analogous plots for the remaining low invariant mass bins are collected in
-Appendix~\ref{app:add_plots}. From figure~\ref{fig:cmsdy2d11_bins3456},
+appendix~\ref{app:add_plots}. From figure~\ref{fig:cmsdy2d11_bins3456},
 first of all we validate the \textsc{PineAPPL} result: its relative difference
-with respect to the \textsc{MC} result is always below a fraction of per mille,
+with respect to the MC result is always below a fraction of per mille,
 again irrespective of the accuracy of the theory, of the choice of scale, and
 of the kinematic bin considered. 
 

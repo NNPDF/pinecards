@@ -47,8 +47,8 @@ see Appendix~\ref{app:lumis} for details.
 
 \paragraph{Top-quark pair production.}
 We select the distributions, single-differential in either the transverse
-momentum of the top quark, $p_T^t$, or the invariant mass of the top-quark
-pair, $m_{t\bar t}$, measured by the ATLAS and CMS experiments at a centre-of-mass
+momentum of the top quark, $p_\mathrm{T}^\mathrm{t}$, or the invariant mass of the top-quark
+pair, $m_{\mathrm{t}\bar{\mathrm{t}}}$, measured by the ATLAS and CMS experiments at a centre-of-mass
 energy of \SI{8}{\tera\electronvolt}~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
 been extensively studied in the context of PDF fits in
 refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml}, and
@@ -68,9 +68,9 @@ were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernre
 6 (36) parton luminosities at NLO QCD (NLO QCD+EW),
 see Appendix~\ref{app:lumis} for details.
 
-\paragraph{$Z$-boson production with non-zero transverse momentum.}
+\paragraph{Z-boson production with non-zero transverse momentum.}
 We select the distribution, single-differential in the transverse momentum of
-the $Z$ boson, $p_T^Z$, measured by the CMS experiment at a centre-of-mass
+the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a centre-of-mass
 energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}. So far, this measurement has not been
 included in any PDF determination. Because it has sub-percent uncertainties,
 EW corrections are expected to be essential in order to achieve a good
@@ -111,22 +111,22 @@ uncertainty associated to the theoretical predictions a posteriori, that is,
 we convolve the fast-interpolation grid generated with {\sc PineAPPL} with
 each member in the PDF set, and we compute the associated standard deviation.
 
-The central values of the renormalisation and factorisation scales, $\mu_R$ and
-$\mu_F$, are chosen, for each process, as follows. In the case of Drell--Yan
-lepton pair production, we use the fixed scale $\mu_R=\mu_F=M_Z$, where $M_Z$ is
-the mass of the $Z$-boson, for the ATLAS measurement, and the scale
-$\mu_R=\mu_F=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
+The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
+$\mu_\mathrm{F}$, are chosen, for each process, as follows. In the case of Drell--Yan
+lepton pair production, we use the fixed scale $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where $M_\mathrm{Z}$ is
+the mass of the Z-boson, for the ATLAS measurement, and the scale
+$\mu_\mathrm{R}=\mu_\mathrm{F}=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
 invariant mass bin, for the CMS measurement.
 In the case of top-quark pair production, we use the dynamic scales
-$\mu_R=\mu_F=\sqrt{m_t^2+(p_T^t)^2}{\Big /}2$ for the distribution differential
-in the transverse momentum of the top quark, and $\mu_R=\mu_F=H_T/4$ for the
+$\mu_\mathrm{R}=\mu_\mathrm{F}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}{\Big /}2$ for the distribution differential
+in the transverse momentum of the top quark, and $\mu_\mathrm{R}=\mu_\mathrm{F}=H_\mathrm{T}/4$ for the
 distribution differential in the invariant mass of the top-quark pair, where
-$H_T=\sqrt{m_t^2+(p_T^t)^2}+\sqrt{m_t^2+(p_T^{\bar{t}})}$, with $m_t$,
-$p_T^t$ and $p_T^{\bar t}$ the mass of the top quark and the transverse momenta
+$H_\mathrm{T}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}+\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^{\bar{\mathrm{t}}})}$, with $m_\mathrm{t}$,
+$p_\mathrm{T}^\mathrm{t}$ and $p_\mathrm{T}^{\bar{\mathrm{t}}}$ the mass of the top quark and the transverse momenta
 of the top and antitop quarks, respectively. These choices were demonstrated
 to maximise the convergence of the perturbative expansion~\cite{Czakon:2016dgf}.
-In the case of $Z$-boson production with non-zero transverse momentum, we use
-$\mu_R=\mu_F=M_Z$. In order to estimate the missing higher-order uncertainty,
+In the case of Z-boson production with non-zero transverse momentum, we use
+$\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted in the Monte Carlo generation upon scale
 variations. To this purpose, we use the default \textsc{MG5\_aMC}
 implementation, whereby the factorisation and renormalisation scales
@@ -144,10 +144,10 @@ m_\mathrm{t} = \SI{172.5}{\giga\electronvolt} \text{,} \quad
 \Gamma_\mathrm{Z} = \SI{2.09}{\giga\electronvolt} \text{,} 
 \label{eq:parameters}
 \end{equation}
-where $M_W$, $M_Z$ and $m_t$ are the values of the $W$-boson, $Z$-boson and
-top quark masses, respectively, and $\Gamma_W$ and $\Gamma_Z$ are the width of
-the $W$-boson and of the $Z$-boson, respectively. The value of the strong
-coupling is chosen consistently with the PDF set, $\alphas(M_Z)=0.118$.
+where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson and
+top quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ are the width of
+the W-boson and of the Z-boson, respectively. The value of the strong
+coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
 When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
 if they statisfy the condition $\Delta R_{f \gamma} < 0.1$. In this case the
 sum of their momenta is assigned to the charged fermion, and the photon is removed
@@ -159,19 +159,19 @@ partons.\footnote{For issues related to the definition of jets in presence of EW
     
 Finally, we implement the kinematic cuts specified in the corresponding
 experimental analyses. In the case of high-mass Drell--Yan lepton pair
-production at \SI{7}{\tera\electronvolt} measured by ATLAS, we require $p_T^\ell>\SI{25}{\giga\electronvolt}$,
+production at \SI{7}{\tera\electronvolt} measured by ATLAS, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
 $|\eta_\ell|<2.5$ and $\SI{116}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the transverse
 momentum and the rapidity of each lepton and for the invariant mass of the
 lepton pair, respectively. In the case of double-differential Drell--Yan
 lepton-pair production
-at \SI{7}{\tera\electronvolt} measured by CMS, we require $p_T^{\ell_1}>\SI{14}{\giga\electronvolt}$, $p_T^{\ell_2}>\SI{9}{\giga\electronvolt}$,
+at \SI{7}{\tera\electronvolt} measured by CMS, we require $p_\mathrm{T}^{\ell_1}>\SI{14}{\giga\electronvolt}$, $p_\mathrm{T}^{\ell_2}>\SI{9}{\giga\electronvolt}$,
 $|\eta_\ell|<2.4$, $|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$
 for the transverse momentum and the rapidity of each lepton, and for the
-rapidity and the invariant mass of the lepton pair. In the case of $Z$-boson
+rapidity and the invariant mass of the lepton pair. In the case of Z-boson
 production with non-zero transverse momentum at \SI{13}{\tera\electronvolt} measured by CMS, we
-require $p_T^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
-$M_Z-\SI{15}{\giga\electronvolt}<M_{\ell\bar\ell}<M_Z+\SI{20}{\giga\electronvolt}$,
-$|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_T^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
+require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
+$M_\mathrm{Z}-\SI{15}{\giga\electronvolt}<M_{\ell\bar\ell}<M_\mathrm{Z}+\SI{20}{\giga\electronvolt}$,
+$|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
 transverse momentum and rapidity of each lepton, and for the invariant mass,
 rapidity and transverse momentum of the lepton pair.
 
@@ -255,8 +255,8 @@ choice.
 \end{figure}
 %-------------------------------------------------------------------------------
 
-The measurement is mainly driven by $q\bar q$ scattering: specifically, the
-leading (next-to-leading) contribution comes from a $u\bar{u}$ ($d\bar{d}$)
+The measurement is mainly driven by $\mathrm{q}\bar{\mathrm{q}}$ scattering: specifically, the
+leading (next-to-leading) contribution comes from a $\mathrm{u}\bar{\mathrm{u}}$ ($\mathrm{d}\bar{\mathrm{d}}$)
 parton luminosity, which accounts for about \SI{55}{\percent} (\SI{49}{\percent}) of the cross section
 for the lowest invariant mass bins, and \SI{68}{\percent} (\SI{22}{\percent}) for the largest invariant
 mass bins. The PI contribution raises from about \SI{1.3}{\percent} in the lowest bin to
@@ -300,8 +300,8 @@ therefore not affected by a poor simulation of the underlying events.
 
 We then turn our attention to the double-differential measurement performed by
 the CMS experiment at \SI{7}{\tera\electronvolt}. For illustrative purposes, we report only four out
-of the six invariant mass bins, respectively below the $Z$-boson mass peak,
-$\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, on the $Z$-boson mass peak,
+of the six invariant mass bins, respectively below the Z-boson mass peak,
+$\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, on the Z-boson mass peak,
 $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, above the mass peak,
 $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$, and at very high invariant masses,
 $\SI{200}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$, see figure~\ref{fig:cmsdy2d11_bins3456}.
@@ -323,7 +323,7 @@ of the kinematic bin considered.
       double-differential Drell--Yan lepton pair measurement at a
       centre-of-mass energy of \SI{7}{\tera\electronvolt}~\cite{Chatrchyan:2013tia}. Displayed are
       only two of the six invariant mass bins available, respectively below the
-      $Z$-boson mass peak, $\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, on the $Z$-boson mass
+      Z-boson mass peak, $\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, on the Z-boson mass
       peak, $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, above the mass peak,
       $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$, and at very high invariant masses,
       $\SI{200}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$.}
@@ -332,19 +332,19 @@ of the kinematic bin considered.
 %-------------------------------------------------------------------------------
 
 As in the case of the ATLAS high-mass Drell--Yan measurement, the CMS
-measurement is also dominated by $q\bar{q}$ scattering. The leading
+measurement is also dominated by $\mathrm{q}\bar{\mathrm{q}}$ scattering. The leading
 (next-to-leading) contribution to the $\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$ invariant
 mass bin comes from
-the $u\bar{u}$ ($d\bar{d}$) parton luminosity, which accounts for about \SI{70}{\percent}
+the $\mathrm{u}\bar{\mathrm{u}}$ ($\mathrm{d}\bar{\mathrm{d}}$) parton luminosity, which accounts for about \SI{70}{\percent}
 (\SI{22}{\percent}) of the double differential cross section, with small fluctuations across
 the rapidity range. The PI contribution decreases from about \SI{4}{\percent} at zero
 rapidity to \SI{1.5}{\percent} in the largest rapidity bin. The situation is slightly
 different in the $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$ invariant mass bin, where the
-leading (next-to-leading) contribution comes instead from the $d\bar{d}$
-($u\bar{u}$) parton luminosity, which accounts for about \SI{60}{\percent} (\SI{44}{\percent}) of the
+leading (next-to-leading) contribution comes instead from the $\mathrm{d}\bar{\mathrm{d}}$
+($\mathrm{u}\bar{\mathrm{u}}$) parton luminosity, which accounts for about \SI{60}{\percent} (\SI{44}{\percent}) of the
 double differential cross section at small rapidities, and for about \SI{56}{\percent} (\SI{50}{\percent})
 at large rapidities. In the remaining two invariant mass bins, the leading
-(next-to-leading) contribution comes again from the $u\bar{u}$ ($d\bar{d}$)
+(next-to-leading) contribution comes again from the $\mathrm{u}\bar{\mathrm{u}}$ ($\mathrm{d}\bar{\mathrm{d}}$)
 parton luminosity, which accounts for about \SIrange{69}{95}{\percent} (\SIrange{38}{30}{\percent}) and
 \SIrange{57}{70}{\percent} (\SIrange{48}{34}{\percent}) of the cross section, respectively for
 $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$ and $\SI{200}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ in the
@@ -382,10 +382,10 @@ In comparison to the PDF uncertainty, the size of the EW corrections is always
 larger. We therefore anticipate that, once included in a PDF fit, they would
 recast the relative weight of each data set included in the fit, and possibly
 lead to an improvement in their overall description. In comparison to the scale
-uncertainty, the size of the EW correction is similar, except on the $Z$-boson
+uncertainty, the size of the EW correction is similar, except on the Z-boson
 mass peak, $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, where the scale uncertainty exceeds
 the size of the EW correction by about a factor of five. These facts confirm,
-as expected, that EW corrections are almost immaterial at the $Z$-boson mass
+as expected, that EW corrections are almost immaterial at the Z-boson mass
 peak, but that NNLO QCD corrections are otherwise as relevant as NLO QCD+EW
 corrections. Finally, the Monte Carlo statistical uncertainty remains negligible
 in comparison to the data, PDF and scale uncertainties, and to the size of the
@@ -405,20 +405,20 @@ uncertainty in the PDF fit~\cite{Ball:2018lag}.
     \caption{Same as figure~\ref{fig:atlaszhighmass49fb}, but for the ATLAS
       differential top-quark pair measurement at a centre-of-mass energy of
       \SI{8}{\tera\electronvolt}~\cite{Aad:2015mbv}. Displayed are the distributions in the
-      transverse momentum of the top quark $p_T^t$ (left), and in the invariant
-      mass of the top-quark pair $m_{t\bar{t}}$ (right).}
+      transverse momentum of the top quark $p_\mathrm{T}^\mathrm{t}$ (left), and in the invariant
+      mass of the top-quark pair $m_{\mathrm{t}\bar{\mathrm{t}}}$ (right).}
     \label{fig:atlastop}
 \end{figure}
 
 
 
-\paragraph{$Z$-boson production with non-zero transverse momentum.}
+\paragraph{Z-boson production with non-zero transverse momentum.}
 
 
 \begin{figure}[!t]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV}
-    \caption{PineAPPL comparison for CMS $Z$ $p_T$ distribution.}
+    \caption{PineAPPL comparison for CMS Z $p_\mathrm{T}$ distribution.}
     \label{fig:cmsZ13TeV}
 \end{figure}
 

@@ -155,11 +155,11 @@ top quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ 
 the W boson and of the Z boson, respectively. The value of the strong
 coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
 When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
-if they satisfy the condition $\Delta R_{f \gamma} < 0.1$. In this case the
+if they satisfy the condition $\Delta R_{f \gamma}<0.1$, where $\Delta R_{f \gamma}$
+is the fermion-photon cone radius. In this case the
 sum of their momenta is assigned to the charged fermion, and the photon is removed
-from the event. Kinematics observables and cuts are defined starting from recombined momenta. In 
-case we would have been interested also to jet-related observables,
-photons surviving the recombination should have to be clustered together with coloured
+from the event. Kinematics observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
+photons surviving the recombination wouldl have to be clustered together with coloured
 partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
     see refs.~\cite{Frederix:2016ost,Denner:2019zfp}} 
     
@@ -167,19 +167,19 @@ Finally, we implement the kinematic cuts specified in the corresponding
 experimental analyses. In the case of high-mass Drell--Yan lepton pair
 production at \SI{7}{\tera\electronvolt} measured by ATLAS, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
 $|\eta_\ell|<2.5$ and $\SI{116}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the transverse
-momentum and the rapidity of each lepton and for the invariant mass of the
+momentum and the pseudorapidity of each lepton and for the invariant mass of the
 lepton pair, respectively. In the case of double-differential Drell--Yan
 lepton-pair production
 at \SI{7}{\tera\electronvolt} measured by CMS, we require $p_\mathrm{T}^{\ell_1}>\SI{14}{\giga\electronvolt}$, $p_\mathrm{T}^{\ell_2}>\SI{9}{\giga\electronvolt}$,
 $|\eta_\ell|<2.4$, $|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$
-for the transverse momentum and the rapidity of each lepton, and for the
-rapidity and the invariant mass of the lepton pair. In the case of Z-boson
+for the transverse momentum and the pseudorapidity of each lepton, and for the
+pseudorapidity and the invariant mass of the lepton pair. In the case of Z-boson
 production with non-zero transverse momentum at \SI{13}{\tera\electronvolt} measured by CMS, we
 require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
 $M_\mathrm{Z}-\SI{15}{\giga\electronvolt}<M_{\ell\bar\ell}<M_\mathrm{Z}+\SI{20}{\giga\electronvolt}$,
 $|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
-transverse momentum and rapidity of each lepton, and for the invariant mass,
-rapidity and transverse momentum of the lepton pair.
+transverse momentum and pseudorapidity of each lepton, and for the invariant mass,
+pseudorapidity and transverse momentum of the lepton pair.
 
 \subsection{Numerical results}
 \label{subsec:numerical_results}
@@ -268,7 +268,10 @@ The measurement is mainly driven by $\mathrm{q}\bar{\mathrm{q}}$ scattering: spe
 leading (next-to-leading) contribution comes from a $\mathrm{u}\bar{\mathrm{u}}$ ($\mathrm{d}\bar{\mathrm{d}}$)
 parton luminosity, which accounts for about \SI{55}{\percent} (\SI{49}{\percent}) of the cross section
 for the lowest invariant mass bins, and \SI{68}{\percent} (\SI{22}{\percent}) for the largest invariant
-mass bins. The PI contribution raises from about \SI{1.3}{\percent} in the lowest bin to
+mass bins.\footnote{The size of these contributions may depend on the input PDF
+  set. Here and in the following, we always quote results obtained from the
+  \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} PDF set.}
+The PI contribution raises from about \SI{1.3}{\percent} in the lowest bin to
 about \SI{3.6}{\percent} in the highest bin. Overall, the EW corrections range between \SI{5}{\percent}
 around $M_{\ell\bar\ell}\sim \SI{150}{\giga\electronvolt}$, \SIrange{2}{3}{\percent} for intermediate invariant mass
 values, $\SI{150}{\giga\electronvolt}\lesssim M_{\ell\bar\ell}\lesssim \SI{700}{\giga\electronvolt}$, and
@@ -377,13 +380,18 @@ NNPDF3.1 analysis~\cite{Ball:2017nwa}.
 
 In general, the size of the EW corrections is comparable to or slightly larger
 than the data uncertainty, except for the invariant mass bin 
-$\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, where the shift due to the EW correction
-overshoots the data uncertainty by about a factor of ten, and at large
-rapidities, where the shift due to the EW correction, although it can become
-large, is always a fraction of the data uncertainty. As already observed in the
-case of the ATLAS measurement, should EW corrections be included in a fit of
-PDFs, the description of the precise bins in the low invariant mass range is
-likely to benefit from the more accurate theory; furthermore, the kinematic cut
+$\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$,
+where the shift due to the EW correction overshoots the data uncertainty by
+about a factor of ten, and at large rapidities, where the shift due to the EW
+correction, although it can become large, is always a fraction of the data
+uncertainty. Because EW effects are subtracted from the data used
+in PDF fits (see section~\ref{sec:doublecounting}), a good agreement between
+data and theory is usually achieved without the inclusion of EW corrections.
+However, as already observed in the case of the ATLAS measurement, should EW
+corrections be included in a fit of PDFs, these are likely to become more
+accurate: even though the apparent description of the data will not
+improve, including of the precise bins in the low invariant mass range, PDFs
+will resemble more closely the underlying truth. Furthermore, the kinematic cut
 that excludes any data point at large invariant mass and/or rapidity can be
 safely removed.
 

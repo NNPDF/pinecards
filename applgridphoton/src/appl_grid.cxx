@@ -134,7 +134,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
          std::vector<order_id> const& order_ids,
 		 std::string transform ) :
   m_grids(MAXGRIDS),
-  m_run(0), m_optimised(false), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
+  m_run(0), m_optimised(true), m_trimmed(false),  m_normalised(false), m_symmetrise(false),
   m_read(false),
   m_transform(transform), m_genpdfname(genpdfname),
   m_genpdf(MAXGRIDS),
@@ -173,7 +173,7 @@ appl::grid::grid(int Nobs, const double* obsbins,
 
 appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   m_grids(MAXGRIDS),
-  m_optimised(false),  m_trimmed(false), 
+  m_optimised(true),  m_trimmed(false),
   m_normalised(false),
   m_symmetrise(false),
   m_read(false),
@@ -395,7 +395,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   if ( m_obs_bins ) { 
     m_obs_bins_combined = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
     static_cast <TH1D*> (m_obs_bins_combined)->SetDirectory(0);
-    static_cast <TH1D*> (m_obs_bins_combined)->Scale(run());
   }
   else { 
     m_obs_bins = (TH1D*)gridfilep->Get((dirname+"/reference").c_str());
@@ -403,7 +402,6 @@ appl::grid::grid(const std::string& filename, const std::string& dirname)  :
   }
 
   static_cast <TH1D*> (m_obs_bins)->SetDirectory(0);
-  static_cast <TH1D*> (m_obs_bins)->Scale(run());
   static_cast <TH1D*> (m_obs_bins)->SetName("referenceInternal");
   if ( m_normalised && m_optimised ) m_read = true;
 
@@ -483,6 +481,31 @@ appl::grid::grid(appl::grid&& g)
 {
     g.m_obs_bins = nullptr;
     g.m_obs_bins_combined = nullptr;
+}
+
+appl::grid& appl::grid::operator=(appl::grid&& g)
+{
+    m_obs_bins = g.m_obs_bins;
+    m_obs_bins_combined = g.m_obs_bins_combined;
+    m_grids = std::move(g.m_grids);
+    m_run = g.m_run;
+    m_optimised = g.m_optimised;
+    m_trimmed = g.m_trimmed;
+    m_normalised = g.m_normalised;
+    m_symmetrise = g.m_symmetrise;
+    m_read = g.m_read;
+    m_transform = std::move(g.m_transform);
+    m_genpdfname = std::move(g.m_genpdfname);
+    m_genpdf = std::move(g.m_genpdf);
+    m_documentation = std::move(g.m_documentation);
+    m_combine = std::move(g.m_combine);
+    m_subproc = g.m_subproc;
+    m_order_ids = std::move(g.m_order_ids);
+
+    g.m_obs_bins = nullptr;
+    g.m_obs_bins_combined = nullptr;
+
+    return *this;
 }
 
 std::vector<appl::order_id> const& appl::grid::order_ids() const
@@ -809,6 +832,8 @@ void appl::grid::Write(const std::string& filename,
 
   }
 
+  delete setup;
+
   /// encode the pdf combination if appropriate
   
   if ( contains( m_genpdfname, ".config" ) ) { 
@@ -831,6 +856,8 @@ void appl::grid::Write(const std::string& filename,
       }
       
       _combinations->Write( label.c_str() );
+
+      delete _combinations;
       
       std::cout << "writing " << m_genpdf[i]->name() << std::endl;
       
@@ -889,10 +916,6 @@ void appl::grid::Write(const std::string& filename,
   //  std::cout << "normalised() " << getNormalised() << "\tread " << m_read << std::endl; 
   
   //  if ( !getNormalised() || m_read )  if ( run() ) reference->Scale(1/double(run()));
-  if ( run() ) { 
-    reference->Scale(1/double(run()));
-    if ( reference_internal ) reference_internal->Scale(1/double(run()));
-  }
 
   // if ( run() ) reference->Scale(1/double(run()));
   reference->Write();
@@ -1026,7 +1049,6 @@ std::vector<double> appl::grid::vconvolute(void (*pdf1)(const double& , const do
   std::vector<double> hvec;
 
   double invNruns = 1;
-  if ( (!m_normalised) && run() ) invNruns /= double(run());
 
   //  TH1D* h = new TH1D(*m_obs_bins);
   //  h->SetName("xsec");
@@ -1150,7 +1172,6 @@ std::vector<std::vector<double>> appl::grid::vconvolute_orders(void (*pdf1)(cons
   std::vector<std::vector<double>> hvec(m_order_ids.size());
 
   double invNruns = 1;
-  if ( (!m_normalised) && run() ) invNruns /= double(run());
 
   //  TH1D* h = new TH1D(*m_obs_bins);
   //  h->SetName("xsec");
@@ -1555,8 +1576,8 @@ void appl::grid::combineBins(std::vector<double>& hvec, int power ) const {
 
 appl::grid::grid(std::vector<appl::grid>&& grids)
     // TODO: check if all of the following member variables are set correctly
-    : m_run(0.0)
-    , m_optimised(false)
+    : m_run(1.0)
+    , m_optimised(true)
     , m_trimmed(false)
     , m_normalised(false)
     , m_symmetrise(false)
@@ -1773,7 +1794,11 @@ appl::grid::grid(std::vector<appl::grid>&& grids)
             {
                 m_grids.at(i)[obs] = new igrid(*grids.at(grid_indices.at(j)).m_grids.at(i)[k]);
 
-                *m_grids.at(i)[obs] *= 1.0 / grids.at(grid_indices.at(j)).m_run;
+                auto const run = grids.at(grid_indices.at(j)).m_run;
+                if (run != 0.0)
+                {
+                    *m_grids.at(i)[obs] *= 1.0 / run;
+                }
 
                 ++obs;
             }

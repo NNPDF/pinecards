@@ -6,9 +6,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer nwgt
       character*(*) weights_info(*)
 
+      call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'t rap ', 4,0.0d0,1.6d0)
-      call HwU_book(2,'t rap ', 1,1.6d0,2.5d0)
+      call HwU_book(1,'t-tx pair rap ', 3,0.0d0,0.9d0)
+      call HwU_book(2,'t-tx pair rap ', 1,0.9d0,1.3d0)
+      call HwU_book(3,'t-tx pair rap ', 1,1.3d0,2.5d0)
       return
       end
 
@@ -30,22 +32,27 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'nexternal.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody
+      integer ibody  
       integer i
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision yt, getrapidity
+      double precision pttx(0:3), yttx, getrapidity
       external getrapidity
- 
-      yt  = getrapidity(p(0,3), p(3,3))
 
-      call HwU_fill(1,yt,wgts)
-      call HwU_fill(2,yt,wgts)
+      do i=0,3
+        pttx(i)=p(i,3)+p(i,4)
+      enddo
+
+      yttx= getrapidity(pttx(0), pttx(3))
+
+      call HwU_fill(1,yttx,wgts)
+      call HwU_fill(2,yttx,wgts)
+      call HwU_fill(3,yttx,wgts)
 
  999  return      
       end
 
-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       function getrapidity(en,pl)
       implicit none

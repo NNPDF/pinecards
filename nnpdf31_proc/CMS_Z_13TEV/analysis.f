@@ -8,13 +8,22 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4d0,   30d0*2.4d0)
-      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4d0,   45d0*2.4d0)
-      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4d0,   60d0*2.4d0)
-      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4d0,  120d0*2.4d0)
-      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4d0,  200d0*2.4d0)
-      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4d0, 1500d0*2.4d0)
-
+      call HwU_book( 1,'Z pT',  1,  20.0d0,  22.0d0)
+      call HwU_book( 2,'Z pT',  2,  22.0d0,  28.0d0)
+      call HwU_book( 3,'Z pT',  1,  28.0d0,  32.0d0)
+      call HwU_book( 4,'Z pT',  1,  32.0d0,  37.0d0)
+      call HwU_book( 5,'Z pT',  1,  37.0d0,  43.0d0)
+      call HwU_book( 6,'Z pT',  1,  43.0d0,  52.0d0)
+      call HwU_book( 7,'Z pT',  1,  52.0d0,  65.0d0)
+      call HwU_book( 8,'Z pT',  1,  65.0d0,  85.0d0)
+      call HwU_book( 9,'Z pT',  1,  85.0d0, 120.0d0)
+      call HwU_book(10,'Z pT',  1, 120.0d0, 160.0d0)
+      call HwU_book(11,'Z pT',  3, 160.0d0, 250.0d0)
+      call HwU_book(12,'Z pT',  1, 250.0d0, 300.0d0)
+      call HwU_book(13,'Z pT',  2, 300.0d0, 500.0d0)
+      call HwU_book(14,'Z pT',  1, 500.0d0, 800.0d0)
+      call HwU_book(15,'Z pT',  1, 800.0d0,1500.0d0)
+      
       return
       end
 
@@ -42,17 +51,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
-      double precision xyll, getabsy
+      double precision ppl(0:3), pplb(0:3), ppv(0:3), ptv, getinvm
       external getinvm
-      external getabsy
-      integer bin
-      double precision minmll, maxmll
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
-
-
 
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
      $                       p, iPDG, p_reco, iPDG_reco)
@@ -64,40 +67,24 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       do i=0,3
         ppv(i)=ppl(i)+pplb(i)
       enddo
+      
+      ptv=sqrt(ppv(1)**2+ppv(2)**2)
 
-      xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
-      xyll=getabsy(ppv(0),ppv(3))
-
-      bin = -1
-
-      if (xmll.ge.20d0.and.xmll.lt.30d0) then
-        bin=1
-        minmll=20d0
-        maxmll=30d0
-      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
-        bin=2
-        minmll=30d0
-        maxmll=45d0
-      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
-        bin=3
-        minmll=45d0
-        maxmll=60d0
-      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
-        bin=4
-        minmll=60d0
-        maxmll=120d0
-      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
-        bin=5
-        minmll=120d0
-        maxmll=200d0
-      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
-        bin=6
-        minmll=200d0
-        maxmll=1500d0
-      endif
-
-      call HwU_fill(bin,minmll*2.4+xyll*(maxmll-minmll),wgts)
-
+      call HwU_fill(1,ptv,wgts)
+      call HwU_fill(2,ptv,wgts)
+      call HwU_fill(3,ptv,wgts)
+      call HwU_fill(4,ptv,wgts)
+      call HwU_fill(5,ptv,wgts)
+      call HwU_fill(6,ptv,wgts)
+      call HwU_fill(7,ptv,wgts)
+      call HwU_fill(8,ptv,wgts)
+      call HwU_fill(9,ptv,wgts)
+      call HwU_fill(10,ptv,wgts)
+      call HwU_fill(11,ptv,wgts)
+      call HwU_fill(12,ptv,wgts)
+      call HwU_fill(13,ptv,wgts)
+      call HwU_fill(14,ptv,wgts)
+      call HwU_fill(15,ptv,wgts)
 
  999  return      
       end
@@ -119,21 +106,6 @@ c
         stop
       endif
       getinvm=tmp
-      return
-      end
-
-      function getabsy(en,pl)
-      implicit none
-      real*8 getabsy,en,pl,tmp
-c
-      tmp=pl/en
-      if(abs(tmp).lt.1d0)then
-        tmp=abs(atanh(tmp))
-      else
-        write(*,*)'Attempt to compute atanh(x) with x > 1'
-        stop
-      endif
-      getabsy=tmp
       return
       end
 

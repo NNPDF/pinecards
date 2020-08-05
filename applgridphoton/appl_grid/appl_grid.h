@@ -108,12 +108,12 @@ public:
   grid(const std::string& filename="./grid.root", const std::string& dirname="grid");
 
   grid(grid&& g);
+  grid& operator=(grid&& g);
 
   grid(grid const&) = delete;
   grid() = delete;
 
   grid& operator=(grid const&) = delete;
-  grid& operator=(grid&&) = delete;
 
   virtual ~grid();
   
@@ -167,6 +167,7 @@ public:
 
   // access to internal grids if need be
   const igrid* weightgrid(int iorder, int iobs) const { return m_grids[iorder][iobs]; }
+  igrid* weightgrid(int iorder, int iobs) { return m_grids[iorder][iobs]; }
   
   // save grid to specified file
   void Write(const std::string& filename, const std::string& dirname="grid", const std::string& pdfname="" );
@@ -190,10 +191,6 @@ public:
   // number of subprocesses 
   int subProcesses(int i) const;
 
-  // general status accessors
-  double& run() { return m_run; }
-  double run() const { return m_run; }
- 
   int  nloops() const;
 
   std::string getGenpdf()    const { return m_genpdfname; }

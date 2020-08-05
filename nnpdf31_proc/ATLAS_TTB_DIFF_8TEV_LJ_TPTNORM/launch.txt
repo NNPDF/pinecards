@@ -12,13 +12,8 @@ set ebeam2 4000
 set pdlabel lhapdf
 set lhaid 324900
 set dynamical_scale_choice 10
-set reweight_scale False
-set req_acc_FO 0.01
+set reweight_scale True
+set req_acc_FO 0.0001
 set iappl 1
-done
-launch @OUTPUT@
-fixed_order = ON
-set req_acc_FO 0.001
-set iappl 2
 done
 quit

@@ -1,6 +1,7 @@
+set complex_mass_scheme True
 import model loop_qcd_qed_sm_Gmu
 define p = p b b~
 define j = p
-generate p p > t t~ [QCD QED]
+generate p p > mu+ mu- j QCD=1 QED=3 [QCD]
 output @OUTPUT@
 quit

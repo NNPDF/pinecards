@@ -15,16 +15,17 @@ srcs1 = [
     'tsparse_base.cxx',
 ]
 
-root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist' ])
+root_dep = dependency('ROOT', method : 'cmake', modules : [ 'ROOT::Core', 'ROOT::Hist'
+#, 'ROOT::rootcling'
+])
 
-# TODO: instead of finding `rootcint` we should probably extract the CMake variable, but the
-# following doesn't work
-#root_int = root_dep.get_variable(cmake : 'ROOT_rootcint_CMD')
-root_int = find_program('rootcint')
+# TODO: instead of finding `rootcling` we should probably extract the CMake variable, but I'm not
+# sure how to do that
+root_int = find_program('rootcling')
 
 root_gen = generator(
     root_int,
-    arguments : [ '-f', '@OUTPUT0@', '-c', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'],
+    arguments : [ '-f', '@OUTPUT0@', '@CURRENT_SOURCE_DIR@/@BASENAME@.h'],
     output : [ '@BASENAME@Dict.cxx', '@BASENAME@Dict_rdict.pcm' ]
 )
 
@@ -42,20 +43,28 @@ config.set_quoted('DATADIR', get_option('prefix') / get_option('datadir'))
 
 conf_header = configure_file(configuration : config, output : 'amconfig.h')
 
+lhapdf_dep = dependency('lhapdf')
+
 lib = library(
-    'APPLgrid',
-    srcs1, srcs2,
-    include_directories : incdir,
+    'pineappl_capi',
+    [ srcs1, srcs2, 'pineappl_capi.cpp' ],
+    include_directories : [ incdir, papplgrid_incdir ],
     dependencies : root_dep,
     install : true
 )
 
-dep = declare_dependency(include_directories : incdir, link_with : lib, dependencies : root_dep)
+dep = declare_dependency(
+    include_directories : incdir,
+    link_with : lib
+)
 
-lhapdf_dep = dependency('lhapdf')
-
+executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
 executable('applgrid-combine', 'combine.cxx', dependencies : dep, install : true)
 executable('merge_bins', 'merge_bins.cpp', dependencies : dep, install : true)
-executable('pdf_info', 'pdf_info.cpp', dependencies : dep, install : true)
-executable('applcheck', 'applcheck.cpp', dependencies : [ dep, lhapdf_dep ], install : true)
-executable('dump-applgrid', 'dump-applgrid.cpp', dependencies : dep, install : true)
+
+import('pkgconfig').generate(
+    description : 'PineAPPL is not an extension of APPLgrid',
+    name : meson.project_name(),
+    version : meson.project_version(),
+    libraries : lib
+)

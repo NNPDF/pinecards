@@ -37,10 +37,12 @@ values of invariant mass, where EW corrections become sizeable. As explained in
 section~\ref{sec:pineappl-example}, 
 the process has a single LO, $\mathcal{O}(\alpha^2)$; at NLO, the
 QCD contribution is $\mathcal{O}(\alphas\alpha^2)$, while the EW contribution
-is $\mathcal{O}(\alpha^3)$. The latter is not included in the NLO
-QCD computation, but it is in the NLO QCD+EW computation. Mixed QCD-EW
-corrections occur only at NNLO, and are therefore not considered here. 
-EW corrections for this process were computed in
+is $\mathcal{O}(\alpha^3)$. Our NLO QCD computation includes the
+$\mathcal{O}(\alpha^2)$ and $\mathcal{O}(\alphas\alpha^2)$ contributions, while
+our NLO QCD+EW computation includes the $\mathcal{O}(\alpha^2)$, 
+$\mathcal{O}(\alphas\alpha^2)$ and $\mathcal{O}(\alpha^3)$ contributions.
+Mixed-coupling QCD-EW corrections occur only at NNLO, and are therefore not
+considered here. EW corrections for this process were computed in
 refs.~\cite{Baur:2001ze,Dittmaier:2009cr}. The process receives contributions
 from 12 (34) parton luminosities at NLO QCD (NLO QCD+EW),
 see appendix~\ref{app:lumis} for details.
@@ -58,12 +60,14 @@ in the rapidity of either the top quark or the top-quark
 pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
 in the NNPDF3.1 analysis~\cite{Ball:2017nwa}. The process receives
 pure QCD contributions at LO, $\mathcal{O}(\alphas^2)$, and
-at NLO, $\mathcal{O}(\alphas^3)$. They make up the NLO QCD
-computation. The NLO QCD+EW computation includes the LO contribution
-$\mathcal{O}(\alphas\alpha)$ and the NLO contributions
-$\mathcal{O}(\alphas^2\alpha)$ and $\mathcal{O}(\alphas\alpha^2)$.
-We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ and the
-corresponding higher-order EW correction. EW corrections for this process
+at NLO, $\mathcal{O}(\alphas^3)$. They make up our NLO QCD
+computation. The NLO QCD+EW computation includes the $\mathcal{O}(\alphas^2)$
+and $\mathcal{O}(\alphas^3)$ QCD contributions, the LO contribution
+$\mathcal{O}(\alphas\alpha)$ and the NLO contribution
+$\mathcal{O}(\alphas^2\alpha)$.
+We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ nor the
+NLO contribution $\mathcal{O}(\alphas\alpha^2)$.
+EW corrections for this process
 were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
 6 (36) parton luminosities at NLO QCD (NLO QCD+EW),
 see appendix~\ref{app:lumis} for details.
@@ -72,7 +76,7 @@ see appendix~\ref{app:lumis} for details.
 We select the distribution, single-differential in the transverse momentum of
 the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a centre-of-mass
 energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}. So far, this measurement has not been
-included in any PDF determination. Because it has sub-percent uncertainties,
+included in any PDF determination. Because it has sub-percent experimental uncertainties,
 EW corrections are expected to be essential in order to achieve a good
 description of it, and to constrain accurately the PDFs. Analogous measurements,
 from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
@@ -84,7 +88,7 @@ single LO contribution $\mathcal{O}(\alphas\alpha^2)$ and a single NLO
 contribution $\mathcal{O}(\alphas^2\alpha^2)$. In the NLO QCD+EW computation,
 we supplement these with the LO and NLO EW corrections,
 $\mathcal{O}(\alpha^3)$ and $\mathcal{O}(\alpha^4)$, and with the NLO
-QCD-EW mixed correction, $\mathcal{O}(\alphas\alpha^3)$. EW corrections for
+QCD-EW mixed-coupling correction, $\mathcal{O}(\alphas\alpha^3)$. EW corrections for
 this process were computed in
 refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
 The process receives contributions from 100 (165) parton luminosities,
@@ -99,14 +103,13 @@ included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
 counterterms relevant to NLO QCD and EW corrections, the latter in the
 $\overline{G}_\mu$ scheme. The model features five massless quark flavours,
 sets the CKM matrix equal to the identity, and is compatible with the usage of
-the complex mass (CM) scheme for all massive particles, see
+the complex mass (CM) scheme~\cite{Denner:1999gp,Denner:2005fg} for all massive particles, see
 ref.~\cite{Frederix:2018nkq} for details. We use this scheme
 for all processes that do not involve stable top quarks in the final state.
 The photon is always considered as part of the proton in the initial state and
 of any hadronic jet produced in the final state: 
- in particular, PI contribution are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see Sec.~4.3.3 of ref.\cite{Denner:2019vbn}.}
-We use a PDF set that contains a
-consistently defined photon PDF, namely
+ in particular, PI contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
+We use a PDF set that contains a photon PDF, namely
 {\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
 uncertainty associated to the theoretical predictions a posteriori, that is,
 we convolve the fast-interpolation grid generated with {\sc PineAPPL} with
@@ -196,7 +199,7 @@ PDF uncertainty (coming from the PDF ensemble), the scale uncertainty (coming
 from variations of the factorisation and renormalisation scales), and the Monte
 Carlo uncertainty (coming from the finite number of events generated). In this
 last respect, we consider by default high-statistics computations, whereby we
-require a relative Monte Carlo precision of a fraction of per mille. While
+require a relative Monte Carlo precision of a fraction of per mille on the total cross section. While
 this choice does not affect the validation of the \textsc{PineAPPL} result
 against the MC result, it ensures that the statistical uncertainty of
 the computation remains negligible in comparison to the PDF and scale
@@ -207,7 +210,8 @@ Our goal is indeed twofold. On the one hand, we aim to validate the
 interpolation grids generated with \textsc{PineAPPL}: to this purpose we shall
 verify that the MC and the \textsc{PineAPPL} results are identical up to
 numerical inaccuracies due to the grid interpolation. This equivalence must
-hold for any choice of renormalisation and factorisation scale. On the other
+hold for any choice of renormalisation and factorisation scale and should not
+depend on the MC uncertainty of the binned cross section. On the other
 hand, we aim to study the size of the EW corrections, in particular with
 respect to the kinematics of each process, and to three kinds of uncertainties:
 the PDF uncertainty, the scale uncertainty, and the uncertainty of the
@@ -218,7 +222,8 @@ figures~\ref{fig:atlaszhighmass49fb}--\ref{fig:cmsZ13TeV} for each of the proces
 and data sets outlined in section~\ref{subsec:processes_and_measurements}.
 The format of the plots is the same across all figures. The first panel
 displays the relative difference (in per mille) between the {\sc PineAPPL} and
-the MC results for the central, upper and lower scale choices, for
+the MC results for the central scale choice and upper/lower edges of the
+scale-uncertainty envelope, for
 theories accurate to both NLO QCD and NLO QCD+EW. The following three panels
 present the theoretical predictions, accurate to either NLO QCD or NLO QCD+EW,
 always normalised to the former; on top of the theoretical predictions, the
@@ -299,8 +304,8 @@ where the EW correction still dominates. This result stresses the need to
 include the EW corrections in order to obtain an accurate description of the
 large invariant mass bins. Finally, the Monte Carlo statistical
 uncertainty remains negligible in comparison to the data, PDF and scale
-uncertainties, and to the size of the EW correction. Our conclusions are
-therefore not affected by a poor simulation of the underlying events.
+uncertainties, and to the size of the EW correction. Our conclusions should
+therefore not be affected by a too low number of Monte Carlo events generated.
 
 We then turn our attention to the double-differential measurement performed by
 the CMS experiment at \SI{7}{\tera\electronvolt}. For illustrative purposes, we report only four out
@@ -394,10 +399,12 @@ peak, but that NNLO QCD corrections are otherwise as relevant as NLO QCD+EW
 corrections. Finally, the Monte Carlo statistical uncertainty remains negligible
 in comparison to the data, PDF and scale uncertainties, and to the size of the
 EW correction, except for a couple of bins at forward rapidity in the highest
-invariant mass bins. Improving the Monte Carlo statistical precision will
-require to generate an unrealistically large number of events; therefore, it
-might be desirable to treat this uncertainty as an additional theoretical
-uncertainty in the PDF fit~\cite{Ball:2018lag}.
+invariant mass bins. Improving the Monte Carlo precision will require to
+generate a larger number of events, possibly with cuts that select
+only the kinematic bins affected by the largest MC uncertainties. If this
+turned out to be computationally too expensive, it would be desirable to treat
+this uncertainty as an additional theoretical uncertainty in the PDF
+fit~\cite{Ball:2018lag}.
 
 \paragraph{Top-quark pair production.} We now consider the top-pair differential
 distributions measured by the ATLAS and CMS experiments at

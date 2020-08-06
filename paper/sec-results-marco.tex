@@ -9,19 +9,128 @@ In order to consider some realistic kinematics for these
 processes, we resort to measurements commonly devised for inclusion in PDF
 fits. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
-impact of the EW corrections for usual experimental setups. We describe, first,
-the processes and measurements that we consider, then the computational
-settings that we adopt, and finally the results that we obtain.
+impact of the EW corrections for usual experimental setups. We start by describing the
+setup employed for the computation, then we discuss the features of each process, along with
+the corresponding results.
 
-\subsection{Processes and measurements}
+\subsection{Computational settings}
+\label{subsec:computational_settings}
+
+We generate each process by means of the Universal FeynRules Output
+(UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
+included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
+counterterms relevant to NLO QCD and EW corrections, the latter in the
+$\overline{G}_\mu$ scheme. The model features five massless quark flavours,
+sets the CKM matrix equal to the identity, and is compatible with the usage of
+the complex mass (CM) scheme~\cite{Denner:1999gp,Denner:2005fg} for all massive particles, see
+ref.~\cite{Frederix:2018nkq} for details. We use this scheme
+for all processes that involve only massless particles in the final state.
+The photon is always considered as part of the proton in the initial state and
+of any hadronic jet produced in the final state: 
+ in particular, PI contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
+We use a PDF set that contains a photon PDF, namely
+{\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
+uncertainty associated to the theoretical predictions a posteriori, that is,
+we convolve the fast-interpolation grid generated with {\sc PineAPPL} with
+each member in the PDF set, and we compute the associated standard deviation.
+
+The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
+$\mu_\mathrm{F}$, are chosen in a process specific way, and are discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,
+we allow the events to be reweighted on-the-fly in the Monte Carlo generation upon scale
+variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{MG5\_aMC}
+implementation, whereby the factorisation and renormalisation scales
+are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
+from the nine-point scale variations is constructed. However, we note that
+\textsc{PineAPPL} allows the user to determine the envelope with any point
+prescription, see appendix~\ref{app:pineappl-demo} for an example.
+
+The values of the relevant physical parameters are chosen as
+\begin{equation}
+\begin{aligned}
+M_\mathrm{W} &= \SI{80}{\giga\electronvolt} \text{,} \quad &
+M_\mathrm{Z} &= \SI{91.176}{\giga\electronvolt} \text{,} \quad &
+m_\mathrm{t} &= \SI{172.5}{\giga\electronvolt} \text{,} \quad \\
+\Gamma_\mathrm{W} &= \SI{2.09}{\giga\electronvolt} \text{,} &
+\Gamma_\mathrm{Z} &= \SI{2.50}{\giga\electronvolt} \text{,}
+\end{aligned}
+\label{eq:parameters}
+\end{equation}
+where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson, and
+top quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ are the width of
+the W boson and of the Z boson, respectively. The value of the strong
+coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
+The definition of observables and cuts is process-specific, and it follows the corresponding experimental measurements.
+When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
+if they satisfy the condition $\Delta R_{f \gamma}<0.1$, where $\Delta R_{f \gamma}$
+is the fermion-photon distance. In this case the
+sum of their momenta is assigned to the charged fermion, and the photon is removed
+from the event. Kinematics observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
+photons surviving the recombination would have to be clustered together with coloured
+partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
+see refs.~\cite{Frederix:2016ost,Denner:2019zfp}.} Finally, although contributions corresponding to the radiation
+of a heavy boson are formally of the same perturbative order as the EW corrections, they are not included in our
+computations. In fact, while nothing prevents to include these contributions \emph{a posteriori}, as they are finite,
+their impact is either smaller than the one of ``standard'' EW corrections, or anyway negligible with respect to
+the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagani:2016caq} for some process-specific cases {\bf MZ OTHERS???}).
+    
+
+\subsection{Results for specific processes and measurements}
 \label{subsec:processes_and_measurements}
 
 We focus on the following three processes: Drell--Yan lepton-pair production,
 top-quark pair production, and Z-boson (lepton-pair) production with non-zero
 transverse momentum in proton-proton collisions. For each of these processes,
-we consider the following measurements.
+we present the experimental measurements, process-specific settings, and phenomenological results.
 
-\paragraph{Drell--Yan lepton pair production.}
+When presenting the results, for each of the processes and measurements considered, we compute the expectation
+value of the corresponding observable for each kinematic bin in two different
+ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
+the fast-interpolation grid produced by \textsc{PineAPPL} with the PDF set
+specified in section~\ref{subsec:computational_settings}. We
+will refer to the first result as the MC result, and to the second as
+the \textsc{PineAPPL} result. We repeat the computation for theories accurate
+to NLO QCD and to NLO QCD+EW, respectively. The corresponding orders of the
+strong and electroweak couplings that we consider are specified for each process. In each case, we determine the
+PDF uncertainty (coming from the PDF ensemble), the scale uncertainty (coming
+from variations of the factorisation and renormalisation scales), and the Monte
+Carlo uncertainty (coming from the finite number of events generated). In this
+last respect, we consider by default high-statistics computations, whereby we
+require a relative Monte Carlo precision of a fraction of per mille on the total cross section. While
+this choice does not affect the validation of the \textsc{PineAPPL} result
+against the MC result, it ensures that the statistical uncertainty of
+the computation remains negligible in comparison to the PDF and scale
+uncertainties, as we will explicitly demonstrate. This is a desirable feature
+to correctly interpret the size of the EW corrections.
+
+Our goal is indeed twofold. On the one hand, we aim to validate the
+interpolation grids generated with \textsc{PineAPPL}: to this purpose we shall
+verify that the MC and the \textsc{PineAPPL} results are identical up to
+numerical inaccuracies due to the grid interpolation. This equivalence must
+hold for any choice of renormalisation and factorisation scale and should not
+depend on the MC uncertainty of the binned cross section. On the other
+hand, we aim to study the size of the EW corrections, in particular with
+respect to the kinematics of each process, and to three kinds of uncertainties:
+the PDF uncertainty, the scale uncertainty, and the uncertainty of the
+experimental data.
+
+We present these comparisons in
+figures~\ref{fig:atlaszhighmass49fb}--\ref{fig:cmsZ13TeV}.
+The format of the plots is the same across all figures. The first panel
+displays the relative difference (in per mille) between the {\sc PineAPPL} and
+the MC results for the central scale choice and upper/lower edges of the
+scale-uncertainty envelope, for
+theories accurate to both NLO QCD and NLO QCD+EW. The following three panels
+present the theoretical predictions, accurate to either NLO QCD or NLO QCD+EW,
+always normalised to the former; on top of the theoretical predictions, the
+PDF uncertainty, the scale uncertainty and the Monte Carlo uncertainty are
+displayed in turn. The relative uncertainty of the experimental data is
+also shown for comparison. We shall now discuss the results for each
+process and data set.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Drell--Yan lepton pair production.}
+
+\paragraph{Experimental measurements and process features.}
 We select the distribution, single-differential in the invariant mass of the
 lepton pair, $M_{\ell \bar\ell}$, measured by the ATLAS experiment at a centre-of-mass
 energy of \SI{7}{\tera\electronvolt} in the high-mass region
@@ -47,202 +156,19 @@ refs.~\cite{Baur:2001ze,Dittmaier:2009cr}. The process receives contributions
 from 13 (35) parton luminosities at NLO QCD (NLO QCD+EW),
 see appendix~\ref{app:lumis} for details.
 
-\paragraph{Top-quark pair production.}
-We select the distributions, single-differential in either the transverse
-momentum of the top quark, $p_\mathrm{T}^\mathrm{t}$, or the invariant mass of the top-quark
-pair, $m_{\mathrm{t}\bar{\mathrm{t}}}$, measured by the ATLAS and CMS experiments at a centre-of-mass
-energy of \SI{8}{\tera\electronvolt}~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
-been extensively studied in the context of PDF fits in
-refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml} (see
-also refs.~\cite{Pagani:2016caq,Czakon:2017wor} for studies related to the photon density) and
-included by default in the CT18~\cite{Hou:2019efy} analysis.
-Because EW corrections are significantly smaller for distributions differential
-in the rapidity of either the top quark or the top-quark
-pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
-in the NNPDF3.1 analysis~\cite{Ball:2017nwa}. The process receives
-pure QCD contributions at LO, $\mathcal{O}(\alphas^2)$, and
-at NLO, $\mathcal{O}(\alphas^3)$. They make up our NLO QCD
-computation. The NLO QCD+EW computation includes the $\mathcal{O}(\alphas^2)$
-and $\mathcal{O}(\alphas^3)$ QCD contributions, the LO contribution
-$\mathcal{O}(\alphas\alpha)$ and the NLO contribution
-$\mathcal{O}(\alphas^2\alpha)$.
-We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ nor the
-NLO contributions $\mathcal{O}(\alphas\alpha^2)$ and $\mathcal{O}(\alpha^3)$, which have been shown to be negligible~\cite{Czakon:2017wor,Frederix:2018nkq}.
-EW corrections for this process
-were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
-7 (37) parton luminosities at NLO QCD (NLO QCD+EW),
-see appendix~\ref{app:lumis} for details.
-
-\paragraph{Z-boson production with non-zero transverse momentum.}
-We select the distribution, single-differential in the transverse momentum of
-the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a centre-of-mass
-energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}. While this measurement is not
-included in any PDF determination, its expected impact on parton densities has been studied in 
-ref.~\cite{Boughezal:2017nla}. Since this process shows very low experimental uncertainties (at the percent level or below), and is
-known to an excellent degree as far as QCD corrections are concerned~\cite{Gehrmann-DeRidder:2017mvr,Bizon:2019zgf} {\bf MZ there are at least 5-6 other papers both
-by the zurich group and the argonne one, but on Z+jet rather than z-pt predictions. Should we cite them?}
-EW corrections are expected to be essential in order to achieve a good
-description of it, and to constrain accurately the PDFs. Analogous measurements,
-from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
-experiments at a centre-of-mass energy of \SI{8}{\tera\electronvolt}, were partly included (upon
-selection of an appropriate kinematic cut that excluded bins with large EW
-corrections) in the NNPDF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
-the CT18 PDF set~\cite{Hou:2019efy}. In the QCD computation, we consider a
-single LO contribution $\mathcal{O}(\alphas\alpha^2)$ and a single NLO
-contribution $\mathcal{O}(\alphas^2\alpha^2)$. In the NLO QCD+EW computation,
-we supplement these with the LO and NLO EW corrections,
-$\mathcal{O}(\alpha^3)$ and $\mathcal{O}(\alpha^4)$, and with the NLO
-QCD-EW mixed-coupling correction, $\mathcal{O}(\alphas\alpha^3)$. EW corrections for
-this process were computed in
-refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
-The process receives contributions from 101 (166) parton luminosities,
-see appendix~\ref{app:lumis} for details.
-
-\subsection{Computational settings}
-\label{subsec:computational_settings}
-
-We generate each process by means of the Universal FeynRules Output
-(UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
-included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
-counterterms relevant to NLO QCD and EW corrections, the latter in the
-$\overline{G}_\mu$ scheme. The model features five massless quark flavours,
-sets the CKM matrix equal to the identity, and is compatible with the usage of
-the complex mass (CM) scheme~\cite{Denner:1999gp,Denner:2005fg} for all massive particles, see
-ref.~\cite{Frederix:2018nkq} for details. We use this scheme
-for all processes that do not involve stable top quarks in the final state.
-The photon is always considered as part of the proton in the initial state and
-of any hadronic jet produced in the final state: 
- in particular, PI contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
-We use a PDF set that contains a photon PDF, namely
-{\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
-uncertainty associated to the theoretical predictions a posteriori, that is,
-we convolve the fast-interpolation grid generated with {\sc PineAPPL} with
-each member in the PDF set, and we compute the associated standard deviation.
-
-The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
-$\mu_\mathrm{F}$, are chosen, for each process, as follows. In the case of Drell--Yan
-lepton pair production, we use the fixed scale $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where $M_\mathrm{Z}$ is
+\paragraph{Process-specific settings.}
+We use a fixed value for the renormalisation and factorisation scales $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where $M_\mathrm{Z}$ is
 the mass of the Z boson, for the ATLAS measurement, and the scale
 $\mu_\mathrm{R}=\mu_\mathrm{F}=M_{\ell\bar\ell}$, where $M_{\ell\bar\ell}$ is the central value of each
-invariant mass bin, for the CMS measurement.
-In the case of top-quark pair production, we use the dynamic scales
-$\mu_\mathrm{R}=\mu_\mathrm{F}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}{\Big /}2$ for the distribution differential
-in the transverse momentum of the top quark, and $\mu_\mathrm{R}=\mu_\mathrm{F}=H_\mathrm{T}/4$ for the
-distribution differential in the invariant mass of the top-quark pair, where
-$H_\mathrm{T}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}+\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^{\bar{\mathrm{t}}})}$, with $m_\mathrm{t}$,
-$p_\mathrm{T}^\mathrm{t}$ and $p_\mathrm{T}^{\bar{\mathrm{t}}}$ the mass of the top quark and the transverse momenta
-of the top and antitop quarks, respectively. These choices were demonstrated
-to maximise the convergence of the perturbative expansion~\cite{Czakon:2016dgf}.
-In the case of Z-boson production with non-zero transverse momentum, we use
-$\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$. In order to estimate the missing higher-order uncertainty,
-we allow the events to be reweighted on-the-fly in the Monte Carlo generation upon scale
-variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{MG5\_aMC}
-implementation, whereby the factorisation and renormalisation scales
-are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
-from the nine-point scale variations is constructed. However, we note that
-\textsc{PineAPPL} allows the user to determine the envelope with any point
-prescription, see appendix~\ref{app:pineappl-demo} for an example.
-
-The values of the relevant physical parameters are chosen as
-\begin{equation}
-\begin{aligned}
-M_\mathrm{W} &= \SI{80}{\giga\electronvolt} \text{,} \quad &
-M_\mathrm{Z} &= \SI{91.176}{\giga\electronvolt} \text{,} \quad &
-m_\mathrm{t} &= \SI{172.5}{\giga\electronvolt} \text{,} \quad \\
-\Gamma_\mathrm{W} &= \SI{2.09}{\giga\electronvolt} \text{,} &
-\Gamma_\mathrm{Z} &= \SI{2.50}{\giga\electronvolt} \text{,}
-\end{aligned}
-\label{eq:parameters}
-\end{equation}
-where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson, and
-top quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ are the width of
-the W boson and of the Z boson, respectively. The value of the strong
-coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
-When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
-if they satisfy the condition $\Delta R_{f \gamma}<0.1$, where $\Delta R_{f \gamma}$
-is the fermion-photon distance. In this case the
-sum of their momenta is assigned to the charged fermion, and the photon is removed
-from the event. Kinematics observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
-photons surviving the recombination wouldl have to be clustered together with coloured
-partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
-see refs.~\cite{Frederix:2016ost,Denner:2019zfp}.} Finally, although contributions corresponding to the radiation
-of a heavy boson are formally of the same perturbative order as the EW corrections, they are not included in our
-computations. In fact, while nothing prevents to include these contributions \emph{a posteriori}, as they are finite,
-their impact is either smaller than the one of ``standard'' EW corrections, or anyway negligible with respect to
-the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagani:2016caq} for some process-specific cases {\bf MZ OTHERS???}).
-    
-Finally, we implement the kinematic cuts specified in the corresponding
-experimental analyses. In the case of high-mass Drell--Yan lepton pair
-production at \SI{7}{\tera\electronvolt} measured by ATLAS, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
+invariant mass bin, for the CMS one. In the case of ATLAS, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
 $|\eta_\ell|<2.5$ and $\SI{116}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the transverse
 momentum and the pseudorapidity of each lepton and for the invariant mass of the
-lepton pair, respectively. In the case of double-differential Drell--Yan
-lepton-pair production
-at \SI{7}{\tera\electronvolt} measured by CMS, we require $p_\mathrm{T}^{\ell_1}>\SI{14}{\giga\electronvolt}$, $p_\mathrm{T}^{\ell_2}>\SI{9}{\giga\electronvolt}$,
+lepton pair, respectively. Conversely, in the case of CMS, we require $p_\mathrm{T}^{\ell_1}>\SI{14}{\giga\electronvolt}$, $p_\mathrm{T}^{\ell_2}>\SI{9}{\giga\electronvolt}$,
 $|\eta_\ell|<2.4$, $|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$
 for the transverse momentum and the pseudorapidity of each lepton, and for the
-pseudorapidity and the invariant mass of the lepton pair. In the case of Z-boson
-production with non-zero transverse momentum at \SI{13}{\tera\electronvolt} measured by CMS,
-require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
-$M_\mathrm{Z}-\SI{15}{\giga\electronvolt}<M_{\ell\bar\ell}<M_\mathrm{Z}+\SI{20}{\giga\electronvolt}$,
-$|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
-transverse momentum and pseudorapidity of each lepton, and for the invariant mass,
-pseudorapidity and transverse momentum of the lepton pair. Imposing a minimum cut for the transverse momentum of the lepton pair 
-is necessary as we stick to a fixed-order computation, without including resummation effects.
+pseudorapidity and the invariant mass of the lepton pair.
 
-\subsection{Numerical results}
-\label{subsec:numerical_results}
-
-For each of the measurements discussed in
-section~\ref{subsec:processes_and_measurements}, we compute the expectation
-value of the corresponding observable for each kinematic bin in two different
-ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
-the fast-interpolation grid produced by \textsc{PineAPPL} with the PDF set
-specified in section~\ref{subsec:computational_settings}. In the following, we
-will refer to the first result as the MC result, and to the second as
-the \textsc{PineAPPL} result. We repeat the computation for theories accurate
-to NLO QCD and to NLO QCD+EW, respectively. The corresponding orders of the
-strong and electroweak couplings that we consider have been specified in
-section~\ref{subsec:processes_and_measurements}. In each case, we determine the
-PDF uncertainty (coming from the PDF ensemble), the scale uncertainty (coming
-from variations of the factorisation and renormalisation scales), and the Monte
-Carlo uncertainty (coming from the finite number of events generated). In this
-last respect, we consider by default high-statistics computations, whereby we
-require a relative Monte Carlo precision of a fraction of per mille on the total cross section. While
-this choice does not affect the validation of the \textsc{PineAPPL} result
-against the MC result, it ensures that the statistical uncertainty of
-the computation remains negligible in comparison to the PDF and scale
-uncertainties, as we will explicitly demonstrate. This is a desirable feature
-to correctly interpret the size of the EW corrections.
-
-Our goal is indeed twofold. On the one hand, we aim to validate the
-interpolation grids generated with \textsc{PineAPPL}: to this purpose we shall
-verify that the MC and the \textsc{PineAPPL} results are identical up to
-numerical inaccuracies due to the grid interpolation. This equivalence must
-hold for any choice of renormalisation and factorisation scale and should not
-depend on the MC uncertainty of the binned cross section. On the other
-hand, we aim to study the size of the EW corrections, in particular with
-respect to the kinematics of each process, and to three kinds of uncertainties:
-the PDF uncertainty, the scale uncertainty, and the uncertainty of the
-experimental data.
-
-We present these comparisons in
-figures~\ref{fig:atlaszhighmass49fb}--\ref{fig:cmsZ13TeV} for each of the processes
-and data sets outlined in section~\ref{subsec:processes_and_measurements}.
-The format of the plots is the same across all figures. The first panel
-displays the relative difference (in per mille) between the {\sc PineAPPL} and
-the MC results for the central scale choice and upper/lower edges of the
-scale-uncertainty envelope, for
-theories accurate to both NLO QCD and NLO QCD+EW. The following three panels
-present the theoretical predictions, accurate to either NLO QCD or NLO QCD+EW,
-always normalised to the former; on top of the theoretical predictions, the
-PDF uncertainty, the scale uncertainty and the Monte Carlo uncertainty are
-displayed in turn. The relative uncertainty of the experimental data is
-also shown for comparison. We shall now discuss the results for each
-process and data set.
-
-\paragraph{Drell--Yan lepton pair production.} 
-
+\paragraph{Numerical results.}
 We first consider the single-differential measurement at a high lepton-pair
 invariant mass performed by the ATLAS experiment at \SI{7}{\tera\electronvolt}.
 From figure~\ref{fig:atlaszhighmass49fb} we immediately
@@ -423,9 +349,48 @@ turned out to be computationally too expensive, it would be desirable to treat
 this uncertainty as an additional theoretical uncertainty in the PDF
 fit~\cite{Ball:2018lag}.
 
-\paragraph{Top-quark pair production.} We now consider the top-pair differential
-distributions measured by the ATLAS and CMS experiments at
-\SI{8}{\tera\electronvolt}. In figure~\ref{fig:atlastop} we report the
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Top-quark pair production.}
+\paragraph{Experimental measurements and process features.}
+We select the distributions, single-differential in either the transverse
+momentum of the top quark, $p_\mathrm{T}^\mathrm{t}$, or the invariant mass of the top-quark
+pair, $m_{\mathrm{t}\bar{\mathrm{t}}}$, measured by the ATLAS and CMS experiments at a centre-of-mass
+energy of \SI{8}{\tera\electronvolt}~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
+been extensively studied in the context of PDF fits in
+refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml} (see
+also refs.~\cite{Pagani:2016caq,Czakon:2017wor} for studies related to the photon density) and
+included by default in the CT18~\cite{Hou:2019efy} analysis.
+Because EW corrections are significantly smaller for distributions differential
+in the rapidity of either the top quark or the top-quark
+pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
+in the NNPDF3.1 analysis~\cite{Ball:2017nwa}. The process receives
+pure QCD contributions at LO, $\mathcal{O}(\alphas^2)$, and
+at NLO, $\mathcal{O}(\alphas^3)$. They make up our NLO QCD
+computation. The NLO QCD+EW computation includes the $\mathcal{O}(\alphas^2)$
+and $\mathcal{O}(\alphas^3)$ QCD contributions, the LO contribution
+$\mathcal{O}(\alphas\alpha)$ and the NLO contribution
+$\mathcal{O}(\alphas^2\alpha)$.
+We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ nor the
+NLO contributions $\mathcal{O}(\alphas\alpha^2)$ and $\mathcal{O}(\alpha^3)$, which have been shown to be negligible~\cite{Czakon:2017wor,Frederix:2018nkq}.
+EW corrections for this process
+were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
+7 (37) parton luminosities at NLO QCD (NLO QCD+EW),
+see appendix~\ref{app:lumis} for details.
+
+\paragraph{Process-specific settings.}
+We employ the following functional form for the renormalisation and factorisation scales
+$\mu_\mathrm{R}=\mu_\mathrm{F}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}{\Big /}2$ for the distribution differential
+in the transverse momentum of the top quark, and $\mu_\mathrm{R}=\mu_\mathrm{F}=H_\mathrm{T}/4$ for the
+distribution differential in the invariant mass of the top-quark pair, where
+$H_\mathrm{T}=\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^\mathrm{t})^2}+\sqrt{m_\mathrm{t}^2+(p_\mathrm{T}^{\bar{\mathrm{t}}})}$, with $m_\mathrm{t}$,
+$p_\mathrm{T}^\mathrm{t}$ and $p_\mathrm{T}^{\bar{\mathrm{t}}}$ the mass of the top quark and the transverse momenta
+of the top and antitop quarks, respectively. These choices were demonstrated
+to maximise the convergence of the perturbative expansion~\cite{Czakon:2016dgf}. No cuts are imposed.
+
+\paragraph{Numerical results.}
+
+In figure~\ref{fig:atlastop} we report the
 distributions differential in the transverse momentum of the top quark,
 $p_\mathrm{T}^\mathrm{t}$, and in the invariant mass of the top-quark pair,
 $m_{\mathrm{t}\bar{\mathrm{t}}}$. Analogous plots for the distributions differential
@@ -485,8 +450,49 @@ the Monte Carlo statistical uncertainty remains negligible in comparison to the
 data, PDF and scale uncertainties, and to the size of the EW correction. Our
 conclusions are therefore not affected by Monte Carlo inefficiencies.
 
-\paragraph{Z-boson production with non-zero transverse momentum.}
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Z-boson production with non-zero transverse momentum.}
+
+\paragraph{Experimental measurements and process features.}
+We select the distribution, single-differential in the transverse momentum of
+the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a centre-of-mass
+energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}. While this measurement is not
+included in any PDF determination, its expected impact on parton densities has been studied in 
+ref.~\cite{Boughezal:2017nla}. Since this process shows very low experimental uncertainties (at the percent level or below), and is
+known to an excellent degree as far as QCD corrections are concerned~\cite{Gehrmann-DeRidder:2017mvr,Bizon:2019zgf} {\bf MZ there are at least 5-6 other papers both
+by the zurich group and the argonne one, but on Z+jet rather than z-pt predictions. Should we cite them?}
+EW corrections are expected to be essential in order to achieve a good
+description of it, and to constrain accurately the PDFs. Analogous measurements,
+from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
+experiments at a centre-of-mass energy of \SI{8}{\tera\electronvolt}, were partly included (upon
+selection of an appropriate kinematic cut that excluded bins with large EW
+corrections) in the NNPDF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
+the CT18 PDF set~\cite{Hou:2019efy}. In the QCD computation, we consider a
+single LO contribution $\mathcal{O}(\alphas\alpha^2)$ and a single NLO
+contribution $\mathcal{O}(\alphas^2\alpha^2)$. In the NLO QCD+EW computation,
+we supplement these with the LO and NLO EW corrections,
+$\mathcal{O}(\alpha^3)$ and $\mathcal{O}(\alpha^4)$, and with the NLO
+QCD-EW mixed-coupling correction, $\mathcal{O}(\alphas\alpha^3)$. EW corrections for
+this process were computed in
+refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
+The process receives contributions from 101 (166) parton luminosities,
+see appendix~\ref{app:lumis} for details.
+
+\paragraph{Process-specific settings.}
+
+As in the case of Drell-Yan, we use a fixed value for the renormalisation and factorisation 
+scales $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$.
+We require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
+$M_\mathrm{Z}-\SI{15}{\giga\electronvolt}<M_{\ell\bar\ell}<M_\mathrm{Z}+\SI{20}{\giga\electronvolt}$,
+$|\eta_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
+transverse momentum and pseudorapidity of each lepton, and for the invariant mass,
+pseudorapidity and transverse momentum of the lepton pair. Imposing a minimum cut for the transverse momentum of the lepton pair 
+is necessary as we stick to a fixed-order computation, without including resummation effects.
+
+\paragraph{Numerical results.}
 %-------------------------------------------------------------------------------
 \begin{figure}[!t]
     \centering
@@ -497,3 +503,4 @@ conclusions are therefore not affected by Monte Carlo inefficiencies.
     \label{fig:cmsZ13TeV}
 \end{figure}
 %-------------------------------------------------------------------------------
+

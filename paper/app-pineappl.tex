@@ -163,7 +163,7 @@ SUBCOMMANDS:
 
 \paragraph{Convolutions.}
 The most important subcommand is \texttt{convolute}, which performs a convolution of a single grid with a single or multiple PDF sets.
-As an example we show the grid produced for the ATLAS Drell--Yan high-mass lepton-pair production from section~\ref{subsec:numerical_results}, convoluted with \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} as the main PDF set and with \texttt{CT18NLO} as a second PDF set.
+As an example we show the grid produced for the ATLAS Drell--Yan high-mass lepton-pair production from section~\ref{sec:dy-lepton-pair-production}, convoluted with \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} as the main PDF set and with \texttt{CT18NLO} as a second PDF set.
 \begin{verbatim}
  $ pineappl convolute ATLASZHIGHMASS49FB.pineappl \
  > NNPDF31_nlo_as_0118_luxqed CT18NLO
@@ -257,7 +257,7 @@ section~\ref{sec:results} is collected in appendix~\ref{app:lumis}.
 \subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC}}{mg5\_aMC}}
 \label{app:sample-runcard}
 
-The following run card was used to produce the results shown in section~\ref{subsec:numerical_results}.
+The following run card was used to produce the results shown in section~\ref{sec:dy-lepton-pair-production}.
 The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set iappl 1}, which enables to fill a \textsc{PineAPPL} grid.
 For a complete set of runcards and patches see TODO.
 \begin{verbatim}

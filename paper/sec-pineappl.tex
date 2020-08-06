@@ -180,7 +180,7 @@ The reconstruction of the differential cross section is then done by simply mult
 Using 4-tuples has the clear advantage of being very easy to implement and test.
 Furthermore, they reproduce the exact numerical value that is also calculated by the MC integrator.
 However, the price one has to pay is the size of the 4-tuples.
-To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{subsec:numerical_results}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
+To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:dy-lepton-pair-production}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
 While this is an acceptable size, increasing the precision by an order of magnitude would require roughly 100 times the size, due to the Monte Carlo convergence that goes as $1/\sqrt{N}$ with $N$ being the number of 4-tuples.
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 However, due to the uncompressed nature of this representation it can serve as an intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.

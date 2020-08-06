@@ -53,7 +53,8 @@ momentum of the top quark, $p_\mathrm{T}^\mathrm{t}$, or the invariant mass of t
 pair, $m_{\mathrm{t}\bar{\mathrm{t}}}$, measured by the ATLAS and CMS experiments at a centre-of-mass
 energy of \SI{8}{\tera\electronvolt}~\cite{Aad:2015mbv,Khachatryan:2015oqa}. These measurements have
 been extensively studied in the context of PDF fits in
-refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml}, and
+refs.~\cite{Czakon:2016olj,Bailey:2019yze,Amoroso:2020lgh,Kadir:2020yml} (see
+also refs.~\cite{Pagani:2016caq,Czakon:2017wor} for studies related to the photon density) and
 included by default in the CT18~\cite{Hou:2019efy} analysis.
 Because EW corrections are significantly smaller for distributions differential
 in the rapidity of either the top quark or the top-quark
@@ -66,7 +67,7 @@ and $\mathcal{O}(\alphas^3)$ QCD contributions, the LO contribution
 $\mathcal{O}(\alphas\alpha)$ and the NLO contribution
 $\mathcal{O}(\alphas^2\alpha)$.
 We do not consider the LO contribution $\mathcal{O}(\alpha^2)$ nor the
-NLO contribution $\mathcal{O}(\alphas\alpha^2)$.
+NLO contributions $\mathcal{O}(\alphas\alpha^2)$ and $\mathcal{O}(\alpha^3)$, which have been shown to be negligible~\cite{Czakon:2017wor,Frederix:2018nkq}.
 EW corrections for this process
 were computed in refs.~\cite{Bernreuther:2010ny,Hollik:2011ps,Kuhn:2011ri,Bernreuther:2012sx,Pagani:2016caq,Czakon:2017wor,Czakon:2017lgo,Czakon:2017mmr,Czakon:2019bcq,Czakon:2019txp}. The process receives contributions from
 6 (36) parton luminosities at NLO QCD (NLO QCD+EW),
@@ -161,7 +162,11 @@ sum of their momenta is assigned to the charged fermion, and the photon is remov
 from the event. Kinematics observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
 photons surviving the recombination wouldl have to be clustered together with coloured
 partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
-    see refs.~\cite{Frederix:2016ost,Denner:2019zfp}} 
+see refs.~\cite{Frederix:2016ost,Denner:2019zfp}.} Finally, although contributions corresponding to the radiation
+of a heavy boson are formally of the same perturbative order as the EW corrections, they are not included in our
+computations. In fact, while nothing prevents to include these contributions \emph{a posteriori}, as they are finite,
+their impact is either smaller than the one of ``standard'' EW corrections, or anyway negligible with respect to
+the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagani:2016caq} for some process-specific cases {\bf MZ OTHERS???}).
     
 Finally, we implement the kinematic cuts specified in the corresponding
 experimental analyses. In the case of high-mass Drell--Yan lepton pair
@@ -447,7 +452,7 @@ which varies between 81\% and 61\% (76\% and 83\%) of the $p_\mathrm{T}^\mathrm{
 transverse momentum of the top quark (the invariant mass of the top-quark pair)
 increases in the bin range; $\mathrm{\gamma}\mathrm{g}$ scattering
 correspondingly accounts for about 0.5\% -- 1\% (0.5\% -- 0.7\%) of the cross
-section; the contribution from other PI parton luminosities is comparatively
+section, and is almost entirely {\bf MZ CHECK!!!} due to the LO contribution at $\mathcal{O}(\alphas\alpha)$; the contribution from other PI parton luminosities is comparatively
 negligible. Overall, the EW corrections suppress the $p_\mathrm{T}^\mathrm{t}$
 ($m_{\mathrm{t}\bar{\mathrm{t}}}$) distribution by about 0.2\% -- 3.5\%
 (0.5\% -- 0.2\%) for increasing values of $p_\mathrm{T}^\mathrm{t}$

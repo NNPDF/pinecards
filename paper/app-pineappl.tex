@@ -185,7 +185,7 @@ bin xmin xmax     diff        integ    neg unc pos unc       CT18NLO
 \end{verbatim}
 The output shows all 13 bins with lower (\texttt{xmin}) and upper limit (\texttt{xmax}) of the invariant mass $M_{\ell \bar{\ell}}$ of the lepton pair, with the differential cross section $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{diff}), integrated cross section $(M_{\ell \bar{\ell}}^\mathrm{max} - M_{\ell \bar{\ell}}^\mathrm{min}) \mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{integ}), and the perturbative uncertainty estimated from a 7-point scale variation (envelope given by \texttt{neg unc} and \texttt{pos unc}).
 The uncertainty estimation can alternatively use a 3- or a 9-point scale variation using the optional program switch \texttt{-{}-scales 3} or \texttt{-{}-scales 9}, respectively.
-The (differential) results for the second PDF set (\texttt{CT18NLO}) is shown in absolute and relative (to first PDF set) numbers.
+The (differential) results for the second PDF set (\texttt{CT18NLO}) is shown in absolute numbers and also as a percentage relative to the result of the first PDF set.
 
 \paragraph{Perturbative orders.}
 Often it is helpful to see the impact of the different perturbative orders to the cross section.
@@ -237,7 +237,7 @@ bin xmin xmax lumi  size
 The first three columns are known from \texttt{convolute}.
 The next columns (the switch \texttt{-{}-limit 5} limits the output to five columns) show first the channel index and then the relative size of the corresponding contribution.
 Since the contribution of a partonic channel can be negative, the columns are sorted ignoring the sign of the contribution.
-The first line shows that for bin 0, i.e.\ for the range $\SI{116}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{130}{\giga\electronvolt}$, the cross section is dominated by partonic channel \texttt{\#15} (\SI{27.42}{\percent}), following by partonic channel \texttt{\#0}, then \texttt{\#5}, etc.
+The first line shows that for bin 0, i.e.\ for the range $\SI{116}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{130}{\giga\electronvolt}$, the cross section is dominated by partonic channel \texttt{\#15} (\SI{27.42}{\percent}), following by partonic channel \texttt{\#0} with same size, then channel \texttt{\#5}, etc.
 The meaning of the channel numbers is given by using the subcommand \texttt{luminosity} (only an excerpt is shown):
 \begin{verbatim}
 id    entry
@@ -251,7 +251,7 @@ id    entry
 This shows that channel \texttt{\#0} represents the up-type quark--anti-quark contributions (shown with PDG id 2 and 4 for up and charm quarks, which have the same matrix elements), channel \texttt{\#15} is the same channel with its initial states transposed, channels \texttt{\#5} and \texttt{\#20} are the down-type quark--anti-quark channels, and channel \texttt{\#30} is the photon--photon channel.
 The size of the remaining channels is smaller than the photon--photon channel.
 The factors \texttt{1} are not important here, but in general they can contain CKM values that, if kept in the squared matrix elements, would not allow for sharing a single matrix element for different quark flavours and therefore slow down the calculation. A complete list of the most important channels and of their
-contibution to the cross section for all of the processes discussed in
+contribution to the cross section for all of the processes discussed in
 section~\ref{sec:results} is collected in appendix~\ref{app:lumis}.
 
 \subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC}}{mg5\_aMC}}
@@ -260,7 +260,6 @@ section~\ref{sec:results} is collected in appendix~\ref{app:lumis}.
 The following run card was used to produce the results shown in section~\ref{subsec:numerical_results}.
 The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set iappl 1}, which enables to fill a \textsc{PineAPPL} grid.
 For a complete set of runcards and patches see TODO.
-
 \begin{verbatim}
 set complex_mass_scheme True
 import model loop_qcd_qed_sm_Gmu

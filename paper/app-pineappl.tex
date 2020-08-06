@@ -4,7 +4,7 @@
 \subsection{Installation}
 \label{app:installation}
 
-\textsc{PineAPPL} currently consists of three parts: 1) the library itself, which is a dependency for the other parts, 2) the helper program \texttt{pineappl}, which allows to read \textsc{PineAPPL} grids from the command line and make predictions with it, and finally 3) the C interface, which is intended to be used in Monte Carlo integrators to generate the grids.
+\textsc{PineAPPL} currently consists of three parts: 1) the library itself, which is a dependency for the other parts, 2) the helper program \texttt{pineappl}, which allows one to read \textsc{PineAPPL} grids from the command line and make predictions with it, and finally 3) the C interface, which is intended to be used in Monte Carlo integrators to generate the grids.
 
 \subsubsection*{Installation of Rust}
 
@@ -15,14 +15,14 @@
   keywordstyle=\color{blue},
 }
 
-All parts are written in Rust and therefore need a Rust compiler and other tools.
-On computers with a \texttt{bash} shell the installation is as simple as
+All parts are written in Rust: a Rust compiler and related tools are needed.
+On operating systems with a \texttt{bash} shell (such as Linux or MacOS) the installation is as simple as
 \begin{verbatim}
  $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 \end{verbatim}
 which downloads the compiler \texttt{rustc}, the package manager \texttt{cargo}, and a few other helpful tools.
-When the installation has completed make sure to read and follow the instructions printed before.
-See also \url{https://www.rust-lang.org/tools/install} for more details and for installation instructions for other systems.
+When the installation has completed make sure to read and follow the instructions printed on screen.
+See also \url{https://www.rust-lang.org/tools/install} for more details and for installation instructions for other operating systems.
 
 \subsubsection*{Installation of the command-line program \texorpdfstring{\texttt{pineappl}}{pineappl}}
 
@@ -49,9 +49,8 @@ The last line will install the C header \texttt{pineappl\_capi.h}, the library, 
 Make sure that the environment variables \texttt{PATH}, \texttt{LD\_LIBRARY\_PATH}, and \texttt{PKG\_CONFIG\_PATH} are properly set.
 The latter is needed for \texttt{pkg-config -{}-cflags -{}-libs pineappl\_capi} to work, which prints the necessary compiler/linker flags.
 
-After being installed, you can compile and link against the library.
+After being installed, one can compile and link against the library.
 See appendix~\ref{app:example-program} for an example.
-
 Updated installation instructions are kept in the file \texttt{README.md} in \textsc{PineAPPL}'s repository at \url{https://github.com/N3PDF/pineappl/}.
 
 \subsection{Example Monte Carlo program}
@@ -164,7 +163,7 @@ SUBCOMMANDS:
 
 \paragraph{Convolutions.}
 The most important subcommand is \texttt{convolute}, which performs a convolution of a single grid with a single or multiple PDF sets.
-As an example we show the grid produced for the ATLAS DY high-mass lepton-pair production from section~\ref{subsec:numerical_results}, convoluted with \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} as the main PDF set and with \texttt{CT18NLO} as a second PDF set.
+As an example we show the grid produced for the ATLAS Drell--Yan high-mass lepton-pair production from section~\ref{subsec:numerical_results}, convoluted with \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} as the main PDF set and with \texttt{CT18NLO} as a second PDF set.
 \begin{verbatim}
  $ pineappl convolute ATLASZHIGHMASS49FB.pineappl \
  > NNPDF31_nlo_as_0118_luxqed CT18NLO
@@ -236,7 +235,7 @@ bin xmin xmax lumi  size
  12 1000 1500   #0 33.95% #15 33.88% #20 11.12%  #5 10.88% #30 3.56%
 \end{verbatim}
 The first three columns are known from \texttt{convolute}.
-The next columns (the switch \texttt{-{}-limit 5} limits the output to five columns) show first the channel index and then relative size of the corresponding contribution.
+The next columns (the switch \texttt{-{}-limit 5} limits the output to five columns) show first the channel index and then the relative size of the corresponding contribution.
 Since the contribution of a partonic channel can be negative, the columns are sorted ignoring the sign of the contribution.
 The first line shows that for bin 0, i.e.\ for the range $\SI{116}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{130}{\giga\electronvolt}$, the cross section is dominated by partonic channel \texttt{\#15} (\SI{27.42}{\percent}), following by partonic channel \texttt{\#0}, then \texttt{\#5}, etc.
 The meaning of the channel numbers is given by using the subcommand \texttt{luminosity} (only an excerpt is shown):
@@ -251,13 +250,15 @@ id    entry
 \end{verbatim}
 This shows that channel \texttt{\#0} represents the up-type quark--anti-quark contributions (shown with PDG id 2 and 4 for up and charm quarks, which have the same matrix elements), channel \texttt{\#15} is the same channel with its initial states transposed, channels \texttt{\#5} and \texttt{\#20} are the down-type quark--anti-quark channels, and channel \texttt{\#30} is the photon--photon channel.
 The size of the remaining channels is smaller than the photon--photon channel.
-The factors \texttt{1} are not important here, but in general they can contain CKM values that, if kept in the squared matrix elements, would not allow to share a single matrix elements for different quark flavours and therefore slow down the calculation.
+The factors \texttt{1} are not important here, but in general they can contain CKM values that, if kept in the squared matrix elements, would not allow for sharing a single matrix element for different quark flavours and therefore slow down the calculation. A complete list of the most important channels and of their
+contibution to the cross section for all of the processes discussed in
+section~\ref{sec:results} is collected in appendix~\ref{app:lumis}.
 
-\subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC@NLO}}{mg5\_aMC@NLO}}
+\subsection{Sample runcard for \texorpdfstring{\textsc{mg5\_aMC}}{mg5\_aMC}}
 \label{app:sample-runcard}
 
 The following run card was used to produce the results shown in section~\ref{subsec:numerical_results}.
-The only difference to a normal \textsc{mg5\_aMC@NLO} run is the switch \texttt{set iappl 1}, which enables filling a \textsc{PineAPPL} grid.
+The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set iappl 1}, which enables to fill a \textsc{PineAPPL} grid.
 For a complete set of runcards and patches see TODO.
 
 \begin{verbatim}

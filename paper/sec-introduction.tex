@@ -62,7 +62,7 @@ effects should therefore naturally be included in a PDF determination. The
 reason is twofold. First, one expects NNLO QCD and NLO EW corrections to be of 
 comparable size because, at the EW scale, the QCD and EW running couplings 
 become similar, $\alphas^2\sim \alpha$. If NNLO QCD corrections are included
-by default in PDF determinations, NLO EW and NLO QCD+EW corrections should be
+by default in PDF determinations, NLO EW corrections should be
 taken into account on the same footing. Second, the virtual exchange of soft or 
 collinear weak bosons leads to Sudakov 
 logarithms~\cite{Denner:2000jv,Denner:2001gw},
@@ -71,7 +71,7 @@ their QCD counterparts. Such a behaviour becomes relevant in
 phase-space regions associated with large mass scales (roughly of the order
 of the \si{\tera\electronvolt}), where several LHC data sets (e.g.\ Z-boson
 transverse-momentum distributions) enter both the determination of PDFs and the search
-for New Physics.
+for new physics.
 
 The systematic inclusion of EW corrections in a PDF determination entails
 the solution of two separate problems. First, a problem of efficiency:
@@ -100,13 +100,13 @@ In this paper we address the first of these two problems. Specifically,
 we develop \textsc{PineAPPL}, a new computer library that provides a direct interface
 from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
 fast-interpolation grids. The library supports variations of the factorisation
-and renormalisation scales, resummation, and matching with a photon- and/or
-parton-shower. The library is included by default in 
+and renormalisation scales. Planned extensions will include support for resummation and matching with a photon- and/or
+parton-shower {\bf MZ remove sentence if not true}. The library is included by default in 
 \textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth) within which it has
 been designed and tested. However, it is suitable for use as a plugin in any 
 Monte Carlo generator that supports NLO QCD+EW computations, such as 
 \textsc{SHERPA}~\cite{Biedermann:2017yoi}. In this respect, \textsc{PineAPPL}
-supersedes \textsc{aMCfast}~\cite{Bertone:2014zva} and complements
+supersedes \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{aMCfast}~\cite{Bertone:2014zva}, and complements
 \textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
@@ -115,8 +115,8 @@ assess its performance. In section~\ref{sec:results} we validate
 \textsc{PineAPPL} and demonstrate its capabilities by computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW, for a representative
 set of processes, usually included in PDF fits, for which EW corrections may
 have a sizeable effect on the accuracy of the theoretical predictions.
-In section~\ref{sec:doublecounting} we use these results to formulate more
-comprehensively the second problem sketched above, the solution of which, 
+In section~\ref{sec:doublecounting} we try to detail in a more
+comprehensive maneer the second problem sketched above, the solution of which, 
 however, remains beyond the scope of the current work. We provide our
 conclusions and an outlook in section~\ref{sec:conclusion}. Examples of
 installation and usage of \textsc{PineAPPL} are provided in

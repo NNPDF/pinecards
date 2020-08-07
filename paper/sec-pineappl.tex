@@ -19,7 +19,7 @@ In particular, the following features are supported:
 \item The inclusion of perturbative corrections (fixed-order, i.e.\ without parton-shower matching) with any given set of powers of $\alpha$, $\alphas$, in particular including mixed QCD--EW corrections.
 \item The support for non-coloured initial-state partons, such as photon-initiated contributions.
 In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states~\cite{Bertone:2015lqa,Buonocore:2020nai}.
-\item The estimate of theory uncertainty via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale-independent, consistently with the most common renormalisation schemes).
+\item The estimate of theory uncertainties via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale-independent, consistently with the most common renormalisation schemes).
 \end{itemize}
 On a more technical level, we further point out the following differences and improvements in \textsc{PineAPPL}:
 \begin{itemize}
@@ -36,7 +36,7 @@ In addition to convolutions, it can also print how the luminosity function is co
 %\item Possibility to import \textsc{APPLgrids} and \textsc{fastNLO} tables.
 \end{itemize}
 
-We have interfaced \textsc{PineAPPL} with the new version (v3+) of \textsc{mg5\_aMC}~\cite{Alwall:2014hca,Frederix:2018nkq}\footnote{It can be downloaded from \url{https://code.launchpad.net/~amcblast/+junk/3.0.2}, and will soon be merged in the official code release.}, where it will replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
+We have interfaced \textsc{PineAPPL} with the new version (v3+) of \textsc{mg5\_aMC}~\cite{Alwall:2014hca,Frederix:2018nkq}\footnote{It can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and will soon be merged in the official code release.}, where it will replace the \textsc{aMCfast}~\cite{Bertone:2014zva} interface.
 Its usage is very similar to that of \textsc{mg5\_aMC v2}+\textsc{aMCfast}+\textsc{APPLgrid}.
 In practice, using \textsc{PineAPPL} leads to substantially faster run times, in particular for simple processes, because the grids do not need to be optimised 
 and their combination is faster.
@@ -46,7 +46,7 @@ Building an interface for other MC generators poses no difficulties, see appendi
 \subsection{Cross sections in a multi-coupling expansion}
 \label{sec:multi-coupling-expansion}
 
-Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are expansions in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R} / Q$ and $\xi_\mathrm{F} = \mu_\mathrm{F} / Q$,
+Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL} are written as an expansion in powers of the strong coupling $\alphas$, the electromagnetic coupling $\alpha$, and the logarithms of $\xi_\mathrm{R} = \mu_\mathrm{R} / Q$ and $\xi_\mathrm{F} = \mu_\mathrm{F} / Q$,
 \begin{multline}
 \frac{\mathrm{d} \sigma_{ab}}{\mathrm{d} \mathcal{O}} (x_1, x_2, \mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{F}) \\
 = \sum_{k,l,m,n} \alphas^k \left( \xi_\mathrm{R}^2 Q^2 \right) \alpha^l \log^m ( \xi_\mathrm{R}^2 ) \log^n ( \xi_\mathrm{F}^2 ) W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \text{.}
@@ -68,7 +68,7 @@ which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\m
 The Ellis--Sexton scale $Q^2$, if chosen dynamically, depends on the phase space, but we assume the fractions $\xi_\mathrm{R}$ and $\xi_\mathrm{F}$ to be constants of phase space in any case.
 This allows for variations around the central scale choice $\xi_\mathrm{R} = \xi_\mathrm{F} = 1$, but it does not otherwise allow for arbitrary changes of the scale.
 The terms with powers $m > 0$ and $n > 0$ vanish for the central scale choice and are only required for variations of the factorisation and renormalisation scales.
-To estimate the perturbative QCD uncertainty --- no EW uncertainty is covered by this method --- one typically uses a 7-point scale variation, which evaluates the cross section using the following values,
+To estimate the perturbative QCD uncertainty --- no EW uncertainty is covered by this method --- one typically uses a 7-point scale variation, {\bf MZ warning, this is not what we do later} which evaluates the cross section using the following values,
 \begin{equation}
 (\xi_\mathrm{R}, \xi_\mathrm{F}) \in \left\{ \bigl( 1, 1 \bigr), \bigl( \tfrac{1}{2}, \tfrac{1}{2} \bigr), \bigl( 2, 2 \bigr), \bigl( \tfrac{1}{2}, 1 \bigr), \bigl( 1, \tfrac{1}{2} \bigr), \bigl( 2, 1 \bigr), \bigl( 1, 2 \bigr) \right\} \text{.}
 \end{equation}
@@ -108,7 +108,13 @@ For many processes there is only one LO, but when a process has multiple quark l
 An important example at the LHC is (on-shell) top-pair production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each LO receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
 The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.
-All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin.
+All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin. However, for the sake of simplicity and with a slight abuse of notation, it is customary to refer 
+as NLO QCD (EW) corrections as
+corrections of order $\alphas$ ($\alpha$) times the couplings of the LO contribution 
+with the largest power of $\alphas$. In the example above, NLO QCD and EW corrections to top pair production will denote
+respectively those at $\mathcal{O} (\alphas^3 )$ and $\mathcal{O} (\alphas^2 \alpha)$. In this paper, in particular
+when discussing results in sec.~\ref{sec:results}, we will explicitly list the orders that are considered in the cross
+section at LO, NLO QCD and NLO QCD+EW accuracy.
 %Sometimes there are higher orders that cannot directly be understood as a correction to a LO, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one LO, $\mathcal{O} (\alphas \alpha^2)$, but three NLOs, one of which is $\mathcal{O} (\alpha^4)$~TODO.
 
 Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers (and larger powers of $\alpha^l$).

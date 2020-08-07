@@ -105,13 +105,13 @@ However, \textsc{PineAPPL} remains completely blind to this fact, and a consiste
 In general, we define leading order (LO) as the set of contributions for all possible initial states $a b$ that lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
 This number is process dependent and usually determined by the number of external particles.
 For many processes there is only one LO, but when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one LO.
-An important example at the LHC is dijet production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
+An important example at the LHC is (on-shell) top-pair production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each LO receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
 The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.
 All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin.
 %Sometimes there are higher orders that cannot directly be understood as a correction to a LO, e.g.\ $\mathrm{p} \mathrm{p} \to \ell \bar{\ell} + \mathrm{jet} + X$, which has one LO, $\mathcal{O} (\alphas \alpha^2)$, but three NLOs, one of which is $\mathcal{O} (\alpha^4)$~TODO.
 
-Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers.
+Due to the typical sizes of the couplings $\alphas^2 \sim \alpha$, it is naively expected that within the same order, i.e.\ for fixed $k + l$, terms with larger powers $\alphas^k$ dominate over those with smaller powers (and larger powers of $\alpha^l$).
 In practice, however, this naive expectation is not always true due to dynamic effects.
 Some examples are vector-boson scattering processes~\cite{Biedermann:2017bss,Denner:2019tmn}, top-pair production with a W boson and four-top production~\cite{Frederix:2017wme}, and Higgs production with a bottom-pair~\cite{Pagani:2020rsg}.
 
@@ -180,7 +180,7 @@ The reconstruction of the differential cross section is then done by simply mult
 Using 4-tuples has the clear advantage of being very easy to implement and test.
 Furthermore, they reproduce the exact numerical value that is also calculated by the MC integrator.
 However, the price one has to pay is the size of the 4-tuples.
-To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:dy-lepton-pair-production}) needs \SI{159}{\giga\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
+To give a concrete example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:dy-lepton-pair-production}) needs \SI{159}{\mega\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
 While this is an acceptable size, increasing the precision by an order of magnitude would require roughly 100 times the size, due to the Monte Carlo convergence that goes as $1/\sqrt{N}$ with $N$ being the number of 4-tuples.
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
 However, due to the uncompressed nature of this representation it can serve as an intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.
@@ -204,7 +204,7 @@ y(x) = 5 (1-x) - \log x \text{,} \qquad \tau (Q^2) = \log \log \frac{Q^2}{(\SI{0
 \label{eq:maps}
 \end{equation}
 The function $y(x)$ maps events with large $x$ effectively linearly and small $x$ effectively logarithmically onto $y$.
-This reflects our knowledge of PDFs, which behave differently in those regions, and thereby increases the precision of the interpolation.
+This reflects our knowledge of PDFs, which behave differently in those two regions, and thereby increases the precision of the interpolation.
 For the convolution of a grid with a PDF set also the inverse functions are needed, which are
 \begin{equation}
 x(y) = \frac{1}{5} \operatorname{W}_0 (5 \exp (5-y)) \text{,} \qquad Q^2 (\tau) = (\SI{0.25}{\giga\electronvolt})^2 \exp (\exp (\tau)) \text{,}
@@ -249,7 +249,7 @@ Note that for $u \in [0, 3]$ the values are roughly linearly distributed, then l
 \label{fig:grid}
 \end{figure}
 
-To illustrate the filling step we give an example in figure~\ref{fig:grid}, where, for simplicity, we assume we have chosen a static scale, so that we do not need to interpolate in $\tau$ direction, and where we also limited the number of grid points to $N_y = 10$.
+To illustrate the filling step we give an example in figure~\ref{fig:grid}, where, for simplicity, we have chosen a static scale, so that we do not need to interpolate in $\tau$ direction, and where we also limited the number of grid points to $N_y = 10$.
 Each grid point has a numerical value $a_{i,j}$ associated, and the set of all numerical values $\{ a_{i,j} \}$ for all grid indices $(i,j) \in [0,N_y) \times [0,N_y)$ constitute \enquote{the grid}.
 Inserting a specific weight $W = w (x_1, x_2) / \omega(x_1, x_2)$ into the grid is shown in figure~\ref{fig:grid} as a small black square, inside the larger grey one.
 We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them\footnote{The technical term for this interpolation problem is sometimes called \emph{subtabulation}.}.
@@ -269,3 +269,5 @@ Finally, we remapped
 u(y) = \frac{y-y_\text{min}}{\Delta y} \text{,} \quad
 \end{equation}
 using $y_\text{min} = y(x_\text{max})$ and $y_\text{max} = y(x_\text{min})$ and the grid spacing $\Delta y = (y_\text{max} - y_\text{min})/(N_y-1)$, so that the integer part of $u(y)$ gives the grid index, e.g.\ $u(y_\text{min}) = 0$ and $u(y_\text{max}) = N_y - 1$, and the fractional part gives the location between the nearest grid points.
+
+% TODO: explain how convolutions are performed

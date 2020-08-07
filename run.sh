@@ -32,17 +32,10 @@ check_args_and_cd_output() {
         exit 1
     fi
 
-    applcheck=$(which applcheck 2> /dev/null || true)
+    pineappl=$(which pineappl 2> /dev/null || true)
 
-    if [[ ! -x ${applcheck} ]]; then
-        echo "The binary \`applcheck\` wasn't found. Please adjust your PATH variable" >&2
-        exit 1
-    fi
-
-    merge_bins=$(which merge_bins 2> /dev/null || true)
-
-    if [[ ! -x ${merge_bins} ]]; then
-        echo "The binary \`merge_bins\` wasn't found. Please adjust your PATH variable" >&2
+    if [[ ! -x ${pineappl} ]]; then
+        echo "The binary \`pineappl\` wasn't found. Please adjust your PATH variable" >&2
         exit 1
     fi
 
@@ -133,37 +126,39 @@ EOF
 
     # TODO: the following assumes that all observables belong to the same distribution
 
+    grid="${dataset}".pineappl
+
     # merge the final bins
-    "${merge_bins}" "${dataset}".root $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.root)
+    "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.root)
+
+    lz4=$(which lz4 2> /dev/null || true)
+
+    # compress the grid with `lz4` if it's available
+    if [[ -x ${lz4} ]]; then
+        lz4 -9 "${grid}"
+        rm "${grid}"
+        grid="${grid}.lz4"
+    fi
 
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
     # (re-)produce predictions
-    "${applcheck}" "${pdfstring}" "${dataset}".root > applcheck.log
+    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 > pineappl.convolute
+    "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
+    "${pineappl}" pdf_uncertainty "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
     # extract the numerical results from mg5_aMC
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
-    # extract the numerical results from the APPLgrid
-    sed -e '1,/all bins:/d' \
-        -e '/sum:/,$d' \
-        -e '/^$/d' \
-        -e 's/^ bin #[ 0-9]*: [^o]*or //' \
-        -e 's/ \[pb\]$//' applcheck.log > results.grid
-
-    if ! $(file "${dataset}.root" | grep -q ROOT); then
-        mv "${dataset}".root "${dataset}".pineappl
-        program=PineAPPL
-    else
-        program=APPLgrid
-    fi
+    # extract the integrated results from the PineAPPL grid
+    cat pineappl.convolute | head -n -2 | tail -n +5 | awk '{ print $5 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
-    paste -d ' ' results.grid results.mg5_aMC | awk -v program=${program} \
+    paste -d ' ' results.grid results.mg5_aMC | awk \
         'function abs(x) { return x < 0.0 ? -x : x; }
          BEGIN { print "----------------------------------------------------------------------------------------"
-                 print "   " program "       mg5_aMC   mg5_aMC unc.   sigmas   per mille   9-point scale var. (MC)"
+                 print "   PineAPPL       mg5_aMC   mg5_aMC unc.   sigmas   per mille   9-point scale var. (MC)"
                  print "----------------------------------------------------------------------------------------" }
          { printf "% e % e %e %8.3f %10.4f % e % e\n",
                   $1, $4, $5, $5 != 0.0 ? abs($1-$4)/$5 : 0.0, $4 != 0.0 ? abs($1-$4)/$4*1000 : 0.0, $7, $8 }' | \

@@ -4,32 +4,36 @@ generation of APPLgrids that include NLO(QCD+EW) corrections (mainly for NNPDF
 fit purposes).
 
 ## Prerequisites
-To successfully generate an APPLgrid, the following packages are required:
+To successfully generate a PineAPPL grid, the following packages are required:
 
-* ROOT, which can downloaded from <https://root.cern.ch>. Follow the
-  instructions there, in particular pay attention to sourcing `thisroot.sh`, if
-  this is needed in your case.
-* `ninja` and `meson`, which are required to build `applgridphoton`. Both
-  packages can be installed using pip. Make sure you use a recent version of
-  both.
-* The modfied version of **APPLgrid** available in the `applgridphoton` folder,
-  which must be compiled and installed. Use the following commands:
-
-      cd applgridphoton
-      meson build -Dprefix=${prefix} -Dlibdir=lib
-      cd build
-      ninja && ninja install
-
-  Make sure that `${prefix}` points to the proper installation directory, and that
-  `PATH` includes `${prefix}/bin`, where the binaries are installed. Finally,
-  make sure to also export/update `PKG_CONFIG_PATH` to
-  `${prefix}/lib/pkgconfig`, so that the library and header can be found by
-  `mg5_aMC`.
 * the modified version of **Madgraph/MC@NLO**
   (*https://code.launchpad.net/~amcblast/+junk/3.0.2*) installable as `bzr
-  branch lp:~amcblast/+junk/3.0.2` (bazaar is available from
+  branch lp:~amcblast/mg5amc-pineappl/trunk` (bazaar is available from
   http://bazaar.canonical.com/en/ if it is not already installed on your
   machine). The binary `mg5_aMC` must also be found in `PATH`.
+* the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
+* The PineAPPL C API, download <https://github.com/N3PDF/pineappl>, then
+  execute the following steps inside the repository:
+
+      cd pineappl_capi
+      cargo cinstall --release --prefix=${prefix}
+      cd ..
+
+  Make sure to replace `${prefix}` with an appropriate installation directory,
+  and that the environment variables are set (permanently in your `~/.bashr`,
+  for examples) to the following values
+
+      export LD_LIBRARY_PATH=${prefix}/lib
+      export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig
+
+  Test your installation using
+
+      pkg-config pineappl_capi --libs
+
+  This should some linker flags.
+* In the same repository, install the shell program `pineappl` using
+
+     cargo install --path pineappl_cli
 
 ## Datasets
 After a successful installation of the prerequisites above, the following files
@@ -66,7 +70,7 @@ meaning are as follows:
   original new > patch.patch`. The patches are applied in an unspecified order,
   using `patch -p1 ...`.
 
-## Generating the APPLgrid(s)
+## Generating the PineAPPL grid(s)
 Provided the above files, the production of the grids only requires the user to
 run the `./run.sh [dataset]` script. The script takes as only parameter the
 dataset, which is the name of the subdirectory containing the all the files
@@ -83,47 +87,21 @@ for the same dataset do not overwrite each other's output.
 
 The contents of this directory are:
 
-* `applcheck.log`: The output of running `applcheck` with the grid
-  `DATASET.{pineappl,root}` and the correct PDF set
 * `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
   this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
   * `Events/*/amcblast_obs_*.root`: grids created by `mg5_aMC`, not yet merged
     together
 * `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together.
-  The file ending is either `.root` (generated with `applgridphoton`) or
-  `.pineappl` (generated with `PineAPPL`)
 * `launch.log`: Output of `mg5_aMC` during the 'launch' phase
 * `launch.txt`: Run card for the 'launch' phase, with all variables substituted
   to their final values
 * `output.log`: Output of `mg5_aMC` during the 'output' phase
 * `output.txt`: Run card for the 'output' phase, with all variables substituted
   to their final values
+* `pineappl.convolute`: Output of `pineappl convolute`
+* `pineappl.orders`: Output of `pineappl orders`
+* `pineappl.pdf_uncertainty`: Output of `pineappl pdf_uncertainty`
 * `results.log`: The numerical results of the run, comparing the results of the
   grid against the results from `mg5_aMC`
 * `time.log`: Total `time` needed for the run
-
-## Switching to PineAPPL and back to the APPLgrid-based code
-To use the grid generation tools, a third repository is needed, which can be
-found at <https://github.com/N3PDF/pineappl>. Download this repository, and run
-
-    cargo build --release
-
-If `cargo` is not found, you first need to install Rust. Use either your
-package manager or follow the official instructions at
-<https://www.rust-lang.org/tools/install>. The above command will build the
-following file in the `PineAPPL` repository:
-
-    target/release/libpineappl_capi.so
-
-Copy this file over the old one installed by `applgridphoton` in
-`${prefix}/lib`, where `${prefix}` is the installation directory. You can then
-use `PineAPPL` to generate grids using `./run.sh` as usual.
-
-To switch back to the APPLgrid-based code, simply reinstall `applgridphoton` or
-copy it's `libpineappl_capi.so` from the `build` folder (of `applgridphoton`)
-into the installation directory.
-
-Note that generated grids are different from each other. Grids generated with
-`applgridphoton` have the `.root` extension and grids generated with `PineAPPL`
-have the `.pineappl` extension (only the merged grid).

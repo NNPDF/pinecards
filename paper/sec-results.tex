@@ -16,8 +16,6 @@ the corresponding results.
 \subsection{Computational settings}
 \label{subsec:computational_settings}
 
-{\bf MZ specify if we use pineappl with 4-tuples or with Lagrange interpolation}
-
 We generate each process by means of the Universal FeynRules Output
 (UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
 included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
@@ -34,7 +32,8 @@ We use a PDF set that contains a photon PDF, namely
 {\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
 uncertainty associated to the theoretical predictions a posteriori, that is,
 we convolve the fast-interpolation grid generated with {\sc PineAPPL} with
-each member in the PDF set, and we compute the associated standard deviation.
+each member in the PDF set, and we compute the associated standard deviation. Monte Carlo
+weights are stored as Lagrange-interpolation grids.
 
 The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
 $\mu_\mathrm{F}$, are chosen in a process specific way, and are discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,

@@ -53,85 +53,6 @@ After being installed, one can compile and link against the library.
 See appendix~\ref{app:example-program} for an example.
 Updated installation instructions are kept in the file \texttt{README.md} in \textsc{PineAPPL}'s repository at \url{https://github.com/N3PDF/pineappl/}.
 
-\subsection{Example Monte Carlo program}
-\label{app:example-program}
-
-% TODO: link to documentation
-
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-\lstset{
-  belowcaptionskip=1\baselineskip,
-  breaklines=true,
-  frame=L,
-  numbers=left,
-  xleftmargin=\parindent,
-  showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\bfseries\color{green!40!black},
-  commentstyle=\itshape\color{purple!40!black},
-  identifierstyle=\color{blue},
-  stringstyle=\color{orange},
-}
-
-The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC.
-All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
-The full example can be found at \url{https://github.com/N3PDF/pineappl/tree/master/examples/capi-dy-aa}.
-
-\begin{lstlisting}[language=C++,mathescape=true]
-// create a new luminosity function for the $\gamma\gamma$ initial state
-auto* lumi = pineappl_lumi_new();
-int32_t pdg_ids[] = { 22, 22 };
-double ckm_factors[] = { 1.0 };
-pineappl_lumi_add(lumi, 1, pdg_ids, ckm_factors);
-
-// only LO $\alpha_\mathrm{s}^0 \alpha^2 \log^0(\xi_\mathrm{R}) \log^0(\xi_\mathrm{F})$
-uint32_t orders[] = { 0, 2, 0, 0 };
-
-// we bin in rapidity from 0 to 2.4 in steps of 0.1
-double bins[] = {
-    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2,
-    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4
-};
-
-// create the PineAPPL grid with default interpolation and binning parameters
-auto* keyval = pineappl_keyval_new();
-auto* grid = pineappl_grid_new(lumi, 1, orders, 24, bins, keyval);
-
-// now we no longer need `keyval` and `lumi`
-pineappl_keyval_delete(keyval);
-pineappl_lumi_delete(lumi);
-
-// fill the grid with phase-space points
-fill_grid(grid, 10000000);
-
-// perform a convolution of the grid with PDFs
-auto* pdf = LHAPDF::mkPDF("NNPDF31_nlo_as_0118_luxqed", 0);
-auto xfx = [](int32_t id, double x, double q2, void* pdf) {
-    return static_cast <LHAPDF::PDF*> (pdf)->xfxQ2(id, x, q2);
-};
-auto alphas = [](double q2, void* pdf) {
-    return static_cast <LHAPDF::PDF*> (pdf)->alphasQ2(q2);
-};
-
-std::vector<double> dxsec(24);
-pineappl_grid_convolute(grid, xfx, xfx, alphas, pdf, nullptr,
-    nullptr, 1.0, 1.0, dxsec.data());
-
-// print the results
-for (std::size_t i = 0; i != 24; ++i) {
-    std::printf("%.1f %.1f %.3e\n", bins[i], bins[i + 1], dxsec[i]);
-}
-
-// write the grid to disk
-pineappl_grid_write(grid, "DY-LO-AA.pineappl");
-
-// destroy the object
-pineappl_grid_delete(grid);
-\end{lstlisting}
-
 \subsection{Demonstration of \texorpdfstring{\texttt{pineappl}}{pineappl}}
 \label{app:pineappl-demo}
 
@@ -289,3 +210,82 @@ set iappl 1
 done
 quit
 \end{verbatim}
+
+\subsection{Example Monte Carlo program}
+\label{app:example-program}
+
+% TODO: link to documentation
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  numbers=left,
+  xleftmargin=\parindent,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC.
+All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
+The full example can be found at \url{https://github.com/N3PDF/pineappl/tree/master/examples/capi-dy-aa}.
+
+\begin{lstlisting}[language=C++,mathescape=true]
+// create a new luminosity function for the $\gamma\gamma$ initial state
+auto* lumi = pineappl_lumi_new();
+int32_t pdg_ids[] = { 22, 22 };
+double ckm_factors[] = { 1.0 };
+pineappl_lumi_add(lumi, 1, pdg_ids, ckm_factors);
+
+// only LO $\alpha_\mathrm{s}^0 \alpha^2 \log^0(\xi_\mathrm{R}) \log^0(\xi_\mathrm{F})$
+uint32_t orders[] = { 0, 2, 0, 0 };
+
+// we bin in rapidity from 0 to 2.4 in steps of 0.1
+double bins[] = {
+    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2,
+    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4
+};
+
+// create the PineAPPL grid with default interpolation and binning parameters
+auto* keyval = pineappl_keyval_new();
+auto* grid = pineappl_grid_new(lumi, 1, orders, 24, bins, keyval);
+
+// now we no longer need `keyval` and `lumi`
+pineappl_keyval_delete(keyval);
+pineappl_lumi_delete(lumi);
+
+// fill the grid with phase-space points
+fill_grid(grid, 10000000);
+
+// perform a convolution of the grid with PDFs
+auto* pdf = LHAPDF::mkPDF("NNPDF31_nlo_as_0118_luxqed", 0);
+auto xfx = [](int32_t id, double x, double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->xfxQ2(id, x, q2);
+};
+auto alphas = [](double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->alphasQ2(q2);
+};
+
+std::vector<double> dxsec(24);
+pineappl_grid_convolute(grid, xfx, xfx, alphas, pdf, nullptr,
+    nullptr, 1.0, 1.0, dxsec.data());
+
+// print the results
+for (std::size_t i = 0; i != 24; ++i) {
+    std::printf("%.1f %.1f %.3e\n", bins[i], bins[i + 1], dxsec[i]);
+}
+
+// write the grid to disk
+pineappl_grid_write(grid, "DY-LO-AA.pineappl");
+
+// destroy the object
+pineappl_grid_delete(grid);
+\end{lstlisting}

@@ -1,5 +1,6 @@
 \documentclass[a4paper,11pt]{article}
 \pdfoutput=1
+\pdfsuppresswarningpagegroup=1
 
 \usepackage[UKenglish]{babel}
 \usepackage{booktabs}
@@ -13,8 +14,11 @@
 \usepackage[percent]{overpic}
 \usepackage{mathcomp}
 \usepackage{tabularx}
+\usepackage{textcomp}
 
 \newcommand{\alphas}{\alpha_\mathrm{s}}
+\DeclareSIUnit\permille{\text{\textperthousand}}
+
 \preprint{Nikhef-2020-026 TIF-UNIMI-2020-22}
 
 \title{PineAPPL:\\ combining EW and QCD corrections for PDF fits}
@@ -34,7 +38,7 @@ The Netherlands}
 \emailAdd{christopher.schwan@mi.infn.it}
 \emailAdd{marco.zaro@mi.infn.it}
 
-\abstract{We introduce \textsc{PineAPPL}, a computer library that makes it possible to produce fast-interpolation 
+\abstract{We introduce \textsc{PineAPPL}, a computer library allowing to produce fast-in\-ter\-po\-la\-tion
 grids for fitting parton distribution functions (PDFs)
 including corrections of strong and electroweak origin. After presenting
 the features and performance of such a code, we show how to interface \textsc{PineAPPL} with general-purpose

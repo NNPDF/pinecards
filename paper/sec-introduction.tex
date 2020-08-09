@@ -98,16 +98,14 @@ from experimental results, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
 we develop \textsc{PineAPPL}, a new computer library that provides a direct interface
-from parton-level Monte Carlo event generators accurate up to NLO QCD+EW to
+from parton-level Monte Carlo event generators accurate up to any fixed order to
 fast-interpolation grids. The library supports variations of the factorisation
 and renormalisation scales. Planned extensions will include support for resummation and matching with a photon- and/or
-parton-shower {\bf MZ remove sentence if not true}. The library is included by default in 
-\textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth) within which it has
-been designed and tested. However, it is suitable for use as a plugin in any 
-Monte Carlo generator that supports NLO QCD+EW computations, such as 
-\textsc{SHERPA}~\cite{Biedermann:2017yoi}. In this respect, \textsc{PineAPPL}
-supersedes \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{aMCfast}~\cite{Bertone:2014zva}, and complements
-\textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
+parton-shower. An interface to the library is included in
+\textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth), with which it has
+been developed and tested, and which supersedes \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{aMCfast}~\cite{Bertone:2014zva}.
+However, \textsc{PineAPPL} can be easily interfaced with every
+Monte Carlo generator, e.g.\ \textsc{SHERPA}~\cite{Biedermann:2017yoi}, where it could complement \textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 \textsc{PineAPPL}, we describe its features, we illustrate its operation, and we
@@ -116,7 +114,7 @@ assess its performance. In section~\ref{sec:results} we validate
 set of processes, usually included in PDF fits, for which EW corrections may
 have a sizeable effect on the accuracy of the theoretical predictions.
 In section~\ref{sec:doublecounting} we try to detail in a more
-comprehensive maneer the second problem sketched above, the solution of which, 
+comprehensive manner the second problem sketched above, the solution of which,
 however, remains beyond the scope of the current work. We provide our
 conclusions and an outlook in section~\ref{sec:conclusion}. Examples of
 installation and usage of \textsc{PineAPPL} are provided in

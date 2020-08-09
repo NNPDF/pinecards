@@ -1,0 +1,292 @@
+\section{Installation and usage of PineAPPL}
+\label{app:pineappl}
+
+\subsection{Installation}
+\label{app:installation}
+
+\textsc{PineAPPL} currently consists of three parts: 1) the library itself, which is a dependency for the other parts, 2) the helper program \texttt{pineappl}, which allows one to read \textsc{PineAPPL} grids from the command line and make predictions with it, and finally 3) the C interface, which is intended to be used in Monte Carlo integrators to generate the grids.
+
+\subsubsection*{Installation of Rust}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+}
+
+All parts are written in Rust: a Rust compiler and related tools are needed.
+On operating systems with a \texttt{bash} shell (such as Linux or MacOS) the installation is as simple as
+\begin{verbatim}
+ $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+\end{verbatim}
+which downloads the compiler \texttt{rustc}, the package manager \texttt{cargo}, and a few other helpful tools.
+When the installation has completed make sure to read and follow the instructions printed on screen.
+See also \url{https://www.rust-lang.org/tools/install} for more details and for installation instructions for other operating systems.
+
+\subsubsection*{Installation of the command-line program \texorpdfstring{\texttt{pineappl}}{pineappl}}
+
+The command-line program \texttt{pineappl} is compiled and installed using
+\begin{verbatim}
+ $ cargo install pineappl_cli
+\end{verbatim}
+This program also needs \texttt{LHAPDF} \cite{Buckley:2014ana} installed; make sure that the environment variables \texttt{PATH}, \texttt{LD\_LIBRARY\_PATH}, and \texttt{PKG\_CONFIG\_PATH} are properly set.
+For usage instructions simply type \texttt{pineappl} in your shell and read the help message.
+
+\subsubsection*{Installation of the C-language interface (optional)}
+
+For the C interface you need to first install \texttt{cargo-c},
+\begin{verbatim}
+ $ cargo install cargo-c
+\end{verbatim}
+and then download the \textsc{PineAPPL} repository, compile and finally install into it into a directory \texttt{\$prefix} as follows:
+\begin{verbatim}
+ $ git clone https://github.com/N3PDF/pineappl/
+ $ cd pineappl_capi/
+ $ cargo cinstall --release --prefix=DIRECTORY
+\end{verbatim}
+The last line will install the C header \texttt{pineappl\_capi.h}, the library, and a pkg-config\footnote{A standard way on Linux to express how dependencies are compiled/linked against, see \url{https://www.freedesktop.org/wiki/Software/pkg-config/}} file (\texttt{pineappl\_capi.pc}) into the directory specified as \texttt{DIRECTORY}.
+Make sure that the environment variables \texttt{PATH}, \texttt{LD\_LIBRARY\_PATH}, and \texttt{PKG\_CONFIG\_PATH} are properly set.
+The latter is needed for \texttt{pkg-config -{}-cflags -{}-libs pineappl\_capi} to work, which prints the necessary compiler/linker flags.
+
+After being installed, one can compile and link against the library.
+See appendix~\ref{app:example-program} for an example.
+Updated installation instructions are kept in the file \texttt{README.md} in \textsc{PineAPPL}'s repository at \url{https://github.com/N3PDF/pineappl/}.
+
+\subsection{Demonstration of \texorpdfstring{\texttt{pineappl}}{pineappl}}
+\label{app:pineappl-demo}
+
+The program \texttt{pineappl} can be used to perform quick convolutions and other calculations with existing grids on the command line.
+If started without any arguments, it prints its help and lists all supported subcommands:
+\begin{verbatim}
+ $ pineappl
+pineappl 0.2.0
+Read, write, and query PineAPPL grids
+
+USAGE:
+    pineappl <SUBCOMMAND>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+SUBCOMMANDS:
+    channels           Shows the contribution for each partonic channel
+    convolute          Convolutes a PineAPPL grid with a PDF set
+    diff               Compares the contents of two grids with each other
+    info               Shows information about the grid
+    luminosity         Shows the luminosity function
+    merge              Merges one or more PineAPPL grids together
+    orders             Shows the predictions for all bins for each order
+                       separately
+    pdf_uncertainty    Calculates PDF uncertainties
+\end{verbatim}
+
+\paragraph{Convolutions.}
+The most important subcommand is \texttt{convolute}, which performs a convolution of a single grid with a single or multiple PDF sets.
+As an example we show the grid produced for the ATLAS Drell--Yan high-mass lepton-pair production from section~\ref{sec:dy-lepton-pair-production}, convoluted with \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} as the main PDF set and with \texttt{CT18NLO} as a second PDF set.
+\begin{verbatim}
+ $ pineappl convolute ATLASZHIGHMASS49FB.pineappl \
+ > NNPDF31_nlo_as_0118_luxqed CT18NLO
+bin xmin xmax     diff        integ    neg unc pos unc       CT18NLO
+---+----+----+------------+-----------+-------+-------+------------+------
+  0  116  130 2.0630698e-1  2.888297e0  -2.08%   1.69% 2.0246802e-1 -1.86%
+  1  130  150 9.1818985e-2  1.836379e0  -1.79%   1.86% 8.9766355e-2 -2.24%
+  2  150  170 4.5306370e-2 9.061274e-1  -1.60%   1.98% 4.4115960e-2 -2.63%
+  3  170  190 2.5894856e-2 5.178971e-1  -1.66%   2.06% 2.5138525e-2 -2.92%
+  4  190  210 1.6075267e-2 3.215053e-1  -1.70%   2.10% 1.5566535e-2 -3.16%
+  5  210  230 1.0526659e-2 2.105331e-1  -1.71%   2.12% 1.0173163e-2 -3.36%
+  6  230  250 7.1928162e-3 1.438563e-1  -1.71%   2.13% 6.9403972e-3 -3.51%
+  7  250  300 4.0776555e-3 2.038827e-1  -1.70%   2.44% 3.9255068e-3 -3.73%
+  8  300  400 1.4775481e-3 1.477548e-1  -1.94%   2.87% 1.4182754e-3 -4.01%
+  9  400  500 4.5473785e-4 4.547378e-2  -2.30%   3.19% 4.3525336e-4 -4.28%
+ 10  500  700 1.2164277e-4 2.432855e-2  -2.41%   3.12% 1.1612523e-4 -4.54%
+ 11  700 1000 1.9792340e-5 5.937701e-3  -2.05%   2.12% 1.8813113e-5 -4.95%
+ 12 1000 1500 2.0228761e-6 1.011438e-3  -1.29%   0.47% 1.9221978e-6 -4.98%
+\end{verbatim}
+The output shows all 13 bins with lower (\texttt{xmin}) and upper limit (\texttt{xmax}) of the invariant mass $M_{\ell \bar{\ell}}$ of the lepton pair, with the differential cross section $\mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{diff}), integrated cross section $(M_{\ell \bar{\ell}}^\mathrm{max} - M_{\ell \bar{\ell}}^\mathrm{min}) \mathrm{d} \sigma / \mathrm{d} M_{\ell \bar{\ell}}$ (\texttt{integ}), and the perturbative uncertainty estimated from a 7-point scale variation (envelope given by \texttt{neg unc} and \texttt{pos unc}).
+The uncertainty estimation can alternatively use a 3- or a 9-point scale variation using the optional program switch \texttt{-{}-scales 3} or \texttt{-{}-scales 9}, respectively.
+The (differential) results for the second PDF set (\texttt{CT18NLO}) is shown in absolute numbers and also as a percentage relative to the result of the first PDF set.
+
+\paragraph{Perturbative orders.}
+Often it is helpful to see the impact of the different perturbative orders to the cross section.
+The subcommand \texttt{orders} shows this:
+\begin{verbatim}
+ $ pineappl orders ATLASZHIGHMASS49FB.pineappl \
+ > NNPDF31_nlo_as_0118_luxqed
+bin xmin xmax     diff     O(as^0 a^2) O(as^1 a^2) O(as^0 a^3)
+---+----+----+------------+-----------+-----------+-----------
+  0  116  130 2.0630698e-1     100.00%      15.97%      -5.26%
+  1  130  150 9.1818985e-2     100.00%      18.07%      -4.29%
+  2  150  170 4.5306370e-2     100.00%      19.66%      -3.64%
+  3  170  190 2.5894856e-2     100.00%      20.69%      -3.21%
+  4  190  210 1.6075267e-2     100.00%      21.26%      -2.91%
+  5  210  230 1.0526659e-2     100.00%      21.48%      -2.85%
+  6  230  250 7.1928162e-3     100.00%      21.60%      -2.62%
+  7  250  300 4.0776555e-3     100.00%      21.36%      -2.75%
+  8  300  400 1.4775481e-3     100.00%      20.32%      -3.11%
+  9  400  500 4.5473785e-4     100.00%      17.83%      -3.65%
+ 10  500  700 1.2164277e-4     100.00%      14.04%      -4.68%
+ 11  700 1000 1.9792340e-5     100.00%       7.21%      -6.75%
+ 12 1000 1500 2.0228761e-6     100.00%      -3.05%      -9.99%
+\end{verbatim}
+The first four columns are the same as in \texttt{convolute}, and the remaining ones show all orders normalised to the sum of the leading orders, which in this case is only the $\mathcal{O} (\alpha^2)$.
+Absolute numbers are shown if the switch \texttt{-{}-absolute} or \texttt{-a} is passed to the program.
+
+\paragraph{Channels and Luminosity function.}
+Sometimes it is useful to know which partons contribute the most and by how much.
+This is what the subcommand \texttt{channels} shows:
+\begin{verbatim}
+ $ pineappl channels ATLASZHIGHMASS49FB.pineappl \
+ > NNPDF31_nlo_as_0118_luxqed --limit 5
+bin xmin xmax lumi  size
+---+----+----+----+------+---+------+---+------+---+------+---+-----
+  0  116  130  #15 27.42%  #0 27.42%  #5 24.52% #20 24.51% #30 1.30%
+  1  130  150  #15 28.83%  #0 28.83%  #5 21.78% #20 21.78% #30 1.86%
+  2  150  170  #15 29.87%  #0 29.82%  #5 19.63% #20 19.62% #30 2.32%
+  3  170  190  #15 30.54%  #0 30.53% #20 18.17%  #5 18.13% #30 2.58%
+  4  190  210   #0 31.06% #15 31.04%  #5 17.07% #20 17.04% #30 2.75%
+  5  210  230   #0 31.46% #15 31.38% #20 16.27%  #5 16.24% #30 2.86%
+  6  230  250   #0 31.73% #15 31.64% #20 15.66%  #5 15.62% #30 2.91%
+  7  250  300   #0 32.07% #15 32.02%  #5 14.91% #20 14.86% #30 2.98%
+  8  300  400   #0 32.62% #15 32.56%  #5 13.83% #20 13.81% #30 2.98%
+  9  400  500  #15 33.14%  #0 33.12% #20 12.89%  #5 12.87% #30 2.93%
+ 10  500  700   #0 33.71% #15 33.31% #20 12.28%  #5 12.26% #30 2.93%
+ 11  700 1000  #15 34.08%  #0 33.71% #20 11.59%  #5 11.51% #30 3.06%
+ 12 1000 1500   #0 33.95% #15 33.88% #20 11.12%  #5 10.88% #30 3.56%
+\end{verbatim}
+The first three columns are known from \texttt{convolute}.
+The next columns (the switch \texttt{-{}-limit 5} limits the output to five columns) show first the channel index and then the relative size of the corresponding contribution.
+Since the contribution of a partonic channel can be negative, the columns are sorted ignoring the sign of the contribution.
+The first line shows that for bin 0, i.e.\ for the range $\SI{116}{\giga\electronvolt} < M_{\ell \bar{\ell}} < \SI{130}{\giga\electronvolt}$, the cross section is dominated by partonic channel \texttt{\#15} (\SI{27.42}{\percent}), following by partonic channel \texttt{\#0} with same size, then channel \texttt{\#5}, etc.
+The meaning of the channel numbers is given by using the subcommand \texttt{luminosity} (only an excerpt is shown):
+\begin{verbatim}
+id    entry
+--+------------+------------+------------
+0  1 × ( 2, -2) 1 × ( 4, -4)
+5  1 × ( 1, -1) 1 × ( 3, -3)
+15 1 × (-4,  4) 1 × (-2,  2)
+20 1 × (-3,  3) 1 × (-1,  1)
+30 1 × (22, 22)
+\end{verbatim}
+This shows that channel \texttt{\#0} represents the up-type quark--anti-quark contributions (shown with PDG id 2 and 4 for up and charm quarks, which have the same matrix elements), channel \texttt{\#15} is the same channel with its initial states transposed, channels \texttt{\#5} and \texttt{\#20} are the down-type quark--anti-quark channels, and channel \texttt{\#30} is the photon--photon channel.
+The size of the remaining channels is smaller than the photon--photon channel.
+The factors \texttt{1} are not important here, but in general they can contain CKM values and charge factors that, if kept in the squared matrix elements, would not allow for sharing a single matrix element for different quark flavours and therefore slow down the calculation. A complete list of the most important channels and of their
+contribution to the cross section for all of the processes discussed in
+section~\ref{sec:results} is collected in appendix~\ref{app:lumis}.
+
+\subsection{Sample runcard for mg5\_aMC@NLO}
+\label{app:sample-runcard}
+
+The following run card was used to produce the results shown in section~\ref{sec:dy-lepton-pair-production}.
+The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set iappl 1}, which enables to fill a \textsc{PineAPPL} grid.
+For a complete set of runcards and patches see TODO.
+\begin{verbatim}
+set complex_mass_scheme True
+import model loop_qcd_qed_sm_Gmu
+define p = p b b~
+define j = p
+generate p p > e+ e- [QCD QED]
+output @OUTPUT@
+launch @OUTPUT@
+fixed_order = ON
+set mz @MZ@
+set ymt @YMT@
+set ebeam1 3500
+set ebeam2 3500
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed @MZ@
+set muf_ref_fixed @MZ@
+set reweight_scale True
+set ptl = 25.0
+set etal = 2.5
+set mll = 116
+#user_defined_cut set mmllmax = 1500.0
+set req_acc_FO 0.0001
+set iappl 1
+done
+quit
+\end{verbatim}
+
+\subsection{Example Monte Carlo program}
+\label{app:example-program}
+
+% TODO: link to documentation
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  numbers=left,
+  xleftmargin=\parindent,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
+The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC.
+All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
+The full example can be found at \url{https://github.com/N3PDF/pineappl/tree/master/examples/capi-dy-aa}.
+
+\begin{lstlisting}[language=C++,mathescape=true]
+// create a new luminosity function for the $\gamma\gamma$ initial state
+auto* lumi = pineappl_lumi_new();
+int32_t pdg_ids[] = { 22, 22 };
+double ckm_factors[] = { 1.0 };
+pineappl_lumi_add(lumi, 1, pdg_ids, ckm_factors);
+
+// only LO $\alpha_\mathrm{s}^0 \alpha^2 \log^0(\xi_\mathrm{R}) \log^0(\xi_\mathrm{F})$
+uint32_t orders[] = { 0, 2, 0, 0 };
+
+// we bin in rapidity from 0 to 2.4 in steps of 0.1
+double bins[] = {
+    0.0,
+    0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2,
+    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4
+};
+
+// create the PineAPPL grid with default interpolation and binning parameters
+auto* keyval = pineappl_keyval_new();
+auto* grid = pineappl_grid_new(lumi, 1, orders, 24, bins, keyval);
+
+// now we no longer need `keyval` and `lumi`
+pineappl_keyval_delete(keyval);
+pineappl_lumi_delete(lumi);
+
+// fill the grid with phase-space points
+fill_grid(grid, 10000000);
+
+// perform a convolution of the grid with PDFs
+auto* pdf = LHAPDF::mkPDF("NNPDF31_nlo_as_0118_luxqed", 0);
+auto xfx = [](int32_t id, double x, double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->xfxQ2(id, x, q2);
+};
+auto alphas = [](double q2, void* pdf) {
+    return static_cast <LHAPDF::PDF*> (pdf)->alphasQ2(q2);
+};
+
+std::vector<double> dxsec(24);
+pineappl_grid_convolute(grid, xfx, xfx, alphas, pdf, nullptr,
+    nullptr, 1.0, 1.0, dxsec.data());
+
+// print the results
+for (std::size_t i = 0; i != 24; ++i) {
+    std::printf("%.1f %.1f %.3e\n", bins[i], bins[i + 1], dxsec[i]);
+}
+
+// write the grid to disk
+pineappl_grid_write(grid, "DY-LO-AA.pineappl");
+
+// destroy the object
+pineappl_grid_delete(grid);
+\end{lstlisting}

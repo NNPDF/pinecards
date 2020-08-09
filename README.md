@@ -7,12 +7,12 @@ fit purposes).
 To successfully generate a PineAPPL grid, the following packages are required:
 
 * the modified version of **Madgraph/MC@NLO**
-  (*https://code.launchpad.net/~amcblast/+junk/3.0.2*) installable as `bzr
-  branch lp:~amcblast/mg5amc-pineappl/trunk` (bazaar is available from
-  http://bazaar.canonical.com/en/ if it is not already installed on your
+  (<https://launchpad.net/mg5amc-pineappl>) installable as `bzr branch
+  lp:~amcblast/mg5amc-pineappl/trunk` (bazaar is available from
+  <http://bazaar.canonical.com/en/> if it is not already installed on your
   machine). The binary `mg5_aMC` must also be found in `PATH`.
 * the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
-* The PineAPPL C API, download <https://github.com/N3PDF/pineappl>, then
+* The **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
   execute the following steps inside the repository:
 
       cd pineappl_capi
@@ -31,7 +31,7 @@ To successfully generate a PineAPPL grid, the following packages are required:
       pkg-config pineappl_capi --libs
 
   This should some linker flags.
-* In the same repository, install the shell program `pineappl` using
+* In the same repository, install the **shell program** `pineappl` using
 
      cargo install --path pineappl_cli
 

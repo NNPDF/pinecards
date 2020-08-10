@@ -11,12 +11,12 @@ The convolution is typically done in a few seconds or less, which offers at leas
 \item the determination of PDF sets themselves; the grids together with the corresponding experimental data constitute two important ingredients for a PDF fit.
 \end{enumerate}
 This puts \textsc{PineAPPL} in the same category as \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}.
-With respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to EW, and in general mixed QCD--EW, effects.
+With respect to the capabilities of these computer codes, \textsc{PineAPPL} makes it possible for the first time to include also higher-order corrections due to EW, and in general combined QCD--EW, effects.
 Documenting this extension, and how to interface \textsc{PineAPPL} with a general-purpose matrix-element generator, is the main interest of this paper.
 
 In particular, the following features are supported:
 \begin{itemize}
-\item The inclusion of perturbative corrections (fixed-order, i.e.\ without parton-shower matching) with any given set of powers of $\alpha$, $\alphas$, in particular including mixed QCD--EW corrections.
+\item The inclusion of perturbative corrections (fixed-order, i.e.\ without parton-shower matching) with any given set of powers of $\alpha$, $\alphas$, in particular including combined QCD--EW corrections.
 \item The support for non-coloured initial-state partons, such as photon-initiated contributions.
 In fact, \textsc{PineAPPL} allows arbitrary initial-state combinations, e.g.\ leptonic initial states~\cite{Bertone:2015lqa,Buonocore:2020nai}.
 \item The estimate of theory uncertainties via variations of the renormalisation and factorisation scale (the electroweak coupling is assumed to be scale-independent, consistently with the most common renormalisation schemes).
@@ -108,7 +108,7 @@ For many processes there is only one LO, but when a process has multiple quark l
 An important example at the LHC is (on-shell) top-pair production, which has three different LOs: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each LO receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
 The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.
-All remaining corrections are of mixed type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin. However, for the sake of simplicity and with a slight abuse of notation, it is customary to refer 
+All remaining corrections are of combined type, meaning that they, in general, cannot be attributed to either one of strong or electroweak origin. However, for the sake of simplicity and with a slight abuse of notation, it is customary to refer
 as NLO QCD (EW) corrections as
 corrections of order $\alphas$ ($\alpha$) times the couplings of the LO contribution 
 with the largest power of $\alphas$. In the example above, NLO QCD and EW corrections to top pair production will denote
@@ -138,11 +138,11 @@ Note that all terms depend on the renormalisation scale only indirectly through 
 At NLO these terms are not present for this process so that terms proportional to $\log (\xi_\mathrm{R}^2)$ vanish.
 Both NLOs, however, have contributions from a collinear counterterm that depends on the factorisation scale.
 
-Since this process has a single LO, mixed QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which include the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single mixed correction at $\mathcal{O} (\alphas \alpha^3)$.
+Since this process has a single LO, combined QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which include the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single combined correction at $\mathcal{O} (\alphas \alpha^3)$.
 
 Note that all initial states have to be taken into account that lead to the same final state.
 This includes the photon--photon initial state, which appears already at LO.
-In the corresponding Feynman diagrams all particles are colourless, so that the photon--photon initiated contributions only receive EW and mixed QCD--EW corrections, but never (pure) QCD corrections.
+In the corresponding Feynman diagrams all particles are colourless, so that the photon--photon initiated contributions only receive EW and combined QCD--EW corrections, but never (pure) QCD corrections.
 The EW corrections also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.
 
 %\subsubsection{Example: top-pair production}

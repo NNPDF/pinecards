@@ -1,7 +1,6 @@
 # aMCblast
 The madgraph/aMCblast project consists of a set of tools for the automated
-generation of APPLgrids that include NLO(QCD+EW) corrections (mainly for NNPDF
-fit purposes).
+generation of PineAPPL grids that include NLO QCD+EW corrections.
 
 ## Prerequisites
 To successfully generate a PineAPPL grid, the following packages are required:
@@ -12,7 +11,7 @@ To successfully generate a PineAPPL grid, the following packages are required:
   <http://bazaar.canonical.com/en/> if it is not already installed on your
   machine). The binary `mg5_aMC` must also be found in `PATH`.
 * the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
-* The **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
+* the **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
   execute the following steps inside the repository:
 
       cd pineappl_capi
@@ -30,10 +29,19 @@ To successfully generate a PineAPPL grid, the following packages are required:
 
       pkg-config pineappl_capi --libs
 
-  This should some linker flags.
-* In the same repository, install the **shell program** `pineappl` using
+  This prints the linker flags needed to link against the C API of PineAPPL,
+  and should like similar to the following output
 
-     cargo install --path pineappl_cli
+      -L${prefix}/lib -lpineappl_capi
+
+  If there is no output, something is wrong.
+* in the same repository, install the shell program **`pineappl`** using
+
+      cargo install --path pineappl_cli
+
+  Note that this will install the program for the current user. If you want to
+  install the program system-wide use the option `--root` with the proper
+  directory.
 
 ## Datasets
 After a successful installation of the prerequisites above, the following files

@@ -481,21 +481,27 @@ contributions of the order $\mathcal{O}(\alpha^4)$ are not considered (see ref.~
 EW corrections for this process were computed in
 refs.~\cite{Kuhn:2005az,Denner:2011vu,Hollik:2015pja,Kallweit:2015dum}.
 The process receives contributions from 101 (166) parton luminosities,
-see appendix~\ref{app:lumis} for details.
+see appendix~\ref{app:lumis}.
 
 \paragraph{Process-specific settings.}
 
-As in the case of Drell-Yan, we use a fixed value for the renormalisation and factorisation 
-scales $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$.
-We require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$, $|\eta_\ell|<2.4$,
-$|M_{\ell\bar\ell} - M_\mathrm{Z}| < \SI{15}{\giga\electronvolt}$,
+As in the case of Drell-Yan, we use a fixed value for the renormalisation and
+factorisation scales $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where
+$M_\mathrm{Z}$ is the $\mathrm{Z}$-boson mass. Consistently with the
+experimental analysis, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
+$|\eta_\ell|<2.4$, $|M_{\ell\bar\ell} - M_\mathrm{Z}| < \SI{15}{\giga\electronvolt}$,
 $|y_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
-transverse momentum and pseudorapidity of each lepton, and for the invariant mass,
-pseudorapidity and transverse momentum of the lepton pair. Imposing a minimum cut for the transverse momentum of the lepton pair 
-is necessary as we rely on a fixed-order computation, without including resummation effects.
+transverse momentum and pseudorapidity of each lepton, and for the invariant
+mass, pseudorapidity and transverse momentum of the lepton pair.
+We finally discard all bins with
+$p_\mathrm{T}^\mathrm{Z}<\SI{20}{\giga\electronvolt}$ to avoid a kinematic
+ergion where resummation effects are sizeable.
 
-\paragraph{Numerical results.} We finally
-
+\paragraph{Numerical results.} In figure~\ref{fig:cmsZ13TeV} we report the
+distribution differential in the transverse momentum of the $\mathrm{Z}$
+boson. Also in this case, the \textsc{PineAPPL} result is well validated, as it
+differs from the MC result by $\SI{0.5}{\permille}$ at most. The accuracy of the
+theory or the choice of scale do not alter this conclusion.
 
 %-------------------------------------------------------------------------------
 \begin{figure}[!t]
@@ -507,4 +513,26 @@ is necessary as we rely on a fixed-order computation, without including resummat
     \label{fig:cmsZ13TeV}
 \end{figure}
 %-------------------------------------------------------------------------------
+
+The process receives its leading contribution from $\mathrm{qg}$ and
+$\bar{\mathrm{q}}g$ initiated channels, which account for about 65\%
+of the cross section, with some variations in the relative contributions from
+individual quark and atiquark flavours as the transverse momentum of the
+$\mathrm{Z}$ boson varies; the PI contribution always remain negligible.
+Overall, the EW corrections suppress the theoretical predictions by about
+2\% -- 7\% as the transverse momentum of the $\mathrm{Z}$ boson increases.
+The size of this shift is usually as large as the data uncertainty, and
+exceeds it at large values of $p_\mathrm{T}^\mathrm{Z}$. As a consequence,
+we anticipate the inclusion of EW corrections to be relevant for an accurate
+fit to this data set.
+
+The size of the EW correction is between four and six times larger than the
+size of the PDF uncertainty: as previously noted in th eother cases, this fact
+suggests that, once included in a PDF fit, EW corrections can improve the
+accuracy of the PDFs. In comparison to the scale ucnertainty, the size of the
+EW corrections remains negligible, as NNLO QCD corrections are comparatively
+large, as expected in a process mostly initiated by gluons. They should
+therefore be included along with EW corrections in a fit of PDFs. Finally, the
+Monte Carlo uncertainty is well under control, as it remains mostly negligible
+in comparison to the PDF, scale and data uncertainty.
 

@@ -63,7 +63,7 @@ reason is twofold. First, one expects NNLO QCD and NLO EW corrections to be of
 comparable size because, at the EW scale, the QCD and EW running couplings 
 become similar, $\alphas^2\sim \alpha$. If NNLO QCD corrections are included
 by default in PDF determinations, NLO EW corrections should be
-taken into account on the same footing. Second, the virtual exchange of soft or 
+taken into account as well. Second, the virtual exchange of soft or 
 collinear weak bosons leads to Sudakov 
 logarithms~\cite{Denner:2000jv,Denner:2001gw},
 which can make the coefficients of the EW series grow faster than 
@@ -82,7 +82,7 @@ by means of interpolation techniques. Such grids are a fundamental ingredient
 in any PDF fit, where the evaluation of the hadronic cross section needs to 
 be performed a large number of times. While two default formats exist for
 these grids, \textsc{APPLgrid}~\cite{Carli:2010rw} and
-\textsc{fastNLO}~\cite{Kluge:2006xs}, none of them supports the inclusion of EW
+\textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}, none of them supports the inclusion of EW
 corrections nor the interface to a Monte Carlo generator accurate to 
 NLO QCD+EW\@. Second, a problem of consistency: the way in which EW effects may
 (or may not) be folded into the data varies across different experimental 
@@ -97,15 +97,21 @@ systematically included in theoretical predictions, they should not be subtracte
 from experimental results, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
-we develop \textsc{PineAPPL}, a new computer library that provides a direct interface
-from parton-level Monte Carlo event generators accurate up to any fixed order to
-fast-interpolation grids. The library supports variations of the factorisation
-and renormalisation scales. Planned extensions will include support for resummation and matching with a photon- and/or
-parton-shower. An interface to the library is included in
-\textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC} henceforth), with which it has
-been developed and tested, and which supersedes \textsc{APPLgrid}~\cite{Carli:2010rw} and \textsc{aMCfast}~\cite{Bertone:2014zva}.
-However, \textsc{PineAPPL} can be easily interfaced with every
-Monte Carlo generator, e.g.\ \textsc{SHERPA}~\cite{Biedermann:2017yoi}, where it could complement \textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
+we develop \textsc{PineAPPL}, a library that allows the user to generate
+fast-interpolation grids, accurate to up to any fixed order in the strong and
+EW couplings. The library supports variations of the factorisation
+and renormalisation scales, and can be extended to include
+resummation and matching with a photon- and/or parton-shower.
+The grids in the new \textsc{PineAPPL} format complement those
+(accurate to fixed-orders in the strong coupling only) that can be generated 
+in the \textsc{APPLgrid} and \textsc{FastNLO} formats. The \textsc{PineAPPL}
+library is interfaced to \textsc{MadGraph5\_aMC@NLO} (\textsc{MG5\_aMC}
+henceforth), with which it has been developed and tested. In this respect,
+\textsc{PineAPPL} supersedes
+\textsc{APPLgrid}+\textsc{aMCfast}~\cite{Bertone:2014zva}.
+\textsc{PineAPPL} can also be easily interfaced with any Monte Carlo generator,
+e.g.\ \textsc{SHERPA}~\cite{Biedermann:2017yoi}, where it complements
+\textsc{MCgrid}~\cite{DelDebbio:2013kxa,Bothmann:2015dba}.
 
 The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 \textsc{PineAPPL}, we describe its features, we illustrate its operation, and we

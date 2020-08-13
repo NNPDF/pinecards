@@ -7,12 +7,12 @@ computing Monte Carlo weights for cross sections in a multi-coupling expansion,
 and we finally address how this problem is solved with a suitable grid
 representation.
 
-\subsection{The \textsc{PineAPPL} library}
+\subsection{The PineAPPL library}
 \label{sec:library}
 
 \textsc{PineAPPL} is a new library which stores phase-space weights of a Monte Carlo (MC) integration of a fixed-order calculation independently from the chosen PDFs.
 The task of computing predictions for physical observables is therefore split
-into two steps: 1) the generation of the \emph{grids}, that is the files in
+into two steps: 1) the generation of the \emph{grids}, i.e.\ the files in
 which the MC weights are stored, and 2) the convolution of these grids with a set of PDFs.
 The advantage of this method is that the time-consuming step 1) has to be performed only once, and that step 2) is reduced to a fast convolution of a given grid with one (or more) PDF set(s).
 

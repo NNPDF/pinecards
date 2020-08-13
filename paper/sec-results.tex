@@ -1,17 +1,17 @@
 \section{Validation and interpretation of PineAPPL grids}
 \label{sec:results}
 
-In this section we demonstrate the capabilities of \textsc{PineAPPL} by
-computing fast-in\-ter\-po\-la\-tion grids, accurate to NLO QCD and NLO QCD+EW,
+In this section we demonstrate the capabilities of \textsc{MG5\_aMC}+\textsc{PineAPPL} by
+computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW,
 for a representative set of processes in which EW corrections may have a
 sizeable effect on the accuracy of the theoretical predictions.
-In order to consider realistic kinematics for these
-processes, we rely on the measurements that are commonly included in PDF
+In order to consider some realistic kinematics for these
+processes, we rely on a set of measurements that are commonly included in PDF
 fits. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
-impact of the EW corrections for the specific experimental setups. We start by describing the
-setup employed for the computation, then we discuss the features of each process, along with
-the corresponding results.
+impact of the EW corrections for the specific experimental setups. We describe
+the settings employed for the computations, and the corresponding results for
+each process considered.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}
@@ -27,7 +27,7 @@ ref.~\cite{Frederix:2018nkq} for details. We use this scheme
 for all processes that involve only massless particles in the final state.
 The photon is always considered as part of the proton in the initial state and
 of any hadronic jet produced in the final state: 
- in particular, PI contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
+ in particular, photon-induced (PI) contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
 We use a PDF set that contains a photon PDF, namely
 {\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
 uncertainty associated to the theoretical predictions a posteriori, that is,
@@ -36,31 +36,34 @@ each member in the PDF set, and we compute the associated standard deviation. Mo
 weights are stored as Lagrange-interpolation grids.
 
 The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
-$\mu_\mathrm{F}$, are chosen in a process specific way, and are discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,
+$\mu_\mathrm{F}$, are chosen in a process-specific way, as discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted on-the-fly in the Monte Carlo generation upon scale
 variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{MG5\_aMC}
 implementation, whereby the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
-from the nine-point scale variations is constructed. However, we note that
+from the nine-point scale variations is constructed,
+see equation~\eqref{eq:}. However, we note that
 \textsc{PineAPPL} allows the user to determine the envelope with any point
 prescription, see appendix~\ref{app:pineappl-demo} for an example.
 
 The values of the relevant physical parameters are chosen as
 \begin{equation}
-\begin{aligned}
-M_\mathrm{W} &= \SI{80}{\giga\electronvolt} \text{,} \quad &
-M_\mathrm{Z} &= \SI{91.176}{\giga\electronvolt} \text{,} \quad &
-m_\mathrm{t} &= \SI{172.5}{\giga\electronvolt} \text{,} \quad \\
-\Gamma_\mathrm{W} &= \SI{2.09}{\giga\electronvolt} \text{,} &
-\Gamma_\mathrm{Z} &= \SI{2.50}{\giga\electronvolt} \text{,}
-\end{aligned}
+%\begin{aligned}
+%M_\mathrm{W} &= \SI{80}{\giga\electronvolt} \text{,} \quad &
+M_\mathrm{Z} = \SI{91.176}{\giga\electronvolt} \text{,} \quad 
+m_\mathrm{t} = \SI{172.5}{\giga\electronvolt} \text{,} \quad 
+%\Gamma_\mathrm{W} &= \SI{2.09}{\giga\electronvolt} \text{,} &
+\Gamma_\mathrm{Z} = \SI{2.50}{\giga\electronvolt} \text{,}
+%\end{aligned}
 \label{eq:parameters}
 \end{equation}
-where $M_\mathrm{W}$, $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the W-boson, Z-boson, and
-top-quark masses, respectively, and $\Gamma_\mathrm{W}$ and $\Gamma_\mathrm{Z}$ are the width of
-the W boson and of the Z boson, respectively. The value of the strong
+where $M_\mathrm{Z}$ and $m_\mathrm{t}$ are the values of the Z-boson, and
+top-quark masses, respectively, and $\Gamma_\mathrm{Z}$ is the width of
+the Z boson. The value of the strong
 coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
-The definition of observables and cuts is process-specific, and it follows the corresponding experimental measurements.
+
+The definition of observables and cuts is process-specific, and it follows the corresponding experimental measurements,
+see secion~\ref{sec:subsec:processes_and_measurements}.
 When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
 if they satisfy the condition $\Delta R_{f \gamma}<0.1$, where $\Delta R_{f \gamma}$
 is the fermion-photon distance. In this case the
@@ -69,7 +72,7 @@ from the event. Kinematics observables and cuts are defined starting from recomb
 photons surviving the recombination would have to be clustered together with coloured
 partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
 see refs.~\cite{Frederix:2016ost,Denner:2019zfp}.} Finally, although contributions corresponding to the radiation
-of a heavy boson are formally of the same perturbative order as the EW corrections, they are not included in our
+of a heavy boson are formally of the same perturbative order of the EW corrections, they are not included in our
 computations. In fact, while nothing prevents to include these contributions \emph{a posteriori}, as they are finite,
 their impact is either smaller than the one of \enquote{standard} EW corrections, or anyway negligible with respect to
 the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagani:2016caq} for some process-specific cases {\bf MZ OTHERS???}).
@@ -80,18 +83,19 @@ the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagan
 
 We focus on the following three processes: Drell--Yan lepton-pair production,
 top-quark pair production, and Z-boson (lepton-pair) production with non-zero
-transverse momentum in proton-proton collisions. For each of these processes,
-we present the experimental measurements, process-specific settings, and phenomenological results.
+transverse momentum in proton-proton collisions. In the following, we shall
+present the experimental measurements, the process-specific settings, and
+the phenomenological results for each of these processes.
 
 When presenting the results, for each of the processes and measurements considered, we compute differential
 cross sections for the observables defined in the experimental analyses in two different
 ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
 the fast-interpolation grid produced by \textsc{PineAPPL} with the PDF set
 specified in section~\ref{subsec:computational_settings}. We
-will refer to the first result as the MC result, and to the second as
+refer to the first result as the MC result, and to the second as
 the \textsc{PineAPPL} result. We repeat the computation for theories accurate
 to NLO QCD and to NLO QCD+EW, respectively. The corresponding orders of the
-strong and electroweak couplings that we consider are specified for each process. In each case, we determine the
+strong and EW couplings that we consider are specified for each process. In each case, we determine the
 PDF uncertainty (coming from the PDF ensemble), the scale uncertainty (coming
 from variations of the factorisation and renormalisation scales), and the Monte
 Carlo uncertainty (coming from the finite number of events generated). In this
@@ -175,7 +179,7 @@ We first consider the single-differential measurement of a lepton-pair
 for large invariant masses performed by the ATLAS experiment at \SI{7}{\tera\electronvolt}.
 From figure~\ref{fig:atlaszhighmass49fb} we immediately
 observe that the validation of the \textsc{PineAPPL} result against the MC
-result is successful. The relative difference between the two is of the order
+result is successful. The relative difference between the two is of the order of
 \SI{0.1}{\permille} at most, with negligible fluctuations across different
 invariant mass bins. The agreement is similarly good irrespective of the
 perturbative accuracy of the theory (NLO QCD or NLO QCD+EW) or of the scale
@@ -208,7 +212,7 @@ mass bins.\footnote{The size of these contributions may depend on the input PDF
   set. Here and in the following, we always quote results obtained from the
   \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} PDF set.}
 The PI contribution raises from about \SI{1.3}{\percent} in the lowest bin to
-about \SI{3.6}{\percent} in the highest bin. For the MRST2004qed PDF set, which is used to subtract PI contributions (see section~\ref{sec:doublecounting}), the value in the largest highest bin is roughly twice as large, \SI{6.9}{\percent} (also in absolute numbers).
+about \SI{3.6}{\percent} in the highest bin.\footnote{For the \texttt{MRST2004qed} PDF set~\cite{Martin:2004dh}, which is used to subtract PI contributions (see section~\ref{sec:doublecounting}), the value in the highest bin is roughly twice as large, \SI{6.9}{\percent} (also in absolute numbers).}
 Overall, the EW corrections range between \SI{5}{\percent}
 around $M_{\ell\bar\ell}\sim \SI{150}{\giga\electronvolt}$, \SIrange{2}{3}{\percent} for intermediate invariant mass
 values, $\SI{150}{\giga\electronvolt}\lesssim M_{\ell\bar\ell}\lesssim \SI{700}{\giga\electronvolt}$, and
@@ -232,17 +236,15 @@ likely to be easily accommodated by the large data uncertainty.
 
 In comparison to the PDF uncertainty, the size of the EW corrections is
 always larger, especially at the boundaries of the distribution. This fact
-suggests that, once included in a global fit, EW corrections could recast the
-relative weight of each data set included in the fit, and possibly lead to
-an improvement in their overall description. In comparison to the scale
+suggests that, once included in a global fit, EW corrections will make PDFs
+more accurate. In comparison to the scale
 uncertainty, the size of the EW correction is similar, except for the four bins
 at the largest invariant mass, where the latter is significantly larger than
-the former. The size of the scale variation is the same for the QCD and the
-QCD+EW theories. These facts suggest that the NNLO QCD correction is comparable
+the former. This fact suggests that the NNLO QCD correction is comparable
 to the NLO QCD+EW correction, except at very large values of the invariant mass,
 where the EW correction still dominates. This result stresses the need to
 include the EW corrections in order to obtain an accurate description of the
-large invariant mass bins. Finally, the Monte Carlo statistical
+large invariant mass bins. Finally, the Monte Carlo 
 uncertainty remains negligible in comparison to the data, PDF and scale
 uncertainties, and to the size of the EW correction. Our conclusions should
 therefore not be affected by a generation of too few Monte Carlo events.
@@ -271,7 +273,7 @@ of the kinematic bin considered.
     \caption{Same as figure~\ref{fig:atlaszhighmass49fb}, but for the CMS
       double-differential Drell--Yan lepton pair measurement at a
       centre-of-mass energy of \SI{7}{\tera\electronvolt}~\cite{Chatrchyan:2013tia}. Displayed are
-      only two of the six invariant mass bins available, respectively below the
+      only four of the six invariant mass bins available, respectively below the
       Z-boson mass peak, $\SI{45}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{60}{\giga\electronvolt}$, on the Z-boson mass
       peak, $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, above the mass peak,
       $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$, and at very high invariant masses,
@@ -326,7 +328,7 @@ uncertainty. Because EW effects are subtracted from the data used
 in PDF fits (see section~\ref{sec:doublecounting}), a good agreement between
 data and theory is usually achieved without the inclusion of EW corrections.
 However, as already observed in the case of the ATLAS measurement, should EW
-corrections be included in a fit of PDFs, these are likely to become more
+corrections be included in a fit of PDFs, the latter are likely to become more
 accurate: even though the apparent description of the data will not
 improve, by including the more precisely predicted bins in the low invariant mass range, PDFs
 will resemble more closely the underlying truth. Furthermore, the kinematic cut
@@ -341,7 +343,7 @@ uncertainty, the size of the EW correction is similar, except on the Z-boson
 mass peak, $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$, where the scale uncertainty exceeds
 the size of the EW correction by about a factor of five. This is due to the choice
 of invariant mass window around the Z peak, in which positive and negative EW corrections almost cancel.
-Finally, the Monte Carlo statistical uncertainty remains negligible
+Finally, the Monte Carlo uncertainty remains negligible
 in comparison to the data, PDF and scale uncertainties, and to the size of the
 EW correction, except for a couple of bins at forward/backward rapidity in the highest
 invariant mass bins. Improving the Monte Carlo precision will require to
@@ -368,7 +370,7 @@ in the rapidity of either the top quark or the top-quark
 pair~\cite{Czakon:2017wor}, these distributions were preferred for inclusion
 in the NNPDF3.1 analysis~\cite{Ball:2017nwa}. The process receives
 pure QCD contributions at LO, $\mathcal{O}(\alphas^2)$, and
-at NLO, $\mathcal{O}(\alphas^3)$. They make up our NLO QCD
+at NLO, $\mathcal{O}(\alphas^3)$. These orders make up our NLO QCD
 computation. The NLO QCD+EW computation includes the $\mathcal{O}(\alphas^2)$
 and $\mathcal{O}(\alphas^3)$ QCD contributions, the LO contribution
 $\mathcal{O}(\alphas\alpha)$ and the NLO contribution
@@ -421,7 +423,7 @@ The process receives its leading contribution from the $\mathrm{gg}$ channel,
 which varies between \SI{81}{\percent} and \SI{61}{\percent} (\SI{76}{\percent} and \SI{83}{\percent}) of the $p_\mathrm{T}^\mathrm{t}$
 ($m_{\mathrm{t}\bar{\mathrm{t}}}$) differential cross section as the value of the
 transverse momentum of the top quark (the invariant mass of the top-quark pair)
-increases; the largest PI contribution for this process is $\gamma\mathrm{g}$ scattering,
+increases; the largest PI contribution for this process comes from $\gamma\mathrm{g}$ scattering,
 which accounts for about \SIrange{0.5}{1}{\percent} (\SIrange{0.5}{0.7}{\percent}) of the cross
 section, and is almost entirely (\SI{90}{\percent}) due to the LO contribution at $\mathcal{O}(\alphas\alpha)$; the contribution from other PI parton luminosities is comparatively
 negligible. Overall, the EW corrections suppress the $p_\mathrm{T}^\mathrm{t}$
@@ -436,8 +438,7 @@ smaller than the data uncertainty.\footnote{In
   measurement~\cite{Khachatryan:2015oaa}.}
 As a consequence, we anticipate that the more accurate NLO QCD+EW theory is
 likely to be easily accommodated by the large data uncertainty, should the data
-be fitted with the inclusion of EW corrections; PDFs will possibly not become
-more precise.
+be fitted with the inclusion of EW corrections.
 
 The size of the EW correction is comparable to the size of the PDF uncertainty,
 except at large values of transverse momentum or invariant mass, where the
@@ -460,18 +461,24 @@ conclusions are therefore not affected by Monte Carlo inefficiencies.
 
 \paragraph{Experimental measurements and process features.}
 We select the single-differential transverse momentum distribution of the
-the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a centre-of-mass
-energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}. While this measurement is not
-included in any PDF determination, its expected impact on parton densities has been studied in 
-ref.~\cite{Boughezal:2017nla}. Since this process shows very low experimental uncertainties (at the percent level or below), and is
-known to an excellent degree as far as QCD corrections are concerned~\cite{Gehrmann-DeRidder:2017mvr,Bizon:2019zgf} {\bf MZ there are at least 5-6 other papers both
-by the zurich group and the argonne one, but on Z+jet rather than z-pt predictions. Should we cite them?}
-EW corrections are expected to be essential in order to achieve a good
-description of it, and to constrain accurately the PDFs. Analogous measurements,
+the Z boson, $p_\mathrm{T}^\mathrm{Z}$, measured by the CMS experiment at a
+centre-of-mass energy of \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}.
+This measurement, which has not been included in any PDF determination so far,
+shows very low experimental uncertainties (at the percent level or below).
+EW corrections are therefore expected to be essential to achieve a good
+description of it, and to constrain accurately the PDFs, together with
+NNLO QCD corrections, which are already well
+known~\cite{Gehrmann-DeRidder:2017mvr,Bizon:2019zgf}
+{\bf MZ there are at least 5-6 other papers both
+  by the Zurich group and the Argonne one, but on Z+jet rather than
+  Z-pt predictions. Should we cite them?}
+Analogous measurements,
 from the ATLAS~\cite{Aad:2015auj} and CMS~\cite{Khachatryan:2015oaa}
-experiments at a centre-of-mass energy of \SI{8}{\tera\electronvolt}, were partly included (upon
+experiments at a centre-of-mass energy of \SI{8}{\tera\electronvolt},
+were partly included (upon
 selection of an appropriate kinematic cut that excluded bins with large EW
-corrections) in the NNPDF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
+corrections) in a dedicated study~\cite{Boughezal:2017nla},
+in the NNPDF3.1 PDF set~\cite{Ball:2017nwa} and in variants of
 the CT18 PDF set~\cite{Hou:2019efy}. In the QCD computation, we consider a
 single LO contribution $\mathcal{O}(\alphas\alpha^2)$ and a single NLO
 contribution $\mathcal{O}(\alphas^2\alpha^2)$. In the NLO QCD+EW computation,
@@ -514,8 +521,8 @@ theory or the choice of scale do not alter this conclusion.
 \end{figure}
 %-------------------------------------------------------------------------------
 
-The process receives its leading contribution from $\mathrm{qg}$ and
-$\bar{\mathrm{q}}g$ initiated channels, which account for about 65\%
+The process receives its leading contribution from $\mathrm{qg}$- and
+$\bar{\mathrm{q}}\mathrm{g}$-initiated channels, which account for about 65\%
 of the cross section, with some variations in the relative contributions from
 individual quark and atiquark flavours as the transverse momentum of the
 $\mathrm{Z}$ boson varies; the PI contribution always remain negligible.
@@ -527,12 +534,13 @@ we anticipate the inclusion of EW corrections to be relevant for an accurate
 fit to this data set.
 
 The size of the EW correction is between four and six times larger than the
-size of the PDF uncertainty: as previously noted in th eother cases, this fact
+size of the PDF uncertainty: as previously noted in the other cases, this fact
 suggests that, once included in a PDF fit, EW corrections can improve the
-accuracy of the PDFs. In comparison to the scale ucnertainty, the size of the
+accuracy of the PDFs. In comparison to the scale uncertainty, the size of the
 EW corrections remains negligible, as NNLO QCD corrections are comparatively
 large, as expected in a process mostly initiated by gluons. They should
 therefore be included along with EW corrections in a fit of PDFs. Finally, the
 Monte Carlo uncertainty is well under control, as it remains mostly negligible
-in comparison to the PDF, scale and data uncertainty.
+in comparison to the PDF, scale and data uncertainty, and to the size of the
+EW correction.
 

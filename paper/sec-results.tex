@@ -1,7 +1,7 @@
 \section{Validation and interpretation of PineAPPL grids}
 \label{sec:results}
 
-In this section we demonstrate the capabilities of \textsc{MG5\_aMC}+\textsc{PineAPPL} by
+In this section we demonstrate the capabilities of \textsc{mg5\_aMC}+\textsc{PineAPPL} by
 computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW,
 for a representative set of processes in which EW corrections may have a
 sizeable effect on the accuracy of the theoretical predictions.
@@ -11,14 +11,14 @@ fits. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
 impact of the EW corrections for the specific experimental setups. We describe
 the settings employed for the computations, and the corresponding results for
-each process considered.
+each process.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}
 
 We generate each process by means of the Universal FeynRules Output
 (UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
-included as standard in {\sc MG5\_aMC}. It contains the UV and $R_2$
+included as standard in {\sc mg5\_aMC}. It contains the UV and $R_2$
 counterterms relevant to NLO QCD and EW corrections, the latter in the
 $\overline{G}_\mu$ scheme. The model features five massless quark flavours,
 sets the CKM matrix equal to the identity, and is compatible with the usage of
@@ -38,11 +38,11 @@ weights are stored as Lagrange-interpolation grids.
 The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
 $\mu_\mathrm{F}$, are chosen in a process-specific way, as discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted on-the-fly in the Monte Carlo generation upon scale
-variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{MG5\_aMC}
+variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{mg5\_aMC}
 implementation, whereby the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
 from the nine-point scale variations is constructed,
-see equation~\eqref{eq:}. However, we note that
+see equation~\eqref{eq:9pt}. However, we note that
 \textsc{PineAPPL} allows the user to determine the envelope with any point
 prescription, see appendix~\ref{app:pineappl-demo} for an example.
 
@@ -63,12 +63,12 @@ the Z boson. The value of the strong
 coupling is chosen consistently with the PDF set, $\alphas(M_\mathrm{Z})=0.118$.
 
 The definition of observables and cuts is process-specific, and it follows the corresponding experimental measurements,
-see secion~\ref{sec:subsec:processes_and_measurements}.
+see section~\ref{subsec:processes_and_measurements}.
 When relevant, final-state photons and massless charged fermions (leptons and light quarks) are recombined together 
 if they satisfy the condition $\Delta R_{f \gamma}<0.1$, where $\Delta R_{f \gamma}$
 is the fermion-photon distance. In this case the
 sum of their momenta is assigned to the charged fermion, and the photon is removed
-from the event. Kinematics observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
+from the event. Kinematic observables and cuts are defined starting from recombined momenta. If we were interested also in jet-related observables,
 photons surviving the recombination would have to be clustered together with coloured
 partons.\footnote{For issues related to the definition of jets in presence of EW corrections,
 see refs.~\cite{Frederix:2016ost,Denner:2019zfp}.} Finally, although contributions corresponding to the radiation
@@ -89,7 +89,7 @@ the phenomenological results for each of these processes.
 
 When presenting the results, for each of the processes and measurements considered, we compute differential
 cross sections for the observables defined in the experimental analyses in two different
-ways: directly, by means of \textsc{MG5\_aMC}, and a posteriori, by convolving
+ways: directly, by means of \textsc{mg5\_aMC}, and a posteriori, by convolving
 the fast-interpolation grid produced by \textsc{PineAPPL} with the PDF set
 specified in section~\ref{subsec:computational_settings}. We
 refer to the first result as the MC result, and to the second as

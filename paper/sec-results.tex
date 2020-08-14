@@ -106,7 +106,9 @@ this choice does not affect the validation of the \textsc{PineAPPL} result
 against the MC result, it ensures that the statistical uncertainty of
 the computation remains negligible in comparison to the PDF and scale
 uncertainties, as we will explicitly demonstrate. This is a desirable feature
-to correctly interpret the size of the EW corrections.
+to correctly interpret the size of the EW corrections. An example that
+validates the \textsc{PineAPPL} result in the case of a low-statistic run is
+nevertheless provided in appendix~\ref{app:add_plots}.
 
 Our goal is indeed twofold. On the one hand, we aim to validate the
 interpolation grids generated with \textsc{PineAPPL}: to this purpose we shall
@@ -184,7 +186,9 @@ result is successful. The relative difference between the two is of the order of
 \SI{0.1}{\permille} at most, with negligible fluctuations across different
 invariant mass bins. The agreement is similarly good irrespective of the
 perturbative accuracy of the theory (NLO QCD or NLO QCD+EW) or of the scale
-choice.
+choice. As explicitly demonstrated in appendix~\ref{app:add_plots}, the good
+agreement is also independent from the numerical precision of the Monte Carlo
+run.
 
 %-------------------------------------------------------------------------------
 \begin{figure}[!t]
@@ -456,9 +460,6 @@ the Monte Carlo statistical uncertainty remains negligible in comparison to the
 data, PDF and scale uncertainties, and to the size of the EW correction. Our
 conclusions are therefore not affected by Monte Carlo inefficiencies.
 
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Z-boson production with non-zero transverse momentum.}
 \label{sec:Zpt}
@@ -531,20 +532,25 @@ of the cross section, with some variations in the relative contributions from
 individual quark and antiquark flavours as the transverse momentum of the
 Z boson varies; the PI contribution always remain negligible.
 Overall, the EW corrections suppress the theoretical predictions by about
-\SIrange{2}{7}{\percent} as the transverse momentum of the Z boson increases.
-The size of this shift is usually as large as the data uncertainty, and
-exceeds it at large values of $p_\mathrm{T}^{\ell \bar{\ell}}$. As a consequence,
+\SIrange{2}{10}{\percent} as the transverse momentum of the Z boson increases.
+The size of this shift is as large as the data uncertainty up to
+$p_{\mathrm{T}}^{\ell\bar\ell}\sim \SI{200}{\giga\electronvolt}$, and 
+exceeds it by about \SI{60}{\percent} at larger values of
+$p_\mathrm{T}^{\ell \bar{\ell}}$. As a consequence,
 we anticipate the inclusion of EW corrections to be relevant for an accurate
-fit to this data set.
+fit of this data.
 
-The size of the EW correction is between four and six times larger than the
+The size of the EW correction is between four and tenty times larger than the
 size of the PDF uncertainty: as previously noted in the other cases, this fact
 suggests that, once included in a PDF fit, EW corrections can improve the
 accuracy of the PDFs. In comparison to the scale uncertainty, the size of the
-EW corrections remains negligible, as NNLO QCD corrections are comparatively
-large, as expected in a process mostly initiated by gluons. They should
-therefore be included along with EW corrections in a fit of PDFs. Finally, the
-Monte Carlo uncertainty is well under control, as it remains mostly negligible
-in comparison to the PDF, scale and data uncertainty, and to the size of the
-EW correction.
+EW corrections remains negligible at small values of $p_{\mathrm{T}}^{\ell\bar\ell}$,
+roughly $p_{\mathrm{T}}^{\ell\bar\ell}\lesssim\SI{400}{\giga\electronvolt}$, while it
+becomes up to four times larger than it in the two bins at the largest value of
+$p_{\mathrm{T}}^{\ell\bar\ell}$. In this kinematic region, NLO EW corrections might
+therefore become even more relevant than NNLO QCD corrections, and should
+therefore be mandatorily included in a fit of PDFs to this data set.
+Finally, the Monte Carlo uncertainty is well under control, as it remains
+mostly negligible in comparison to the PDF, scale and data uncertainty, and to
+the size of the EW correction.
 

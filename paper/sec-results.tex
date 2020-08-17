@@ -11,7 +11,14 @@ fits. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
 impact of the EW corrections for the specific experimental setups. We describe
 the settings employed for the computations, and the corresponding results for
-each process.
+each process. We remind the reader that \textsc{mg5\_aMC} makes it possible
+to compute predictions including NLO QCD and EW corrections for arbitrary processes
+in an automated manner. It employs the FKS subtraction scheme~\cite{Frixione:1995ms,Frixione:1997np}
+as automated in \textsc{MadFKS}~\cite{Frederix:2009yq,Frederix:2016rdc} to deal with IR singularities. One-loop
+amplitudes are computed by \textsc{MadLoop}~\cite{Hirschi:2011pa}, which employs different
+numerical techniques~\cite{Passarino:1978jh,Davydychev:1991va,Denner:2005nn,Ossola:2006us,Cascioli:2011va,Mastrolia:2012bu} implemented in the corresponding computer libraries~\cite{Ossola:2007ax,Peraro:2014cba,Hirschi:2016mdz,Denner:2016kdg}. Matching
+with parton showers is available only for pure-QCD corrections via the MC@NLO method~\cite{Frixione:2002ik}, and 
+will not be employed in the following.
 
 \subsection{Computational settings}
 \label{subsec:computational_settings}

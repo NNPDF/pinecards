@@ -42,6 +42,7 @@ In addition to convolutions, the shell command can also print how the luminosity
 \item \textsc{PineAPPL} offers an easy-to-use interface written in the C programming language, that allows MC integrators to read and write \textsc{PineAPPL} grids.
 C was chosen because it can be easily interfaced with both Fortran and C++, the two main programming languages in which most MC integrators are written.
 The interface consists of roughly thirty functions, among which only a handful are needed in practice.
+We also provide and support a Python package based on this C interface.
 See appendix~\ref{app:example-program} for an example.
 
 \item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} for which it supersedes \textsc{aMCfast}~\cite{Bertone:2014zva}. See appendix~\ref{app:sample-runcard} for an example of a runcard. While the usage of

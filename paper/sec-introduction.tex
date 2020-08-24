@@ -53,16 +53,14 @@ improvement of PDF accuracy, in terms of an overall
 better statistical quality of the fit, at the price of a modest deterioration 
 of PDF precision, in terms of a slight inflation of PDF uncertainties.
 
-The two respects are intertwined: PDFs provide a way of obtaining a prediction
-for a given process in terms of other processes, therefore the accuracy and 
-precision with which PDFs are able to make predictions crucially depend on 
-the accuracy of the perturbative computation used in the PDF determination
-(matched to the precision of the data). Electroweak (including combined QCD--EW) 
-effects should therefore naturally be included in a PDF determination. The 
-reason is twofold. First, one expects NNLO QCD and NLO EW corrections to be of 
+The two respects are intertwined, as they both concur to determine the accuracy
+of the theoretical predictions that are matched to the precision of the data.
+Electroweak (including combined QCD--EW) effects should therefore naturally be
+incorporated in calculations for LHC processes. The reason is twofold. First,
+one expects NNLO QCD and NLO EW corrections to be of
 comparable size because, at the EW scale, the QCD and EW running couplings 
 become similar, $\alphas^2\sim \alpha$. If NNLO QCD corrections are included
-by default in PDF determinations, NLO EW corrections should be
+by default in the computation, NLO EW corrections should be
 taken into account as well. Second, the virtual exchange of soft or 
 collinear weak bosons leads to Sudakov 
 logarithms~\cite{Denner:2000jv,Denner:2001gw},
@@ -73,14 +71,16 @@ of the \si{\tera\electronvolt}), where several LHC data sets (e.g.\ Z-boson
 transverse-momentum distributions) enter both the determination of PDFs and the search
 for new physics.
 
-The systematic inclusion of EW corrections in a PDF determination entails
+The systematic inclusion of EW corrections in precision computations for
+LHC processes entails
 the solution of two separate problems. First, a problem of efficiency:
 fast-interpolation grids should be constructed, whereby partonic matrix 
 elements, accurate to NLO QCD+EW, are precomputed in such a way that the 
 numerical convolution with generic input PDFs can be efficiently approximated
-by means of interpolation techniques. Such grids are a fundamental ingredient
-in any PDF fit, where the evaluation of the hadronic cross section needs to 
-be performed a large number of times. While two default formats exist for
+by means of interpolation techniques. Such grids are essential
+whenever the evaluation of the hadronic cross section needs to 
+be performed a large number of times, as is the case in the evaluation of
+scale variations or of PDF fits. While two default formats exist for
 these grids, \textsc{APPLgrid}~\cite{Carli:2010rw} and
 \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}, none of them supports the inclusion of EW
 corrections nor the interface to a Monte Carlo generator accurate to 
@@ -117,7 +117,7 @@ The paper is organised as follows. In section~\ref{sec:pineappl} we introduce
 \textsc{PineAPPL}, we describe its features, we illustrate its operation, and we
 assess its performance. In section~\ref{sec:results} we validate
 \textsc{PineAPPL} and demonstrate its capabilities by computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW, for a representative
-set of processes, usually included in PDF fits, for which EW corrections may
+set of LHC processes for which EW corrections may
 have a sizeable effect on the accuracy of the theoretical predictions.
 In section~\ref{sec:doublecounting} we try to detail in a more
 comprehensive manner the second problem sketched above, the solution of which,

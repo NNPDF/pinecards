@@ -4,6 +4,7 @@
 In this section we introduce \textsc{PineAPPL}.
 We first describe the general scope and features of the library in comparison to \textsc{APPLgrid} and \textsc{fastNLO}.
 Section~\ref{sec:multi-coupling-expansion} gives the details and, in particular, describes the problem of computing Monte Carlo weights for cross sections in a multi-coupling expansion; this section may be read first by readers unfamiliar with the programs mentioned previously.
+In section~\ref{sec:perturbative-orders} we discuss a few properties of multi-coupling-expanded predictions.
 
 \subsection{The PineAPPL library}
 \label{sec:library}
@@ -67,7 +68,7 @@ Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL}
 \end{multline}
 This cross section is differential with respect to the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft and collinear safety, etc.).
 
-In experiments, but also for many calculations where the phase-space integration is performed using MC techniques, finite statistics does not allow us to reconstruct the exact dependence of the cross section on the observable $\mathcal{O}$.
+In experiments, but also for many calculations where the phase-space integration is performed using MC techniques, finite statistics does not allow for the exact reconstruction of the dependence of the cross section on the observable $\mathcal{O}$.
 Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
 \begin{equation}
 W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right) \text{,}
@@ -230,9 +231,12 @@ u(y) = \frac{y-y_\text{min}}{\Delta y} \text{,} \quad
 using $y_\text{min} = y(x_\text{max})$ and $y_\text{max} = y(x_\text{min})$ and the grid spacing $\Delta y = (y_\text{max} - y_\text{min})/(N_y-1)$, so that the integer part of $u(y)$ gives the grid index, e.g.\ $u(y_\text{min}) = 0$ and $u(y_\text{max}) = N_y - 1$, and the fractional part gives the location between the nearest grid points.
 
 \subsection{Perturbative orders}
+\label{sec:perturbative-orders}
 
-In general, we define as leading order (LO) the set of contributions for all possible initial states $a b$ that lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
-This number is process dependent and is usually determined by the number of external particles.
+In section~\ref{sec:multi-coupling-expansion} we labelled the different perturbative orders using the indices $k,l,m,n$.
+Their values are process specific.
+However, in general we define as leading order (LO) the set of contributions for all possible initial states $a b$ that lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
+This number is also process dependent and is usually determined by the number of external particles.
 For many processes there is only one contribution at LO (in terms of $k$ and $l$), but this is not true in general. Indeed, when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one combinations of $\alphas$ and $\alpha$.
 A typical example at the LHC is (on-shell) top-pair production, which has three different contributions at LO: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each contribution receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.

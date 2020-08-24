@@ -71,6 +71,7 @@ In experiments, but also for many calculations where the phase-space integration
 Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
 \begin{equation}
 W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right) \text{,}
+\label{eq:differential-cross-section}
 \end{equation}
 which uses $M$ bins with limits $\{ \mathcal{O}_o^\mathrm{min}, \mathcal{O}_o^\mathrm{max} \}_{o=1}^M$ to partition a finite range of the observable,
 \begin{equation}
@@ -102,19 +103,19 @@ The problem that \textsc{PineAPPL} solves can now be described: approximately re
 w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right)
 \label{eq:weight-map}
 \end{equation}
-from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable
+of eq.~\eqref{eq:differential-cross-section} from a set of $N$ function evaluations for specific momentum fractions, scales, and values of the observable
 \begin{equation}
 \left\{ x_1^{(i)}, x_2^{(i)}, Q^2_i, \mathcal{O}_i \right\}_{i=1}^N \text{,} \label{eq:phase-space-weights}
 \end{equation}
-given by the MC integrator.
+given by the MC integrator together with the corresponding value of the weights, eq.~\eqref{eq:weight-map}.
+This problem is solved by finding an appropriate representation of eq.~\eqref{eq:phase-space-weights} and is described in section~\ref{sec:grid-representation}.
 Using eq.~\eqref{eq:expansion} and
 \begin{multline}
 \frac{\mathrm{d} \sigma}{\mathrm{d} \mathcal{O}} (\mathcal{O}, \xi_\mathrm{R}, \xi_\mathrm{F}) \\
 = \sum_{a,b} \int_0^1 \mathrm{d} x_1 \int_0^1 \mathrm{d} x_2 \int_{Q^2_\mathrm{min}}^{Q^2_\mathrm{max}} \mathrm{d} Q^2 \, f_a (x_1, \xi_\mathrm{F}^2 Q^2) f_b (x_2, \xi_\mathrm{F}^2 Q^2) \sigma_{ab} (x_1, x_2, Q^2, \xi_\mathrm{R}, \xi_\mathrm{F}) \text{,}
 \label{eq:pineappl-convolution}
 \end{multline}
-\textsc{PineAPPL} can then quickly calculate hadronic cross sections for
-an arbitrary number of PDF sets and perform scale variations.
+\textsc{PineAPPL} can then quickly calculate hadronic cross sections for an arbitrary number of PDF sets and perform scale variations.
 
 Note that we have omitted the dependence of the weights $w$, the observable $\mathcal{O}$, and the scales $\mu_\mathrm{F}, \mu_\mathrm{R}, Q^2$ on the specific kinematics for which they are computed.
 Indeed, beyond LO, different kinematic contributions have to be considered (in ref.~\cite{Bertone:2014zva}, for example, they are labelled with an index $\alpha$, see eq.~(12) therein).

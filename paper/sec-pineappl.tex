@@ -1,11 +1,9 @@
 \section{PDF-independent storage of phase-space weights with PineAPPL}
 \label{sec:pineappl}
 
-In this section we introduce \textsc{PineAPPL}. We first describe the
-general scope and features of the library, we then formulate the problem of
-computing Monte Carlo weights for cross sections in a multi-coupling expansion,
-and we finally address how this problem is solved with a suitable grid
-representation.
+In this section we introduce \textsc{PineAPPL}.
+We first describe the general scope and features of the library in comparison to \textsc{APPLgrid} and \textsc{fastNLO}.
+Section~\ref{sec:multi-coupling-expansion} gives the details and, in particular, describes the problem of computing Monte Carlo weights for cross sections in a multi-coupling expansion; this section may be read first by readers unfamiliar with the programs mentioned previously.
 
 \subsection{The PineAPPL library}
 \label{sec:library}
@@ -224,6 +222,7 @@ Increasing the number of bins improves the precision, but it also increases the 
 Interpolation methods increase the precision using the same number of bins.
 
 We use the same \enquote{Lagrange-interpolation grid} presented in ref.~\cite{Carli:2010rw} with the parameters published in ref.~\cite{Bertone:2014zva}, which give sufficient precision (see section~\ref{sec:results}).
+For the sake of completeness, the following summarises the interpolation algorithm.
 
 This method first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with
 \begin{equation}
@@ -279,11 +278,11 @@ Note that for $u \in [0, 3]$ the values are roughly linearly distributed, then l
 To illustrate the filling step we give an example in figure~\ref{fig:grid}, where, for simplicity, we have chosen a static scale, so that we do not need to interpolate in the $\tau$ direction, and where we also limited the number of grid points to $N_y = 10$.
 Each grid point has a numerical value $a_{i,j}$ associated, and the set of all numerical values $\{ a_{i,j} \}$ for all grid indices $(i,j) \in [0,N_y) \times [0,N_y)$ constitute \enquote{the grid}.
 Inserting a specific weight $W = w (x_1, x_2) / \omega(x_1, x_2)$ into the grid is shown in figure~\ref{fig:grid} as a small black square, inside the larger grey one.
-We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them\footnote{The technical term for this interpolation problem is sometimes called \emph{subtabulation}.}.
+We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them.
 The interpolation order $s_y$ then defines a square with length $s_y + 1$ around its centre $(u(y(x_1)),u(y(x_2)))$, given by the MC.
 All grid points with indices $(i,j)$ covered by the grey square are then updated according to the following formula:
 \begin{equation}
-a_{i,j} = a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2)
+a_{i,j} \leftarrow a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2)
 \label{eq:interpolation}
 \end{equation}
 with the Lagrange basis functions

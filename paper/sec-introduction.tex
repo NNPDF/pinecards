@@ -50,7 +50,10 @@ recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}.
 
 The two respects are intertwined, as they both concur to determine the accuracy
 of the theoretical predictions that are matched to the precision of the data.
-In particular EW (including combined QCD--EW) effects should start to be
+In particular, taking advantage of the automation pioneered
+in~\cite{Kallweit:2014xda,Biedermann:2017yoi,Frederix:2018nkq},
+perturbative corrections that arise from the simultaneous expansion in both the
+QCD and EW couplings should start to be
 incorporated in calculations for LHC processes as standard. The reason is
 twofold. First, one expects NNLO QCD and NLO EW corrections to be of
 comparable size because, at the EW scale, the QCD and EW running couplings 
@@ -67,7 +70,7 @@ of the \si{\tera\electronvolt}), where several LHC data sets (e.g.\ Z-boson
 transverse-momentum distributions) enter both the validation of the SM and the search
 for new physics.
 
-The systematic inclusion of EW corrections in precision computations for
+The consistent inclusion of QCD and EW corrections in precision computations for
 LHC processes entails
 the solution of two separate problems. First, a problem of efficiency:
 fast-interpolation grids should be constructed, whereby partonic matrix 
@@ -94,7 +97,7 @@ from experimental results, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
 we develop \textsc{PineAPPL}, a library that allows any user to generate
-fast-interpolation grids, accurate to up to any fixed order in the strong and
+fast-interpolation grids, accurate to up to any fixed order in the QCD and
 EW couplings. The library supports variations of the factorisation
 and renormalisation scales, and can be extended to include
 resummation, and matching with a photon- and/or parton-shower.

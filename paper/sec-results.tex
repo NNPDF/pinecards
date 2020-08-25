@@ -1,17 +1,22 @@
 \section{Validation and interpretation of PineAPPL grids}
 \label{sec:results}
 
-In this section we demonstrate the capabilities of \textsc{mg5\_aMC}+\textsc{PineAPPL} by
+In this section we demonstrate the capabilities of the \textsc{PineAPPL}
+library by interfacing it to \textsc{mg5\_aMC}, and by
 computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW,
-for a representative set of processes in which EW corrections may have a
-sizeable effect on the accuracy of the theoretical predictions.
+for a common set of LHC processes in which EW corrections may sizeably
+affect the accuracy of the theoretical predictions.
 In order to consider some realistic kinematics for these
-processes, we rely on a set of measurements that are commonly included in PDF
-fits. Our aim is twofold. First, we want to validate the results
+processes, we rely on a representative set of LHC measurements. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
 impact of the EW corrections for the specific experimental setups. We describe
-the settings employed for the computations, and the corresponding results for
-each process. We remind the reader that \textsc{mg5\_aMC} makes it possible
+the settings employed for the computations, the corresponding results for
+each process, and possible implications for the determination of PDFs.
+
+\subsection{Computational settings}
+\label{subsec:computational_settings}
+
+\textsc{mg5\_aMC} makes it possible
 to compute predictions including NLO QCD and EW corrections for arbitrary processes
 in an automated manner. It employs the FKS subtraction scheme~\cite{Frixione:1995ms,Frixione:1997np}
 as automated in \textsc{MadFKS}~\cite{Frederix:2009yq,Frederix:2016rdc} to deal with IR singularities. One-loop
@@ -19,9 +24,6 @@ amplitudes are computed by \textsc{MadLoop}~\cite{Hirschi:2011pa}, which employs
 numerical techniques~\cite{Passarino:1978jh,Davydychev:1991va,Denner:2005nn,Ossola:2006us,Cascioli:2011va,Mastrolia:2012bu} implemented in the corresponding computer libraries~\cite{Ossola:2007ax,Peraro:2014cba,Hirschi:2016mdz,Denner:2016kdg}. Matching
 with parton showers is available only for pure-QCD corrections via the MC@NLO method~\cite{Frixione:2002ik}, and 
 will not be employed in the following.
-
-\subsection{Computational settings}
-\label{subsec:computational_settings}
 
 We generate each process by means of the Universal FeynRules Output
 (UFO)~\cite{Degrande:2011ua} model {\tt loop\_qcd\_qed\_sm\_Gmu},
@@ -92,7 +94,12 @@ the total cross section (see refs.~\cite{Frixione:2014qaa,Frixione:2015zaa,Pagan
 
 We focus on the following three processes: Drell--Yan lepton-pair production,
 top-quark pair production, and Z-boson (lepton-pair) production with non-zero
-transverse momentum in proton-proton collisions. In the following, we shall
+transverse momentum in proton-proton collisions. These are some of the most
+commonly and most precisely measured processes at the LHC, which are widely
+studied to test the SM and/or search for new physics. We therefore expect them
+to allow us to clearly show the benefit of being able to make fast and
+reliable theoretical predictions accurate to NLO QCD+EW with \textsc{PineAPPL}.
+In the following, we shall
 present the experimental measurements, the process-specific settings, and
 the phenomenological results for each of these processes.
 

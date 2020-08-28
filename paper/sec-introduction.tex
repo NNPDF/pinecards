@@ -51,7 +51,7 @@ recently~\cite{AbdulKhalek:2019bux,AbdulKhalek:2019ihb}.
 The two respects are intertwined, as they both concur to determine the accuracy
 of the theoretical predictions that are matched to the precision of the data.
 In particular, taking advantage of the automation pioneered
-in~\cite{Kallweit:2014xda,Biedermann:2017yoi,Frederix:2018nkq},
+in refs.~\cite{Kallweit:2014xda,Biedermann:2017yoi,Frederix:2018nkq},
 perturbative corrections that arise from the simultaneous expansion in both the
 QCD and EW couplings should start to be
 incorporated in calculations for LHC processes as standard. The reason is
@@ -62,11 +62,11 @@ by default in the computations, NLO EW corrections should be
 taken into account as well. Second, the virtual exchange of soft or 
 collinear weak bosons leads to Sudakov 
 logarithms~\cite{Denner:2000jv,Denner:2001gw}
-(see also~\cite{Denner:2019vbn} and references therein),
+(see also ref.~\cite{Denner:2019vbn} and references therein),
 which can make the coefficients of the EW series grow faster than 
 their QCD counterparts. This behaviour is relevant in
 phase-space regions associated with large mass scales (roughly of the order
-of the \si{\tera\electronvolt}), where several LHC data sets (e.g.\ Z-boson
+of a \si{\tera\electronvolt}), where several LHC data sets (e.g.\ Z-boson
 transverse-momentum distributions) enter both the validation of the SM and the search
 for new physics.
 
@@ -79,7 +79,7 @@ numerical convolution with generic input PDFs can be efficiently approximated
 by means of interpolation techniques. Such grids are essential
 whenever the evaluation of the hadronic cross section needs to 
 be performed a large number of times, as is the case in the evaluation of
-scale variations or of PDF fits. While two default formats exist for
+scale variations or of PDF fits. While two formats already exist for
 these grids, \textsc{APPLgrid}~\cite{Carli:2010rw} and
 \textsc{fastNLO}~\cite{Kluge:2006xs,Wobisch:2011ij,Britzger:2012bs}, none of them supports the inclusion of EW
 corrections nor the interface to a Monte Carlo generator accurate to 
@@ -97,12 +97,12 @@ from experimental results, otherwise they will be double counted.
 
 In this paper we address the first of these two problems. Specifically, 
 we develop \textsc{PineAPPL}, a library that allows any user to generate
-fast-interpolation grids, accurate to up to any fixed order in the QCD and
+fast-interpolation grids, accurate to any fixed order in the QCD and
 EW couplings. The library supports variations of the factorisation
 and renormalisation scales, and can be extended to include
 resummation, and matching with a photon- and/or parton-shower.
 The grids in the new \textsc{PineAPPL} format complement those
-(accurate to fixed-orders in the strong coupling only) that can be generated 
+(accurate to fixed order in the strong coupling only) that can be generated
 in the \textsc{APPLgrid} and \textsc{FastNLO} formats. The \textsc{PineAPPL}
 library is interfaced to \textsc{MadGraph5\_aMC@NLO} (\textsc{mg5\_aMC}
 henceforth), with which it has been developed and tested. In this respect,
@@ -119,10 +119,10 @@ assess its performance. In section~\ref{sec:results} we validate
 set of LHC processes for which EW corrections may
 have a sizeable effect on the accuracy of the theoretical predictions.
 In section~\ref{sec:doublecounting} we try to detail in a more
-comprehensive manner the second problem sketched above, the solution of which,
+comprehensive manner the double-counting problem sketched above, the solution of which,
 however, remains beyond the scope of the current work. We provide our
 conclusions and an outlook in section~\ref{sec:conclusion}. Examples of
-installation and usage of \textsc{PineAPPL} are provided in
+usage and the installation of \textsc{PineAPPL} are provided in
 appendix~\ref{app:pineappl}; appendix~\ref{app:lumis} collects the parton
 luminosities for each process considered in section~\ref{sec:results}; and
 appendix~\ref{app:add_plots} complements some of the results presented

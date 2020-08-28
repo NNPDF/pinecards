@@ -6,7 +6,7 @@ library by interfacing it to \textsc{mg5\_aMC}, and by
 computing fast-interpolation grids, accurate to NLO QCD and NLO QCD+EW,
 for a common set of LHC processes in which EW corrections may sizeably
 affect the accuracy of the theoretical predictions.
-In order to consider some realistic kinematics for these
+In order to consider realistic kinematics for these
 processes, we rely on a representative set of LHC measurements. Our aim is twofold. First, we want to validate the results
 obtained with \textsc{PineAPPL}; second, we want to assess the
 impact of the EW corrections for the specific experimental setups. We describe
@@ -36,7 +36,7 @@ ref.~\cite{Frederix:2018nkq} for details. We use this scheme
 for all processes that involve only massless particles in the final state.
 The photon is always considered as part of the proton in the initial state and
 of any hadronic jet produced in the final state: 
- in particular, photon-induced (PI) contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.\cite{Denner:2019vbn}.}
+ in particular, photon-induced (PI) contributions are consistently included at LO and NLO.\footnote{We employ the $\overline{G}_\mu$ scheme also for the QED coupling entering vertices involving initial-state photons, see section~4.3.3 of ref.~\cite{Denner:2019vbn}.}
 We use a PDF set that contains a photon PDF, namely
 {\tt NNPDF31\_nlo\_as\_0118\_luxqed}~\cite{Bertone:2017bme}. We evaluate the PDF
 uncertainty associated to the theoretical predictions a posteriori, that is,
@@ -47,7 +47,7 @@ weights are stored as Lagrange-interpolation grids.
 The central values of the renormalisation and factorisation scales, $\mu_\mathrm{R}$ and
 $\mu_\mathrm{F}$, are chosen in a process-specific way, as discussed in sec.~\ref{subsec:processes_and_measurements}. In order to estimate the missing higher-order uncertainty,
 we allow the events to be reweighted on-the-fly in the Monte Carlo generation upon scale
-variations, with the technique presented in Ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{mg5\_aMC}
+variations, with the technique presented in ref.~\cite{Frederix:2011ss}. To this purpose, we use the default \textsc{mg5\_aMC}
 implementation, whereby the factorisation and renormalisation scales
 are varied down to a factor $1/2$ and up to a factor $2$, and the envelope
 from the nine-point scale variations is constructed,
@@ -233,10 +233,10 @@ mass bins.\footnote{The size of these contributions may depend on the input PDF
   \texttt{NNPDF31\_nlo\_as\_0118\_luxqed} PDF set.}
 The PI contribution raises from about \SI{1.3}{\percent} in the lowest bin to
 about \SI{3.6}{\percent} in the highest bin.\footnote{For the \texttt{MRST2004qed} PDF set~\cite{Martin:2004dh}, which is used to subtract PI contributions (see section~\ref{sec:doublecounting}), the value in the highest bin is roughly twice as large, \SI{6.9}{\percent} (also in absolute numbers).}
-Overall, the EW corrections range between \SI{5}{\percent}
-around $M_{\ell\bar\ell}\sim \SI{150}{\giga\electronvolt}$, \SIrange{2}{3}{\percent} for intermediate invariant mass
+Overall, the EW corrections range between \SI{-5}{\percent}
+around $M_{\ell\bar\ell}\lesssim \SI{150}{\giga\electronvolt}$, \SIrange{-2}{-3}{\percent} for intermediate invariant mass
 values, $\SI{150}{\giga\electronvolt}\lesssim M_{\ell\bar\ell}\lesssim \SI{700}{\giga\electronvolt}$, and
-\SIrange{15}{20}{\percent} for the largest invariant mass bin, $M_{\ell\bar\ell}>\SI{1000}{\giga\electronvolt}$,
+\SIrange{-6}{-10}{\percent} for the largest invariant mass bin, $M_{\ell\bar\ell}>\SI{1000}{\giga\electronvolt}$,
 see figure~\ref{fig:atlaszhighmass49fb}. For this reason, the data points with
 $M_{\ell\bar\ell}>\SI{210}{\giga\electronvolt}$ were not included in the NNPDF3.1
 analysis~\cite{Ball:2017nwa}.
@@ -336,8 +336,7 @@ $\SI{60}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{120}{\giga\electronvolt}$ regi
 section by about \SI{2}{\percent}, again across all the rapidity range; in the
 $\SI{120}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{200}{\giga\electronvolt}$ bin, the suppression is around \SIrange{4}{5}{\percent}; and in
 the $\SI{200}{\giga\electronvolt}<M_{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ bin, the suppression increases further to
-about \SIrange{6}{7}{\percent} for rapidities $y_{\ell\bar\ell}<2.0$ and up to \SIrange{20}{40}{\percent} at forward
-rapidities. For this reason, for instance, the data points with
+about \SIrange{6}{7}{\percent} for rapidities $y_{\ell\bar\ell}<2.0$. For this reason, for instance, the data points with
 $M_{\ell\bar\ell}>\SI{200}{\giga\electronvolt}$ and $y_{\ell\bar\ell}>2.2$ were not included in the
 NNPDF3.1 analysis~\cite{Ball:2017nwa}.
 

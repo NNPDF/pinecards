@@ -44,9 +44,9 @@ The interface consists of roughly thirty functions, among which only a handful a
 We also provide and support a Python package based on this C interface.
 See appendix~\ref{app:example-program} for an example.
 
-\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} for which it supersedes \textsc{aMCfast}~\cite{Bertone:2014zva}. See appendix~\ref{app:sample-runcard} for an example of a runcard. While the usage of
+\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} for which it supersedes \textsc{aMCfast}~\cite{Bertone:2014zva}; see appendix~\ref{app:sample-runcard} for an example of a runcard. While the usage of
 \textsc{mg5\_aMC}(v3+) + \textsc{PineAPPL} is similar to that of 
-\textsc{mg5\_aMC}(v2) + \textsc{PineAPPL} + \textsc{APPLgrid}, it is however more
+\textsc{mg5\_aMC}(v2) + \textsc{aMCfast} + \textsc{APPLgrid}, it is however more
 efficient. For instance, the usage of the latter typically required a substantial amount of memory (close to \SI{120}{\giga\byte} for Drell--Yan), if a grid for a differential distribution with more than 10 bins was generated.
 The memory usage is substantially reduced (roughly \SI{1}{\giga\byte}) after \enquote{optimisation} of the grids, i.e.\ an optimisation of the grid representation in memory.
 However, this required a two-step procedure: first, to produce an unoptimised grid in order to identify those parts where the cross section is either zero or extremely suppressed; second, after those parts are removed, to fill an optimised grid with a small number of bins.
@@ -129,13 +129,13 @@ In Catani--Seymour subtraction~\cite{Catani:1996jh,Catani:2002hc}, for example, 
 
 We now explain the details of how the phase-space weights $w_{ab}$ in eq.~\eqref{eq:bins-of-diff-xsection} are represented.
 
-\paragraph{4-tuples}
-A straightforward representation is given by 4-tuples, i.e.\ a list of the momentum fractions $x_1$ and $x_2$, the scale $Q^2$, and the phase-space weight $w$ for each phase-space point; 4-tuples are sufficient to reconstruct a total cross section.
+\paragraph{4-tuples.}
+A straightforward representation is given by 4-tuples, i.e.\ a list of the momentum fractions $x_1$ and $x_2$, the scale $Q^2$, and the phase-space weight $w$ for each phase-space point; 4-tuples are sufficient to reconstruct the differential cross sections.
 For each combination $(a,b,k,l,m,n,o)$ (see section~\ref{sec:multi-coupling-expansion} for their definition) we save the following 4-tuples,
 \begin{equation}
 \left\{ x_1^i, x_2^i, Q^2_i, w^{(k,l,m,n,o)}_{ab} (x_1^i, x_2^i, Q^2_i, \mathcal{O}_i) \right\}_{i=1}^N \text{.} \label{eq:four-tuples}
 \end{equation}
-The reconstruction of the differential cross section is then done by simply multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, $o$, and $i$.
+The reconstruction of the differential cross sections are then done by simply multiplying the phase-space weights $w$ with PDFs evaluated with the correct arguments given in the 4-tuple and summing over all indices $a$, $b$, $k$, $l$, $m$, $n$, $o$, and $i$.
 
 The 4-tuple representation is very easy to implement and test.
 Furthermore, it reproduces the exact numerical value that is also calculated by the MC integrator.
@@ -143,19 +143,19 @@ However, the price one has to pay is the size of the 4-tuples.
 For example, NLO QCD+EW Drell--Yan lepton-pair production (see section~\ref{sec:pineappl-example} and section~\ref{sec:dy-lepton-pair-production}) needs \SI{159}{\mega\byte} of storage for a target precision of \SI{1}{\percent} of the integrated cross section.
 While this is an acceptable size, increasing the precision by an order of magnitude would require roughly 100 times the size, due to the Monte Carlo convergence that goes as $1/\sqrt{N}$ with $N$ being the number of 4-tuples.
 With increasing size also the speed of the convolution degrades, because it basically becomes bound by the speed with which the 4-tuples can be read from disk.
-However, due to the uncompressed nature of this representation it can serve as an intermediate format to develop and quickly cross check more space-efficient representations, which we will discuss next.
+However, due to the uncompressed nature of this representation it can serve as an intermediate format to develop and quickly cross check more space-efficient representations, one of which we will discuss next.
 
-\paragraph{Lagrange-interpolation grid}
+\paragraph{Lagrange-interpolation grid.}
 A different strategy is to partition a subset $H$ of the $(x_1, x_2, Q^2)$ space,
 \begin{equation}
 H = [x_\mathrm{min},x_\mathrm{max}]^2 \times [Q^2_\mathrm{min}, Q^2_\mathrm{max}] \ni (x_1, x_2, Q^2)
 \end{equation}
 along each axis into a small number of bins and to insert the phase-space weights $w$ into the corresponding discrete bin.
-Using the bin centres and their values one already has a straightforward implementation of eq.~\eqref{eq:weight-map}, but given a finite number of bins usually yields an insufficient approximation for the cross section.
+Using the bin centres and their values one already has a straightforward representation of eq.~\eqref{eq:weight-map}, but given a finite number of bins this approach usually yields an insufficient approximation for the cross section.
 Increasing the number of bins improves the precision, but it also increases the space requirements.
-Interpolation methods increase the precision using the same number of bins.
+This problem in turn in solved using interpolation methods, which increase the precision using the same number of bins.
 
-We use the same \enquote{Lagrange-interpolation grid} presented in ref.~\cite{Carli:2010rw} with the parameters published in ref.~\cite{Bertone:2014zva}, which give sufficient precision (see section~\ref{sec:results}).
+We use the \enquote{Lagrange-interpolation grid} method presented in ref.~\cite{Carli:2010rw} with the parameters published in ref.~\cite{Bertone:2014zva}, which give sufficient precision (see section~\ref{sec:results}).
 For the sake of completeness, the following summarises the interpolation algorithm.
 
 This method first maps $(x_1, x_2, Q^2) \mapsto (y_1, y_2, \tau)$, with
@@ -214,30 +214,29 @@ Each grid point has a numerical value $a_{i,j}$ associated, and the set of all n
 Inserting a specific weight $W = w (x_1, x_2) / \omega(x_1, x_2)$ into the grid is shown in figure~\ref{fig:grid} as a small black square, inside the larger grey one.
 We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them.
 The interpolation order $s_y$ then defines a square with length $s_y + 1$ around its centre $(u(y(x_1)),u(y(x_2)))$, given by the MC.
-All grid points with indices $(i,j)$ covered by the grey square are then updated according to the following formula:
+All grid points with indices $(i,j)$ covered by the grey square are then updated according to the following formula,
 \begin{equation}
-a_{i,j} \leftarrow a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2)
+a_{i,j} \leftarrow a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2) \text{,}
 \label{eq:interpolation}
 \end{equation}
-with the Lagrange basis functions
+with the Lagrange basis functions,
 \begin{equation}
-I_i (u) = \prod_{\substack{k=k_i \\ k \neq i}}^{k_i + s_y} \frac{u-k}{i-k}
+I_i (u) = \prod_{\substack{k=k_i \\ k \neq i}}^{k_i + s_y} \frac{u-k}{i-k} \text{,}
 \end{equation}
 where the product runs over all indices of the grid points covered by the grey square in figure~\ref{fig:grid}, starting from the smallest index in the square, $k_i$ and $k_j$.
-Finally, we remapped
+Finally, we remap
 \begin{equation}
 u(y) = \frac{y-y_\text{min}}{\Delta y} \text{,} \quad
 \end{equation}
-using $y_\text{min} = y(x_\text{max})$ and $y_\text{max} = y(x_\text{min})$ and the grid spacing $\Delta y = (y_\text{max} - y_\text{min})/(N_y-1)$, so that the integer part of $u(y)$ gives the grid index, e.g.\ $u(y_\text{min}) = 0$ and $u(y_\text{max}) = N_y - 1$, and the fractional part gives the location between the nearest grid points.
+using $y_\text{min} = y(x_\text{max})$ and $y_\text{max} = y(x_\text{min})$ and the grid spacing $\Delta y = (y_\text{max} - y_\text{min})/(N_y-1)$, so that the integer part of $u(y)$ gives the grid point index, e.g.\ $u(y_\text{min}) = 0$ and $u(y_\text{max}) = N_y - 1$, and the fractional part of $u(y)$ gives the relative location between the nearest grid points.
 
 \subsection{Perturbative orders}
 \label{sec:perturbative-orders}
 
-In section~\ref{sec:multi-coupling-expansion} we labelled the different perturbative orders using the indices $k,l,m,n$.
-Their values are process specific.
+In section~\ref{sec:multi-coupling-expansion} we labelled the different perturbative orders using the indices $k,l,m,n$; their values are process specific.
 However, in general we define as leading order (LO) the set of contributions for all possible initial states $a b$ that lead to the same final state $X$, for which the sum of the coupling exponents in eq.~\eqref{eq:expansion} is smallest, i.e.\ $k + l = p$, where $p = \min (k+l)$.
-This number is also process dependent and is usually determined by the number of external particles.
-For many processes there is only one contribution at LO (in terms of $k$ and $l$), but this is not true in general. Indeed, when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one combinations of $\alphas$ and $\alpha$.
+This number is usually determined by the number of external particles.
+For many processes there is only one contribution at LO (in terms of $k$ and $l$), but this is not true in general. Indeed, when a process has multiple quark lines, colourless (photons, \dots) and coloured particles (gluons, \ldots) can be exchanged between them, making it possible to have more than one combination of $\alphas$ and $\alpha$.
 A typical example at the LHC is (on-shell) top-pair production, which has three different contributions at LO: $\mathcal{O} (\alpha^2)$, $\mathcal{O} (\alphas \alpha)$, and $\mathcal{O} (\alpha^2)$.
 Each contribution receives a higher-order correction with an additional power of $\alphas$ or $\alpha$, which in general leads to at least two next-to-leading order (NLO) corrections.
 The correction with the largest power in $\alphas$ can be unambiguously called \enquote{the} QCD correction, and the one with the largest power in $\alpha$ \enquote{the} EW correction.

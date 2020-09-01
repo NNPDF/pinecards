@@ -9,10 +9,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
       call HwU_book(1,'lmlp inv m', 2,  12d0, 22d0)
-      call HwU_book(3,'lmlp inv m', 1,  22d0, 28d0)
-      call HwU_book(4,'lmlp inv m', 1,  28d0, 36d0)
-      call HwU_book(5,'lmlp inv m', 1,  36d0, 46d0)
-      call HwU_book(6,'lmlp inv m', 1,  46d0, 66d0)
+      call HwU_book(2,'lmlp inv m', 1,  22d0, 28d0)
+      call HwU_book(3,'lmlp inv m', 1,  28d0, 36d0)
+      call HwU_book(4,'lmlp inv m', 1,  36d0, 46d0)
+      call HwU_book(5,'lmlp inv m', 1,  46d0, 66d0)
       return
       end
 
@@ -66,7 +66,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(3,xmll,wgts)
       call HwU_fill(4,xmll,wgts)
       call HwU_fill(5,xmll,wgts)
-      call HwU_fill(6,xmll,wgts)
 
  999  return      
       end

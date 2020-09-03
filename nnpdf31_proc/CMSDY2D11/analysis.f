@@ -25,7 +25,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -96,10 +96,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         maxmll=1500d0
       endif
 
-      call HwU_fill(bin,minmll*2.4+xyll*(maxmll-minmll),wgts)
+      call HwU_fill(bin,minmll*2.4d0+xyll*(maxmll-minmll),wgts)
 
 
- 999  return      
+ 999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -136,4 +136,3 @@ c
       getabsy=tmp
       return
       end
-

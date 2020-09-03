@@ -8,13 +8,15 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp m yrap cos theta', 12,  46d0*2.4d0,   66d0*2.4d0)
-      call HwU_book(2,'lmlp m yrap cos theta', 12,  66d0*2.4d0,   80d0*2.4d0)
-      call HwU_book(3,'lmlp m yrap cos theta', 12,  80d0*2.4d0,   91d0*2.4d0)
-      call HwU_book(4,'lmlp m yrap cos theta', 12,  91d0*2.4d0,  102d0*2.4d0)
-      call HwU_book(5,'lmlp m yrap cos theta', 12, 102d0*2.4d0,  116d0*2.4d0)
-      call HwU_book(6,'lmlp m yrap cos theta', 12, 116d0*2.4d0,  150d0*2.4d0)
-      call HwU_book(7,'lmlp m yrap cos theta', 12, 150d0*2.4d0,  200d0*2.4d0)
+c     each HwU contains a complete invariant mass slice, with 12 rapidities bins, and 6 bins of the
+c     CS angle for each rapidity bin
+      call HwU_book(1,'dist', 12*6,  46d0*2.4d0*2d0,  66d0*2.4d0*2d0)
+      call HwU_book(2,'dist', 12*6,  66d0*2.4d0*2d0,  80d0*2.4d0*2d0)
+      call HwU_book(3,'dist', 12*6,  80d0*2.4d0*2d0,  91d0*2.4d0*2d0)
+      call HwU_book(4,'dist', 12*6,  91d0*2.4d0*2d0, 102d0*2.4d0*2d0)
+      call HwU_book(5,'dist', 12*6, 102d0*2.4d0*2d0, 116d0*2.4d0*2d0)
+      call HwU_book(6,'dist', 12*6, 116d0*2.4d0*2d0, 150d0*2.4d0*2d0)
+      call HwU_book(7,'dist', 12*6, 150d0*2.4d0*2d0, 200d0*2.4d0*2d0)
 
       return
       end
@@ -49,7 +51,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       external getinvm
       external getabsy
       external getcostheta
-      integer bin
+      integer bin,xcosbin
       double precision minmll, maxmll
 
       double precision p_reco(0:4,nexternal)
@@ -105,10 +107,27 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         maxmll=200d0
       endif
 
-      call HwU_fill(bin,minmll*2.4+xyll*(maxmll-minmll),wgts)
+      xcosbin = -1
+
+      if (xcos.lt.-0.7d0) then
+        xcosbin = 0
+      elseif (xcos.ge.-0.7d0.and.xcos.lt.-0.4d0) then
+        xcosbin = 1
+      elseif (xcos.ge.-0.4d0.and.xcos.lt.0.0d0) then
+        xcosbin = 2
+      elseif (xcos.ge.0.0d0.and.xcos.lt.0.4d0) then
+        xcosbin = 3
+      elseif (xcos.ge.0.4d0.and.xcos.lt.0.7d0) then
+        xcosbin = 4
+      else
+        xcosbin = 5
+      endif
+
+      call HwU_fill(bin,minmll*2d0*2.4d0+(maxmll-minmll)*(2.4d0*
+     &                  (2d0/6*xcosbin)+xyll*2d0/6),wgts)
 
 
- 999  return      
+ 999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -149,5 +168,21 @@ c
       function getcostheta(enl,ptxl,ptyl,pzl,enal,ptxal,ptyal,pzal)
       implicit none
       real*8 getcostheta,enl,ptxl,ptyl,pzl,enal,ptxal,ptyal,pzal
-      end
+      real*8 pzll,mll,p1p,p1m,p2p,p2m,pt2ll
+c     implementation of first formula on page 6 of https://arxiv.org/abs/1710.05167
+      p1p = enl + pzl
+      p1m = enl - pzl
+      p2p = enal + pzal
+      p2m = enal - pzal
+      pzll = pzl + pzal
+      pt2ll = (ptxl + ptxal) * (ptxl + ptxal) +
+     &        (ptyl + ptyal) * (ptyl + ptyal)
+      mll = sqrt((enl + enal) * (enl + enal) - (pt2ll + pzll * pzll))
+      getcostheta = sign((p1p*p2m-p1m*p2p)/sqrt(mll*mll+pt2ll)/mll,pzll)
 
+      if (abs(getcostheta).gt.1d0) then
+        write(*,*) 'Calculating cos with cos > 1'
+        stop
+      endif
+      return
+      end

@@ -52,7 +52,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       external getabsy
       external getcostheta
       integer bin,xcosbin
-      double precision minmll, maxmll
+      double precision minmll, maxmll, mincos, maxcos
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -107,24 +107,29 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         maxmll=200d0
       endif
 
-      xcosbin = -1
-
+c     add 1d0 because we want to remap the cosine to [0, 2]
       if (xcos.lt.-0.7d0) then
-        xcosbin = 0
+        mincos = -1.0d0 + 1d0
+        maxcos = -0.7d0 + 1d0
       elseif (xcos.ge.-0.7d0.and.xcos.lt.-0.4d0) then
-        xcosbin = 1
+        mincos = -0.7d0 + 1d0
+        maxcos = -0.4d0 + 1d0
       elseif (xcos.ge.-0.4d0.and.xcos.lt.0.0d0) then
-        xcosbin = 2
+        mincos = -0.4d0 + 1d0
+        maxcos =  0.0d0 + 1d0
       elseif (xcos.ge.0.0d0.and.xcos.lt.0.4d0) then
-        xcosbin = 3
+        mincos =  0.0d0 + 1d0
+        maxcos =  0.4d0 + 1d0
       elseif (xcos.ge.0.4d0.and.xcos.lt.0.7d0) then
-        xcosbin = 4
+        mincos =  0.4d0 + 1d0
+        maxcos =  0.7d0 + 1d0
       else
-        xcosbin = 5
+        mincos =  0.7d0 + 1d0
+        maxcos =  1.0d0 + 1d0
       endif
 
       call HwU_fill(bin,minmll*2d0*2.4d0+(maxmll-minmll)*(2.4d0*
-     &                  (2d0/6*xcosbin)+xyll*2d0/6),wgts)
+     &                  mincos+xyll*(maxcos-mincos)),wgts)
 
 
  999  return

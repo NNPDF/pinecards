@@ -44,12 +44,13 @@ The interface consists of roughly thirty functions, among which only a handful a
 We also provide and support a Python package based on this C interface.
 See appendix~\ref{app:example-program} for an example.
 
-\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} see appendix~\ref{app:sample-runcard} for an example of a runcard. While the usage of
-\textsc{mg5\_aMC}(v3+) + \textsc{PineAPPL} is similar to that of 
-\textsc{mg5\_aMC}(v2) + \textsc{aMCfast} + \textsc{APPLgrid}, it is however more
-efficient. For instance, the usage of the latter typically required a substantial amount of memory (close to \SI{120}{\giga\byte} for Drell--Yan), if a grid for a differential distribution with more than 10 bins was generated.
-The memory usage is substantially reduced (roughly \SI{1}{\giga\byte}) after \enquote{optimisation} of the grids, i.e.\ an optimisation of the grid representation in memory.
-However, this required a two-step procedure: first, to produce an unoptimised grid in order to identify those parts where the cross section is either zero or extremely suppressed; second, after those parts are removed, to fill an optimised grid with a small number of bins.
+\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} see appendix~\ref{app:sample-runcard} for an example of a runcard.
+The usage of \textsc{mg5\_aMC}(v3+) + \textsc{PineAPPL} is similar to that of \textsc{mg5\_aMC}(v2) + \textsc{aMCfast} + \textsc{APPLgrid}.
+While the latter toolchain proved to be sufficiently efficient for NLO QCD calculations of typical kinematic distributions (with a few bins), this is longer so when taking into account NLO EW calculations and, with more precise data, distributions that are typically more complex and have more bins.
+Taking into account these two reasons, we find that the memory usage of \textsc{APPLgrid} is no longer satisfiable.
+In particular, using \textsc{APPLgrid} for NLO QCD+EW\footnote{For this a modified version of \textsc{APPLgrid} was developed which added support for photon-initiated processes and EW corrections.} typically requires close to \SI{120}{\giga\byte} for high-mass Drell--Yan with 13 bins (see section~\ref{sec:dy-lepton-pair-production}).
+The memory usage is substantially reduced to roughly \SI{1}{\giga\byte} after \enquote{optimisation} of the grids, i.e.\ an optimisation of the grid representation in memory.
+However, this requires a two-step procedure: first, to produce an unoptimised grid in order to identify those parts where the cross section is either zero or extremely suppressed; second, after those parts are removed, to fill an optimised grid with a small number of bins.
 \textsc{PineAPPL} avoids this by using a more space-efficient representation from the start. This leads to substantially faster run times, in particular for simple processes, because the grids do not need to be optimised 
 and their combination is faster.
 

@@ -8,7 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'rap', 17, 2.00d0, 4.25d0)
+      call HwU_book(1,'rap', 16, 2.00d0, 4.00d0)
+      call HwU_book(2,'rap', 1, 4.00d0, 4.25d0)
       return
       end
 
@@ -58,6 +59,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xyll=getabsy(ppv(0),ppv(3))
 
       call HwU_fill(1,xyll,wgts)
+      call HwU_fill(2,xyll,wgts)
 
  999  return
       end

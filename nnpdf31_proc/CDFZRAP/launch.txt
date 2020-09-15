@@ -1,0 +1,24 @@
+launch @OUTPUT@
+fixed_order = ON
+set mz @MZ@
+set ymt @YMT@
+set ebeam1 980
+set ebeam2 980
+set lpp1 -1
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed @MZ@
+set muf_ref_fixed @MZ@
+set reweight_scale True
+set ptl = 20.0
+set etal = 2.8
+#user_defined_cut set yz = 2.9
+set mll_sf = 66
+#user_defined_cut set mmllmax = 116.0
+set rphreco = 0.1
+set req_acc_FO 0.01
+set iappl 1
+done
+quit

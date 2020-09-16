@@ -166,6 +166,12 @@ EOF
         tee results.log
 
     rm results.mg5_aMC results.grid
+
+    # if there is anything to do after the run, do it!
+    if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then
+        cp ../nnpdf31_proc/"${dataset}"/postrun.sh .
+        GRID=$grid ./postrun.sh
+    fi
 }
 
 check_args_and_cd_output "$@"

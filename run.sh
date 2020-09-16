@@ -79,6 +79,7 @@ main() {
     # being we create the file here, but in the future it should be read from the theory database
     cat > variables.txt <<EOF
 MT 172.5
+MW 80.419
 MZ 91.176
 YMT 172.5
 EOF

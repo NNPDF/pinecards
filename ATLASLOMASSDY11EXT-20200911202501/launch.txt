@@ -1,0 +1,19 @@
+launch ATLASLOMASSDY11EXT
+fixed_order = ON
+set mz 91.176
+set ymt 172.5
+set ebeam1 3500
+set ebeam2 3500
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set ptl = 6.0
+#user_defined_cut set ptl1min = 9.0
+set etal = 2.4
+set mll_sf = 12.0
+#user_defined_cut set mmllmax = 66.0
+set req_acc_FO 0.0001
+set iappl 1
+done
+quit

@@ -1,0 +1,562 @@
+Running MG5 in debug mode
+************************************************************
+*                                                          *
+*                     W E L C O M E to                     *
+*              M A D G R A P H 5 _ a M C @ N L O           *
+*                                                          *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 3.0.2                 2018-11-30         *
+*         BZR 3.0.2                           1009         *
+*                                                          *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+*                            and                           *
+*            http://amcatnlo.web.cern.ch/amcatnlo/         *
+*                                                          *
+*               Type 'help' for in-line help.              *
+*           Type 'tutorial' to learn how MG5 works         *
+*    Type 'tutorial aMCatNLO' to learn how aMC@NLO works   *
+*    Type 'tutorial MadLoop' to learn how MadLoop works    *
+*                                                          *
+************************************************************
+load MG5 configuration from ../../3.0.2/input/mg5_configuration.txt 
+set collier to /home/cschwan/3.0.2/HEPTools/lib
+set fastjet to fastjet-config
+set lhapdf to lhapdf-config
+set ninja to /home/cschwan/3.0.2/HEPTools/lib
+Using default text editor "vi". Set another one in ./input/mg5_configuration.txt
+Using default eps viewer "evince". Set another one in ./input/mg5_configuration.txt
+Using default web browser "firefox". Set another one in ./input/mg5_configuration.txt
+import /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/launch.txt
+The import format was not given, so we guess it as command
+launch ATLASLOMASSDY11EXT
+INFO: ************************************************************
+*                                                          *
+*           W E L C O M E  to  M A D G R A P H 5           *
+*                       a M C @ N L O                      *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 3.0.2                 2018-11-30         *
+*                                                          *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*                 http://amcatnlo.cern.ch                  *
+*                                                          *
+*               Type 'help' for in-line help.              *
+*                                                          *
+************************************************************ 
+INFO: load configuration from /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/Cards/amcatnlo_configuration.txt  
+INFO: load configuration from /home/cschwan/3.0.2/input/mg5_configuration.txt  
+INFO: load configuration from /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/Cards/amcatnlo_configuration.txt  
+Using default text editor "vi". Set another one in ./input/mg5_configuration.txt
+launch auto 
+[1;34mWARNING: NLO+PS mode is not allowed for processes including electroweak corrections [0m
+The following switches determine which programs are run:
+/================== Description ==================|=========== values ===========|================ other options ================\
+| 1. Type of perturbative computation             | [1m           order[0m = [32mNLO[0m       |     LO                                        |
+| 2. No MC@[N]LO matching / event generation      | [1m     fixed_order[0m = [31mOFF[0m       |     No NLO+PS available for EW correction     |
+| 3. [32mShower the generated events[0m                  | [1m          [32mshower[0m[0m = [31mHERWIG6[0m   |     [32mOFF[0m                                       |
+| 4. [32mDecay onshell particles[0m                      | [1m         [32mmadspin[0m[0m = [31mOFF[0m       |     [32monshell[0m                                   |
+| 5. [32mAdd weights to events for new hypp.[0m          | [1m        [32mreweight[0m[0m = [01mNot Avail[0m |     [32mPlease install module[0m                     |
+| 6. [32mRun MadAnalysis5 on the events generated[0m     | [1m     [32mmadanalysis[0m[0m = [01mNot Avail[0m |     [32mPlease install module[0m                     |
+\================================================================================================================================/
+Either type the switch number (1 to 6) to change its setting,
+Set any switch explicitly (e.g. type 'madspin=onshell' at the prompt)
+Type 'help' for the list of all valid option
+Type '0', 'auto', 'done' or just press enter when you are done.
+The following switches determine which programs are run:
+/================== Description ==================|=========== values ===========|================ other options ================\
+| 1. Type of perturbative computation             | [1m           order[0m = [32mNLO[0m       |     LO                                        |
+| 2. No MC@[N]LO matching / event generation      | [1m     fixed_order[0m = [31mON[0m        |     No NLO+PS available for EW correction     |
+| 3. [32mShower the generated events[0m                  | [1m          [32mshower[0m[0m = [32mOFF[0m ⇐  ̶O̶F̶F̶ ̶|     [32mPlease install module[0m                     |
+| 4. [32mDecay onshell particles[0m                      | [1m         [32mmadspin[0m[0m = [31mOFF[0m       |     [32monshell[0m                                   |
+| 5. [32mAdd weights to events for new hypp.[0m          | [1m        [32mreweight[0m[0m = [31mOFF[0m       |     [32mPlease install module[0m                     |
+| 6. [32mRun MadAnalysis5 on the events generated[0m     | [1m     [32mmadanalysis[0m[0m = [31mOFF[0m       |     [32mPlease install module[0m                     |
+\================================================================================================================================/
+Either type the switch number (1 to 6) to change its setting,
+Set any switch explicitly (e.g. type 'madspin=onshell' at the prompt)
+Type 'help' for the list of all valid option
+Type '0', 'auto', 'done' or just press enter when you are done.
+INFO: will run in mode: NLO 
+set mz 91.176
+[1mINFO: modify param_card information BLOCK mass with id (23,) set to 91.176 [0m
+set ymt 172.5
+[1;34mWARNING: invalid set command ymt 172.5  [0m
+set ebeam1 3500
+[1mINFO: modify parameter ebeam1 of the run_card.dat to 3500.0 [0m
+set ebeam2 3500
+[1mINFO: modify parameter ebeam2 of the run_card.dat to 3500.0 [0m
+set pdlabel lhapdf
+[1mINFO: modify parameter pdlabel of the run_card.dat to lhapdf [0m
+set lhaid 324900
+[1mINFO: modify parameter lhaid of the run_card.dat to [324900] [0m
+set dynamical_scale_choice 10
+[1mINFO: modify parameter dynamical_scale_choice of the run_card.dat to [10] [0m
+set reweight_scale True
+[1mINFO: modify parameter reweight_scale of the run_card.dat to [True] [0m
+set ptl = 6.0
+[1mINFO: modify parameter ptl of the run_card.dat to 6.0 [0m
+set etal = 2.4
+[1mINFO: modify parameter etal of the run_card.dat to 2.4 [0m
+set mll_sf = 12.0
+[1mINFO: modify parameter mll_sf of the run_card.dat to 12.0 [0m
+set req_acc_FO 0.0001
+[1mINFO: modify parameter req_acc_fo of the run_card.dat to 0.0001 [0m
+set iappl 1
+[1mINFO: modify parameter iappl of the run_card.dat to 1 [0m
+INFO: Update the dependent parameter of the param_card.dat 
+INFO: Starting run 
+INFO: Compiling the code 
+Error: no DISPLAY environment variable specified
+[1;32mrun_card missed argument muf1_ref_fixed. Takes default: 91.118[0m
+[1;32mrun_card missed argument muf2_ref_fixed. Takes default: 91.118[0m
+[1;32mrun_card missed argument fixed_qes_scale. Takes default: False[0m
+[1;32mrun_card missed argument qes_ref_fixed. Takes default: 91.118[0m
+[1;32mrun_card missed argument muf1_over_ref. Takes default: 1.0[0m
+[1;32mrun_card missed argument muf2_over_ref. Takes default: 1.0[0m
+[1;32mrun_card missed argument qes_over_ref. Takes default: 1.0[0m
+[1;32mrun_card missed argument rw_rscale_down. Takes default: -1.0[0m
+[1;32mrun_card missed argument rw_rscale_up. Takes default: -1.0[0m
+[1;32mrun_card missed argument rw_fscale_down. Takes default: -1.0[0m
+[1;32mrun_card missed argument rw_fscale_up. Takes default: -1.0[0m
+[1;32mrun_card missed argument pdf_set_min. Takes default: 244601[0m
+[1;32mrun_card missed argument pdf_set_max. Takes default: 244700[0m
+[1;32mrun_card missed argument maxjetflavor. Takes default: 4[0m
+INFO: Using LHAPDF v6.2.3 interface for PDFs 
+INFO: Compiling source... 
+INFO:           ...done, continuing with P* directories 
+INFO: Compiling directories... 
+INFO: Compiling on 32 cores 
+INFO:  Compiling P0_uux_mummup... 
+INFO:  Compiling P0_ddx_mummup... 
+INFO:  Compiling P0_bbx_mummup... 
+INFO:  Compiling P0_uxu_mummup... 
+INFO:  Compiling P0_dxd_mummup... 
+INFO:  Compiling P0_bxb_mummup... 
+INFO:  Compiling P0_aa_mummup... 
+INFO:     P0_ddx_mummup done. 
+INFO:     P0_uux_mummup done. 
+INFO:     P0_bbx_mummup done. 
+INFO:     P0_dxd_mummup done. 
+INFO:     P0_bxb_mummup done. 
+INFO:     P0_uxu_mummup done. 
+INFO:     P0_aa_mummup done. 
+INFO: Checking test output: 
+INFO: P0_uux_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.00
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.00
+     Soft test  3 PASSED. Fraction of failures: 0.01
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.02
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.02
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.00
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_ddx_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.02
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.02
+     Soft test  3 PASSED. Fraction of failures: 0.00
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.00
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.04
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.04
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_bbx_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.00
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.00
+     Soft test  3 PASSED. Fraction of failures: 0.01
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.01
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.08
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.02
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_uxu_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.00
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.00
+     Soft test  3 PASSED. Fraction of failures: 0.00
+Collinear test  3 PASSED. Fraction of failures: 0.02
+     Soft test  4 PASSED. Fraction of failures: 0.00
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.00
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.04
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_dxd_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.02
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.02
+     Soft test  3 PASSED. Fraction of failures: 0.01
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.02
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.08
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.02
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_bxb_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.00
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.02
+     Soft test  3 PASSED. Fraction of failures: 0.01
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.00
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.00
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.08
+     Soft test 10 PASSED. Fraction of failures: 0.00
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: P0_aa_mummup 
+INFO:  Result for test_ME: 
+INFO:    Passed. 
+[1;32mDEBUG: 
+     Soft test  1 PASSED. Fraction of failures: 0.00
+Collinear test  1 PASSED. Fraction of failures: 0.00
+     Soft test  2 PASSED. Fraction of failures: 0.00
+Collinear test  2 PASSED. Fraction of failures: 0.00
+     Soft test  3 PASSED. Fraction of failures: 0.00
+Collinear test  3 PASSED. Fraction of failures: 0.00
+     Soft test  4 PASSED. Fraction of failures: 0.00
+Collinear test  4 PASSED. Fraction of failures: 0.00
+     Soft test  5 PASSED. Fraction of failures: 0.00
+Collinear test  5 PASSED. Fraction of failures: 0.00
+     Soft test  6 PASSED. Fraction of failures: 0.00
+Collinear test  6 PASSED. Fraction of failures: 0.00
+     Soft test  7 PASSED. Fraction of failures: 0.00
+Collinear test  7 PASSED. Fraction of failures: 0.00
+     Soft test  8 PASSED. Fraction of failures: 0.00
+Collinear test  8 PASSED. Fraction of failures: 0.00
+     Soft test  9 PASSED. Fraction of failures: 0.00
+Collinear test  9 PASSED. Fraction of failures: 0.00
+     Soft test 10 PASSED. Fraction of failures: 0.01
+Collinear test 10 PASSED. Fraction of failures: 0.00 [0m
+INFO:  Result for check_poles: 
+INFO:    Poles successfully cancel for 20 points over 20 (tolerance=1.0e-05) 
+INFO: Starting run 
+INFO: Using 32 cores 
+INFO: Cleaning previous results 
+INFO: Doing fixed order NLO 
+INFO: Setting up grids 
+INFO:  Idle: 0,  Running: 28,  Completed: 0 [ current time: 20h28 ] 
+INFO:  Idle: 0,  Running: 27,  Completed: 1 [  1.4s  ] 
+INFO:  Idle: 0,  Running: 25,  Completed: 3 [  1.6s  ] 
+INFO:  Idle: 0,  Running: 24,  Completed: 4 [  1.8s  ] 
+INFO:  Idle: 0,  Running: 22,  Completed: 6 [  4.6s  ] 
+INFO:  Idle: 0,  Running: 21,  Completed: 7 [  4.6s  ] 
+INFO:  Idle: 0,  Running: 20,  Completed: 8 [  4.6s  ] 
+INFO:  Idle: 0,  Running: 19,  Completed: 9 [  5.5s  ] 
+INFO:  Idle: 0,  Running: 18,  Completed: 10 [  5.5s  ] 
+INFO:  Idle: 0,  Running: 14,  Completed: 14 [  5.6s  ] 
+INFO:  Idle: 0,  Running: 13,  Completed: 15 [  5.7s  ] 
+INFO:  Idle: 0,  Running: 12,  Completed: 16 [  5.8s  ] 
+INFO:  Idle: 0,  Running: 11,  Completed: 17 [  5.8s  ] 
+INFO:  Idle: 0,  Running: 10,  Completed: 18 [  9.2s  ] 
+INFO:  Idle: 0,  Running: 8,  Completed: 20 [  9.4s  ] 
+INFO:  Idle: 0,  Running: 7,  Completed: 21 [  9.5s  ] 
+INFO:  Idle: 0,  Running: 6,  Completed: 22 [  9.9s  ] 
+INFO:  Idle: 0,  Running: 5,  Completed: 23 [  10.5s  ] 
+INFO:  Idle: 0,  Running: 3,  Completed: 25 [  11.5s  ] 
+INFO:  Idle: 0,  Running: 2,  Completed: 26 [  11.9s  ] 
+INFO:  Idle: 0,  Running: 1,  Completed: 27 [  15.5s  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 28 [  16.7s  ] 
+INFO: 
+      Results after grid setup:
+      Total cross section:      3.548e+02 +- 4.8e+00 pb
+ 
+INFO: Refining results, step 1 
+INFO:  Idle: 0,  Running: 28,  Completed: 0 [ current time: 20h28 ] 
+INFO:  Idle: 0,  Running: 27,  Completed: 1 [  1m 42s  ] 
+INFO:  Idle: 0,  Running: 26,  Completed: 2 [  2m 1s  ] 
+INFO:  Idle: 0,  Running: 25,  Completed: 3 [  3m 30s  ] 
+INFO:  Idle: 0,  Running: 24,  Completed: 4 [  4m 13s  ] 
+INFO:  Idle: 0,  Running: 23,  Completed: 5 [  4m 40s  ] 
+INFO:  Idle: 0,  Running: 22,  Completed: 6 [  4m 42s  ] 
+INFO:  Idle: 0,  Running: 21,  Completed: 7 [  4m 46s  ] 
+INFO:  Idle: 0,  Running: 19,  Completed: 9 [  4m 47s  ] 
+INFO:  Idle: 0,  Running: 18,  Completed: 10 [  4m 49s  ] 
+INFO:  Idle: 0,  Running: 17,  Completed: 11 [  4m 54s  ] 
+INFO:  Idle: 0,  Running: 15,  Completed: 13 [  4m 55s  ] 
+INFO:  Idle: 0,  Running: 14,  Completed: 14 [  5m 4s  ] 
+INFO:  Idle: 0,  Running: 13,  Completed: 15 [  5m 18s  ] 
+INFO:  Idle: 0,  Running: 12,  Completed: 16 [  5m 19s  ] 
+INFO:  Idle: 0,  Running: 11,  Completed: 17 [  5m 26s  ] 
+INFO:  Idle: 0,  Running: 10,  Completed: 18 [  5m 56s  ] 
+INFO:  Idle: 0,  Running: 9,  Completed: 19 [  5m 59s  ] 
+INFO:  Idle: 0,  Running: 8,  Completed: 20 [  6m 0s  ] 
+INFO:  Idle: 0,  Running: 7,  Completed: 21 [  6m 40s  ] 
+INFO:  Idle: 0,  Running: 6,  Completed: 22 [  9m 1s  ] 
+INFO:  Idle: 0,  Running: 5,  Completed: 23 [  10m 12s  ] 
+INFO:  Idle: 0,  Running: 4,  Completed: 24 [  10m 54s  ] 
+INFO:  Idle: 0,  Running: 3,  Completed: 25 [  11m 1s  ] 
+INFO:  Idle: 0,  Running: 2,  Completed: 26 [  54m 27s  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 28 [  56m 4s  ] 
+INFO: 
+      Current results:
+      Total cross section:      3.550e+02 +- 7.2e-01 pb
+ 
+INFO: Refining results, step 2 
+INFO:  Idle: 0,  Running: 20,  Completed: 0 [ current time: 21h24 ] 
+INFO:  Idle: 0,  Running: 18,  Completed: 2 [  23m 9s  ] 
+INFO:  Idle: 0,  Running: 17,  Completed: 3 [  24m 16s  ] 
+INFO:  Idle: 0,  Running: 16,  Completed: 4 [  25m 25s  ] 
+INFO:  Idle: 0,  Running: 15,  Completed: 5 [  31m 41s  ] 
+INFO:  Idle: 0,  Running: 14,  Completed: 6 [  59m 11s  ] 
+INFO:  Idle: 0,  Running: 9,  Completed: 11 [  1h 1m  ] 
+INFO:  Idle: 0,  Running: 8,  Completed: 12 [  1h 3m  ] 
+INFO:  Idle: 0,  Running: 7,  Completed: 13 [  1h 5m  ] 
+INFO:  Idle: 0,  Running: 4,  Completed: 16 [  1h 11m  ] 
+INFO:  Idle: 0,  Running: 3,  Completed: 17 [  1h 17m  ] 
+INFO:  Idle: 0,  Running: 2,  Completed: 18 [  1h 22m  ] 
+INFO:  Idle: 0,  Running: 1,  Completed: 19 [  1h 49m  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 20 [  2h 20m  ] 
+INFO: 
+      Current results:
+      Total cross section:      3.560e+02 +- 2.4e-01 pb
+ 
+INFO: Refining results, step 3 
+INFO:  Idle: 0,  Running: 12,  Completed: 0 [ current time: 23h44 ] 
+INFO:  Idle: 0,  Running: 10,  Completed: 2 [  3h 41m  ] 
+INFO:  Idle: 0,  Running: 9,  Completed: 3 [  5h 38m  ] 
+INFO:  Idle: 0,  Running: 8,  Completed: 4 [  6h 5m  ] 
+INFO:  Idle: 0,  Running: 7,  Completed: 5 [  7h 2m  ] 
+INFO:  Idle: 0,  Running: 6,  Completed: 6 [  7h 59m  ] 
+INFO:  Idle: 0,  Running: 5,  Completed: 7 [  8h 50m  ] 
+INFO:  Idle: 0,  Running: 1,  Completed: 11 [  12h 29m  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 12 [  12h 32m  ] 
+INFO: 
+      Current results:
+      Total cross section:      3.562e+02 +- 7.3e-02 pb
+ 
+INFO: Refining results, step 4 
+INFO:  Idle: 0,  Running: 4,  Completed: 0 [ current time: 12h17 ] 
+INFO:  Idle: 0,  Running: 3,  Completed: 1 [  44h 45m  ] 
+INFO:  Idle: 0,  Running: 2,  Completed: 2 [  92h 40m  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 4 [  92h 46m  ] 
+[1;32mDEBUG: 
+  Number of loop ME evaluations (by MadLoop): 12938036
+    Stability unknown:                   0
+    Stable PS point:                     12938036
+    Unstable PS point (and rescued):     0
+    Unstable PS point (and not rescued): 0
+    Only double precision used:          12938036
+    Quadruple precision used:            0
+    Initialization phase-space points:   0
+    Reduction methods used:
+      > Ninja (double precision)         12938036
+
+  Statistics on virtual integration optimization : 
+  Could not find statistics on the integration optimization. 
+
+  Inclusive timing profile :
+    Overall slowest channel          3 days, 20:42:08 (P0_uxu_mummup/all_G2 [step 4])
+    Average channel running time     4:18:23
+    Aggregated total running time    16 days, 12:12:37
+  Timing profile for <Other_tasks> :
+    Overall fraction of time         70.762 %
+    Largest fraction of time         76.119 % (P0_bbx_mummup/all_G2 [step 2])
+    Smallest fraction of time        50.249 % (P0_aa_mummup/all_G4 [step 0])
+  Timing profile for <Reweight_scale> :
+    Overall fraction of time         7.895 %
+    Largest fraction of time         8.250 % (P0_uxu_mummup/all_G2 [step 4])
+    Smallest fraction of time        0.000 % (P0_aa_mummup/all_G1 [step 0])
+  Timing profile for <Reals_evaluation> :
+    Overall fraction of time         5.814 %
+    Largest fraction of time         11.895 % (P0_aa_mummup/all_G2 [step 2])
+    Smallest fraction of time        0.821 % (P0_aa_mummup/all_G1 [step 0])
+  Timing profile for <Counter_terms> :
+    Overall fraction of time         5.211 %
+    Largest fraction of time         19.143 % (P0_ddx_mummup/all_G3 [step 2])
+    Smallest fraction of time        1.733 % (P0_bxb_mummup/all_G4 [step 0])
+  Timing profile for <Adding_alphas_pdf> :
+    Overall fraction of time         2.826 %
+    Largest fraction of time         3.327 % (P0_uxu_mummup/all_G3 [step 0])
+    Smallest fraction of time        0.998 % (P0_uux_mummup/all_G4 [step 0])
+  Timing profile for <Filling_plots> :
+    Overall fraction of time         1.677 %
+    Largest fraction of time         1.990 % (P0_bbx_mummup/all_G2 [step 1])
+    Smallest fraction of time        0.230 % (P0_uxu_mummup/all_G4 [step 0])
+  Timing profile for <Integrated_CT> :
+    Overall fraction of time         1.382 %
+    Largest fraction of time         1.708 % (P0_dxd_mummup/all_G1 [step 2])
+    Smallest fraction of time        0.265 % (P0_uxu_mummup/all_G3 [step 0])
+  Timing profile for <Virtuals> :
+    Overall fraction of time         1.165 %
+    Largest fraction of time         25.820 % (P0_aa_mummup/all_G4 [step 0])
+    Smallest fraction of time        0.673 % (P0_uxu_mummup/all_G3 [step 1])
+  Timing profile for <Applying_cuts> :
+    Overall fraction of time         1.057 %
+    Largest fraction of time         10.595 % (P0_uux_mummup/all_G4 [step 0])
+    Smallest fraction of time        0.887 % (P0_ddx_mummup/all_G4 [step 2])
+  Timing profile for <Nbody_prefactor> :
+    Overall fraction of time         0.817 %
+    Largest fraction of time         9.495 % (P0_uux_mummup/all_G4 [step 0])
+    Smallest fraction of time        0.639 % (P0_dxd_mummup/all_G4 [step 3])
+  Timing profile for <N1body_prefactor> :
+    Overall fraction of time         0.739 %
+    Largest fraction of time         9.882 % (P0_uxu_mummup/all_G4 [step 0])
+    Smallest fraction of time        0.580 % (P0_dxd_mummup/all_G4 [step 3])
+  Timing profile for <Born> :
+    Overall fraction of time         0.656 %
+    Largest fraction of time         1.270 % (P0_aa_mummup/all_G1 [step 2])
+    Smallest fraction of time        0.092 % (P0_uxu_mummup/all_G3 [step 0])
+  Zero time record for Pick_unwgt.
+  Zero time record for Reweight_pdf.
+  Zero time record for Sum_ident_contr.
+  Zero time record for Write_events.
+  Zero time record for PS_Generation.
+  Zero time record for FxFx_cluster.
+  Zero time record for MCsubtraction.
+ [0m
+INFO: 
+   --------------------------------------------------------------
+      Final results and run summary:
+      Process p p > mu+ mu- [QCD QED]
+      Run at p-p collider (3500.0 + 3500.0 GeV)
+      Total cross section: 3.561e+02 +- 3.2e-02 pb
+   --------------------------------------------------------------
+      Scale variation (computed from histogram information):
+          Dynamical_scale_choice 10 (envelope of 9 values): 
+              3.561e+02 pb  +19.6% -20.9%
+   --------------------------------------------------------------
+ 
+[1;32mDEBUG: Combining HwU plots. [0m
+[1;32mDEBUG: histograms.py :: ======= [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uxu_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uux_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uxu_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uux_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_dxd_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_ddx_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_ddx_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_dxd_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_aa_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bxb_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_aa_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bbx_mummup/all_G2/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_aa_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_dxd_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_aa_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_ddx_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_dxd_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_ddx_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uxu_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uux_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uux_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_uxu_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bbx_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bxb_mummup/all_G1/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bbx_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bxb_mummup/all_G4/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bbx_mummup/all_G3/MADatNLO.HwU'. [0m
+[1;32mDEBUG: histograms.py :: Loading histograms from '/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/SubProcesses/P0_bxb_mummup/all_G3/MADatNLO.HwU'. [0m
+INFO: The results of this run and the HwU and GnuPlot files with the plots have been saved in /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/Events/run_01 
+[1;32mDEBUG: Combining APPLgrids 
+ [0m
+INFO: Run complete 
+INFO:  
+quit
+INFO:  
+quit
+quit

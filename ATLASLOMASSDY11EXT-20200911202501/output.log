@@ -1,0 +1,1960 @@
+Running MG5 in debug mode
+************************************************************
+*                                                          *
+*                     W E L C O M E to                     *
+*              M A D G R A P H 5 _ a M C @ N L O           *
+*                                                          *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 3.0.2                 2018-11-30         *
+*         BZR 3.0.2                           1009         *
+*                                                          *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+*                            and                           *
+*            http://amcatnlo.web.cern.ch/amcatnlo/         *
+*                                                          *
+*               Type 'help' for in-line help.              *
+*           Type 'tutorial' to learn how MG5 works         *
+*    Type 'tutorial aMCatNLO' to learn how aMC@NLO works   *
+*    Type 'tutorial MadLoop' to learn how MadLoop works    *
+*                                                          *
+************************************************************
+load MG5 configuration from ../../3.0.2/input/mg5_configuration.txt 
+set collier to /home/cschwan/3.0.2/HEPTools/lib
+set fastjet to fastjet-config
+set lhapdf to lhapdf-config
+set ninja to /home/cschwan/3.0.2/HEPTools/lib
+Using default text editor "vi". Set another one in ./input/mg5_configuration.txt
+Using default eps viewer "evince". Set another one in ./input/mg5_configuration.txt
+Using default web browser "firefox". Set another one in ./input/mg5_configuration.txt
+import /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/output.txt
+The import format was not given, so we guess it as command
+set complex_mass_scheme True
+Activate complex mass scheme.
+import model loop_qcd_qed_sm_Gmu
+Switching to Feynman gauge because it is the only one supported by the model loop_qcd_qed_sm_Gmu.
+INFO: Restrict model loop_qcd_qed_sm_Gmu with file ../../3.0.2/models/loop_qcd_qed_sm_Gmu/restrict_default.dat . 
+[1;32mDEBUG: Simplifying conditional expressions [0m
+[1;32mDEBUG: Conditional expressions are simplified for parameters: [0m
+[1;32mDEBUG: mdl_dMB_HiggsTadpole_UV_EW_1EPS_,mdl_dMB_tMass_UV_EW_1EPS_,mdl_dMB_bMass_UV_EW_1EPS_,mdl_dMB_HMass2_UV_EW_1EPS_,mdl_dMB_WMass2_UV_EW_1EPS_,mdl_dMB_ZMass2_UV_EW_1EPS_,mdl_dMB_bWcft_UV_EW_R_1EPS_,mdl_dMB_tWcft_UV_EW_L_1EPS_,mdl_dMB_bWcft_UV_EW_L_1EPS_,mdl_dMB_HWcft_UV_EW_1EPS_,mdl_dMB_G0Wcft_UV_EW_1EPS_,mdl_dMB_GpWcft_UV_EW_1EPS_,mdl_dMB_AAWcft_UV_EW_1EPS_,mdl_dMB_SWCoup_UV_EW_1EPS_,mdl_dMB_CWCoup_UV_EW_1EPS_,mdl_HiggsTadpole_UV_EW_1EPS_,mdl_tMass_UV_EW_1EPS_,mdl_HMass2_UV_EW_1EPS_,mdl_WMass2_UV_EW_1EPS_,mdl_ZMass2_UV_EW_1EPS_,mdl_bWcft_UV_EW_R_1EPS_,mdl_tWcft_UV_EW_L_1EPS_,mdl_bWcft_UV_EW_L_1EPS_,mdl_bWcft_BAR_UV_EW_R_1EPS_,mdl_tWcft_BAR_UV_EW_L_1EPS_,mdl_bWcft_BAR_UV_EW_L_1EPS_,mdl_HWcft_UV_EW_1EPS_,mdl_G0Wcft_UV_EW_1EPS_,mdl_GpWcft_UV_EW_1EPS_,mdl_AAWcft_UV_EW_1EPS_,mdl_SWCoup_UV_EW_1EPS_,mdl_CWCoup_UV_EW_1EPS_,mdl_dMB_HiggsTadpole_UV_EW_FIN_,mdl_dMB_tMass_UV_EW_FIN_,mdl_dMB_bMass_UV_EW_FIN_,mdl_dMB_HMass2_UV_EW_FIN_,mdl_dMB_WMass2_UV_EW_FIN_,mdl_dMB_ZMass2_UV_EW_FIN_,mdl_dMB_tWcft_UV_EW_R_FIN_,mdl_dMB_bWcft_UV_EW_R_FIN_,mdl_dMB_tWcft_UV_EW_L_FIN_,mdl_dMB_bWcft_UV_EW_L_FIN_,mdl_dMB_HWcft_UV_EW_FIN_,mdl_dMB_G0Wcft_UV_EW_FIN_,mdl_dMB_GpWcft_UV_EW_FIN_,mdl_dMB_WWcft_UV_EW_FIN_,mdl_dMB_ZZWcft_UV_EW_FIN_,mdl_dMB_AZWcft_UV_EW_FIN_,mdl_dMB_AAWcft_UV_EW_FIN_,mdl_dMB_eCoup_UV_EW_FIN_,mdl_dMB_SWCoup_UV_EW_FIN_,mdl_dMB_CWCoup_UV_EW_FIN_,mdl_HiggsTadpole_UV_EW_FIN_,mdl_tMass_UV_EW_FIN_,mdl_HMass2_UV_EW_FIN_,mdl_WMass2_UV_EW_FIN_,mdl_ZMass2_UV_EW_FIN_,mdl_tWcft_UV_EW_R_FIN_,mdl_bWcft_UV_EW_R_FIN_,mdl_tWcft_UV_EW_L_FIN_,mdl_bWcft_UV_EW_L_FIN_,mdl_tWcft_BAR_UV_EW_R_FIN_,mdl_bWcft_BAR_UV_EW_R_FIN_,mdl_tWcft_BAR_UV_EW_L_FIN_,mdl_bWcft_BAR_UV_EW_L_FIN_,mdl_HWcft_UV_EW_FIN_,mdl_G0Wcft_UV_EW_FIN_,mdl_GpWcft_UV_EW_FIN_,mdl_WWcft_UV_EW_FIN_,mdl_ZZWcft_UV_EW_FIN_,mdl_AZWcft_UV_EW_FIN_,mdl_AAWcft_UV_EW_FIN_,mdl_eCoup_UV_EW_FIN_,mdl_SWCoup_UV_EW_FIN_,mdl_CWCoup_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: tt- tt- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c d g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: tt- tt- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: u u g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u u g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: ve e- g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: tt- tt- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d t w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: m- m- z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t t g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: e- e- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b c w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d c w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: b b at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d u g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: c c g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: tt- vt g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: u u g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: modify interactions: c c g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: c c at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: e- e- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: s s at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d u g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t t g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: c c at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: tt- tt- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: m- m- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s s g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: c c a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c d w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b c w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g g g at order: QCD=4 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b b z at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: e- e- z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b z at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b b z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: tt- vt g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: t t a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t t a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: m- vm g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t d w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: tt- tt- z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: m- m- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: d d at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d d g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: b c w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d t w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d c w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s u w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: b u w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s u w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: d d at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: c c at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d d a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d a at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: d d a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c c at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b b at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b b a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b u w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s u w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t t h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: t t h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: u u at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: m- m- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: u u at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b u w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: t d w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: vm m- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: m- m- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d c w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b b at order: QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d d g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: u u g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: c c g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: s s g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: b b g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: t t g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: tt- tt- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b b at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: s s at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: e- e- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: vm m- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d u g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s u g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s s a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: m- m- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: e- e- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: u u at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b c w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c d w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: t t z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t t z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d c w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: vt tt- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: vt tt- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: tt- tt- g0 at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: m- m- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: u u z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u d g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t t at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: s s at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: t t at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d d at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: u s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: h h h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u u a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: ve ve a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: m- m- h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: e- e- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u d g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c d g+ at order: QED=1 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: t s g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: t d g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: u s g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d t w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: s s at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: u u at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b b at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: t t g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t t g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: m- m- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: tt- tt- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: e- ve g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=1 [0m
+[1;32mDEBUG: modify interactions: b b at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: m- vm g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: b b at order: QCD=2 [0m
+[1;32mDEBUG: remove interactions: s u w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b u w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b c w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: m- m- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s u g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t d w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c c at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d d at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: s s g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: tt- vt g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: d d at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: e- e- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c d w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: tt- tt- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c d w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: h h h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g0 g0 at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g0 g0 at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g g0 g0 at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g g g0 g0 at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g0 g0 at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s u g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s t w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s u w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: tt- tt- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u s w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: modify interactions: d d z at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: b b at order: QCD=2 [0m
+[1;32mDEBUG: remove interactions: b u w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: tt- tt- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: s s at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: modify interactions: g g at order: QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c b w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: ve e- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: c s g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: e- ve g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c b w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: b b a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: c c g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: s t w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: z z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ g+ g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ g0 g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g0 g0 h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u b w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b c g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: e- e- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d u g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u b w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c d w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: u s w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: u u g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: tt- tt- g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: tt- tt- h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c b w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: a z at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g h h at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h h at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h h at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h h at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g h h at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: z g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: d t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h h at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g0 g0 at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: m- vm g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g w+ w+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: z z w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: vt vt a at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: u u z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u u h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: w+ w+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s t g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b u g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g+ g+ h at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: b b g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: u b g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: e- e- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: vt tt- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: t d w+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d t w+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: remove interactions: vm vm a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a w+ w+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: u s g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: d d g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: modify interactions: t b g+ at order: QED=1, QCD=2 [0m
+[1;32mDEBUG: modify interactions: s s a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: e- e- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g g g+ g+ at order: QED=2, QCD=2 [0m
+[1;32mDEBUG: remove interactions: g g g at order: QCD=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: m- m- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: h h at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: g0 g0 at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: z w+ w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: ve e- g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a g+ g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d c w+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: u d g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: s c g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: tt- tt- at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: d t w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: e- e- g0 at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: b b g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: b b h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c c h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: d d h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: e- ve g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: ve e- g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: e- e- g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: e- e- h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: c c z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: c c z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ a g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: c c z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: d d g0 at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: a a at order: QED=2 [0m
+[1;32mDEBUG: remove interactions: e- ve g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: vm m- g+ at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: s s z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: s s z at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a a g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: e- e- h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z h g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: m- vm g+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: m- m- g0 at order: QED=3 [0m
+[1;32mDEBUG: modify interactions: s s g at order: QED=2, QCD=1 [0m
+[1;32mDEBUG: remove interactions: u s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ w+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: g+ g+ g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: a z g+ g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: z z h at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: t s w+ at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: remove interactions: w+ z g0 g+ at order: QED=4 [0m
+[1;32mDEBUG: modify interactions: u u a at order: QED=3 [0m
+[1;32mDEBUG: remove interactions: m- m- h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: vt tt- g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: tt- vt g+ at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s s h at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: s s g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: m- m- g0 at order: QED=1 [0m
+[1;32mDEBUG: remove interactions: vm m- g+ at order: QED=1 [0m
+[1;32mDEBUG: remove counterterm of particle g with loop particles ((d),(u),(s),(c)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle d with loop particles ((d,g)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle b with loop particles ((b,g)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle s with loop particles ((s,g)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle u with loop particles ((u,g)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle g with loop particles ((g)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle g with loop particles ((b)) perturbing order QCD [0m
+[1;32mDEBUG: remove counterterm of particle c with loop particles ((c,g)) perturbing order QCD [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AAWW1tb', 1), ('R2_AAWW1cs', 1), ('R2_AAWW1ud', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGmWpMass2EW', 1), ('c_UVGpWmMass1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGmWpMass1EW_1eps', 1), ('c_UVGpWmMass2EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHGmWpZ1EW_1eps', 1), ('c_UVHGpWmZ1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GGWWcs', 1), ('R2_GGWWud', 1), ('R2_GGWWtb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxdZ1EW', 1), ('c_UVsxsZ1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVvtxvtZ1EW', 1), ('c_UVvmxvmZ1EW', 1), ('c_UVvexveZ1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GGZdown', 1), ('R2_GGZup', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AAl', 1), ('R2_AAboson2', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_txbW2Cp', 1), ('R2_bxtW2Cp', 1), ('R2_dxuW2Cp', 1), ('R2_uxdW2Cp', 1), ('R2_cxsW2Cp', 1), ('R2_sxcW2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAZMass3EW_1eps', 1), ('c_UVAZMass1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpWmZ1EW', 1), ('c_UVGmWpZ1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxdA1EW_1eps', 1), ('c_UVsxsA1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ddZ2Cp_u', 1), ('R2_ssZ2Cp_c', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_DDZ_V3', 1), ('R2_UUZ_V5', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVvmxvmZ1EW_1eps', 1), ('c_UVvexveZ1EW_1eps', 1), ('c_UVvtxvtZ1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVsxsZ2EW', 1), ('c_UVdxdZ2EW', 1), ('c_UVbxbZ2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcA2EW_1eps', 1), ('c_UVuxuA2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_DDZ_V2', 1), ('R2_UUZ_V2', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVsxcWm1EW', 1), ('c_UVdxuWm1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVuxuZ2EW_1eps', 1), ('c_UVcxcZ2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WZHGptb', 1), ('R2_WZHGmtb', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVccxMass1EW', 1), ('c_UVuuxMass1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GSSREW_1eps', 1), ('UV_GDDREW_1eps', 1), ('UV_GBBREW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxdZ1EW_1eps', 1), ('c_UVsxsZ1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVmpmmZ1EW_1eps', 1), ('c_UVepemZ1EW_1eps', 1), ('c_UVttpttmZ1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVepemA1EW', 1), ('c_UVmpmmA1EW', 1), ('c_UVttpttmA1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_bbZ2Cm', 1), ('R2_ssZ2Cm', 1), ('R2_ddZ2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_uuA2Cm', 1), ('R2_ccA2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVuxuA2EW', 1), ('c_UVcxcA2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AZWW1ud', 1), ('R2_AZWW1cs', 1), ('R2_AZWW1tb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVtxtH2EW', 1), ('c_UVtxtH1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WWHHtb', 1), ('R2_WWGmGptb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GUU2Cpd', 1), ('R2_GTT2Cpb', 1), ('R2_GDD2Cpu', 1), ('R2_GSS2Cpc', 1), ('R2_GCC2Cps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_9', 1), ('GC_7', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVmpmmZ2EW_1eps', 1), ('c_UVepemZ2EW_1eps', 1), ('c_UVttpttmZ2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ttA2Cp_b', 1), ('R2_uuA2Cp_d', 1), ('R2_ccA2Cp_s', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GmGpboson2', 1), ('R2_G0G0boson2', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WWGmGp', 1), ('R2_WWHH', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GSSLEW_1eps', 1), ('UV_GDDLEW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVttpttmZ1EW', 1), ('c_UVepemZ1EW', 1), ('c_UVmpmmZ1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_67', 1), ('GC_63', 1), ('GC_59', 1), ('GC_58', 1), ('GC_124', 1), ('GC_128', 1), ('GC_132', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVssxMass2EW', 1), ('c_UVbbxMass2EW', 1), ('c_UVddxMass2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ZZWW1ud', 1), ('R2_ZZWW1cs', 1), ('R2_ZZWW1tb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVtxbGp2EW_1eps', 1), ('c_UVbxtGm1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVuuxMass1EW_1eps', 1), ('c_UVccxMass1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpG0Wm1EW_1eps', 1), ('c_UVGmG0Wp1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVssxMass1EW', 1), ('c_UVddxMass1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcZ1EW_1eps', 1), ('c_UVuxuZ1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAZMass1EW', 1), ('c_UVAZMass3EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_mmACp', 1), ('R2_eeACp', 1), ('R2_tautauACp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GCC2Cp', 1), ('R2_GUU2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AWWtb', 1), ('R2_AWWud', 1), ('R2_AWWcs', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcZ1EW', 1), ('c_UVuxuZ1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcZ2EW', 1), ('c_UVuxuZ2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVZMass3EW', 1), ('c_UVZMass1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVZMass3EW_1eps', 1), ('c_UVZMass1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_UV_1027_1eps', 1), ('GC_UV_1021_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GGG0G0t', 1), ('R2_GGHHt', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_uuZ2Cp', 1), ('R2_ccZ2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_84', 1), ('GC_85', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WAGp', 1), ('R2_WAGm', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxdA2EW', 1), ('c_UVbxbA2EW', 1), ('c_UVsxsA2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WZGm', 1), ('R2_WZGp', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxuWm1EW_1eps', 1), ('c_UVcxsWp1EW_1eps', 1), ('c_UVuxdWp1EW_1eps', 1), ('c_UVsxcWm1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVWmWpMass1EW', 1), ('c_UVWmWpMass3EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVttxMass3EW', 1), ('c_UVttxMass4EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2GC_138_46', 1), ('R2GC_137_44', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AAAA', 1), ('R2_AAAAl', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVepemZ2EW', 1), ('c_UVmpmmZ2EW', 1), ('c_UVttpttmZ2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_tautauZCm', 1), ('R2_mmZCm', 1), ('R2_eeZCm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_97', 1), ('GC_94', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAG0Mass2EW', 1), ('c_UVAG0Mass1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_vmvmZCp_m', 1), ('R2_veveZCp_e', 1), ('R2_vtvtZCp_tau', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GDDLEW', 1), ('UV_GSSLEW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_71', 1), ('GC_70', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGmWpA1EW_1eps', 1), ('c_UVGpWmA1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVemepMass1EW_1eps', 1), ('c_UVttmttpMass1EW_1eps', 1), ('c_UVmmmpMass1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GUULEW_1eps', 1), ('UV_GCCLEW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAG0Mass1EW_1eps', 1), ('c_UVAG0Mass2EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpWmZ1EW_1eps', 1), ('c_UVGmWpZ1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpG0Wm1EW', 1), ('c_UVGmG0Wp1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_UV_1021', 1), ('GC_UV_1027', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WAGmtb', 1), ('R2_WAGptb', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVG0G0GmGp1EW_1eps', 1), ('c_UVHHGmGp1EW_1eps', 1), ('c_UVHHG0G01EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WWWW1tb', 1), ('R2_WWWW1ud', 1), ('R2_WWWW1cs', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WWud1', 1), ('R2_WWcs1', 1), ('R2_WWtb1', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVepemA2EW', 1), ('c_UVmpmmA2EW', 1), ('c_UVttpttmA2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVsxsA1EW', 1), ('c_UVdxdA1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVttmttpMass1EW', 1), ('c_UVmmmpMass1EW', 1), ('c_UVemepMass1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVssxMass2EW_1eps', 1), ('c_UVddxMass2EW_1eps', 1), ('c_UVbbxMass2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GDD2Cm', 1), ('R2_GSS2Cm', 1), ('R2_GBB2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGmWpMass2EW_1eps', 1), ('c_UVGpWmMass1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVG0G0ZZ1EW_1eps', 1), ('c_UVHHZZ1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GUUREW', 1), ('UV_GCCREW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVemepMass2EW', 1), ('c_UVmmmpMass2EW', 1), ('c_UVttmttpMass2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AAWW2ud', 1), ('R2_AAWW2tb', 1), ('R2_AAWW2cs', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GCCREW_1eps', 1), ('UV_GUUREW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_3Gt_1eps', 1), ('UV_3Gq_1eps', 1), ('UV_3Gb_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAMass1EW_1eps', 1), ('c_UVAMass2EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVepveWm1EW_1eps', 1), ('c_UVttpvtWm1EW_1eps', 1), ('c_UVmpvmWm1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2GC_137_43', 1), ('R2GC_138_45', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_68', 1), ('GC_69', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GDDREW', 1), ('UV_GBBREW', 1), ('UV_GSSREW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GGGZaxialDown', 1), ('R2_GGGZaxialUp', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVtxtH2EW_1eps', 1), ('c_UVtxtH1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVvexemWp1EW_1eps', 1), ('c_UVvtxttmWp1EW_1eps', 1), ('c_UVvmxmmWp1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVdxdA2EW_1eps', 1), ('c_UVsxsA2EW_1eps', 1), ('c_UVbxbA2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGmGpWmWp1EW_1eps', 1), ('c_UVG0G0WmWp1EW_1eps', 1), ('c_UVHHWmWp1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVWmWpMass1EW_1eps', 1), ('c_UVWmWpMass3EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2GC_141_50', 1), ('R2GC_142_52', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHHHH1EW_1eps', 1), ('c_UVG0G0G0G01EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVccxMass2EW', 1), ('c_UVuuxMass2EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcA1EW_1eps', 1), ('c_UVuxuA1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHGmWpA1EW', 1), ('c_UVHGpWmA1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WAHGptb', 1), ('R2_WAHGmtb', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVemepMass2EW_1eps', 1), ('c_UVttmttpMass2EW_1eps', 1), ('c_UVmmmpMass2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHGpWmA1EW_1eps', 1), ('c_UVHGmWpA1EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVbxtWm1EW_1eps', 1), ('c_UVtxbWp1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GCCLEW', 1), ('UV_GUULEW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_4Ggt_1eps', 1), ('UV_4Gq_1eps', 1), ('UV_4Gb_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVuxdWp1EW', 1), ('c_UVcxsWp1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GDD2Cp', 1), ('R2_GSS2Cp', 1), ('R2_GBB2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GmGpHtb', 1), ('R2_G0G0Ht', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ttZ2Cp_b', 1), ('R2_ccZ2Cp_s', 1), ('R2_uuZ2Cp_d', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('UV_GQQq_1eps', 1), ('UV_GQQb_1eps', 1), ('UV_GQQt_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_txbGp2Cp', 1), ('R2_bxtGm2Cm', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVG0Mass1EW_1eps', 1), ('c_UVHMass1EW_1eps', 1), ('c_UVGmGpMass1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_bxtGmA', 1), ('R2_txbGpA', 1), ('R2_bxtGm', 1), ('R2_txbGp', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WAHGp', 1), ('R2_WAHGm', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_74', 1), ('GC_72', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2GC_141_51', 1), ('R2GC_142_53', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpWmA1EW', 1), ('c_UVGmWpA1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVddxMass1EW_1eps', 1), ('c_UVssxMass1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_sxcW', 1), ('R2_txbW', 1), ('R2_uxdW', 1), ('R2_dxuW', 1), ('R2_bxtW', 1), ('R2_cxsW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_91', 1), ('GC_88', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_93', 1), ('GC_92', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_uuA2Cp', 1), ('R2_ccA2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ssA2Cp_c', 1), ('R2_ddA2Cp_u', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_tautauZCp', 1), ('R2_mmZCp', 1), ('R2_eeZCp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_96', 1), ('GC_95', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ddA2Cp', 1), ('R2_ssA2Cp', 1), ('R2_bbA2Cp', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_QQCpcs', 1), ('R2_QQCptb', 1), ('R2_QQCpud', 1), ('R2_QQCplv', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WZGptb', 1), ('R2_WZGmtb', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_3', 1), ('GC_4', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVtxtG01EW_1eps', 1), ('c_UVtxtG02EW_1eps', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_uuZ2Cm', 1), ('R2_ccZ2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVmpmmA1EW_1eps', 1), ('c_UVttpttmA1EW_1eps', 1), ('c_UVepemA1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVvevexMass1EW_1eps', 1), ('c_UVvtvtxMass1EW_1eps', 1), ('c_UVvmvmxMass1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WWWW2cs', 1), ('R2_WWWW2ud', 1), ('R2_WWWW2tb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ZZWW2ud', 1), ('R2_ZZWW2cs', 1), ('R2_ZZWW2tb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVvmvmxMass1EW', 1), ('c_UVvevexMass1EW', 1), ('c_UVvtvtxMass1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ZWWcs', 1), ('R2_ZWWud', 1), ('R2_ZWWtb', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVsxsZ2EW_1eps', 1), ('c_UVbxbZ2EW_1eps', 1), ('c_UVdxdZ2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHG0G01EW_1eps', 1), ('c_UVGmHGp1EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_39', 1), ('GC_30', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVHGmWpZ1EW', 1), ('c_UVHGpWmZ1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_mmACm', 1), ('R2_eeACm', 1), ('R2_tautauACm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_WZHGm', 1), ('R2_WZHGp', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVGpWmMass2EW', 1), ('c_UVGmWpMass1EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ddA2Cm', 1), ('R2_ssA2Cm', 1), ('R2_bbA2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVccxMass2EW_1eps', 1), ('c_UVuuxMass2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('GC_57', 1), ('GC_56', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVAMass1EW', 1), ('c_UVAMass2EW', -1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_GCC2Cm', 1), ('R2_GUU2Cm', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_AZWW2cs', 1), ('R2_AZWW2tb', 1), ('R2_AZWW2ud', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVttpttmA2EW_1eps', 1), ('c_UVmpmmA2EW_1eps', 1), ('c_UVepemA2EW_1eps', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVttpvtWm1EW', 1), ('c_UVvtxttmWp1EW', 1), ('c_UVvexemWp1EW', 1), ('c_UVvmxmmWp1EW', 1), ('c_UVmpvmWm1EW', 1), ('c_UVepveWm1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('c_UVcxcA1EW', 1), ('c_UVuxuA1EW', 1)  [0m
+[1;32mDEBUG:  Fuse the Following coupling (they have the same value): ('R2_ddZ2Cp', 1), ('R2_bbZ2Cp', 1), ('R2_ssZ2Cp', 1)  [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bMass_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_MS__exp__4 [0m
+[1;32mDEBUG: remove parameters: mdl_MS__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HWcft_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx1D2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx1D3 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx1D1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx2D1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx2D2 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_AAWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_I232 [0m
+[1;32mDEBUG: remove parameters: mdl_I421 [0m
+[1;32mDEBUG: remove parameters: mdl_I423 [0m
+[1;32mDEBUG: remove parameters: mdl_I422 [0m
+[1;32mDEBUG: remove parameters: mdl_CKM13 [0m
+[1;32mDEBUG: remove parameters: mdl_CKM12 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_tWcft_UV_EW_L_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_MTA__exp__4 [0m
+[1;32mDEBUG: remove parameters: mdl_I213 [0m
+[1;32mDEBUG: remove parameters: mdl_I211 [0m
+[1;32mDEBUG: remove parameters: mdl_MM__exp__4 [0m
+[1;32mDEBUG: fix parameter value: mdl_MM__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx2U1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx2U2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx2U3 [0m
+[1;32mDEBUG: remove parameters: mdl_MC [0m
+[1;32mDEBUG: remove parameters: mdl_ytau [0m
+[1;32mDEBUG: remove parameters: mdl_qWcft_UV_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_MD [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx3U2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx3U1 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM23__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM12__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_MM [0m
+[1;32mDEBUG: remove parameters: mdl_ymdo [0m
+[1;32mDEBUG: remove parameters: mdl_yme [0m
+[1;32mDEBUG: remove parameters: mdl_ymc [0m
+[1;32mDEBUG: remove parameters: mdl_ymb [0m
+[1;32mDEBUG: remove parameters: mdl_ymm [0m
+[1;32mDEBUG: remove parameters: mdl_yms [0m
+[1;32mDEBUG: remove parameters: mdl_bMass_UV_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_G0Wcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_G0Wcft_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_UV_yuk_c_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_tWcft_UV_EW_L_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_I411 [0m
+[1;32mDEBUG: remove parameters: mdl_I412 [0m
+[1;32mDEBUG: remove parameters: mdl_I413 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx1U1 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx1U2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx1U3 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bMass_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_I322 [0m
+[1;32mDEBUG: remove parameters: mdl_I323 [0m
+[1;32mDEBUG: remove parameters: mdl_I321 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx2D2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx2D3 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx2D1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx2D3 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM31 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM32 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HiggsTadpole_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_CKMucsb [0m
+[1;32mDEBUG: remove parameters: mdl_Me__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialG0Down2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialG0Down1 [0m
+[1;32mDEBUG: remove parameters: mdl_cWcft_UV_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_CKMucds [0m
+[1;32mDEBUG: remove parameters: mdl_lamWS__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_lamWS__exp__3 [0m
+[1;32mDEBUG: remove parameters: mdl_I113 [0m
+[1;32mDEBUG: remove parameters: mdl_I112 [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM13 [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM12 [0m
+[1;32mDEBUG: remove parameters: mdl_CKMucdb [0m
+[1;32mDEBUG: remove parameters: mdl_bWcft_UV_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM32__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_CWCoup_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_AAWcft_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_eCoup_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HiggsTadpole_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx3U1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx3U2 [0m
+[1;32mDEBUG: remove parameters: mdl_cMass_UV_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_cWcft_UV_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx2U3 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx2U2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGmDx2U1 [0m
+[1;32mDEBUG: fix parameter value: mdl_MTA__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_I212 [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_c_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_CKMctdb [0m
+[1;32mDEBUG: remove parameters: mdl_MB__exp__10 [0m
+[1;32mDEBUG: remove parameters: mdl_CKMctds [0m
+[1;32mDEBUG: remove parameters: mdl_bWcft_UV_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_ZZWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM21 [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM23 [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_b_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_I121 [0m
+[1;32mDEBUG: remove parameters: mdl_I122 [0m
+[1;32mDEBUG: remove parameters: mdl_I123 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_SWCoup_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_G_UVc_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_I331 [0m
+[1;32mDEBUG: remove parameters: mdl_I332 [0m
+[1;32mDEBUG: remove parameters: mdl_I231 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_tMass_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx3D1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGpUx3D2 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_CWCoup_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bWcft_UV_EW_R_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_UV_yuk_b_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_Me__exp__4 [0m
+[1;32mDEBUG: remove parameters: mdl_CKMutdb [0m
+[1;32mDEBUG: remove parameters: mdl_ymtau [0m
+[1;32mDEBUG: remove parameters: mdl_CKMutds [0m
+[1;32mDEBUG: remove parameters: mdl_G_UVb_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM31__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_WMass2_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bWcft_UV_EW_L_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_CKM32 [0m
+[1;32mDEBUG: remove parameters: mdl_CKM31 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_GpWcft_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_WWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx3D2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx3D1 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_tMass_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_bMass_UV_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_rhoWS [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HMass2_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_Me [0m
+[1;32mDEBUG: remove parameters: mdl_AxialG0Down3 [0m
+[1;32mDEBUG: remove parameters: mdl_MS [0m
+[1;32mDEBUG: remove parameters: mdl_MU [0m
+[1;32mDEBUG: remove parameters: mdl_MB [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_tWcft_UV_EW_R_FIN_ [0m
+[1;32mDEBUG: fix parameter value: mdl_vep [0m
+[1;32mDEBUG: remove parameters: mdl_VectorHUp2 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorHUp1 [0m
+[1;32mDEBUG: remove parameters: mdl_cMass_UV_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_ydo [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_ZMass2_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_AxialG0Up1 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialG0Up2 [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM32 [0m
+[1;32mDEBUG: remove parameters: mdl_conjg__CKM31 [0m
+[1;32mDEBUG: remove parameters: mdl_I133 [0m
+[1;32mDEBUG: remove parameters: mdl_I132 [0m
+[1;32mDEBUG: remove parameters: mdl_I131 [0m
+[1;32mDEBUG: remove parameters: mdl_I432 [0m
+[1;32mDEBUG: remove parameters: mdl_I433 [0m
+[1;32mDEBUG: remove parameters: mdl_I431 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_WMass2_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_MC__exp__4 [0m
+[1;32mDEBUG: fix parameter value: mdl_MC__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_I223 [0m
+[1;32mDEBUG: remove parameters: mdl_I222 [0m
+[1;32mDEBUG: remove parameters: mdl_I221 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_GpWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx1U3 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx1U2 [0m
+[1;32mDEBUG: remove parameters: mdl_AxialGmDx1U1 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM13 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM12 [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_ZMass2_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_lamWS [0m
+[1;32mDEBUG: remove parameters: mdl_MTA [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bWcft_UV_EW_L_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_CKMctsb [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_AZWcft_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_HMass2_UV_EW_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_bWcft_UV_EW_R_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_etaWS [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_q_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_VectorHDown1 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorHDown3 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorHDown2 [0m
+[1;32mDEBUG: remove parameters: mdl_CKMutsb [0m
+[1;32mDEBUG: remove parameters: mdl_I111 [0m
+[1;32mDEBUG: remove parameters: mdl_CKM21 [0m
+[1;32mDEBUG: remove parameters: mdl_CKM23 [0m
+[1;32mDEBUG: remove parameters: mdl_yup [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_b_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_ymup [0m
+[1;32mDEBUG: remove parameters: mdl_MU__exp__4 [0m
+[1;32mDEBUG: fix parameter value: mdl_MU__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_I313 [0m
+[1;32mDEBUG: remove parameters: mdl_I312 [0m
+[1;32mDEBUG: remove parameters: mdl_I311 [0m
+[1;32mDEBUG: remove parameters: mdl_AWS [0m
+[1;32mDEBUG: remove parameters: mdl_dMB_SWCoup_UV_EW_FIN_ [0m
+[1;32mDEBUG: remove parameters: mdl_MB__exp__8 [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_c_FIN_ [0m
+[1;32mDEBUG: fix parameter value: mdl_MD__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_MD__exp__4 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM23 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM21 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx1D1 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx1D3 [0m
+[1;32mDEBUG: remove parameters: mdl_VectorGpUx1D2 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM13__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_GWcft_UV_g_1EPS_ [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM21__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_ys [0m
+[1;32mDEBUG: remove parameters: mdl_ym [0m
+[1;32mDEBUG: remove parameters: mdl_MB__exp__6 [0m
+[1;32mDEBUG: remove parameters: mdl_ye [0m
+[1;32mDEBUG: fix parameter value: mdl_MB__exp__2 [0m
+[1;32mDEBUG: remove parameters: mdl_MB__exp__3 [0m
+[1;32mDEBUG: fix parameter value: mdl_MB__exp__4 [0m
+[1;32mDEBUG: remove parameters: mdl_yc [0m
+[1;32mDEBUG: fix parameter value: mdl_yb [0m
+[1;32mDEBUG: fix parameter value: mdl_SCKM33__exp__2 [0m
+[1;32mDEBUG: fix parameter value: mdl_CKM11 [0m
+[1;32mDEBUG: remove parameters: mdl_SCKM11__exp__2 [0m
+[1;32mDEBUG: fix parameter value: mdl_Ql__exp__4 [0m
+[1;32mDEBUG: fix parameter value: mdl_Ql__exp__2 [0m
+[1;32mDEBUG: fix parameter value: mdl_SCKM33 [0m
+[1;32mDEBUG: fix parameter value: mdl_epsUV [0m
+[1;32mDEBUG: fix parameter value: mdl_conjg__CKM11 [0m
+[1;32mDEBUG: fix parameter value: mdl_CKM22 [0m
+[1;32mDEBUG: fix parameter value: mdl_epsIR [0m
+[1;32mDEBUG: fix parameter value: mdl_conjg__CKM22 [0m
+[1;32mDEBUG: fix parameter value: mdl_LogSwitch [0m
+[1;32mDEBUG: fix parameter value: mdl_CKM33 [0m
+[1;32mDEBUG: fix parameter value: mdl_lhv [0m
+[1;32mDEBUG: fix parameter value: mdl_SCKM22__exp__2 [0m
+[1;32mDEBUG: fix parameter value: mdl_conjg__CKM33 [0m
+[1;32mDEBUG: fix parameter value: mdl_SCKM11 [0m
+[1;32mDEBUG: fix parameter value: mdl_CMSParam [0m
+[1;32mDEBUG: fix parameter value: mdl_SCKM22 [0m
+[1;32mDEBUG: fix parameter value: mdl_GfRedefinitionChoice [0m
+INFO: Change particles name to pass to MG5 convention 
+Defined multiparticle p = g u c d s u~ c~ d~ s~
+Defined multiparticle j = g u c d s u~ c~ d~ s~
+Defined multiparticle l+ = e+ mu+
+Defined multiparticle l- = e- mu-
+Defined multiparticle vl = ve vm vt
+Defined multiparticle vl~ = ve~ vm~ vt~
+[1;34mPass the definition of 'j' and 'p' to 5 flavour scheme, including the photon.[0m
+Defined multiparticle all = g ghg ghg~ u c d s b u~ c~ d~ s~ b~ a gha gha~ ve vm vt e- mu- ta- ve~ vm~ vt~ e+ mu+ ta+ t t~ z w+ ghz ghwp ghwm h g0 g+ w- ghz~ ghwp~ ghwm~ g-
+define p = p b b~
+Defined multiparticle p = g u c d s b u~ c~ d~ s~ b~ a
+define j = p
+Defined multiparticle j = g u c d s b u~ c~ d~ s~ b~ a
+generate p p > mu+ mu- [QCD QED]
+INFO: Checking for minimal orders which gives processes. 
+INFO: Please specify coupling orders to bypass this step. 
+INFO: Trying coupling order WEIGHTED<=4: WEIGTHED IS 2*QED+QCD 
+[1mSetting the born orders automatically in the process definition to QED<=2 QCD=0.
+If this is not what you need, please regenerate with the correct orders.[0m
+[1;34mWARNING: Use of multiparticles is non-trivial for NLO process generation and depends on the orders included, the process considered, as well as the PDF set chosen. See appendix D of arXiv:1804.10017 [hep-ph] for some guidance. [0m
+INFO: Generating FKS-subtracted matrix elements for born process: u u~ > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (1 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: c c~ > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (2 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: d d~ > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (3 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: s s~ > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (4 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: b b~ > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (5 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: u~ u > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (6 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: c~ c > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (7 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: d~ d > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (8 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: s~ s > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (9 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: b~ b > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (10 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating FKS-subtracted matrix elements for born process: a a > mu+ mu- [ all = QED QCD ] QCD^2=2 QED^2=6 (11 / 11) 
+[1;32mDEBUG: link_born_real: skipping [0m
+INFO: Generating virtual matrix element with MadLoop for process: u u~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (1 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: c c~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (2 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: d d~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (3 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: s s~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (4 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: b b~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (5 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: u~ u > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (6 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: c~ c > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (7 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: d~ d > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (8 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: s~ s > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (9 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: b~ b > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (10 / 11) 
+INFO: Generating virtual matrix element with MadLoop for process: a a > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (11 / 11) 
+INFO: Generated 11 subprocesses with 366 real emission diagrams, 22 born diagrams and 895 virtual diagrams 
+output ATLASLOMASSDY11EXT
+INFO: Writing out the aMC@NLO code, using optimized Loops 
+INFO: initialize a new directory: ATLASLOMASSDY11EXT 
+INFO: remove old information in ATLASLOMASSDY11EXT 
+INFO: Generating real emission matrix-elements... 
+INFO: Generating Helas calls for FKS process: u u~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (1 / 11) 
+INFO: Processing color information for process: u u~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: c c~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (2 / 11) 
+INFO: Generating Helas calls for FKS process: d d~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (3 / 11) 
+INFO: Reusing existing color information for process: d d~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: s s~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (4 / 11) 
+INFO: Generating Helas calls for FKS process: b b~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (5 / 11) 
+INFO: Reusing existing color information for process: b b~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: u~ u > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (6 / 11) 
+INFO: Processing color information for process: u~ u > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: c~ c > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (7 / 11) 
+INFO: Generating Helas calls for FKS process: d~ d > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (8 / 11) 
+INFO: Reusing existing color information for process: d~ d > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: s~ s > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (9 / 11) 
+INFO: Generating Helas calls for FKS process: b~ b > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (10 / 11) 
+INFO: Reusing existing color information for process: b~ b > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating Helas calls for FKS process: a a > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 (11 / 11) 
+INFO: Processing color information for process: a a > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: ... Done 
+INFO: Writing files in P0_uux_mummup (1 / 7) 
+INFO: Creating files in directory V0_uux_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV5 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: u u~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: u u~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_ddx_mummup (2 / 7) 
+INFO: Creating files in directory V0_ddx_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: d d~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: d d~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_bbx_mummup (3 / 7) 
+INFO: Creating files in directory V0_bbx_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFS3 set of routines with options: L1[0m
+ALOHA: aloha creates VVV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFS1 set of routines with options: L3[0m
+ALOHA: aloha creates FFS1 set of routines with options: L2[0m
+ALOHA: aloha creates FFS3 set of routines with options: L3[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: b b~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: b b~ > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_uxu_mummup (4 / 7) 
+INFO: Creating files in directory V0_uxu_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV5 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: u~ u > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: u~ u > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_dxd_mummup (5 / 7) 
+INFO: Creating files in directory V0_dxd_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: d~ d > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: d~ d > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_bxb_mummup (6 / 7) 
+INFO: Creating files in directory V0_bxb_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV3 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1[0m
+ALOHA: aloha creates FFS1 set of routines with options: L2[0m
+ALOHA: aloha creates FFS3 set of routines with options: L3[0m
+ALOHA: aloha creates FFS3 set of routines with options: L1[0m
+ALOHA: aloha creates FFS1 set of routines with options: L3[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: b~ b > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: b~ b > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Writing files in P0_aa_mummup (7 / 7) 
+INFO: Creating files in directory V0_aa_mummup 
+ALOHA: aloha creates FFV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV1 set of routines with options: L3[0m
+ALOHA: aloha creates FFV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2,P0[0m
+ALOHA: aloha creates FFV2 set of routines with options: L3[0m
+ALOHA: aloha creates FFV4 set of routines with options: L3[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L1,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVS1 set of routines with options: L1[0m
+ALOHA: aloha creates VSS1 set of routines with options: L2[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L4,P0[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates UUV1 set of routines with options: L2[0m
+ALOHA: aloha creates UUV1 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L1[0m
+ALOHA: aloha creates FFV3 set of routines with options: L1[0m
+ALOHA: aloha creates FFV2 set of routines with options: L2[0m
+ALOHA: aloha creates FFV3 set of routines with options: L2[0m
+ALOHA: aloha creates FFV5 set of routines with options: L1[0m
+ALOHA: aloha creates FFV5 set of routines with options: L2[0m
+ALOHA: aloha creates FFV4 set of routines with options: L1[0m
+ALOHA: aloha creates FFV4 set of routines with options: L2[0m
+INFO: Computing diagram color coefficients 
+INFO: Drawing loop Feynman diagrams for Process: a a > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+INFO: Generating born Feynman diagrams for Process: a a > mu- mu+ [ all = QED QCD ] QCD^2=2 QED^2=6 
+History written to /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/Cards/proc_card_mg5.dat
+ALOHA: aloha starts to compute helicity amplitudes
+ALOHA: aloha creates FFV2 routines[0m
+ALOHA: aloha creates FFV3 routines[0m
+ALOHA: aloha creates FFV1 routines[0m
+ALOHA: aloha creates R2_GG_3 routines[0m
+ALOHA: aloha creates UUV1 set of routines with options: L2[0m
+ALOHA: aloha creates FFV4 routines[0m
+ALOHA: aloha creates FFV5 routines[0m
+ALOHA: aloha creates VSS1 set of routines with options: L3[0m
+ALOHA: aloha creates R2_QQ_3 routines[0m
+ALOHA: aloha creates R2_QQ_4 routines[0m
+ALOHA: aloha creates l_WmWpMass2 routines[0m
+ALOHA: aloha creates l_WmWpMass5 routines[0m
+ALOHA: aloha creates l_WmWpMass4 routines[0m
+ALOHA: aloha creates FFS1 set of routines with options: L3[0m
+ALOHA: aloha creates l_vexveA21 routines[0m
+ALOHA: aloha creates FFS3 set of routines with options: L3[0m
+ALOHA: aloha creates R2_GG_2 routines[0m
+ALOHA: aloha creates VVVV5 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV6 routines[0m
+ALOHA: aloha creates VVV1 set of routines with options: L2,P0[0m
+ALOHA: aloha creates VVVV2 set of routines with options: L2,P0[0m
+ALOHA: aloha creates R2_GG_1 routines[0m
+ALOHA: aloha creates l_vexveA22 routines[0m
+ALOHA: aloha creates VVSS1 set of routines with options: L4[0m
+ALOHA: aloha creates l_vevexMass9 routines[0m
+ALOHA: aloha creates l_vevexMass8 routines[0m
+ALOHA: aloha creates VVS1 set of routines with options: L3,P0[0m
+ALOHA: aloha creates FFV2_5 routines[0m
+ALOHA: aloha creates FFV2_4 routines[0m
+ALOHA: aloha creates FFV2_3 routines[0m
+ALOHA: aloha creates R2_GG_1_R2_GG_3 routines[0m
+ALOHA: aloha creates l_WmWpMass2_l_WmWpMass5 routines[0m
+ALOHA: aloha creates l_vexveA21_l_vexveA22 routines[0m
+ALOHA: aloha creates R2_QQ_3_R2_QQ_4 routines[0m
+ALOHA: aloha creates l_WmWpMass2_l_WmWpMass4 routines[0m
+ALOHA: aloha creates R2_GG_1_R2_GG_2_R2_GG_3 routines[0m
+ALOHA: aloha creates l_vevexMass8_l_vevexMass9 routines[0m
+ALOHA: aloha creates FFV2_6 routines[0m
+ALOHA: aloha creates 317 routines in  1.303 s
+The option gauge is modified [unitary] but will not be written in the configuration files.
+If you want to make this value the default for future session, you can run 'save options --all'
+The option complex_mass_scheme is modified [False] but will not be written in the configuration files.
+If you want to make this value the default for future session, you can run 'save options --all'
+save configuration file to /home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/Cards/amcatnlo_configuration.txt
+INFO: Use Fortran compiler gfortran 
+INFO: Use c++ compiler g++ 
+INFO: Generate jpeg diagrams 
+INFO: Generate web pages 
+Type "launch" to generate events from this process, or see
+/home/cschwan/applgridew/ATLASLOMASSDY11EXT-20200911202501/ATLASLOMASSDY11EXT/README
+Run "open index.html" to see more information about this process.
+quit
+quit

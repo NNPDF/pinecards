@@ -8,7 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'rap', 5, 2.0d0, 4.5d0)
+      call HwU_book(1,'rap', 8, 2.0d0, 4.5d0)
       return
       end
 

@@ -130,7 +130,7 @@ EOF
     grid="${dataset}".pineappl
 
     # merge the final bins
-    "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.root)
+    "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl)
 
     lz4=$(which lz4 2> /dev/null || true)
 

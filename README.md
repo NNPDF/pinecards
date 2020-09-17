@@ -78,6 +78,11 @@ meaning are as follows:
   original new > patch.patch`. The patches are applied in an unspecified order,
   using `patch -p1 ...`.
 
+* The `postrun.sh` file (optional). This is a BASH script which is run after
+  the successful generation of the PineAPPL grid and can be used to perform
+  additional operations, such as rescaling. The environment variable `$GRID`
+  contains the relative path the PineAPPL grid.
+
 ## Generating the PineAPPL grid(s)
 Provided the above files, the production of the grids only requires the user to
 run the `./run.sh [dataset]` script. The script takes as only parameter the

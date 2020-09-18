@@ -17,6 +17,6 @@ set mur_ref_fixed @MT@
 set muf_ref_fixed @MT@
 set reweight_scale True
 set req_acc_FO 0.001
-set iappl 1
+set pineappl True
 done
 quit

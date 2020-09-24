@@ -1,5 +1,6 @@
 launch @OUTPUT@
 fixed_order = ON
+set mw @MW@
 set mz @MZ@
 set ymt @YMT@
 set ebeam1 4000
@@ -19,6 +20,6 @@ set mll_sf = 116
 #user_defined_cut set mmllmax = 1500.0
 set rphreco = 0.1
 set req_acc_FO 0.01
-set iappl 1
+set pineappl True
 done
 quit

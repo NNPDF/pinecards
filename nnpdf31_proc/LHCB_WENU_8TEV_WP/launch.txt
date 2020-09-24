@@ -17,6 +17,6 @@ set etal = 4.25
 #user_defined_cut set minetal = 2.0
 set rphreco = 0.1
 set req_acc_FO 0.01
-set iappl 1
+set pineappl True
 done
 quit

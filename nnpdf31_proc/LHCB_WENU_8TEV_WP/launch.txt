@@ -1,6 +1,7 @@
 launch @OUTPUT@
 fixed_order = ON
 set mw @MW@
+set mz @MZ@
 set ymt @YMT@
 set ebeam1 4000
 set ebeam2 4000
@@ -14,6 +15,7 @@ set reweight_scale True
 set ptl = 20.0
 set etal = 4.25
 #user_defined_cut set minetal = 2.0
+set rphreco = 0.1
 set req_acc_FO 0.01
 set iappl 1
 done

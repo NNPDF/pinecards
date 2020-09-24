@@ -1,6 +1,7 @@
 launch @OUTPUT@
 fixed_order = ON
 set mz @MZ@
+set mw @MW@
 set ymt @YMT@
 set ebeam1 4000
 set ebeam2 4000

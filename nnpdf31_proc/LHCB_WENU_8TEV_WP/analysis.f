@@ -50,7 +50,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $                       p, iPDG, p_reco, iPDG_reco)
 
       do j = nincoming+1, nexternal
-        if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.-13) ppl(0:3)=p_reco(0:3,j)
       enddo
 
       xyll=getabsy(ppl(0),ppl(3))

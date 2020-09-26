@@ -8,16 +8,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-c     each HwU contains a complete invariant mass slice, with 12 rapidities bins, and 6 bins of the
-c     CS angle for each rapidity bin
-      call HwU_book(1,'dist', 12*6,  46d0*2.4d0*2d0,  66d0*2.4d0*2d0)
-      call HwU_book(2,'dist', 12*6,  66d0*2.4d0*2d0,  80d0*2.4d0*2d0)
-      call HwU_book(3,'dist', 12*6,  80d0*2.4d0*2d0,  91d0*2.4d0*2d0)
-      call HwU_book(4,'dist', 12*6,  91d0*2.4d0*2d0, 102d0*2.4d0*2d0)
-      call HwU_book(5,'dist', 12*6, 102d0*2.4d0*2d0, 116d0*2.4d0*2d0)
-      call HwU_book(6,'dist', 12*6, 116d0*2.4d0*2d0, 150d0*2.4d0*2d0)
-      call HwU_book(7,'dist', 12*6, 150d0*2.4d0*2d0, 200d0*2.4d0*2d0)
-
+      call HwU_book(1,'dist', 12*6,   0d0,  72d0)
+      call HwU_book(2,'dist', 12*6,  72d0, 144d0)
+      call HwU_book(3,'dist', 12*6, 144d0, 216d0)
+      call HwU_book(4,'dist', 12*6, 216d0, 288d0)
+      call HwU_book(5,'dist', 12*6, 288d0, 360d0)
+      call HwU_book(6,'dist', 12*6, 360d0, 432d0)
+      call HwU_book(7,'dist', 12*6, 432d0, 504d0)
       return
       end
 
@@ -48,14 +45,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
       double precision xyll, getabsy
       double precision xcos, getcostheta
+      double precision x,xlen,xsize,y,ylen,ysize,z,zsize,obs
       external getinvm
       external getabsy
       external getcostheta
-      integer bin,xcosbin
-      double precision minmll, maxmll, mincos, maxcos
 
       double precision p_reco(0:4,nexternal)
-      integer iPDG_reco(nexternal)
+      integer iPDG_reco(nexternal),grid
 
 
 
@@ -75,62 +71,52 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xcos=getcostheta(ppl(0),ppl(1),ppl(2),ppl(3),pplb(0),pplb(1),
      &                 pplb(2),pplb(3))
 
-      bin = -1
+      grid=-1
 
       if (xmll.ge.46d0.and.xmll.lt.66d0) then
-        bin=1
-        minmll=46d0
-        maxmll=66d0
+        grid=1
+        z=0d0
       elseif (xmll.ge.66d0.and.xmll.lt.80d0) then
-        bin=2
-        minmll=66d0
-        maxmll=80d0
+        grid=2
+        z=1d0
       elseif (xmll.ge.80d0.and.xmll.lt.91d0) then
-        bin=3
-        minmll=80d0
-        maxmll=91d0
+        grid=3
+        z=2d0
       elseif (xmll.ge.91d0.and.xmll.lt.102d0) then
-        bin=4
-        minmll=91d0
-        maxmll=102d0
+        grid=4
+        z=3d0
       elseif (xmll.ge.102d0.and.xmll.lt.116d0) then
-        bin=5
-        minmll=102d0
-        maxmll=116d0
+        grid=5
+        z=4d0
       elseif (xmll.ge.116d0.and.xmll.lt.150d0) then
-        bin=6
-        minmll=116d0
-        maxmll=150d0
+        grid=6
+        z=5d0
       elseif (xmll.ge.150d0.and.xmll.lt.200d0) then
-        bin=7
-        minmll=150d0
-        maxmll=200d0
+        grid=7
+        z=6d0
       endif
 
-c     add 1d0 because we want to remap the cosine to [0, 2]
+      y=floor(xyll/0.2d0)
+
       if (xcos.lt.-0.7d0) then
-        mincos = -1.0d0 + 1d0
-        maxcos = -0.7d0 + 1d0
+        x=0d0
       elseif (xcos.ge.-0.7d0.and.xcos.lt.-0.4d0) then
-        mincos = -0.7d0 + 1d0
-        maxcos = -0.4d0 + 1d0
+        x=1d0
       elseif (xcos.ge.-0.4d0.and.xcos.lt.0.0d0) then
-        mincos = -0.4d0 + 1d0
-        maxcos =  0.0d0 + 1d0
+        x=2d0
       elseif (xcos.ge.0.0d0.and.xcos.lt.0.4d0) then
-        mincos =  0.0d0 + 1d0
-        maxcos =  0.4d0 + 1d0
+        x=3d0
       elseif (xcos.ge.0.4d0.and.xcos.lt.0.7d0) then
-        mincos =  0.4d0 + 1d0
-        maxcos =  0.7d0 + 1d0
+        x=4d0
       else
-        mincos =  0.7d0 + 1d0
-        maxcos =  1.0d0 + 1d0
+        x=5d0
       endif
 
-      call HwU_fill(bin,minmll*2d0*2.4d0+(maxmll-minmll)*(2.4d0*
-     &                  mincos+xyll*(maxcos-mincos)),wgts)
+      xlen=6d0
+      ylen=12d0
+      obs=x+xlen*(y+ylen*z)
 
+      call HwU_fill(grid,obs+0.5d0,wgts)
 
  999  return
       end

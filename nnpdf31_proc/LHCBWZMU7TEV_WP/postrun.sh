@@ -6,3 +6,5 @@ NEW_GRID="${GRID%.lz4}"
 pineappl merge "${NEW_GRID}" "${GRID}" --scale 0.5
 # compress the new grid
 lz4 -9 -f "${NEW_GRID}"
+# remove uncompressed grid
+rm "${NEW_GRID}"

@@ -1,0 +1,28 @@
+Dear Editor,
+
+We would like to thank the referee for carefully reading the manuscript and
+making useful comments and suggestions.
+
+In the following our answers to the issues raised by the referee:
+
+- Issues 1, 3, 4, 5, 6, 8, 9, and 11 have all been addressed as suggested or
+  corrected otherwise.
+- Issue 2: The decomposition of the fixed-order expansion written down in eq.
+  (2.1) holds to all orders in both the strong and electroweak coupling, and
+  therefore the mentioned sentence is correct—it only concerns PineAPPL. The
+  Monte Carlo that we used is tied to NLO, of course.
+- Issue 7:
+- Issue 10:
+- Issue 12: Although we agree with the referee that the mentioned tables are
+  interesting only to a few readers, the main text refers to it in a few
+  places and therefore removing it from the main document would require bigger
+  changes. We see no harm in leaving the tables in the document and therefore
+  decided to keep them.
+
+Note that all changes have been highlighted in red in the text.
+
+With these changes, we hope that the current version will meet the criteria of
+publication of JHEP.
+
+Best regards,
+The authors

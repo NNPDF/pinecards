@@ -12,7 +12,9 @@ In the following our answers to the issues raised by the referee:
   therefore the mentioned sentence is correct—it only concerns PineAPPL. The
   Monte Carlo that we used is tied to NLO, of course.
 - Issue 7:
-- Issue 10:
+- Issue 10: A brief discussion on this matter has been added at the beginning
+  of section 3. The reference suggested (Buccioni:2020cfi), is cited in section 
+  3.2.1, in the discussion relevant for Drell-Yan.
 - Issue 12: Although we agree with the referee that the mentioned tables are
   interesting only to a few readers, the main text refers to it in a few
   places and therefore removing it from the main document would require bigger

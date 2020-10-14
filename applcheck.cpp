@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     // check if PDF set has a photon; disable it this isn't the case
     flavour_map[photon] = pdf->hasFlavor(index_to_pdg_id(photon));
 
-    std::vector<double> const& xsecs = g.vconvolute(evolvepdf, alphaspdf);
+    std::vector<double> const& xsecs = g.vconvolute(evolvepdf, alphaspdf, 1);
 
     std::cout << "\n>>> all bins:\n\n";
 

@@ -213,7 +213,7 @@ To illustrate the filling step we give an example in figure~\ref{fig:grid}, wher
 Each grid point has a numerical value $a_{i,j}$ associated, and the set of all numerical values $\{ a_{i,j} \}$ for all grid indices $(i,j) \in [0,N_y) \times [0,N_y)$ constitute \enquote{the grid}.
 Inserting a specific weight $W = w (x_1, x_2) / \omega(x_1, x_2)$ into the grid is shown in figure~\ref{fig:grid} as a small black square, inside the larger grey one.
 We have defined the grid points at specific positions, but the points given by the MC will land somewhere between them.
-The interpolation order $s_y$ then defines a square with length $s_y + 1$ around its centre $(u(y(x_1)),u(y(x_2)))$, given by the MC.
+The interpolation order $s_y$ then defines a square with length $s_y + 1$ around its centre $(u(y(x_1)),u(y(x_2)))$, given by the MC\@.
 All grid points with indices $(i,j)$ covered by the grey square are then updated according to the following formula,
 \begin{equation}
 a_{i,j} \leftarrow a_{i,j} + I_i(u(y(x_1))) I_j(u(y(x_2))) W(x_1,x_2) / \omega(x_1,x_2) \text{,}
@@ -271,6 +271,6 @@ Both NLOs, however, have contributions from a collinear counterterm that depends
 Since this process has a single LO, combined QCD--EW corrections first appear at next-to-next-to-leading order (NNLO), which include the QCD correction at $\mathcal{O} (\alphas^2 \alpha^2)$, the EW correction $\mathcal{O} (\alpha^4)$, and a single combined correction at $\mathcal{O} (\alphas \alpha^3)$.
 
 Note that all initial states have to be taken into account that lead to the same final state.
-This includes the photon--photon initial state, which appears already at LO.
+This includes the photon--photon initial state, which appears already at LO\@.
 In the corresponding Feynman diagrams all particles are colourless, so that the photon--photon initiated contributions only receive EW corrections.
 The EW corrections also introduce quark--photon contributions, in analogy of QCD corrections introducing quark--gluon contributions.

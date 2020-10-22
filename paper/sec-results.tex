@@ -517,9 +517,8 @@ see appendix~\ref{app:lumis}.
 
 \paragraph{Process-specific settings.}
 
-As in the case of Drell-Yan, we use a fixed value for the renormalisation and
-factorisation scales $\mu_\mathrm{R}=\mu_\mathrm{F}=M_\mathrm{Z}$, where
-$M_\mathrm{Z}$ is the Z-boson mass. Consistently with the
+We choose a dynamic value for the renormalisation and factorisation scales $\mu_\mathrm{R}=\mu_\mathrm{F}=\sqrt{M_{\ell \bar{\ell}}^2 + \left( p_\mathrm{T}^{\ell \bar{\ell}} \right)^2}$, used for example in ref.~\cite{Ridder:2016nkl}, where $M_{\ell \bar{\ell}}$ is the invariant mass of the lepton pair and $p_\mathrm{T}^{\ell \bar{\ell}}$ the transverse momentum of it.\footnote{In the last bin the dynamic scale is $\mu_\mathrm{R} = \mu_\mathrm{F} \approx p_\mathrm{T}^{\ell \bar{\ell}}$, and therefore the bin limits drive the scale beyond the limit $Q_\text{max}^2 = (\SI{1}{\tera\electronvolt})^2$ defined in sec.~\ref{sec:grid-representation}, which we increase for this process to $Q_\text{max}^2 = (\SI{10}{\tera\electronvolt})^2$, along with $N_\tau = 40$.}
+Consistently with the
 experimental analysis, we require $p_\mathrm{T}^\ell>\SI{25}{\giga\electronvolt}$,
 $|\eta_\ell|<2.4$, $|M_{\ell\bar\ell} - M_\mathrm{Z}| < \SI{15}{\giga\electronvolt}$,
 $|y_{\ell\bar\ell}|<2.4$ and $\SI{20}{\giga\electronvolt}<p_\mathrm{T}^{\ell\bar\ell}<\SI{1500}{\giga\electronvolt}$ for the
@@ -538,7 +537,7 @@ theory or the choice of scale do not alter this conclusion.
 %-------------------------------------------------------------------------------
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV}
+    \includegraphics[width=0.5\textwidth]{figures/pineappl_CMS_Z_13_TEV_dyn}
     \caption{Same as figure~\ref{fig:atlaszhighmass49fb} but for the 
       CMS differential Z $p_\mathrm{T}$ measurement at a centre-of-mass energy of
       \SI{13}{\tera\electronvolt}~\cite{Sirunyan:2019bzr}.}

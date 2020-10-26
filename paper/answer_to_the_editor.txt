@@ -3,8 +3,8 @@ Dear Editor,
 We would like to thank the referee for carefully reading the manuscript and
 making useful comments and suggestions.
 
-For convenience all changes are marked in the pre-compiled document as red
-(removed text) and blue (added text).
+For convenience all changes are marked in the pre-compiled document as
+red/strikethrough (removed text) and blue/underlined (added text).
 
 In the following our answers to the issues raised by the referee:
 

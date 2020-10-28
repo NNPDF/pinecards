@@ -79,7 +79,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         ptbin = 9
       endif
 
-      yll=getabs(ppv(0),ppv(3))
+      yll=getabsy(ppv(0),ppv(3))
 
       call HwU_fill(1,dble(10*idint(yll/0.4d0)+ptbin),wgts)
 

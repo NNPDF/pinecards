@@ -8,15 +8,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt m ',1, 300.0d0, 360.0d0)
-      call HwU_book(2,'tt m ',2, 360.0d0, 500.0d0)
-      call HwU_book(3,'tt m ',1, 500.0d0, 580.0d0)
-      call HwU_book(4,'tt m ',1, 580.0d0, 680.0d0)
-      call HwU_book(5,'tt m ',1, 680.0d0, 800.0d0)
-      call HwU_book(6,'tt m ',1, 800.0d0,1000.0d0)
-      call HwU_book(7,'tt m ',1,1000.0d0,1200.0d0)
-      call HwU_book(8,'tt m ',1,1200.0d0,1500.0d0)
-      call HwU_book(9,'tt m ',1,1500.0d0,2500.0d0)
+      call HwU_book(1,'tt m ',1, 250.0d0, 450.0d0)
+      call HwU_book(2,'tt m ',1, 450.0d0, 570.0d0)
+      call HwU_book(3,'tt m ',1, 570.0d0, 700.0d0)
+      call HwU_book(4,'tt m ',1, 700.0d0, 850.0d0)
+      call HwU_book(5,'tt m ',1, 850.0d0,1000.0d0)
+      call HwU_book(6,'tt m ',1,1000.0d0,2700.0d0)
 
       return
       end
@@ -58,9 +55,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(4,mtt,wgts)
       call HwU_fill(5,mtt,wgts)
       call HwU_fill(6,mtt,wgts)
-      call HwU_fill(7,mtt,wgts)
-      call HwU_fill(8,mtt,wgts)
-      call HwU_fill(9,mtt,wgts)
 
  999  return
       end

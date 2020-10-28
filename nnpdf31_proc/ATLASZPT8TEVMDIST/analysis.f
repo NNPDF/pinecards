@@ -37,7 +37,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3),pplb(0:3),ppv(0:3),ptv,mll
+      double precision ppl(0:3),pplb(0:3),ppv(0:3),ptv,xmll
       double precision getinvm
       external getinvm
 
@@ -79,19 +79,19 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         ptbin = 9
       endif
 
-      mll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
+      xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
 
-      if (ptv.ge.12d0.and.ptv.lt.20d0) then
+      if (xmll.ge.12d0.and.xmll.lt.20d0) then
         mllbin = 0
-      elseif (ptv.ge.20d0.and.ptv.lt.30d0) then
+      elseif (xmll.ge.20d0.and.xmll.lt.30d0) then
         mllbin = 1
-      elseif (ptv.ge.30d0.and.ptv.lt.46d0) then
+      elseif (xmll.ge.30d0.and.xmll.lt.46d0) then
         mllbin = 2
-      elseif (ptv.ge.46d0.and.ptv.lt.66d0) then
+      elseif (xmll.ge.46d0.and.xmll.lt.66d0) then
         mllbin = 3
-      elseif (ptv.ge.66d0.and.ptv.lt.116d0) then
+      elseif (xmll.ge.66d0.and.xmll.lt.116d0) then
         mllbin = 4
-      elseif (ptv.ge.116d0.and.ptv.lt.150d0) then
+      elseif (xmll.ge.116d0.and.xmll.lt.150d0) then
         mllbin = 5
       endif
 

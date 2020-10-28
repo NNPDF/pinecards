@@ -1,0 +1,22 @@
+launch @OUTPUT@
+fixed_order = ON
+set mz @MZ@
+set ymt @YMT@
+set ebeam1 6500
+set ebeam2 6500
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set ptl = 20.0
+set etal = 2.4
+set mll = 66.0
+set ptj = 0.0
+#user_defined_cut set mmllmax = 116.0
+#user_defined_cut set ptzmin = 30.0
+#user_defined_cut set ptzmax = 900.0
+#user_defined_cut set yz = 2.4
+set req_acc_FO 0.01
+set pineappl True
+done
+quit

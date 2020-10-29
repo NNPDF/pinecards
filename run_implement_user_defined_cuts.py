@@ -162,7 +162,7 @@ if __name__ == '__main__':
     for i in zip(reversed(sys.argv[2::3]), reversed(sys.argv[4::3])):
         name = i[0]
         value = i[1]
-        code = cuts_code[name].format(float(value))
+        code = cuts_code[name].format(value + 'd0')
         contents.insert(marker_pos, code)
 
     with open(filename, 'w') as fd:

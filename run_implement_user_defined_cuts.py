@@ -3,6 +3,14 @@
 import os.path
 import sys
 
+cuts_variables = {
+    'abscoscs': '''c     variables for abscoscs cuts
+      real*8 zcoscs,zenl,zptxl,zptyl,zpzl,zenal,zptxal,zptyal,zpzal
+      real*8 zpzll,zmll,zp1p,zp1m,zp2p,zp2m,zpt2ll
+      integer zlep,zalep
+''',
+}
+
 cuts_code = {
     'mmllmax': '''c     cut for mmllmax (SFOS lepton pairs)
       do i=1,nexternal-1
@@ -119,6 +127,90 @@ cuts_code = {
       enddo
 
 ''',
+    'abscoscsmin': '''c     cut on the minimum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
+      do i=1,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (ipdg_reco(i) .eq. -ipdg_reco(j)) then
+              if (is_a_lm(i)) then
+                zlep=i
+                zalep=j
+              else
+                zlep=j
+                zalep=i
+              endif
+              zenl=p_reco(0,zlep)
+              zptxl=p_reco(1,zlep)
+              zptyl=p_reco(2,zlep)
+              zpzl=p_reco(3,zlep)
+              zenal=p_reco(0,zalep)
+              zptxal=p_reco(1,zalep)
+              zptyal=p_reco(2,zalep)
+              zpzal=p_reco(3,zalep)
+c             implementation of first formula on page 6 of https://arxiv.org/abs/1710.05167
+              zp1p=zenl+zpzl
+              zp1m=zenl-zpzl
+              zp2p=zenal+zpzal
+              zp2m=zenal-zpzal
+              zpzll=zpzl+zpzal
+              zpt2ll=(zptxl+zptxal)*(zptxl+zptxal)+
+     &               (zptyl+zptyal)*(zptyl+zptyal)
+              zmll=sqrt((zenl+zenal)*(zenl+zenal)-(zpt2ll+zpzll*zpzll))
+              zcoscs=sign((zp1p*zp2m-zp1m*zp2p)/
+     &                    sqrt(zmll*zmll+zpt2ll)/zmll,zpzll)
+
+              if (abs(zcoscs) .lt. {}) then
+                passcuts_user=.false.
+                return
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
+''',
+    'abscoscsmax': '''c     cut on the maximum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
+      do i=1,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (ipdg_reco(i) .eq. -ipdg_reco(j)) then
+              if (is_a_lm(i)) then
+                zlep=i
+                zalep=j
+              else
+                zlep=j
+                zalep=i
+              endif
+              zenl=p_reco(0,zlep)
+              zptxl=p_reco(1,zlep)
+              zptyl=p_reco(2,zlep)
+              zpzl=p_reco(3,zlep)
+              zenal=p_reco(0,zalep)
+              zptxal=p_reco(1,zalep)
+              zptyal=p_reco(2,zalep)
+              zpzal=p_reco(3,zalep)
+c             implementation of first formula on page 6 of https://arxiv.org/abs/1710.05167
+              zp1p=zenl+zpzl
+              zp1m=zenl-zpzl
+              zp2p=zenal+zpzal
+              zp2m=zenal-zpzal
+              zpzll=zpzl+zpzal
+              zpt2ll=(zptxl+zptxal)*(zptxl+zptxal)+
+     &               (zptyl+zptyal)*(zptyl+zptyal)
+              zmll=sqrt((zenl+zenal)*(zenl+zenal)-(zpt2ll+zpzll*zpzll))
+              zcoscs=sign((zp1p*zp2m-zp1m*zp2p)/
+     &                    sqrt(zmll*zmll+zpt2ll)/zmll,zpzll)
+
+              if (abs(zcoscs) .gt. {}) then
+                passcuts_user=.false.
+                return
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
+''',
 }
 
 if __name__ == '__main__':
@@ -147,6 +239,25 @@ if __name__ == '__main__':
 
     with open(filename, 'r') as fd:
         contents = fd.readlines()
+
+    insertion_marker = 'logical function passcuts_user'
+    marker_pos = -1
+
+    for lineno, value in enumerate(contents):
+        if insertion_marker in value:
+            marker_pos = lineno
+            break
+
+    if marker_pos == -1:
+        print('Error: could not find insertion marker `{}` in cut file `{}`'
+            .format(insertion_marker, filename))
+        exit(5)
+
+    marker_pos = marker_pos + 8
+
+    for name in cuts_variables:
+        if any(i[0].startswith(name) for i in zip(sys.argv[2::3])):
+            contents.insert(marker_pos, cuts_variables[name])
 
     insertion_marker = 'USER-DEFINED CUTS'
     marker_pos = -1

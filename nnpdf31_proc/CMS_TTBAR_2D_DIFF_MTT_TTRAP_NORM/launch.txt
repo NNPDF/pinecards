@@ -1,0 +1,19 @@
+launch @OUTPUT@
+fixed_order = ON
+set mt @MT@
+set mz @MZ@
+set WT 0.0
+set WZ 0.0
+set WW 0.0
+set WH 0.0
+set ymt @YMT@
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set req_acc_FO 0.0001
+set pineappl True
+done
+quit

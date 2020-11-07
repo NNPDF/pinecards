@@ -147,7 +147,7 @@ EOF
     # (re-)produce predictions
     "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 > pineappl.convolute
     "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
-    "${pineappl}" pdf_uncertainty "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
+    "${pineappl}" pdf_uncertainty --threads=1 "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
     # extract the numerical results from mg5_aMC
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC

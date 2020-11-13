@@ -1,0 +1,24 @@
+launch @OUTPUT@
+fixed_order = ON
+set mt @MT@
+set mz @MZ@
+set mw @MW@
+set ymt @YMT@
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+set fixed_ren_scale True
+set fixed_fac_scale True
+set mur_ref_fixed @MT@
+set muf_ref_fixed @MT@
+set reweight_scale True
+set jetalgo -1
+set jetradius 0.5
+# TODO: ptj > 35 between 2.7 < etaj < 3.5
+set ptj 30.0
+set etaj 4.5
+set req_acc_FO 0.005
+set pineappl True
+done
+quit

@@ -20,8 +20,9 @@ set jetradius = 0.7
 # TODO: implement rapidity-dependent invariant jet mass cuts
 # TODO: implement leading pt jet cut of 60.0 GeV
 set ptj = 30.0
+# TODO: the following must be rapidity (not pseudo rapidity)
 set etaj = 2.5
-set req_acc_FO 0.01
+set req_acc_FO 0.001
 set pineappl True
 done
 quit

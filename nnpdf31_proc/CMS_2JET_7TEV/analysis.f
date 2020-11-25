@@ -8,7 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'2D diff',1,0d0,54d0)
+      call HwU_book(1,'2D diff',54,0d0,54d0)
 
       return
       end
@@ -30,119 +30,240 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       include 'nexternal.inc'
       include 'cuts.inc'
+c     subroutine parameters
+      double precision p(0:4,nexternal)
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody
-      integer i
-      integer j
-      double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3), pplb(0:3), ppv(0:3), ptv, getinvm
-      double precision xmjj, xymax
-      external getinvm
+      integer ibody
 
-      double precision p_reco(0:4,nexternal)
-      integer iPDG_reco(nexternal)
+c     variables for amcatnlo_fastjetppgenkt
+      double precision pQCD(0:3,nexternal),rfj,sycut,palg
+     $     ,pjet(0:3,nexternal),etajet(nexternal)
+      integer nQCD,jet(nexternal),njet
 
-      call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
-     $                       p, iPDG, p_reco, iPDG_reco)
+c     observables
+      integer xbin,jet1,jet2
+      double precision xymax,xmjj,ptjet(nexternal),yjet(nexternal)
+     $     ,yjmax
 
-c      do j = nincoming+1, nexternal
-c        if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
-c        if (iPDG_reco(j).eq.-13) pplb(0:3)=p_reco(0:3,j)
-c      enddo
-c      do i=0,3
-c        ppv(i)=ppl(i)+pplb(i)
-c      enddo
-c
-c      ptv=sqrt(ppv(1)**2+ppv(2)**2)
+c     functions
+      double precision getptv4,getinvm,getrapidityv4
+      external getptv4,getinvm,getrapidityv4
 
-c     TODO: calculate real values
-      xymax = 0.25d0
-      xmjj = 200.0d0
+c     miscellaneous
+      integer i,j
+
+      nQCD=0
+      do j=nincoming+1,nexternal
+         if (abs(ipdg(j)).le.5 .or. ipdg(j).eq.21 .or.
+     $                              ipdg(j).eq.22) then
+            nQCD=nQCD+1
+            do i=0,3
+               pQCD(i,nQCD)=p(i,j)
+            enddo
+         endif
+      enddo
+
+      palg = -1.d0
+      rfj = 0.7d0
+      sycut = 30d0
+      yjmax = 2.5d0
+
+      do i=1,nexternal
+         do j=0,3
+            pjet(j,i)=0d0
+         enddo
+         jet(i)=0
+      enddo
+
+c     recombine momenta
+      call amcatnlo_fastjetppgenkt(pQCD,nQCD,rfj,sycut,palg,pjet,njet
+     $     ,jet)
+
+      jet1 = 0
+      jet2 = 0
+
+      do i=1,njet
+        ptjet(i)=getptv4(pjet(0,i))
+        if(i.gt.1)then
+          if (ptjet(i).gt.ptjet(i-1)) then
+            write (*,*) "Error 1: jets should be ordered in pt"
+            stop
+          endif
+        endif
+        yjet(i)=getrapidityv4(pjet(0,i))
+
+c       check which jets are within the rapidity cut
+        if (dabs(yjet(i)).lt.yjmax) then
+          if (jet1.eq.0) then
+            jet1 = i
+          else if (jet2.eq.0) then
+            jet2 = i
+          endif
+        endif
+      enddo
+
+      if (jet1.eq.0 .or. jet2.eq.0) then
+c       something is wrong with the cuts - they should check for two jets
+      endif
+
+      xymax = max(dabs(yjet(jet1)), dabs(yjet(jet2)))
+      xmjj = getinvm(pjet(0,jet1)+pjet(0,jet2),
+     $               pjet(1,jet1)+pjet(1,jet2),
+     $               pjet(2,jet1)+pjet(2,jet2),
+     $               pjet(3,jet1)+pjet(3,jet2))
+
+      xbin = -1d0
 
       if (xymax.lt.0.5d0) then
         if ((xmjj.gt.197d0).and.(xmjj.lt.296d0)) then
+            xbin = 0d0
         elseif (xmjj.lt.419d0) then
+            xbin = 1d0
         elseif (xmjj.lt.565d0) then
+            xbin = 2d0
         elseif (xmjj.lt.740d0) then
+            xbin = 3d0
         elseif (xmjj.lt.944d0) then
+            xbin = 4d0
         elseif (xmjj.lt.1181d0) then
+            xbin = 5d0
         elseif (xmjj.lt.1455d0) then
+            xbin = 6d0
         elseif (xmjj.lt.1770d0) then
+            xbin = 7d0
         elseif (xmjj.lt.2132d0) then
+            xbin = 8d0
         elseif (xmjj.lt.2546d0) then
+            xbin = 9d0
         elseif (xmjj.lt.3019d0) then
+            xbin = 10d0
         elseif (xmjj.lt.3416d0) then
+            xbin = 11d0
         elseif (xmjj.lt.4010d0) then
+            xbin = 12d0
         else
-          stop 1
+c          stop 1
         endif
       else if (xymax.lt.1.0d0) then
         if ((xmjj.gt.270d0).and.(xmjj.lt.386d0)) then
+            xbin = 13d0
         elseif (xmjj.lt.526d0) then
+            xbin = 14d0
         elseif (xmjj.lt.693d0) then
+            xbin = 15d0
         elseif (xmjj.lt.890d0) then
+            xbin = 16d0
         elseif (xmjj.lt.1118d0) then
+            xbin = 17d0
         elseif (xmjj.lt.1383d0) then
+            xbin = 18d0
         elseif (xmjj.lt.1687d0) then
+            xbin = 19d0
         elseif (xmjj.lt.2037d0) then
+            xbin = 20d0
         elseif (xmjj.lt.2438d0) then
+            xbin = 21d0
         elseif (xmjj.lt.2895d0) then
+            xbin = 22d0
         elseif (xmjj.lt.3416d0) then
+            xbin = 23d0
         elseif (xmjj.lt.4010d0) then
+            xbin = 24d0
         else
-          stop 1
+c          stop 1
         endif
       else if (xymax.lt.1.5d0) then
         if ((xmjj.gt.419d0).and.(xmjj.lt.565d0)) then
+            xbin = 25d0
         elseif (xmjj.lt.740d0) then
+            xbin = 26d0
         elseif (xmjj.lt.944d0) then
+            xbin = 27d0
         elseif (xmjj.lt.1181d0) then
+            xbin = 28d0
         elseif (xmjj.lt.1455d0) then
+            xbin = 29d0
         elseif (xmjj.lt.1770d0) then
+            xbin = 30d0
         elseif (xmjj.lt.2132d0) then
+            xbin = 31d0
         elseif (xmjj.lt.2546d0) then
+            xbin = 32d0
         elseif (xmjj.lt.3147d0) then
+            xbin = 33d0
         elseif (xmjj.lt.3854d0) then
+            xbin = 34d0
         elseif (xmjj.lt.4509d0) then
+            xbin = 35d0
         else
-          stop 1
+c          stop 1
         endif
       else if (xymax.lt.2.0d0) then
         if ((xmjj.gt.565d0).and.(xmjj.lt.740d0)) then
+            xbin = 36d0
         elseif (xmjj.lt.944d0) then
+            xbin = 37d0
         elseif (xmjj.lt.1181d0) then
+            xbin = 38d0
         elseif (xmjj.lt.1455d0) then
+            xbin = 39d0
         elseif (xmjj.lt.1770d0) then
+            xbin = 40d0
         elseif (xmjj.lt.2132d0) then
+            xbin = 41d0
         elseif (xmjj.lt.2546d0) then
+            xbin = 42d0
         elseif (xmjj.lt.3019d0) then
+            xbin = 43d0
         elseif (xmjj.lt.3558d0) then
+            xbin = 44d0
         elseif (xmjj.lt.5058d0) then
+            xbin = 45d0
         else
-          stop 1
+c          stop 1
         endif
       else if (xymax.lt.2.5d0) then
         if ((xmjj.gt.1000d0).and.(xmjj.lt.1246d0)) then
+            xbin = 46d0
         elseif (xmjj.lt.1530d0) then
+            xbin = 47d0
         elseif (xmjj.lt.1856d0) then
+            xbin = 48d0
         elseif (xmjj.lt.2231d0) then
+            xbin = 49d0
         elseif (xmjj.lt.2659d0) then
+            xbin = 50d0
         elseif (xmjj.lt.3147d0) then
+            xbin = 51d0
         elseif (xmjj.lt.3704d0) then
+            xbin = 52d0
         elseif (xmjj.lt.5058d0) then
+            xbin = 53d0
         else
-          stop 1
+c          stop 1
         endif
       else
-        stop 1
+c        stop 1
+      endif
+
+      if (xbin.ne.-1d0) then
+        call HwU_fill(1,xbin + 0.5d0,wgts)
       endif
 
  999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+      function getptv4(p)
+      implicit none
+      real*8 getptv4,p(0:3)
+c
+      getptv4=sqrt(p(1)**2+p(2)**2)
+      return
+      end
 
       function getinvm(en,ptx,pty,pl)
       implicit none
@@ -159,5 +280,34 @@ c
         stop
       endif
       getinvm=tmp
+      return
+      end
+
+      function getrapidity(en,pl)
+      implicit none
+      real*8 getrapidity,en,pl,tiny,xplus,xminus,y
+      parameter (tiny=1.d-8)
+c
+      xplus=en+pl
+      xminus=en-pl
+      if(xplus.gt.tiny.and.xminus.gt.tiny)then
+        if( (xplus/xminus).gt.tiny.and.(xminus/xplus).gt.tiny )then
+          y=0.5d0*log( xplus/xminus )
+        else
+          y=sign(1.d0,pl)*1.d8
+        endif
+      else
+        y=sign(1.d0,pl)*1.d8
+      endif
+      getrapidity=y
+      return
+      end
+
+      function getrapidityv4(p)
+      implicit none
+      real*8 getrapidityv4,p(0:3)
+      real*8 getrapidity
+c
+      getrapidityv4=getrapidity(p(0),p(3))
       return
       end

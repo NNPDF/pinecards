@@ -42,6 +42,21 @@ cuts_code = {
       endif
 
 ''',
+    'ptj1min': '''c     cut for ptl1min (leading jet)
+      j = 0
+      do i=1,nexternal
+        if (is_a_j(i)) then
+          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
+            j = i
+          endif
+        endif
+      enddo
+      if (pt_04(p_reco(0,j)) .lt. {}) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
     'yll': '''c     cut on the rapidity of the two leading leptons
       j = 0 ! leading lepton index
       mm = 0 ! subleading lepton index

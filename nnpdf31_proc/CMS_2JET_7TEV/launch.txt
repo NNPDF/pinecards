@@ -18,7 +18,7 @@ set reweight_scale True
 set jetalgo = -1.0
 set jetradius = 0.7
 # TODO: implement rapidity-dependent invariant jet mass cuts
-# TODO: implement leading pt jet cut of 60.0 GeV
+set ptj1min = 60.0
 set ptj = 30.0
 # TODO: the following must be rapidity (not pseudo rapidity)
 set etaj = 2.5

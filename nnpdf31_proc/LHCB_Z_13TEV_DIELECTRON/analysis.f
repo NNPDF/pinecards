@@ -49,8 +49,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      $                       p, iPDG, p_reco, iPDG_reco)
 
       do j = nincoming+1, nexternal
-        if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
-        if (iPDG_reco(j).eq.-13) pplb(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.11) ppl(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.-11) pplb(0:3)=p_reco(0:3,j)
       enddo
       do i=0,3
         ppv(i)=ppl(i)+pplb(i)

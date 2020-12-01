@@ -9,11 +9,7 @@ set ebeam1 6500
 set ebeam2 6500
 set pdlabel lhapdf
 set lhaid 324900
-# TODO: set ren./fac. scale to the average jet pt
-set fixed_ren_scale True
-set fixed_fac_scale True
-set mur_ref_fixed @MZ@
-set muf_ref_fixed @MZ@
+set dynamical_scale_choice 10
 set reweight_scale True
 set jetalgo = -1.0
 set jetradius = 0.7

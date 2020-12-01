@@ -1,0 +1,101 @@
+--- NLO/SubProcesses/setscales.f.orig	2020-11-30 09:45:53.669448873 +0100
++++ NLO/SubProcesses/setscales.f	2020-11-30 09:46:08.149409610 +0100
+@@ -527,6 +527,24 @@
+       integer i,j
+       character*80 temp_scale_id
+       common/ctemp_scale_id/temp_scale_id
++
++      integer iPDG_reco(nexternal)
++      double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll
++      double precision p_reco(0:4,nexternal), p_in(0:4,nexternal)
++c     les houches accord stuff to identify particles
++c
++      integer idup(nexternal,maxproc),mothup(2,nexternal,maxproc),
++     &        icolup(2,nexternal,maxflow),niprocs
++      common /c_leshouche_inc/idup,mothup,icolup,niprocs
++c Masses of external particles
++      double precision pmass(nexternal)
++      common/to_mass/pmass
++      double precision pQCD(0:3,nexternal),rfj,sycut,palg
++     $     ,pjet(0:3,nexternal),etajet(nexternal)
++      integer nQCD,jet(nexternal),njet
++      integer xbin,jet1,jet2
++      double precision xymax,xmjj,ptjet(nexternal),yjet(nexternal)
++     $     ,yjmax
+ c
+       tmp=0
+       if(ickkw.eq.-1)then
+@@ -562,16 +580,63 @@
+           tmp=muR_ref_fixed
+           temp_scale_id='fixed scale'
+       elseif(dynamical_scale_choice.eq.10) then
+-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-cc      USER-DEFINED SCALE: ENTER YOUR CODE HERE                                 cc
+-cc      to use this code you must set                                            cc
+-cc                 dynamical_scale_choice = 10                                   cc
+-cc      in the run_card (run_card.dat)                                           cc
+-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-         write(*,*) "User-defined scale not set"
+-         stop 1
+-         temp_scale_id='User-defined dynamical scale' ! use a meaningful string
+-         tmp = 0d0
++          temp_scale_id='(ptj1+ptj2)/2'
++
++          do i=1,nexternal
++            p_in(0:3,i) = pp(0:3,i)
++            p_in(4,i) = pmass(i)
++          enddo
++          call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
++     $                           p_in, idup(1,1), p_reco, iPDG_reco)
++
++          nQCD=0
++          do j=nincoming+1,nexternal
++             if (abs(ipdg_reco(j)).le.5 .or. ipdg_reco(j).eq.21 .or.
++     $                                  ipdg_reco(j).eq.22) then
++                nQCD=nQCD+1
++                do i=0,3
++                   pQCD(i,nQCD)=p_reco(i,j)
++                enddo
++             endif
++          enddo
++
++          palg = -1d0
++          rfj = 0.7d0
++          sycut = 30d0
++          yjmax = 2.5d0
++
++          do i=1,nexternal
++             do j=0,3
++                pjet(j,i)=0d0
++             enddo
++             jet(i)=0
++          enddo
++
++c         recombine momenta
++          call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,rfj,sycut,yjmax
++     $         ,palg,pjet,njet,jet)
++
++          jet1 = 0
++          jet2 = 0
++
++          do i=1,njet
++            ptjet(i)=sqrt(pjet(i,1)**2+pjet(i,2)**2)
++            if(i.gt.1)then
++              if (ptjet(i).gt.ptjet(i-1)) then
++                write (*,*) "Error 3: jets should be ordered in pt"
++                write (*,*) ptjet(i), ptjet(i-1), i
++                stop
++              endif
++            endif
++          enddo
++
++         if (jet1.eq.0 .or. jet2.eq.0) then
++c          something is wrong with the cuts - they should check for two jets
++           tmp=4d0
++           write (*,*) "Error 4: scale couldn't find two jets"
++         else
++           tmp=(ptjet(1)+ptjet(2))/2d0
++         endif
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ cc      USER-DEFINED SCALE: END OF USER CODE                                     cc
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc

@@ -79,7 +79,7 @@
 +          jet2 = 0
 +
 +          do i=1,njet
-+            ptjet(i)=sqrt(pjet(i,1)**2+pjet(i,2)**2)
++            ptjet(i)=sqrt(pjet(1,i)**2+pjet(2,i)**2)
 +            if(i.gt.1)then
 +              if (ptjet(i).gt.ptjet(i-1)) then
 +                write (*,*) "Error 3: jets should be ordered in pt"

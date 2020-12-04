@@ -81,12 +81,12 @@ c     recombine momenta
       call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,rfj,sycut,yjmax
      $     ,palg,pjet,njet,jet)
 
-      jet1 = 1
-      jet2 = 2
-
       if (njet.lt.2) then
         return
       endif
+
+      jet1 = 1
+      jet2 = 2
 
       do i=1,njet
         ptjet(i)=getptv4(pjet(0,i))
@@ -108,7 +108,9 @@ c     recombine momenta
       xbin = -1d0
 
       if (xymax.lt.0.5d0) then
-        if ((xmjj.gt.197d0).and.(xmjj.lt.296d0)) then
+        if (xmjj.lt.197d0) then
+            xbin = -2d0
+        elseif (xmjj.lt.296d0) then
             xbin = 0d0
         elseif (xmjj.lt.419d0) then
             xbin = 1d0
@@ -135,10 +137,12 @@ c     recombine momenta
         elseif (xmjj.lt.4010d0) then
             xbin = 12d0
         else
-c          stop 1
+            xbin = -3d0
         endif
       else if (xymax.lt.1.0d0) then
-        if ((xmjj.gt.270d0).and.(xmjj.lt.386d0)) then
+        if (xmjj.lt.270d0) then
+            xbin = -4d0
+        elseif (xmjj.lt.386d0) then
             xbin = 13d0
         elseif (xmjj.lt.526d0) then
             xbin = 14d0
@@ -163,10 +167,12 @@ c          stop 1
         elseif (xmjj.lt.4010d0) then
             xbin = 24d0
         else
-c          stop 1
+            xbin = -5d0
         endif
       else if (xymax.lt.1.5d0) then
-        if ((xmjj.gt.419d0).and.(xmjj.lt.565d0)) then
+        if (xmjj.lt.419d0) then
+            xbin = -6d0
+        elseif (xmjj.lt.565d0) then
             xbin = 25d0
         elseif (xmjj.lt.740d0) then
             xbin = 26d0
@@ -189,10 +195,12 @@ c          stop 1
         elseif (xmjj.lt.4509d0) then
             xbin = 35d0
         else
-c          stop 1
+            xbin = -7d0
         endif
       else if (xymax.lt.2.0d0) then
-        if ((xmjj.gt.565d0).and.(xmjj.lt.740d0)) then
+        if (xmjj.lt.565d0) then
+            xbin = -8d0
+        elseif (xmjj.lt.740d0) then
             xbin = 36d0
         elseif (xmjj.lt.944d0) then
             xbin = 37d0
@@ -213,10 +221,12 @@ c          stop 1
         elseif (xmjj.lt.5058d0) then
             xbin = 45d0
         else
-c          stop 1
+            xbin = -9d0
         endif
       else if (xymax.lt.2.5d0) then
-        if ((xmjj.gt.1000d0).and.(xmjj.lt.1246d0)) then
+        if (xmjj.lt.1000d0) then
+            xbin = -10d0
+        elseif (xmjj.lt.1246d0) then
             xbin = 46d0
         elseif (xmjj.lt.1530d0) then
             xbin = 47d0
@@ -233,16 +243,16 @@ c          stop 1
         elseif (xmjj.lt.5058d0) then
             xbin = 53d0
         else
-c          stop 1
+            xbin = -11d0
         endif
       else
-c        stop 1
+        xbin = -12d0
       endif
 
-      if (xbin.ne.-1d0) then
-        call HwU_fill(1,xbin + 0.5d0,wgts)
+      if (xbin.lt.0d0) then
+        write (*,*) "error: event outside bins", xymax, xmjj, xbin
       else
-        write (*,*) "error: event outside bins", xymax, xmjj
+        call HwU_fill(1,xbin + 0.5d0,wgts)
       endif
 
  999  return

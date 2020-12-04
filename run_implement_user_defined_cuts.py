@@ -35,15 +35,7 @@ cuts_code = {
 
 ''',
     'ptj1min': '''c     cut for ptl1min (leading jet)
-      j = 0
-      do i=1,nexternal
-        if (is_a_j(i)) then
-          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
-            j = i
-          endif
-        endif
-      enddo
-      if (pt_04(p_reco(0,j)) .lt. {}) then
+      if (pt(pjet(0,1)) .lt. {}) then
         passcuts_user=.false.
         return
       endif

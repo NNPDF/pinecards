@@ -5,8 +5,8 @@ order = LO
 set mz @MZ@
 set mw @MW@
 set ymt @YMT@
-set ebeam1 6500
-set ebeam2 6500
+set ebeam1 3500
+set ebeam2 3500
 set pdlabel lhapdf
 set lhaid 324900
 set dynamical_scale_choice 10

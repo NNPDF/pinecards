@@ -78,8 +78,8 @@ c     miscellaneous
       enddo
 
 c     recombine momenta
-      call amcatnlo_fastjetppgenkt(pQCD,nQCD,rfj,sycut,palg,pjet,njet
-     $     ,jet)
+      call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,rfj,sycut,yjmax
+     $     ,palg,pjet,njet,jet)
 
       jet1 = 0
       jet2 = 0
@@ -93,15 +93,6 @@ c     recombine momenta
           endif
         endif
         yjet(i)=getrapidityv4(pjet(0,i))
-
-c       check which jets are within the rapidity cut
-        if (dabs(yjet(i)).lt.yjmax) then
-          if (jet1.eq.0) then
-            jet1 = i
-          else if (jet2.eq.0) then
-            jet2 = i
-          endif
-        endif
       enddo
 
       if (jet1.eq.0 .or. jet2.eq.0) then

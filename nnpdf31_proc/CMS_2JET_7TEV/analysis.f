@@ -81,8 +81,12 @@ c     recombine momenta
       call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,rfj,sycut,yjmax
      $     ,palg,pjet,njet,jet)
 
-      jet1 = 0
-      jet2 = 0
+      jet1 = 1
+      jet2 = 2
+
+      if (njet.lt.2) then
+        return
+      endif
 
       do i=1,njet
         ptjet(i)=getptv4(pjet(0,i))
@@ -94,10 +98,6 @@ c     recombine momenta
         endif
         yjet(i)=getrapidityv4(pjet(0,i))
       enddo
-
-      if (jet1.eq.0 .or. jet2.eq.0) then
-c       something is wrong with the cuts - they should check for two jets
-      endif
 
       xymax = max(dabs(yjet(jet1)), dabs(yjet(jet2)))
       xmjj = getinvm(pjet(0,jet1)+pjet(0,jet2),
@@ -241,6 +241,8 @@ c        stop 1
 
       if (xbin.ne.-1d0) then
         call HwU_fill(1,xbin + 0.5d0,wgts)
+      else
+        write (*,*) "error: event outside bins", xymax, xmjj
       endif
 
  999  return

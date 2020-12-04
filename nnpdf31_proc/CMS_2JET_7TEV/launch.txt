@@ -1,7 +1,5 @@
 launch @OUTPUT@
 fixed_order = ON
-# TODO: remove this statement
-order = LO
 set mz @MZ@
 set mw @MW@
 set ymt @YMT@
@@ -18,7 +16,7 @@ set jetradius = 0.7
 set ptj = 30.0
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 2.5
-set req_acc_FO 0.001
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

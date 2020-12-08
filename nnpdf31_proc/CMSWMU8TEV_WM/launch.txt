@@ -15,6 +15,6 @@ set ptl = 25.0
 set etal = 2.4
 set rphreco = 0.1
 set req_acc_FO 0.01
-set iappl 1
+set pineappl True
 done
 quit

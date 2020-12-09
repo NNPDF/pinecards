@@ -11,9 +11,10 @@ set dynamical_scale_choice 10
 set reweight_scale True
 set jetalgo = -1.0
 set jetradius = 0.7
-# TODO: implement rapidity-dependent invariant jet mass cuts
-#user_defined_cut set ptj1min = 60.0
 set ptj = 30.0
+# ordering of the two user-defined cuts is important
+#user_defined_cut set ptj1min = 60.0
+#user_defined_cut set cms_2jets_7tev = True
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 2.5
 set req_acc_FO 0.0001

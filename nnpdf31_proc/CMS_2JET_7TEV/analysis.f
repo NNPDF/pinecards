@@ -43,7 +43,7 @@ c     variables for amcatnlo_fastjetppgenkt
       integer nQCD,jet(nexternal),njet
 
 c     observables
-      integer xbin,jet1,jet2
+      integer xbin
       double precision xymax,xmjj,ptjet(nexternal),yjet(nexternal)
      $     ,yjmax
 
@@ -85,9 +85,6 @@ c     recombine momenta
         return
       endif
 
-      jet1 = 1
-      jet2 = 2
-
       do i=1,njet
         ptjet(i)=getptv4(pjet(0,i))
         if(i.gt.1)then
@@ -99,11 +96,11 @@ c     recombine momenta
         yjet(i)=getrapidityv4(pjet(0,i))
       enddo
 
-      xymax = max(dabs(yjet(jet1)), dabs(yjet(jet2)))
-      xmjj = getinvm(pjet(0,jet1)+pjet(0,jet2),
-     $               pjet(1,jet1)+pjet(1,jet2),
-     $               pjet(2,jet1)+pjet(2,jet2),
-     $               pjet(3,jet1)+pjet(3,jet2))
+      xymax = max(dabs(yjet(1)), dabs(yjet(2)))
+      xmjj = getinvm(pjet(0,1)+pjet(0,2),
+     $               pjet(1,1)+pjet(1,2),
+     $               pjet(2,1)+pjet(2,2),
+     $               pjet(3,1)+pjet(3,2))
 
       xbin = -1d0
 

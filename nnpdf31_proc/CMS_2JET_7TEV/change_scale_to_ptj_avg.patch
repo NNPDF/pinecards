@@ -19,13 +19,13 @@
 +      double precision pQCD(0:3,nexternal),rfj,sycut,palg
 +     $     ,pjet(0:3,nexternal),etajet(nexternal)
 +      integer nQCD,jet(nexternal),njet
-+      integer xbin,jet1,jet2
++      integer xbin
 +      double precision xymax,xmjj,ptjet(nexternal),yjet(nexternal)
 +     $     ,yjmax
  c
        tmp=0
        if(ickkw.eq.-1)then
-@@ -562,16 +580,63 @@
+@@ -562,16 +580,60 @@
            tmp=muR_ref_fixed
            temp_scale_id='fixed scale'
        elseif(dynamical_scale_choice.eq.10) then
@@ -86,15 +86,12 @@
 +            endif
 +          enddo
 +
-+          jet1 = 1
-+          jet2 = 2
-+
 +         if (njet .lt. 2) then
 +c          something is wrong with the cuts - they should check for two jets
 +           tmp=4d0
 +           write (*,*) "Error 4: scale couldn't find two jets"
 +         else
-+           tmp=(ptjet(jet1)+ptjet(jet2))/2d0
++           tmp=(ptjet(1)+ptjet(2))/2d0
 +         endif
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc

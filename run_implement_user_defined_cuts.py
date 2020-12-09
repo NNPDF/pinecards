@@ -301,7 +301,19 @@ if __name__ == '__main__':
     for i in zip(reversed(sys.argv[2::3]), reversed(sys.argv[4::3])):
         name = i[0]
         value = i[1]
-        code = cuts_code[name].format(value + 'd0')
+
+        try:
+            value = float(value)
+        except ValueError:
+            if value == "True":
+                value = ".true."
+            elif value == "False":
+                value = ".false."
+            else:
+                print('Error: format of value `{}` not understood'.format(value))
+                exit(6)
+
+        code = cuts_code[name].format(value)
         contents.insert(marker_pos, code)
 
     with open(filename, 'w') as fd:

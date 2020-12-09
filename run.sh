@@ -118,7 +118,7 @@ EOF
 
     # if there are user-defined cuts, implement them
     if [[ -n ${user_defined_cuts[@]} ]]; then
-        user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+=[[:blank:]]+[+-]?[0-9]+([.][0-9]+)?') )
+        user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)') )
         ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
     fi
 

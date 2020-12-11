@@ -12,6 +12,22 @@ cuts_variables = {
 }
 
 cuts_code = {
+    'mjj': '''c     cut on the invariant mass of the leading jets
+      if (invm2_04(pjet(0,1),pjet(0,2),1d0) .lt. ({})**2) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
+    'dyjj': '''c     cut on the rapidity separation of the leading jets
+c     tmpvar=atanh(pjet(3,1)/pjet(0,1))
+c    &      -atanh(pjet(3,2)/pjet(0,2))
+c     if (abs(tmpvar) .lt. {}) then
+c       passcuts_user=.false.
+c       return
+c     endif
+
+''',
     'mmllmax': '''c     cut for mmllmax (SFOS lepton pairs)
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then

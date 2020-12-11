@@ -120,6 +120,18 @@ cuts_code = {
       enddo
 
 ''',
+    'yt': '''c     cut on top particles
+      do i=1,nexternal
+        if (ipdg_reco(i).eq.6 .or. ipdg_reco(i).eq.-6) then
+          if (abs(atanh(p_reco(3,i)/p_reco(0,i)))
+     &        .gt. {}) then
+            passcuts_user=.false.
+            return
+          endif
+        endif
+      enddo
+
+''',
     'abscoscsmin': '''c     cut on the minimum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then

@@ -231,10 +231,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
 
         xystar = 0.5d0 * dabs(atanh(pjet(3,1)/pjet(0,1))-
      $                        atanh(pjet(3,2)/pjet(0,2)))
-        xmjj = getinvm(pjet(0,1)+pjet(0,2),
-     $                 pjet(1,1)+pjet(1,2),
-     $                 pjet(2,1)+pjet(2,2),
-     $                 pjet(3,1)+pjet(3,2))
+        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
 
         if (xystar.lt.0.5d0) then
           if (xmjj.lt.260d0 .or. xmjj.gt.4270d0) then
@@ -270,6 +267,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           passcuts_user=.false.
           return
         endif
+      endif
 
 ''',
 }

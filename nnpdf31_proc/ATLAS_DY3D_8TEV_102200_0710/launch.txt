@@ -19,7 +19,7 @@ set mll_sf = 102.0
 #user_defined_cut set mmllmax = 200.0
 #user_defined_cut set abscoscsmin = 0.7
 set rphreco = 0.1
-set req_acc_FO 0.0005
+set req_acc_FO 0.0002
 set pineappl True
 done
 quit

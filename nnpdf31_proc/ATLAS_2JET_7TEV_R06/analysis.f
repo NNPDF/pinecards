@@ -38,14 +38,13 @@ c     subroutine parameters
       integer ibody
 
 c     variables for amcatnlo_fastjetppgenkt
-      double precision pQCD(0:3,nexternal),rfj,sycut,palg
-     $     ,pjet(0:3,nexternal),etajet(nexternal)
+      double precision pQCD(0:3,nexternal),pjet(0:3,nexternal),
+     $                 etajet(nexternal)
       integer nQCD,jet(nexternal),njet
 
 c     observables
       integer xbin
       double precision xystar,xmjj,ptjet(nexternal),yjet(nexternal)
-     $     ,yjmax
 
 c     functions
       double precision getptv4,getinvm,getrapidityv4
@@ -65,11 +64,6 @@ c     miscellaneous
          endif
       enddo
 
-      palg = -1.0d0
-      rfj = 0.6d0
-      sycut = 50d0
-      yjmax = 3.0d0
-
       do i=1,nexternal
          do j=0,3
             pjet(j,i)=0d0
@@ -78,8 +72,8 @@ c     miscellaneous
       enddo
 
 c     recombine momenta
-      call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,rfj,sycut,yjmax
-     $     ,palg,pjet,njet,jet)
+      call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,jetradius,ptj,
+     $     etaj,jetalgo,pjet,njet,jet)
 
       if (njet.lt.2) then
         return

@@ -20,12 +20,12 @@ cuts_code = {
 
 ''',
     'dyjj': '''c     cut on the rapidity separation of the leading jets
-c     tmpvar=atanh(pjet(3,1)/pjet(0,1))
-c    &      -atanh(pjet(3,2)/pjet(0,2))
-c     if (abs(tmpvar) .lt. {}) then
-c       passcuts_user=.false.
-c       return
-c     endif
+      tmpvar=atanh(pjet(3,1)/pjet(0,1))
+     &      -atanh(pjet(3,2)/pjet(0,2))
+      if (abs(tmpvar) .lt. {}) then
+        passcuts_user=.false.
+        return
+      endif
 
 ''',
     'mmllmax': '''c     cut for mmllmax (SFOS lepton pairs)

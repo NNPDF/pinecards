@@ -93,9 +93,9 @@
 +           tmp=4d0
 +           write (*,*) "Error 4: scale couldn't find two jets"
 +         else
-+           tmp=(pjet(0,1)+pjet(0,2))**2-(pjet(1,1)+pjet(1,2))**2
-+     $                                 -(pjet(2,1)+pjet(2,2))**2
-+     $                                 -(pjet(3,1)+pjet(3,2))**2
++           tmp=sqrt((pjet(0,1)+pjet(0,2))**2-(pjet(1,1)+pjet(1,2))**2
++     $                                      -(pjet(2,1)+pjet(2,2))**2
++     $                                      -(pjet(3,1)+pjet(3,2))**2)
 +         endif
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc

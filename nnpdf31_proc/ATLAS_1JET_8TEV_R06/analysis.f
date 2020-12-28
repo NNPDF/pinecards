@@ -169,21 +169,30 @@ c     recombine momenta
 
       if (abs(yjet(1)).lt.0.5d0) then
       else if (abs(yjet(1)).lt.1.0d0) then
+        xbin = xbin + 34
       else if (abs(yjet(1)).lt.1.5d0) then
         if (ptjet(1).gt.1992d0) then
           xbin = -4d0
+        else
+          xbin = xbin + 34 + 34
         endif
       else if (abs(yjet(1)).lt.2.0d0) then
         if (ptjet(1).gt.1310d0) then
           xbin = -5d0
+        else
+          xbin = xbin + 34 + 34 + 32
         endif
       else if (abs(yjet(1)).lt.2.5d0) then
         if (ptjet(1).gt.838d0) then
           xbin = -6d0
+        else
+          xbin = xbin + 34 + 34 + 32 + 30
         endif
       else if (abs(yjet(1)).lt.3.0d0) then
         if (ptjet(1).gt.556d0) then
           xbin = -6d0
+        else
+          xbin = xbin + 34 + 34 + 32 + 30 + 24
         endif
       else
         xbin = -7d0

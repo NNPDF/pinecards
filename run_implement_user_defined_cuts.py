@@ -9,6 +9,9 @@ cuts_variables = {
       real*8 zpzll,zmll,zp1p,zp1m,zp2p,zp2m,zpt2ll
       integer zlep,zalep
 ''',
+    'atlas_1jet_8tev_r06': '''c     variables for atlas_1jet_8tev_r06 cuts
+      real*8 xptj,xyj
+''',
 }
 
 cuts_code = {
@@ -203,6 +206,52 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       enddo
 
+''',
+'atlas_1jet_8tev_r06': '''c
+      if ({}) then
+        if (njet.lt.1) then
+          passcuts_user=.false.
+          return
+        endif
+
+        xyj = dabs(atanh(pjet(3,1)/pjet(0,1)))
+        xptj = pt_04(pjet(0,1))
+
+        if (xyj.lt.0.5d0) then
+          if (xptj.gt.2500d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xyj.lt.1.0d0) then
+          if (xptj.gt.2500d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xyj.lt.1.5d0) then
+          if (xptj.gt.1992d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xyj.lt.2.0d0) then
+          if (xptj.gt.1310d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xyj.lt.2.5d0) then
+          if (xptj.gt.838d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xyj.lt.3.0d0) then
+          if (xptj.gt.565d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else
+          passcuts_user=.false.
+          return
+        endif
+      endif
 ''',
 }
 

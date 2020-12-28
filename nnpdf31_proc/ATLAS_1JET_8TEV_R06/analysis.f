@@ -182,7 +182,7 @@ c     recombine momenta
           xbin = -6d0
         endif
       else if (abs(yjet(1)).lt.3.0d0) then
-        if (ptjet(1).gt.565d0) then
+        if (ptjet(1).gt.556d0) then
           xbin = -6d0
         endif
       else

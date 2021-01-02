@@ -76,7 +76,7 @@ c     recombine momenta
       call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,jetradius,ptj,
      $     etaj,jetalgo,pjet,njet,jet)
 
-      if (njet.lt.2) then
+      if (njet.lt.1) then
         return
       endif
 

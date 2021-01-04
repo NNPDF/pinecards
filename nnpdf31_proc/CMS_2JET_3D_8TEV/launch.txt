@@ -15,7 +15,7 @@ set ptj = 50.0
 #user_defined_cut set cms_2jet_3d_8tev = True
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 3.0
-set req_acc_FO 0.001
+set req_acc_FO 0.0002
 set pineappl True
 done
 quit

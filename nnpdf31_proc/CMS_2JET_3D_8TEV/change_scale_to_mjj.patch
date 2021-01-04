@@ -1,6 +1,6 @@
 --- CMS_2JET_7TEV/SubProcesses/setscales.f.orig	2020-11-30 09:45:53.669448000 +0100
 +++ CMS_2JET_7TEV/SubProcesses/setscales.f	2020-12-09 15:04:10.610477654 +0100
-@@ -527,6 +527,30 @@
+@@ -527,6 +527,29 @@
        integer i,j
        character*80 temp_scale_id
        common/ctemp_scale_id/temp_scale_id
@@ -16,11 +16,10 @@
 +c Masses of external particles
 +      double precision pmass(nexternal)
 +      common/to_mass/pmass
-+      double precision pQCD(0:3,nexternal)
-+     $     ,pjet(0:3,nexternal),etajet(nexternal)
++      double precision pQCD(0:3,nexternal),
++     $       pjet(0:3,nexternal),etajet(nexternal)
 +      integer nQCD,jet(nexternal),njet
-+      integer xbin
-+      double precision xymax,xmjj,ptjet(nexternal),yjet(nexternal)
++      double precision ptjet(nexternal),yjet(nexternal)
 +c For boosts
 +      double precision ybst_til_tolab,ybst_til_tocm,sqrtshat,shat
 +      common/parton_cms_stuff/ybst_til_tolab,ybst_til_tocm,
@@ -31,7 +30,7 @@
  c
        tmp=0
        if(ickkw.eq.-1)then
-@@ -562,16 +587,58 @@
+@@ -562,16 +587,59 @@
            tmp=muR_ref_fixed
            temp_scale_id='fixed scale'
        elseif(dynamical_scale_choice.eq.10) then
@@ -45,7 +44,7 @@
 -         stop 1
 -         temp_scale_id='User-defined dynamical scale' ! use a meaningful string
 -         tmp = 0d0
-+          temp_scale_id='(ptj1+ptj2)/2'
++          temp_scale_id='Mjj'
 +
 +          do i=1,nexternal
 +            p_in(0:3,i) = pp(0:3,i)
@@ -94,8 +93,9 @@
 +           tmp=4d0
 +           write (*,*) "Error 4: scale couldn't find two jets"
 +         else
-+           tmp=ptjet(1)*exp(0.15d0*dabs(atanh(pjet(3,1)/pjet(0,1))-
-+     $                                  atanh(pjet(3,2)/pjet(0,2))))
++           tmp=sqrt((pjet(0,1)+pjet(0,2))**2-(pjet(1,1)+pjet(1,2))**2
++     $                                      -(pjet(2,1)+pjet(2,2))**2
++     $                                      -(pjet(3,1)+pjet(3,2))**2)
 +         endif
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc

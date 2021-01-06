@@ -8,7 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'3D diff',122,0d0,122d0)
+      call HwU_book(1,'3D diff',90, 0d0, 90d0)
+      call HwU_book(2,'3D diff',32,90d0,122d0)
 
       return
       end
@@ -216,8 +217,10 @@ c         nothing to do here
 
       if (xbin.lt.0d0 .or. xbin.gt.121d0) then
         write (*,*) "error: event outside bins", xystar, xptavg, xbin
-      else
+      else if (xbin.lt.90d0)
         call HwU_fill(1,xbin + 0.5d0,wgts)
+      else
+        call HwU_fill(2,xbin - 89.5d0,wgts)
       endif
 
  999  return

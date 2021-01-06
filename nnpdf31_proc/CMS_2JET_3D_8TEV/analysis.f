@@ -217,7 +217,7 @@ c         nothing to do here
 
       if (xbin.lt.0d0 .or. xbin.gt.121d0) then
         write (*,*) "error: event outside bins", xystar, xptavg, xbin
-      else if (xbin.lt.90d0)
+      else if (xbin.lt.90d0) then
         call HwU_fill(1,xbin + 0.5d0,wgts)
       else
         call HwU_fill(2,xbin - 89.5d0,wgts)

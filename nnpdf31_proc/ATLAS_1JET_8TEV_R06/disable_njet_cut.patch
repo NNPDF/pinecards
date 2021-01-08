@@ -1,0 +1,17 @@
+--- NLO/SubProcesses/cuts.f.orig	2020-12-28 08:35:58.642866860 +0100
++++ NLO/SubProcesses/cuts.f	2020-12-28 08:35:21.039628789 +0100
+@@ -267,10 +267,10 @@
+ c******************************************************************************
+ 
+ c Apply the jet cuts
+-         if (njet .ne. nQCD .and. njet .ne. nQCD-1) then
+-            passcuts_user=.false.
+-            return
+-         endif
++c        if (njet .ne. nQCD .and. njet .ne. nQCD-1) then
++c           passcuts_user=.false.
++c           return
++c        endif
+       endif
+  122  continue
+ c

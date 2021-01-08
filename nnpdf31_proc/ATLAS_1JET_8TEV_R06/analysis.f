@@ -203,7 +203,7 @@ c     recombine momenta
       else if (xbin.lt.90d0) then
         call HwU_fill(1,xbin + 0.5d0,wgts)
       else
-        call HwU_fill(2,xbin - 89.5d0,wgts)
+        call HwU_fill(2,xbin + 0.5d0,wgts)
       endif
 
  999  return

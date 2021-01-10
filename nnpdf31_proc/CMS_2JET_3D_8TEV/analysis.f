@@ -185,7 +185,7 @@ c         nothing to do here
         else
           xbin = -6d0
         endif
-      else if (xystar.lt.2d0) then
+      else if (xyboost.lt.2d0) then
         if (xystar.lt.1d0) then
           if (xptavg.gt.1032d0) then
             xbin = -7d0
@@ -201,7 +201,7 @@ c         nothing to do here
         else
           xbin = -9d0
         endif
-      else if (xystar.lt.3d0) then
+      else if (xyboost.lt.3d0) then
         if (xystar.lt.1d0) then
           if (xptavg.gt.430d0) then
             xbin = -10d0

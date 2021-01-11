@@ -245,7 +245,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
             passcuts_user=.false.
             return
           endif
-        else if (xystar.lt.2d0) then
+        else if (xyboost.lt.2d0) then
           if (xystar.lt.1d0) then
             if (xptavg.gt.1032d0) then
               passcuts_user=.false.
@@ -260,7 +260,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
             passcuts_user=.false.
             return
           endif
-        else if (xystar.lt.3d0) then
+        else if (xyboost.lt.3d0) then
           if (xystar.lt.1d0) then
             if (xptavg.gt.430d0) then
               passcuts_user=.false.

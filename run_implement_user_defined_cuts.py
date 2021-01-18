@@ -11,6 +11,7 @@ cuts_variables = {
 ''',
     'atlas_1jet_8tev_r06': '''c     variables for atlas_1jet_8tev_r06 cuts
       real*8 xptj,xyj
+      logical xjet
 ''',
 }
 
@@ -209,45 +210,46 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
 ''',
 'atlas_1jet_8tev_r06': '''c
       if ({}) then
-        if (njet.lt.1) then
-          passcuts_user=.false.
-          return
-        endif
+        xjet=.false.
 
-        xyj = dabs(atanh(pjet(3,1)/pjet(0,1)))
-        xptj = pt_04(pjet(0,1))
+        do i=1,njet
+          xyj = dabs(atanh(pjet(3,i)/pjet(0,i)))
+          xptj = pt_04(pjet(0,i))
 
-        if (xyj.lt.0.5d0) then
-          if (xptj.gt.2500d0) then
-            passcuts_user=.false.
-            return
+          if (xyj.lt.0.5d0) then
+            if (xptj.le.2500d0) then
+              xjet=.true.
+c             exit
+            endif
+          else if (xyj.lt.1.0d0) then
+            if (xptj.le.2500d0) then
+              xjet=.false.
+              exit
+            endif
+          else if (xyj.lt.1.5d0) then
+            if (xptj.le.1992d0) then
+              xjet=.false.
+              exit
+            endif
+          else if (xyj.lt.2.0d0) then
+            if (xptj.le.1310d0) then
+              xjet=.false.
+              exit
+            endif
+          else if (xyj.lt.2.5d0) then
+            if (xptj.le.838d0) then
+              xjet=.false.
+              exit
+            endif
+          else if (xyj.lt.3.0d0) then
+            if (xptj.le.565d0) then
+              xjet=.false.
+              exit
+            endif
           endif
-        else if (xyj.lt.1.0d0) then
-          if (xptj.gt.2500d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xyj.lt.1.5d0) then
-          if (xptj.gt.1992d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xyj.lt.2.0d0) then
-          if (xptj.gt.1310d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xyj.lt.2.5d0) then
-          if (xptj.gt.838d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xyj.lt.3.0d0) then
-          if (xptj.gt.565d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else
+        enddo
+
+        if (.not. xjet) then
           passcuts_user=.false.
           return
         endif

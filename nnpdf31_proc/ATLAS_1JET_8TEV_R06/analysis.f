@@ -45,14 +45,15 @@ c     variables for amcatnlo_fastjetppgenkt
 
 c     observables
       integer xbin
-      double precision xystar,xmjj,ptjet(nexternal),yjet(nexternal)
+      double precision ptjet,yjet
 
 c     functions
       double precision getptv4,getinvm,getrapidityv4
       external getptv4,getinvm,getrapidityv4
 
 c     miscellaneous
-      integer i,j
+      integer i,j,xbinneg(3)
+      logical xjet
 
       nQCD=0
       do j=nincoming+1,nexternal
@@ -76,134 +77,136 @@ c     recombine momenta
       call amcatnlo_fastjetppgenkt_etamax(pQCD,nQCD,jetradius,ptj,
      $     etaj,jetalgo,pjet,njet,jet)
 
-      if (njet.lt.1) then
-        return
-      endif
+      xjet=.false.
+      xbinneg(1)=0
+      xbinneg(2)=0
+      xbinneg(3)=0
 
       do i=1,njet
-        ptjet(i)=getptv4(pjet(0,i))
-        if(i.gt.1)then
-          if (ptjet(i).gt.ptjet(i-1)) then
-            write (*,*) "Error 1: jets should be ordered in pt"
-            stop
-          endif
+        ptjet=getptv4(pjet(0,i))
+        yjet=dabs(getrapidityv4(pjet(0,i)))
+
+        xbin = -1d0
+
+        if (ptjet.lt.70d0) then
+          xbin = -2d0
+        elseif (ptjet.lt.85d0) then
+          xbin = 0d0
+        elseif (ptjet.lt.100d0) then
+          xbin = 1d0
+        elseif (ptjet.lt.116d0) then
+          xbin = 2d0
+        elseif (ptjet.lt.134d0) then
+          xbin = 3d0
+        elseif (ptjet.lt.152d0) then
+          xbin = 4d0
+        elseif (ptjet.lt.172d0) then
+          xbin = 5d0
+        elseif (ptjet.lt.194d0) then
+          xbin = 6d0
+        elseif (ptjet.lt.216d0) then
+          xbin = 7d0
+        elseif (ptjet.lt.240d0) then
+          xbin = 8d0
+        elseif (ptjet.lt.264d0) then
+          xbin = 9d0
+        elseif (ptjet.lt.290d0) then
+          xbin = 10d0
+        elseif (ptjet.lt.318d0) then
+          xbin = 11d0
+        elseif (ptjet.lt.346d0) then
+          xbin = 12d0
+        elseif (ptjet.lt.376d0) then
+          xbin = 13d0
+        elseif (ptjet.lt.408d0) then
+          xbin = 14d0
+        elseif (ptjet.lt.442d0) then
+          xbin = 15d0
+        elseif (ptjet.lt.478d0) then
+          xbin = 16d0
+        elseif (ptjet.lt.516d0) then
+          xbin = 17d0
+        elseif (ptjet.lt.556d0) then
+          xbin = 18d0
+        elseif (ptjet.lt.598d0) then
+          xbin = 19d0
+        elseif (ptjet.lt.642d0) then
+          xbin = 20d0
+        elseif (ptjet.lt.688d0) then
+          xbin = 21d0
+        elseif (ptjet.lt.736d0) then
+          xbin = 22d0
+        elseif (ptjet.lt.786d0) then
+          xbin = 23d0
+        elseif (ptjet.lt.838d0) then
+          xbin = 24d0
+        elseif (ptjet.lt.894d0) then
+          xbin = 25d0
+        elseif (ptjet.lt.952d0) then
+          xbin = 26d0
+        elseif (ptjet.lt.1012d0) then
+          xbin = 27d0
+        elseif (ptjet.lt.1076d0) then
+          xbin = 28d0
+        elseif (ptjet.lt.1162d0) then
+          xbin = 29d0
+        elseif (ptjet.lt.1310d0) then
+          xbin = 30d0
+        elseif (ptjet.lt.1530d0) then
+          xbin = 31d0
+        elseif (ptjet.lt.1992d0) then
+          xbin = 32d0
+        elseif (ptjet.lt.2500d0) then
+          xbin = 33d0
+        else
+          xbin = -3d0
         endif
-        yjet(i)=getrapidityv4(pjet(0,i))
+
+        if (yjet.lt.0.5d0) then
+        else if (yjet.lt.1.0d0) then
+          xbin = xbin + 34
+        else if (yjet.lt.1.5d0) then
+          if (ptjet.gt.1992d0) then
+            xbin = -4d0
+          else
+            xbin = xbin + 34 + 34
+          endif
+        else if (yjet.lt.2.0d0) then
+          if (ptjet.gt.1310d0) then
+            xbin = -5d0
+          else
+            xbin = xbin + 34 + 34 + 32
+          endif
+        else if (yjet.lt.2.5d0) then
+          if (ptjet.gt.838d0) then
+            xbin = -6d0
+          else
+            xbin = xbin + 34 + 34 + 32 + 30
+          endif
+        else if (yjet.lt.3.0d0) then
+          if (ptjet.gt.556d0) then
+            xbin = -6d0
+          else
+            xbin = xbin + 34 + 34 + 32 + 30 + 24
+          endif
+        else
+          xbin = -7d0
+        endif
+
+        if (xbin.lt.0d0) then
+          xbinneg(i) = xbin
+        else if (xbin.lt.90d0) then
+          call HwU_fill(1,xbin + 0.5d0,wgts)
+          xjet=.true.
+        else
+          call HwU_fill(2,xbin + 0.5d0,wgts)
+          xjet=.true.
+        endif
       enddo
 
-      xbin = -1d0
-
-      if (ptjet(1).lt.70d0) then
-        xbin = -2d0
-      elseif (ptjet(1).lt.85d0) then
-        xbin = 0d0
-      elseif (ptjet(1).lt.100d0) then
-        xbin = 1d0
-      elseif (ptjet(1).lt.116d0) then
-        xbin = 2d0
-      elseif (ptjet(1).lt.134d0) then
-        xbin = 3d0
-      elseif (ptjet(1).lt.152d0) then
-        xbin = 4d0
-      elseif (ptjet(1).lt.172d0) then
-        xbin = 5d0
-      elseif (ptjet(1).lt.194d0) then
-        xbin = 6d0
-      elseif (ptjet(1).lt.216d0) then
-        xbin = 7d0
-      elseif (ptjet(1).lt.240d0) then
-        xbin = 8d0
-      elseif (ptjet(1).lt.264d0) then
-        xbin = 9d0
-      elseif (ptjet(1).lt.290d0) then
-        xbin = 10d0
-      elseif (ptjet(1).lt.318d0) then
-        xbin = 11d0
-      elseif (ptjet(1).lt.346d0) then
-        xbin = 12d0
-      elseif (ptjet(1).lt.376d0) then
-        xbin = 13d0
-      elseif (ptjet(1).lt.408d0) then
-        xbin = 14d0
-      elseif (ptjet(1).lt.442d0) then
-        xbin = 15d0
-      elseif (ptjet(1).lt.478d0) then
-        xbin = 16d0
-      elseif (ptjet(1).lt.516d0) then
-        xbin = 17d0
-      elseif (ptjet(1).lt.556d0) then
-        xbin = 18d0
-      elseif (ptjet(1).lt.598d0) then
-        xbin = 19d0
-      elseif (ptjet(1).lt.642d0) then
-        xbin = 20d0
-      elseif (ptjet(1).lt.688d0) then
-        xbin = 21d0
-      elseif (ptjet(1).lt.736d0) then
-        xbin = 22d0
-      elseif (ptjet(1).lt.786d0) then
-        xbin = 23d0
-      elseif (ptjet(1).lt.838d0) then
-        xbin = 24d0
-      elseif (ptjet(1).lt.894d0) then
-        xbin = 25d0
-      elseif (ptjet(1).lt.952d0) then
-        xbin = 26d0
-      elseif (ptjet(1).lt.1012d0) then
-        xbin = 27d0
-      elseif (ptjet(1).lt.1076d0) then
-        xbin = 28d0
-      elseif (ptjet(1).lt.1162d0) then
-        xbin = 29d0
-      elseif (ptjet(1).lt.1310d0) then
-        xbin = 30d0
-      elseif (ptjet(1).lt.1530d0) then
-        xbin = 31d0
-      elseif (ptjet(1).lt.1992d0) then
-        xbin = 32d0
-      elseif (ptjet(1).lt.2500d0) then
-        xbin = 33d0
-      else
-        xbin = -3d0
-      endif
-
-      if (abs(yjet(1)).lt.0.5d0) then
-      else if (abs(yjet(1)).lt.1.0d0) then
-        xbin = xbin + 34
-      else if (abs(yjet(1)).lt.1.5d0) then
-        if (ptjet(1).gt.1992d0) then
-          xbin = -4d0
-        else
-          xbin = xbin + 34 + 34
-        endif
-      else if (abs(yjet(1)).lt.2.0d0) then
-        if (ptjet(1).gt.1310d0) then
-          xbin = -5d0
-        else
-          xbin = xbin + 34 + 34 + 32
-        endif
-      else if (abs(yjet(1)).lt.2.5d0) then
-        if (ptjet(1).gt.838d0) then
-          xbin = -6d0
-        else
-          xbin = xbin + 34 + 34 + 32 + 30
-        endif
-      else if (abs(yjet(1)).lt.3.0d0) then
-        if (ptjet(1).gt.556d0) then
-          xbin = -6d0
-        else
-          xbin = xbin + 34 + 34 + 32 + 30 + 24
-        endif
-      else
-        xbin = -7d0
-      endif
-
-      if (xbin.lt.0d0) then
-        write (*,*) "error: event outside bins", xystar, xmjj, xbin
-      else if (xbin.lt.90d0) then
-        call HwU_fill(1,xbin + 0.5d0,wgts)
-      else
-        call HwU_fill(2,xbin + 0.5d0,wgts)
+      if (.not. xjet) then
+        write (*,*) "error: event outside bins", xbinneg(1), xbinneg(2),
+     &                                           xbinneg(3), njet
       endif
 
  999  return

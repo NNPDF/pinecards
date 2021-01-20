@@ -8,8 +8,12 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'2D diff',90, 0d0, 90d0)
-      call HwU_book(2,'2D diff',82,90d0,172d0)
+      call HwU_book(1,'jet1',90,  0d0, 90d0)
+      call HwU_book(2,'jet1',82, 90d0,172d0)
+      call HwU_book(3,'jet2',90,172d0,262d0)
+      call HwU_book(4,'jet2',82,262d0,344d0)
+      call HwU_book(5,'jet3',90,344d0,426d0)
+      call HwU_book(6,'jet3',82,426d0,508d0)
 
       return
       end
@@ -44,8 +48,7 @@ c     variables for amcatnlo_fastjetppgenkt
       integer nQCD,jet(nexternal),njet
 
 c     observables
-      integer xbin
-      double precision ptjet,yjet
+      double precision ptjet,yjet,xbin
 
 c     functions
       double precision getptv4,getinvm,getrapidityv4
@@ -196,10 +199,12 @@ c     recombine momenta
         if (xbin.lt.0d0) then
           xbinneg(i) = xbin
         else if (xbin.lt.90d0) then
-          call HwU_fill(1,xbin + 0.5d0,wgts)
+          xbin = xbin + 172d0 * dble(i - 1)
+          call HwU_fill(2 * (i - 1) + 1,xbin + 0.5d0,wgts)
           xjet=.true.
         else
-          call HwU_fill(2,xbin + 0.5d0,wgts)
+          xbin = xbin + 172d0 * dble(i - 1)
+          call HwU_fill(2 * (i - 1) + 2,xbin + 0.5d0,wgts)
           xjet=.true.
         endif
       enddo

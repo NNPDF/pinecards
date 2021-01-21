@@ -12,8 +12,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_book(2,'jet1',82, 90d0,172d0)
       call HwU_book(3,'jet2',90,172d0,262d0)
       call HwU_book(4,'jet2',82,262d0,344d0)
-      call HwU_book(5,'jet3',90,344d0,426d0)
-      call HwU_book(6,'jet3',82,426d0,508d0)
+      call HwU_book(5,'jet3',90,344d0,434d0)
+      call HwU_book(6,'jet3',82,434d0,516d0)
 
       return
       end

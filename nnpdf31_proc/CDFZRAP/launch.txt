@@ -5,7 +5,7 @@ set mz @MZ@
 set ymt @YMT@
 set ebeam1 980
 set ebeam2 980
-set lpp1 -1
+set lpp2 -1
 set pdlabel lhapdf
 set lhaid 324900
 set fixed_ren_scale True

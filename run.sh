@@ -141,6 +141,11 @@ EOF
         grid="${grid}.lz4"
     fi
 
+    if [[ -x ../nnpdf31_proc/"${dataset}"/precheck.sh ]]; then
+        cp ../nnpdf31_proc/"${dataset}"/precheck.sh .
+        GRID=$grid ./precheck.sh
+    fi
+
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 

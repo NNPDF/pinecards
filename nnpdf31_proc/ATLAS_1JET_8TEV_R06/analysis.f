@@ -167,30 +167,34 @@ c     recombine momenta
 
         if (yjet.lt.0.5d0) then
         else if (yjet.lt.1.0d0) then
+c         for the second rapidity slice the last two bins are merged
+          if (xbin.eq.33d0) then
+            xbin = 32
+          endif
           xbin = xbin + 34
         else if (yjet.lt.1.5d0) then
           if (ptjet.gt.1992d0) then
             xbin = -4d0
           else
-            xbin = xbin + 34 + 34
+            xbin = xbin + 34 + 33
           endif
         else if (yjet.lt.2.0d0) then
           if (ptjet.gt.1310d0) then
             xbin = -5d0
           else
-            xbin = xbin + 34 + 34 + 32
+            xbin = xbin + 34 + 33 + 32
           endif
         else if (yjet.lt.2.5d0) then
           if (ptjet.gt.838d0) then
             xbin = -6d0
           else
-            xbin = xbin + 34 + 34 + 32 + 30
+            xbin = xbin + 34 + 33 + 32 + 30
           endif
         else if (yjet.lt.3.0d0) then
           if (ptjet.gt.556d0) then
             xbin = -6d0
           else
-            xbin = xbin + 34 + 34 + 32 + 30 + 24
+            xbin = xbin + 34 + 33 + 32 + 30 + 24
           endif
         else
           xbin = -7d0

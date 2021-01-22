@@ -242,7 +242,7 @@ c             exit
               exit
             endif
           else if (xyj.lt.3.0d0) then
-            if (xptj.le.565d0) then
+            if (xptj.le.556d0) then
               xjet=.true.
               exit
             endif

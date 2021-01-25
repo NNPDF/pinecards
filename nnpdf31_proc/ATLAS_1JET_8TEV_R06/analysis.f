@@ -8,12 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'jet1',90,  0d0, 90d0)
-      call HwU_book(2,'jet1',82, 90d0,172d0)
-      call HwU_book(3,'jet2',90,172d0,262d0)
-      call HwU_book(4,'jet2',82,262d0,344d0)
-      call HwU_book(5,'jet3',90,344d0,434d0)
-      call HwU_book(6,'jet3',82,434d0,516d0)
+      call HwU_book(1,'dist',90,  0d0, 90d0)
+      call HwU_book(2,'dist',81, 90d0,171d0)
 
       return
       end
@@ -203,12 +199,10 @@ c         for the second rapidity slice the last two bins are merged
         if (xbin.lt.0d0) then
           xbinneg(i) = xbin
         else if (xbin.lt.90d0) then
-          xbin = xbin + 172d0 * dble(i - 1)
-          call HwU_fill(2 * (i - 1) + 1,xbin + 0.5d0,wgts)
+          call HwU_fill(1,xbin + 0.5d0,wgts)
           xjet=.true.
         else
-          xbin = xbin + 172d0 * dble(i - 1)
-          call HwU_fill(2 * (i - 1) + 2,xbin + 0.5d0,wgts)
+          call HwU_fill(2,xbin + 0.5d0,wgts)
           xjet=.true.
         endif
       enddo

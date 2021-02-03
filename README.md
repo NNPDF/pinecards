@@ -83,6 +83,21 @@ meaning are as follows:
   additional operations, such as rescaling. The environment variable `$GRID`
   contains the relative path the PineAPPL grid.
 
+* The `metadata.txt` file (optional). This file collects all metadata, which is
+  written into the grid after generation. Arbitrary `key=value` pairs are
+  supported, the most common are:
+
+  - `arxiv`: The arxiv number of the experimental analysis, or if there are
+    more than one, comma-seperated numbers.
+  - `description`: A short description of the process/observables. Make sure to
+    include also the name of the experiment and the centre-of-mass energy.
+  - `hepdata`: The DOI pointing to the experimental data.
+  - `x1_label`: The name of first (second, third, ...) observable.
+  - `x1_label_tex`: The name of the observable, but TeX commands are allowed.
+  - `x1_unit`: The unit of the observable (typically `GeV`). If this key is not
+    present, the corresponding observable is assumed to be dimensionless.
+  - `y_label`: The unit for the cross section (typically `pb`).
+
 ## Generating the PineAPPL grid(s)
 Provided the above files, the production of the grids only requires the user to
 run the `./run.sh [dataset]` script. The script takes as only parameter the

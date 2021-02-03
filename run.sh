@@ -167,6 +167,15 @@ EOF
 
     rm results.mg5_aMC results.grid
 
+    # add metadata
+    if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
+        eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }
+                              { printf \"--entry %s '%s' \", \$1, \$2 }
+                        END   { printf \"\\n\" }" \
+            ../nnpdf31_proc/"${dataset}"/metadata.txt)
+        mv $grid.new $grid
+    fi
+
     # if there is anything to do after the run, do it!
     if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then
         cp ../nnpdf31_proc/"${dataset}"/postrun.sh .

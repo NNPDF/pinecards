@@ -132,6 +132,15 @@ EOF
     # merge the final bins
     "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl)
 
+    # add metadata
+    if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
+        eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }
+                              { printf \"--entry %s '%s' \", \$1, \$2 }
+                        END   { printf \"\\n\" }" \
+            ../nnpdf31_proc/"${dataset}"/metadata.txt)
+        mv $grid.new ${grid}
+    fi
+
     lz4=$(which lz4 2> /dev/null || true)
 
     # compress the grid with `lz4` if it's available
@@ -166,15 +175,6 @@ EOF
         tee results.log
 
     rm results.mg5_aMC results.grid
-
-    # add metadata
-    if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
-        eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }
-                              { printf \"--entry %s '%s' \", \$1, \$2 }
-                        END   { printf \"\\n\" }" \
-            ../nnpdf31_proc/"${dataset}"/metadata.txt)
-        mv $grid.new $grid
-    fi
 
     # if there is anything to do after the run, do it!
     if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then

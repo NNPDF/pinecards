@@ -6,10 +6,11 @@ generation of PineAPPL grids that include NLO QCD+EW corrections.
 To successfully generate a PineAPPL grid, the following packages are required:
 
 * the modified version of **Madgraph/MC@NLO**
-  (<https://launchpad.net/mg5amc-pineappl>) installable as `bzr branch
-  lp:~amcblast/mg5amc-pineappl/trunk` (bazaar is available from
-  <http://bazaar.canonical.com/en/> if it is not already installed on your
-  machine). The binary `mg5_aMC` must also be found in `PATH`.
+  (<https://code.launchpad.net/~maddevelopers/mg5amcnlo/3.0.4>) installable as
+  `bzr branch bzr branch lp:~maddevelopers/mg5amcnlo/3.0.4` (bazaar is
+  available from <http://bazaar.canonical.com/en/> if it is not already
+  installed on your machine). The binary `mg5_aMC` must also be found in
+  `PATH`.
 * the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
 * the **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
   execute the following steps inside the repository:
@@ -92,8 +93,9 @@ meaning are as follows:
   - `description`: A short description of the process/observables. Make sure to
     include also the name of the experiment and the centre-of-mass energy.
   - `hepdata`: The DOI pointing to the experimental data.
-  - `x1_label`: The name of first (second, third, ...) observable.
-  - `x1_label_tex`: The name of the observable, but TeX commands are allowed.
+  - `x1_label`: The name of the first (second, third, ...) observable.
+  - `x1_label_tex`: The name of the observable, intended to be written in
+    LaTeX.
   - `x1_unit`: The unit of the observable (typically `GeV`). If this key is not
     present, the corresponding observable is assumed to be dimensionless.
   - `y_label`: The unit for the cross section (typically `pb`).

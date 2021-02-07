@@ -132,6 +132,10 @@ EOF
     # merge the final bins
     "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl)
 
+    # optimize the grids
+    "${pineappl}" optimize "${grid}" "${grid}".tmp
+    mv "${grid}".tmp "${grid}"
+
     # add metadata
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
         eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }

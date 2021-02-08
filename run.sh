@@ -138,9 +138,10 @@ EOF
 
     # add metadata
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
+        runcard="${dataset}"/Events/run_01*/run_01_tag_1_banner.txt
         eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }
-                        END   { printf \"\\n\" }" \
+                        END   { printf \"--entry_from_file runcard ${runcard}\\n\" }" \
             ../nnpdf31_proc/"${dataset}"/metadata.txt)
         mv $grid.new ${grid}
     fi

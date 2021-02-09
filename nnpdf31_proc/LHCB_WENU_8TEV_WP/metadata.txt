@@ -1,6 +1,5 @@
-arxiv=1511.08039
+arxiv=1608.01484
 description=LHCb differential Drell–Yan cross section at 8 TeV
-hepdata=10.17182/hepdata.71419.v1/t1
 x1_label=eta_l
 x1_label_tex=$\eta_{\bar{\ell}}$
 y_unit=pb

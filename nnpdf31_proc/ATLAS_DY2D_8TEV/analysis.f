@@ -74,6 +74,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         xbin=dble(int(6d0 * xyll / 2.4d0))+12d0+12d0+12d0+6d0
       else
         write (*,*) "error: event outside bins", xmll, xyll
+        stop 1
       endif
 
       call HwU_fill(1,xbin,wgts)

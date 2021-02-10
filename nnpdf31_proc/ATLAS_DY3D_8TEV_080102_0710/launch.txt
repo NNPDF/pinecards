@@ -18,6 +18,7 @@ set etal = 2.4
 set mll_sf = 80.0
 #user_defined_cut set mmllmax = 102.0
 #user_defined_cut set abscoscsmin = 0.7
+#user_defined_cut set atlas_dy3d_8tev = True
 set rphreco = 0.1
 set req_acc_FO 0.0002
 set pineappl True

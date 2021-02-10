@@ -1,6 +1,6 @@
 # Runcards for NNPDF
-In this repository we store all runcards needed to generate PineAPPL grids for
-the processes included in NNPDF.
+In this repository all runcards needed to generate PineAPPL grids for the
+processes included in NNPDF are stored.
 
 ## Prerequisites
 To successfully generate a PineAPPL grid, the following packages are required:
@@ -11,7 +11,7 @@ To successfully generate a PineAPPL grid, the following packages are required:
   available from <http://bazaar.canonical.com/en/> if it is not already
   installed on your machine).
 * once you've installed it make sure that the binary `mg5_aMC` (in the
-  subdirectory `bin` of Madgraph's top directory) is also found in `PATH`.
+  subdirectory `bin` in Madgraph's top directory) is also found in `PATH`.
 * the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
 * install the `cargo-c` crate:
 
@@ -26,12 +26,12 @@ To successfully generate a PineAPPL grid, the following packages are required:
 
   Make sure to replace `${prefix}` with an appropriate installation directory,
   and that the environment variables are set (permanently in your `~/.bashrc`,
-  for example) to the following values
+  for example) to the following values:
 
       export LD_LIBRARY_PATH=${prefix}/lib
       export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig
 
-  Test your installation using
+  Test your installation using:
 
       pkg-config pineappl_capi --libs
 
@@ -41,7 +41,7 @@ To successfully generate a PineAPPL grid, the following packages are required:
       -L${prefix}/lib -lpineappl_capi
 
   If there is no output, something is wrong.
-* in the same repository, install the shell program **`pineappl`** using
+* in the same repository, install the shell program **`pineappl`** using:
 
       cargo install --path pineappl_cli
 
@@ -121,12 +121,13 @@ for the same dataset do not overwrite each other's output.
 
 The contents of this directory are:
 
+* `DATASET.pineappl.lz4`: All grids created by `mg5_aMC` merged together and
+  compressed using `lz4`. This is the most important output.
 * `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
   this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
   * `Events/*/amcblast_obs_*.pineappl`: grids created by `mg5_aMC`, not yet
     merged together
-* `DATASET.pineappl`: All grids created by `mg5_aMC` merged together.
 * `launch.log`: Output of `mg5_aMC` during the 'launch' phase
 * `launch.txt`: Run card for the 'launch' phase, with all variables substituted
   to their final values

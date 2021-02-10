@@ -1,17 +1,22 @@
-# aMCblast
-The madgraph/aMCblast project consists of a set of tools for the automated
-generation of PineAPPL grids that include NLO QCD+EW corrections.
+# Runcards for NNPDF
+In this repository we store all runcards needed to generate PineAPPL grids for
+the processes included in NNPDF.
 
 ## Prerequisites
 To successfully generate a PineAPPL grid, the following packages are required:
 
-* the modified version of **Madgraph/MC@NLO**
+* a version of **Madgraph/MC@NLO** that supports PineAPPL
   (<https://code.launchpad.net/~maddevelopers/mg5amcnlo/3.0.4>) installable as
   `bzr branch bzr branch lp:~maddevelopers/mg5amcnlo/3.0.4` (bazaar is
   available from <http://bazaar.canonical.com/en/> if it is not already
-  installed on your machine). The binary `mg5_aMC` must also be found in
-  `PATH`.
+  installed on your machine).
+* once you've installed it make sure that the binary `mg5_aMC` (in the
+  subdirectory `bin` of Madgraph's top directory) is also found in `PATH`.
 * the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
+* install the `cargo-c` crate:
+
+      cargo install cargo-c
+
 * the **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
   execute the following steps inside the repository:
 
@@ -20,8 +25,8 @@ To successfully generate a PineAPPL grid, the following packages are required:
       cd ..
 
   Make sure to replace `${prefix}` with an appropriate installation directory,
-  and that the environment variables are set (permanently in your `~/.bashr`,
-  for examples) to the following values
+  and that the environment variables are set (permanently in your `~/.bashrc`,
+  for example) to the following values
 
       export LD_LIBRARY_PATH=${prefix}/lib
       export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig
@@ -31,7 +36,7 @@ To successfully generate a PineAPPL grid, the following packages are required:
       pkg-config pineappl_capi --libs
 
   This prints the linker flags needed to link against the C API of PineAPPL,
-  and should like similar to the following output
+  and the output should be similar to the following one:
 
       -L${prefix}/lib -lpineappl_capi
 
@@ -94,8 +99,7 @@ meaning are as follows:
     include also the name of the experiment and the centre-of-mass energy.
   - `hepdata`: The DOI pointing to the experimental data.
   - `x1_label`: The name of the first (second, third, ...) observable.
-  - `x1_label_tex`: The name of the observable, intended to be written in
-    LaTeX.
+  - `x1_label_tex`: The name of the observable, written in LaTeX.
   - `x1_unit`: The unit of the observable (typically `GeV`). If this key is not
     present, the corresponding observable is assumed to be dimensionless.
   - `y_label`: The unit for the cross section (typically `pb`).
@@ -120,9 +124,9 @@ The contents of this directory are:
 * `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
   this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
-  * `Events/*/amcblast_obs_*.root`: grids created by `mg5_aMC`, not yet merged
-    together
-* `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together.
+  * `Events/*/amcblast_obs_*.pineappl`: grids created by `mg5_aMC`, not yet
+    merged together
+* `DATASET.pineappl`: All grids created by `mg5_aMC` merged together.
 * `launch.log`: Output of `mg5_aMC` during the 'launch' phase
 * `launch.txt`: Run card for the 'launch' phase, with all variables substituted
   to their final values

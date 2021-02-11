@@ -146,15 +146,6 @@ EOF
         mv $grid.new ${grid}
     fi
 
-    lz4=$(which lz4 2> /dev/null || true)
-
-    # compress the grid with `lz4` if it's available
-    if [[ -x ${lz4} ]]; then
-        lz4 -9 "${grid}"
-        rm "${grid}"
-        grid="${grid}.lz4"
-    fi
-
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
@@ -185,6 +176,14 @@ EOF
     if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then
         cp ../nnpdf31_proc/"${dataset}"/postrun.sh .
         GRID=$grid ./postrun.sh
+    fi
+
+    lz4=$(which lz4 2> /dev/null || true)
+
+    # compress the grid with `lz4` if it's available
+    if [[ -x ${lz4} ]]; then
+        lz4 -9 "${grid}"
+        rm "${grid}"
     fi
 }
 

@@ -137,14 +137,16 @@ EOF
     mv "${grid}".tmp "${grid}"
 
     # add metadata
+    runcard="${dataset}"/Events/run_01*/run_01_tag_1_banner.txt
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
-        runcard="${dataset}"/Events/run_01*/run_01_tag_1_banner.txt
-        eval $(awk -F= "BEGIN { printf \"pineappl set $grid $grid.new \" }
+        eval $(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }
                         END   { printf \"--entry_from_file runcard ${runcard}\\n\" }" \
             ../nnpdf31_proc/"${dataset}"/metadata.txt)
-        mv $grid.new ${grid}
+    else
+        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard ${runcard}
     fi
+    mv "${grid}".tmp "${grid}"
 
     # find out which PDF set was used to generate the predictions
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')

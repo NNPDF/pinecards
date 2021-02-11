@@ -205,6 +205,9 @@ EOF
 
     rm results.mg5_aMC results.grid
 
+    "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file results results.log
+    mv "${grid}".tmp "${grid}"
+
     # if there is anything to do after the run, do it!
     if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then
         cp ../nnpdf31_proc/"${dataset}"/postrun.sh .

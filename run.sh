@@ -159,7 +159,7 @@ EOF
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
     # (re-)produce predictions
-    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 > pineappl.convolute
+    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute > pineappl.convolute
     "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
     "${pineappl}" pdf_uncertainty --threads=1 "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
@@ -167,22 +167,48 @@ EOF
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the integrated results from the PineAPPL grid
-    cat pineappl.convolute | head -n -2 | tail -n +5 | awk '{ print $5 }' > results.grid
+    cat pineappl.convolute | head -n -2 | tail -n +5 | \
+        awk '{ print $5, $6, $7, $8, $9, $10, $11, $12, $13, $14 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
     paste -d ' ' results.grid results.mg5_aMC | awk \
         'function abs(x) { return x < 0.0 ? -x : x; }
-         BEGIN { print "---------------------------------------------------------------------------------"
-                 print "   PineAPPL         MC        MC unc. sigmas   1/1000    9-point scale var. (MC)"
-                 print "---------------------------------------------------------------------------------" }
-         { printf "% e % e %7.3f%% %7.3f %8.4f % e % e\n",
+         function max(x1,x2,x3,x4,x5,x6,x7,x8,x9) {
+             result=x1;
+             if (x2 > result) { result = x2; }
+             if (x3 > result) { result = x3; }
+             if (x4 > result) { result = x4; }
+             if (x5 > result) { result = x5; }
+             if (x6 > result) { result = x6; }
+             if (x7 > result) { result = x7; }
+             if (x8 > result) { result = x8; }
+             if (x9 > result) { result = x9; }
+             return result;
+         }
+         function min(x1,x2,x3,x4,x5,x6,x7,x8,x9) {
+             result=x1;
+             if (x2 < result) { result = x2; }
+             if (x3 < result) { result = x3; }
+             if (x4 < result) { result = x4; }
+             if (x5 < result) { result = x5; }
+             if (x6 < result) { result = x6; }
+             if (x7 < result) { result = x7; }
+             if (x8 < result) { result = x8; }
+             if (x9 < result) { result = x9; }
+             return result;
+         }
+         BEGIN { print "-----------------------------------------------------------------------"
+                 print "   PineAPPL         MC         sigma   diff.   central    min      max "
+                 print "                                       sigma   1/1000   1/1000   1/1000"
+                 print "-----------------------------------------------------------------------" }
+         { printf "% e % e %7.3f%% %7.3f %8.4f %8.4f %8.4f\n",
                   $1,
-                  $4,
-                  $4 != 0.0 ? $5/$4*100 : 0.0,
-                  $5 != 0.0 ? abs($1-$4)/$5 : 0.0,
-                  $4 != 0.0 ? abs($1-$4)/$4*1000 : 0.0,
-                  $7,
-                  $8 }' | tee results.log
+                  $13,
+                  $13 != 0.0 ? $14/$13*100 : 0.0,
+                  $14 != 0.0 ? abs($1-$13)/$14 : 0.0,
+                  $13 != 0.0 ? abs($1-$13)/$13*1000 : 0.0,
+                  $16 != 0.0 ? abs(min($2, $3, $4, $5, $6, $7, $8, $9, $10)-$16)/$16*1000 : 0.0,
+                  $17 != 0.0 ? abs(max($2, $3, $4, $5, $6, $7, $8, $9, $10)-$17)/$17*1000 : 0.0 }' | tee results.log
 
     rm results.mg5_aMC results.grid
 

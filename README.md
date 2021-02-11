@@ -116,5 +116,11 @@ The contents of this directory are:
 * `pineappl.orders`: Output of `pineappl orders`
 * `pineappl.pdf_uncertainty`: Output of `pineappl pdf_uncertainty`
 * `results.log`: The numerical results of the run, comparing the results of the
-  grid against the results from `mg5_aMC`
+  grid against the results from `mg5_aMC`. The first column (PineAPPL) are the
+  interpolated results, which should be similar to the Monte Carlo (MC) results
+  in the second column. The third column gives the relative MC uncertainty
+  (sigma). The next column gives the differences in terms of sigma. The final
+  three columns give the per mille differences of the central, minimum, and
+  maximum scale varied results. Ideally the first two columns are the same and
+  the remaining columns are zero.
 * `time.log`: Total `time` needed for the run

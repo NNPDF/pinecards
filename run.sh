@@ -165,12 +165,17 @@ EOF
     # compare the results from the grid and from mg5_aMC
     paste -d ' ' results.grid results.mg5_aMC | awk \
         'function abs(x) { return x < 0.0 ? -x : x; }
-         BEGIN { print "----------------------------------------------------------------------------------------"
-                 print "   PineAPPL       mg5_aMC   mg5_aMC unc.   sigmas   per mille   9-point scale var. (MC)"
-                 print "----------------------------------------------------------------------------------------" }
-         { printf "% e % e %e %8.3f %10.4f % e % e\n",
-                  $1, $4, $5, $5 != 0.0 ? abs($1-$4)/$5 : 0.0, $4 != 0.0 ? abs($1-$4)/$4*1000 : 0.0, $7, $8 }' | \
-        tee results.log
+         BEGIN { print "---------------------------------------------------------------------------------"
+                 print "   PineAPPL         MC        MC unc. sigmas   1/1000    9-point scale var. (MC)"
+                 print "---------------------------------------------------------------------------------" }
+         { printf "% e % e %7.3f%% %7.3f %8.4f % e % e\n",
+                  $1,
+                  $4,
+                  $4 != 0.0 ? $5/$4*100 : 0.0,
+                  $5 != 0.0 ? abs($1-$4)/$5 : 0.0,
+                  $4 != 0.0 ? abs($1-$4)/$4*1000 : 0.0,
+                  $7,
+                  $8 }' | tee results.log
 
     rm results.mg5_aMC results.grid
 

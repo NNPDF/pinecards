@@ -8,7 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'total', 1, 0d0, 1d0)
+      call HwU_book(1,'total', 5, 0d0,2.5d0)
       return
       end
 
@@ -42,13 +42,30 @@ c     variables for amcatnlo_fastjetppgenkt
 
 c     observables
       double precision xmjj,yjet(nexternal)
+      double precision yh
 
 c     functions
       double precision getinvm,getrapidityv4
       external getinvm,getrapidityv4
 
 c     miscellaneous
-      integer i,j
+      integer i,j,higgs
+
+      higgs=0
+
+      do i=3,nexternal
+        if (ipdg(i).eq.25) then
+          higgs=i
+          exit
+        endif
+      enddo
+
+      if (higgs.eq.0) then
+        write (*,*) "error: index doesn't point to the Higgs", higgs
+        stop 1
+      else
+        yh=abs(atanh(p(3,higgs)/p(0,higgs)))
+      endif
 
       nQCD=0
       do j=nincoming+1,nexternal
@@ -83,7 +100,7 @@ c     recombine momenta
 
 c     APPLY the proper invariant mass cut here to avoid empty channels
       if (xmjj.gt.500d0 .and. abs(yjet(1)-yjet(2)).gt.2.5d0) then
-        call HwU_fill(1,0.5d0,wgts)
+        call HwU_fill(1,yh,wgts)
       endif
 
  999  return

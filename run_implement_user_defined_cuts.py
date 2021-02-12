@@ -14,6 +14,12 @@ cuts_variables = {
       real*8 p1p,p1m,p2p,p2m,pzll,pt2ll
       real*8 xmll,xyll,xcos,xlimit
 ''',
+    'ptmiss': '''c variables for ptmiss cut
+      real*8 xptmiss(1:2)
+''',
+    'mtw': '''c variables for ptmiss cut
+      real*8 xmtw
+''',
 }
 
 cuts_code = {
@@ -368,6 +374,40 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           return
         endif
       endif
+''',
+    'ptmiss': '''c     cut on the sum of all missing transverse momentum
+      xptmiss=0d0
+
+      do i=3,nexternal
+        if (abs(ipdg_reco(i)).eq.12 .or.
+     &      abs(ipdg_reco(i)).eq.14 .or.
+     &      abs(ipdg_reco(i)).eq.16) then
+          xptmiss(1)=xptmiss(1)+p_reco(1,i)
+          xptmiss(2)=xptmiss(2)+p_reco(2,i)
+        endif
+      enddo
+
+      if (xptmiss(1)**2+xptmiss(2)**2.lt.(({})**2)) then
+        passcuts_user=.false.
+        return
+      endif
+''',
+    'mtw': '''c     cut on the transverse mass of W bosons
+      do i=3,nexternal-1
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=i+1,nexternal
+            if (abs(ipdg_reco(i)+ipdg_reco(j)).eq.1) then
+              xmtw=2d0*sqrt((p_reco(1,i)**2+p_reco(2,i)**2)*
+     &                      (p_reco(1,j)**2+p_reco(2,j)**2))-
+     &             2d0*(p_reco(1,i)*p_reco(1,j)+p_reco(2,i)*p_reco(2,j))
+              if (xmtw.lt.(({})**2)) then
+                passcuts_user=.false.
+              endif
+            endif
+          enddo
+        endif
+      enddo
+
 ''',
 }
 

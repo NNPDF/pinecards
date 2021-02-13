@@ -8,8 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'rap', 7, 2.0d0,  3.75d0)
-      call HwU_book(2,'rap', 1, 3.75d0, 4.25d0)      
+      call HwU_book(1,'eta', 7, 2.0d0,  3.75d0)
+      call HwU_book(2,'eta', 1, 3.75d0, 4.25d0)
 
       return
       end
@@ -35,11 +35,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer iPDG(nexternal)
       integer ibody  
       integer i
-      integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3), pplb(0:3), ppv(0:3), xyll, getabsy
-      external getabsy
+      double precision xeta, eta_04
+      external eta_04
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -49,32 +48,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
      $                       p, iPDG, p_reco, iPDG_reco)
 
-      do j = nincoming+1, nexternal
-        if (iPDG_reco(j).eq.-11) ppl(0:3)=p_reco(0:3,j)
+      do i = nincoming+1, nexternal
+        if (iPDG_reco(i).eq.-11) then
+          xeta = eta_04(p_reco(0,i))
+        endif
       enddo
 
-      xyll=getabsy(ppl(0),ppl(3))
-
-      call HwU_fill(1,xyll,wgts)
-      call HwU_fill(2,xyll,wgts)
+      call HwU_fill(1,xeta,wgts)
+      call HwU_fill(2,xeta,wgts)
 
  999  return
       end
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      function getabsy(en,pl)
-      implicit none
-      real*8 getabsy,en,pl,tmp
-c
-      tmp=pl/en
-      if(abs(tmp).lt.1d0)then
-        tmp=abs(atanh(tmp))
-      else
-        write(*,*)'Attempt to compute atanh(x) with x > 1'
-        stop
-      endif
-      getabsy=tmp
-      return
-      end
-      

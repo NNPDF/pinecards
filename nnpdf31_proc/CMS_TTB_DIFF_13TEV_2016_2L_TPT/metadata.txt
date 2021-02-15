@@ -1,5 +1,5 @@
 arxiv=1811.06625
-description=CMS ttbar differential cross section at 8 TeV
+description=CMS ttbar differential cross section at 13 TeV
 hepdata=10.17182/hepdata.89307.v1/t1
 x1_label=pt_t
 x1_label_tex=$p_\mathrm{T}^\mathrm{t}$

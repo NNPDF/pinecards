@@ -8,12 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'t pT ', 1,0.0d0,60.0d0)
-      call HwU_book(2,'t pT ', 1,60.0d0,100.0d0)
-      call HwU_book(3,'t pT ', 2,100.0d0,200.0d0)
-      call HwU_book(4,'t pT ', 2,200.0d0,320.0d0)
-      call HwU_book(5,'t pT ', 1,320.0d0,400.0d0)
-      call HwU_book(6,'t pT ', 1,400.0d0,500.0d0)
+      call HwU_book(1,'dist',16,0d0,16d0)
 
       return
       end
@@ -40,19 +35,42 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer i
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision pt_t,y_t
+      double precision ptt,yt
       double precision getabsy
       external getabsy
+      double precision bin
 
-      pt_t = dsqrt(p(1,3)**2 + p(2,3)**2)
-      y_t = getabsy(p(0,3)**2 + p(3,3)**2)
+      ptt = dsqrt(p(1,3)**2 + p(2,3)**2)
+      yt = abs(getabsy(p(0,3), p(3,3)))
 
-      call HwU_fill(1,pt_t,wgts)
-      call HwU_fill(2,pt_t,wgts)
-      call HwU_fill(3,pt_t,wgts)
-      call HwU_fill(4,pt_t,wgts)
-      call HwU_fill(5,pt_t,wgts)
-      call HwU_fill(6,pt_t,wgts)
+      bin = -1d0
+
+      if (yt.lt.0.35d0) then
+        bin = 0d0
+      elseif (yt.lt.0.85d0) then
+        bin = 4d0
+      elseif (yt.lt.1.45d0) then
+        bin = 8d0
+      elseif (yt.lt.2.5d0) then
+        bin = 12d0
+      else
+      endif
+
+      if (ptt.lt.80d0) then
+        bin = bin + 0.5d0
+      elseif (ptt.lt.150d0) then
+        bin = bin + 1.5d0
+      elseif (ptt.lt.250d0) then
+        bin = bin + 2.5d0
+      elseif (ptt.lt.600d0) then
+        bin = bin + 3.5d0
+      else
+      endif
+
+      if (bin.gt.0d0) then
+        call HwU_fill(1,bin,wgts)
+      else
+      endif
 
  999  return
       end

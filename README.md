@@ -67,10 +67,10 @@ meaning are as follows:
   run the relevant process, including the relevant physical parameters. Since
   the parameter values are inserted by `run.sh`, do not insert the numerical
   values into the text file but rather the run variables. Currently supported
-  ones are `@MZ@`, `@MW@`, and `@YMT@`. The names are the same as chosen by
-  `mg5_aMC`, but written in uppercase and surrounded with `@`. For details
-  about more parameters, please see the `Template/NLO/Cards/run_card.dat` file
-  in Madgraph/MC@NLO.
+  ones are `@MZ@`, and `@MW@`. The names are the same as chosen by `mg5_aMC`,
+  but written in uppercase and surrounded with `@`. For details about more
+  parameters, please see the `Template/NLO/Cards/run_card.dat` file in
+  Madgraph/MC@NLO.
 
 * The `analysis.f` file (compulsory). This Fortran file contains the
   instructions for the kinematic analysis in the `HwU` format and must fill the

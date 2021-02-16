@@ -1,12 +1,12 @@
 launch @OUTPUT@
 fixed_order = ON
-set mt @MT@
+set mt 173.3
+set ymt 173.3
 set mz @MZ@
 set WT 0.0
 set WZ 0.0
 set WW 0.0
 set WH 0.0
-set ymt @YMT@
 set ebeam1 4000
 set ebeam2 4000
 set pdlabel lhapdf

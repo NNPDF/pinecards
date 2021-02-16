@@ -8,9 +8,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'t-tx pair rap ',1,-2.6d0,1.6d0)
-      call HwU_book(2,'t-tx pair rap ',8,-1.6d0,1.6d0)
-      call HwU_book(3,'t-tx pair rap ',1, 1.6d0,2.6d0)
+      call HwU_book(1,'t-tx pair rap ',1,-2.6d0,-1.6d0)
+      call HwU_book(2,'t-tx pair rap ',8,-1.6d0, 1.6d0)
+      call HwU_book(3,'t-tx pair rap ',1, 1.6d0, 2.6d0)
       return
       end
 

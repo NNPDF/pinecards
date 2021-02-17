@@ -47,6 +47,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call HwU_fill(1,yttx,wgts)
       call HwU_fill(2,yttx,wgts)
+      call HwU_fill(3,yttx,wgts)
 
  999  return
       end

@@ -2,8 +2,8 @@ launch @OUTPUT@
 fixed_order = ON
 set mz @MZ@
 set ymt @YMT@
-set ebeam1 6500
-set ebeam2 6500
+set ebeam1 4000
+set ebeam2 4000
 set pdlabel lhapdf
 set lhaid 324900
 set dynamical_scale_choice 10

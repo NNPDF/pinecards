@@ -378,10 +378,10 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         do i = nincoming+1, nexternal
           if (iPDG_reco(i).eq.13) then
             ppl(0:4)=p_reco(0:4,i)
-            xeta1=eta_04(p_reco(0,i))
+            xeta1=abs(eta_04(p_reco(0,i)))
           elseif (iPDG_reco(i).eq.-13) then
             pplb(0:4)=p_reco(0:4,i)
-            xeta2=eta_04(p_reco(0,i))
+            xeta2=abs(eta_04(p_reco(0,i)))
           endif
         enddo
 

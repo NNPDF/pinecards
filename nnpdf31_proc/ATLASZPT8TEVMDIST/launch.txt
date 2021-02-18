@@ -10,7 +10,9 @@ set dynamical_scale_choice 10
 set reweight_scale True
 set ptl = 20.0
 set etal = 2.4
-set ptj = 0.0
+set ptj = 5.0
+set jetradius = 0.5
+set jetalgo = -1
 set mll_sf = 12.0
 #user_defined_cut set yz = 2.4
 #user_defined_cut set atlas_zpt_8tev_mdist = True

@@ -9,6 +9,9 @@ cuts_variables = {
       real*8 zpzll,zmll,zp1p,zp1m,zp2p,zp2m,zpt2ll
       integer zlep,zalep
 ''',
+    'atlas_zpt_8tev_mdist': '''c     variables for atlas_zpt_8tev_mdist cut
+      double precision ppl(0:3),pplb(0:3),ppv(0:3),ptv,xmll
+''',
 }
 
 cuts_code = {
@@ -202,6 +205,64 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           enddo
         endif
       enddo
+
+''',
+    'atlas_zpt_8tev_mdist': '''c
+      if ({}) then
+        do i = nincoming+1, nexternal
+          if (iPDG_reco(i).eq.13) ppl(0:3)=p_reco(0:3,i)
+          if (iPDG_reco(i).eq.-13) pplb(0:3)=p_reco(0:3,i)
+        enddo
+        do i=0,3
+          ppv(i)=ppl(i)+pplb(i)
+        enddo
+
+        xmll=sqrt(ppv(0)**2-ppv(1)**2-ppv(2)**2-ppv(3)**2)
+        ptv=sqrt(ppv(1)**2+ppv(2)**2)
+
+        if (ptv.gt.900d0) then
+          passcuts_user=.false.
+          return
+        endif
+
+        if (xmll.lt.12d0) then
+          passcuts_user=.false.
+          return
+        elseif (xmll.lt.20d0) then
+          if (ptv.lt.45d0) then
+            passcuts_user=.false.
+            return
+          endif
+        elseif (xmll.lt.30d0) then
+          if (ptv.lt.45d0) then
+            passcuts_user=.false.
+            return
+          endif
+        elseif (xmll.lt.46d0) then
+          if (ptv.lt.45d0) then
+            passcuts_user=.false.
+            return
+          endif
+        elseif (xmll.lt.66d0) then
+          if (ptv.lt.30d0) then
+            passcuts_user=.false.
+            return
+          endif
+        elseif (xmll.lt.116d0) then
+          if (ptv.lt.27.5d0) then
+            passcuts_user=.false.
+            return
+          endif
+        elseif (xmll.lt.150d0) then
+          if (ptv.lt.30d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else
+          passcuts_user=.false.
+          return
+        endif
+      endif
 
 ''',
 }

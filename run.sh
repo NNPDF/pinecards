@@ -205,7 +205,30 @@ EOF
 
     rm results.mg5_aMC results.grid
 
-    "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file results results.log
+    runcardrepohead=$(git rev-parse HEAD)
+
+    bzr=$(which bzr 2> /dev/null || true)
+
+    if [[ -x "${bzr}" ]]; then
+        pushd .
+        cd $(dirname "${mg5amc}")/..
+
+        mg5amcrevno=$("${bzr}" revno)
+        mg5amcrepo=$("${bzr}" info | grep 'parent branch' | sed 's/[[:space:]]*parent branch:[[:space:]]*//')
+
+        popd
+    else
+        echo 'warning: `bzr` not found, could not extract mg5_aMC@NLO version information'
+
+        mg5amcrevno=""
+        mg5amcrepo=""
+    fi
+
+    "${pineappl}" set "${grid}" "${grid}".tmp \
+        --entry_from_file results results.log \
+        --entry runcardrepohead "${runcardrepohead}" \
+        --entry mg5amcrevno "${mg5amcrevno}" \
+        --entry mg5amcrepo "${mg5amcrepo}"
     mv "${grid}".tmp "${grid}"
 
     # if there is anything to do after the run, do it!

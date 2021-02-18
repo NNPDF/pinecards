@@ -8,7 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'Z pT', 60, 0d0, 60d0)
+      call HwU_book(1,'Z pT', 80, 0d0, 80d0)
+      call HwU_book(2,'Z pT', 40,80d0,120d0)
 
       return
       end
@@ -33,11 +34,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer istatus(nexternal)
       integer iPDG(nexternal)
       integer ibody
-      integer i,ptbin
-      integer j
+      integer i
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3),pplb(0:3),ppv(0:3),ptv,yll
+      double precision ppl(0:3),pplb(0:3),ppv(0:3),ptv,xyll,xbin
       double precision getabsy
       external getabsy
 
@@ -47,41 +47,74 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
      $                       p, iPDG, p_reco, iPDG_reco)
 
-      do j = nincoming+1, nexternal
-        if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
-        if (iPDG_reco(j).eq.-13) pplb(0:3)=p_reco(0:3,j)
+      do i = nincoming+1, nexternal
+        if (iPDG_reco(i).eq.13) ppl(0:3)=p_reco(0:3,i)
+        if (iPDG_reco(i).eq.-13) pplb(0:3)=p_reco(0:3,i)
       enddo
       do i=0,3
         ppv(i)=ppl(i)+pplb(i)
       enddo
 
+      xyll=getabsy(ppv(0),ppv(3))
       ptv=sqrt(ppv(1)**2+ppv(2)**2)
 
-      if (ptv.ge.30d0.and.ptv.lt.37d0) then
-        ptbin = 0
-      elseif (ptv.ge.37d0.and.ptv.lt.45d0) then
-        ptbin = 1
-      elseif (ptv.ge.45d0.and.ptv.lt.55d0) then
-        ptbin = 2
-      elseif (ptv.ge.55d0.and.ptv.lt.65d0) then
-        ptbin = 3
-      elseif (ptv.ge.65d0.and.ptv.lt.75d0) then
-        ptbin = 4
-      elseif (ptv.ge.75d0.and.ptv.lt.85d0) then
-        ptbin = 5
-      elseif (ptv.ge.85d0.and.ptv.lt.105d0) then
-        ptbin = 6
-      elseif (ptv.ge.105d0.and.ptv.lt.150d0) then
-        ptbin = 7
-      elseif (ptv.ge.150d0.and.ptv.lt.200d0) then
-        ptbin = 8
-      elseif (ptv.ge.200d0.and.ptv.lt.900d0) then
-        ptbin = 9
+      if (xyll.lt.2.4d0) then
+        xbin = 20d0 * real(int(6d0 * xyll/2.4d0))
+      else
+        write (*,*) "error: event outside bins", ptv, xyll
+        stop 1
       endif
 
-      yll=getabsy(ppv(0),ppv(3))
+      if (ptv.lt.2d0) then
+        xbin = xbin + 0.5d0
+      elseif (ptv.lt.4d0) then
+        xbin = xbin + 1.5d0
+      elseif (ptv.lt.6d0) then
+        xbin = xbin + 2.5d0
+      elseif (ptv.lt.8d0) then
+        xbin = xbin + 3.5d0
+      elseif (ptv.lt.10d0) then
+        xbin = xbin + 4.5d0
+      elseif (ptv.lt.13d0) then
+        xbin = xbin + 5.5d0
+      elseif (ptv.lt.16d0) then
+        xbin = xbin + 6.5d0
+      elseif (ptv.lt.20d0) then
+        xbin = xbin + 7.5d0
+      elseif (ptv.lt.25d0) then
+        xbin = xbin + 8.5d0
+      elseif (ptv.lt.30d0) then
+        xbin = xbin + 9.5d0
+      elseif (ptv.lt.37d0) then
+        xbin = xbin + 10.5d0
+      elseif (ptv.lt.45d0) then
+        xbin = xbin + 11.5d0
+      elseif (ptv.lt.55d0) then
+        xbin = xbin + 12.5d0
+      elseif (ptv.lt.65d0) then
+        xbin = xbin + 13.5d0
+      elseif (ptv.lt.75d0) then
+        xbin = xbin + 14.5d0
+      elseif (ptv.lt.85d0) then
+        xbin = xbin + 15.5d0
+      elseif (ptv.lt.105d0) then
+        xbin = xbin + 16.5d0
+      elseif (ptv.lt.150d0) then
+        xbin = xbin + 17.5d0
+      elseif (ptv.lt.200d0) then
+        xbin = xbin + 18.5d0
+      elseif (ptv.lt.900d0) then
+        xbin = xbin + 19.5d0
+      else
+        write (*,*) "error: event outside bins", ptv, xyll
+        stop 1
+      endif
 
-      call HwU_fill(1,dble(10*idint(yll/0.4d0)+ptbin),wgts)
+      if (xbin.lt.80d0) then
+        call HwU_fill(1,xbin,wgts)
+      else
+        call HwU_fill(2,xbin,wgts)
+      endif
 
  999  return
       end

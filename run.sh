@@ -1,5 +1,74 @@
 #!/bin/bash
 
+prefix=$(pwd)/.prefix
+
+yesno() {
+    echo -n "$@" "[Y/n]"
+    read -r reply
+
+    if [[ -z $reply ]]; then
+        reply=Y
+    fi
+
+    case "${reply}" in
+    Yes|yes|Y|y) return 0;;
+    No|no|N|n) return 1;;
+    *) echo "I didn't understand your reply '${reply}'"; yesno "$@";;
+    esac
+}
+
+install_mg5amc() {
+    brz=$(which brz 2> /dev/null || true)
+    bzr=$(which brz 2> /dev/null || true)
+    pip=$(which pip 2> /dev/null || true)
+
+    repo=lp:~maddevelopers/mg5amcnlo/3.0.4
+
+    if [[ -x ${pip} ]] && [[ ! -x ${brz} ]] && [[ ! -x ${bzr} ]]; then
+        "${pip}" install --prefix "${prefix}" breezy
+        brz="${prefix}"/bin/brz
+    fi
+
+    if [[ -x ${brz} ]]; then
+        "${brz}" branch "${repo}" "${prefix}"/mg5amc
+    elif [[ -x ${bzr} ]]; then
+        "${bzr}" branch "${repo}" "${prefix}"/mg5amc
+    else
+        echo "Couldn't install Madgraph5_aMC@NLO" >&2
+        exit 1
+    fi
+
+    echo "PATH=${destdir}/bin:\$PATH" >> "${prefix}"/env
+}
+
+install_pineappl() {
+    cargo=$(which cargo 2> /dev/null || true)
+    git=$(which git 2> /dev/null || true)
+
+    repo=https://github.com/N3PDF/pineappl.git
+
+    if [[ ! -x ${git} ]]; then
+        echo "Couldn't find \`git\`, aborting."
+        exit 1
+    fi
+
+    if [[ ! -x ${cargo} ]]; then
+        echo "Couldn't find \`cargo\`, aborting."
+    fi
+
+    "${git}" clone ${repo} "${prefix}"/pineappl
+    "${cargo}" install --force cargo-c
+
+    pushd .
+    cd "${prefix}"/pineappl
+    "${cargo}" cinstall --release --prefix "${prefix}" --manifest-path=pineappl_capi/Cargo.toml
+    "${cargo}" install --path pineappl_cli
+    popd
+
+    echo "LD_LIBRARY_PATH=${destdir}/lib:\$LD_LIBRARY_PATH" >> "${prefix}"/env
+    echo "PKG_CONFIG_PATH=${destdir}/lib/pkgconfig:\$PKG_CONFIG_PATH" >> "${prefix}"/env
+}
+
 check_args_and_cd_output() {
     # exit script at the first sign of an error
     set -o errexit
@@ -28,8 +97,32 @@ check_args_and_cd_output() {
     mg5amc=$(which mg5_aMC 2> /dev/null || true)
 
     if [[ ! -x ${mg5amc} ]]; then
-        echo "The binary \`mg5_aMC\` wasn't found. Please adjust your PATH variable" >&2
+        echo "Madgraph5_aMC@NLO (\`mg5_aMC\`) wasn't found in your PATH."
+        if yesno 'Do you want to install it now?'; then
+            install_mg5amc
+        else
+            exit 1
+        fi
+    fi
+
+    pkg_config=$(which pkg-config 2> /dev/null || true)
+
+    if [[ ! -x ${pkg_config} ]]; then
+        echo "The binary \`pkg-config\` wasn't found. Please install it" >&2
         exit 1
+    fi
+
+    if ! "${pkg_config}" pineappl_capi; then
+        echo "PineAPPL wasn't found"
+        if yesno 'Do you want to install it now?'; then
+            install_pineappl
+        else
+            exit 1
+        fi
+    fi
+
+    if [[ -e ${prefix}/env ]]; then
+        . "${prefix}"/env
     fi
 
     pineappl=$(which pineappl 2> /dev/null || true)

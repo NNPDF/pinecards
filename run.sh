@@ -61,9 +61,16 @@ install_pineappl() {(
         bash /tmp/rustup-init --profile minimal --no-modify-path -y
         export PATH=${prefix}/cargo/bin:${PATH}
         cargo="${prefix}"/cargo/bin/cargo
+    elif [[ -d ${prefix}/cargo ]]; then
+        export CARGO_HOME=${prefix}/cargo
     fi
 
-    "${git}" clone ${repo} "${prefix}"/pineappl
+    if [[ -d ${prefix}/pineappl ]]; then
+        "${git}" pull
+    else
+        "${git}" clone ${repo} "${prefix}"/pineappl
+    fi
+
     "${cargo}" install --force cargo-c
 
     pushd . > /dev/null
@@ -122,7 +129,7 @@ check_args_and_cd_output() {
         echo "Madgraph5_aMC@NLO wasn't found"
     fi
 
-    if ! "${pkg_config}" pineappl_capi; then
+    if [ ! $("${pkg_config}" pineappl_capi) -o -z $(which pineappl > /dev/null 2>&1) ]; then
         install_pineappl=yes
         echo "PineAPPL wasn't found"
     fi

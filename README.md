@@ -1,60 +1,25 @@
 # Runcards for NNPDF
-In this repository all runcards needed to generate PineAPPL grids for the
-processes included in NNPDF are stored.
+This repository stores all runcards needed to generate PineAPPL grids for the
+processes included in NNPDF.
 
-## Prerequisites
-To successfully generate a PineAPPL grid, the following packages are required:
+## How do I generate a PineAPPL grid for an existing analysis?
+Run
 
-* a version of **Madgraph/MC@NLO** that supports PineAPPL
-  (<https://code.launchpad.net/~maddevelopers/mg5amcnlo/3.0.4>) installable as
-  `bzr branch bzr branch lp:~maddevelopers/mg5amcnlo/3.0.4` (bazaar is
-  available from <http://bazaar.canonical.com/en/> if it is not already
-  installed on your machine).
-* once you've installed it make sure that the binary `mg5_aMC` (in the
-  subdirectory `bin` in Madgraph's top directory) is also found in `PATH`.
-* the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
-* install the `cargo-c` crate:
+    ./run.sh
 
-      cargo install cargo-c
+to get a list available anaylses. Pick the one you're interested in, and pass
+it to `./run.sh`. The following should run very quickly:
 
-* the **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
-  execute the following steps inside the repository:
+    ./run.sh TEST_RUN_SH
 
-      cd pineappl_capi
-      cargo cinstall --release --prefix=${prefix}
-      cd ..
+If any software ([Madgraph5_aMC@NLO](https://launchpad.net/mg5amcnlo),
+[PineAPPL](https://github.com/N3PDF/pineappl)) is missing, `./run.sh` will
+attempt to install it; this works independently of the chosen dataset.
 
-  Make sure to replace `${prefix}` with an appropriate installation directory,
-  and that the environment variables are set (permanently in your `~/.bashrc`,
-  for example) to the following values:
-
-      export LD_LIBRARY_PATH=${prefix}/lib
-      export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig
-
-  Test your installation using:
-
-      pkg-config pineappl_capi --libs
-
-  This prints the linker flags needed to link against the C API of PineAPPL,
-  and the output should be similar to the following one:
-
-      -L${prefix}/lib -lpineappl_capi
-
-  If there is no output, something is wrong.
-* in the same repository, install the shell program **`pineappl`** using:
-
-      cargo install --path pineappl_cli
-
-  Note that this will install the program for the current user. If you want to
-  install the program system-wide use the option `--root` with the proper
-  directory.
-
-## Datasets
-After a successful installation of the prerequisites above, the following files
-must be present for each data set. These files must be located in the
-subdirectory `nnpdf31_proc/DATASET` folder and, where `DATASET` should be named
-after the corresponding data set included in a NNPDF fit. The contents and
-meaning are as follows:
+## How do I implement a new dataset?
+The following files are important for each data set; they must be in the folder
+`nnpdf31_proc/DATASET`, where `DATASET` is the NNPDF identifier for the
+dataset.
 
 * The `output.txt` file (compulsory). This file contains the instructions to
   generate the relevant process. For details, please see
@@ -104,25 +69,23 @@ meaning are as follows:
     present, the corresponding observable is assumed to be dimensionless.
   - `y_label`: The unit for the cross section (typically `pb`).
 
-## Generating the PineAPPL grid(s)
-Provided the above files, the production of the grids only requires the user to
-run the `./run.sh [dataset]` script. The script takes as only parameter the
-dataset, which is the name of the subdirectory containing the all the files
-described before. To list all possibilities of `[dataset]` simply run the
-script without parameters.
-
 ## Where's my output?
-After having run `./run.sh [dataset]` (see above), the script prints some
-output, which is useful to quickly validate the contents of the grid. The last
-line shows the directory where all results are stored, which has the form
-`dataset-date`, where `dataset` is the value given to the run script and `date`
-is a numerical date when the generation was started. The date is added so runs
-for the same dataset do not overwrite each other's output.
+After having run `./run.sh DATASET` (see above), the script prints a table,
+which is useful to quickly validate the MC uncertainty and the interpolation
+error of PineAPPL. The last line shows the directory where all results are
+stored, which has the form `DATASET-DATE`, where `DATASET` is the value given
+to the run script and `DATE` is a numerical date when the generation was
+started. The date is added so runs for the same dataset do not overwrite each
+other's output.
 
-The contents of this directory are:
+The most important file in the output directory is
 
-* `DATASET.pineappl.lz4`: All grids created by `mg5_aMC` merged together and
-  compressed using `lz4`. This is the most important output.
+    DATASET-DATE/DATASET.pineappl.lz4
+
+which is the PineAPPL grid.
+
+The remaining contents of this directory are useful for testing and debugging:
+
 * `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
   this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)

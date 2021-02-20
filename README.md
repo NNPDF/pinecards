@@ -2,7 +2,7 @@
 This repository stores all runcards needed to generate PineAPPL grids for the
 processes included in NNPDF.
 
-## How do I generate a PineAPPL grid for an existing analysis?
+## How do I generate a PineAPPL grid for an existing dataset?
 Run
 
     ./run.sh
@@ -49,10 +49,10 @@ dataset.
   original new > patch.patch`. The patches are applied in an unspecified order,
   using `patch -p1 ...`.
 
-* The `postrun.sh` file (optional). This is a BASH script which is run after
-  the successful generation of the PineAPPL grid and can be used to perform
-  additional operations, such as rescaling. The environment variable `$GRID`
-  contains the relative path the PineAPPL grid.
+* The `postrun.sh` file (optional, must be executable). This is a BASH script
+  which is run after the successful generation of the PineAPPL grid and can be
+  used to perform additional operations, such as rescaling. The environment
+  variable `$GRID` contains the relative path the PineAPPL grid.
 
 * The `metadata.txt` file (optional). This file collects all metadata, which is
   written into the grid after generation. Arbitrary `key=value` pairs are

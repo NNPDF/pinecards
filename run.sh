@@ -17,7 +17,7 @@ yesno() {
     esac
 }
 
-install_mg5amc() {
+install_mg5amc() {(
     brz=$(which brz 2> /dev/null || true)
     bzr=$(which brz 2> /dev/null || true)
     pip=$(which pip 2> /dev/null || true)
@@ -25,6 +25,9 @@ install_mg5amc() {
     repo=lp:~maddevelopers/mg5amcnlo/3.0.4
 
     if [[ -x ${pip} ]] && [[ ! -x ${brz} ]] && [[ ! -x ${bzr} ]]; then
+        pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+        export PATH="${prefix}"/bin:${PATH}
+        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages
         "${pip}" install --prefix "${prefix}" breezy
         brz="${prefix}"/bin/brz
     fi
@@ -38,36 +41,37 @@ install_mg5amc() {
         exit 1
     fi
 
-    echo "PATH=${destdir}/bin:\$PATH" >> "${prefix}"/env
-}
+    # in case we're using python3, we need to convert the model file
+    "${prefix}"/mg5amc/bin/mg5_aMC <<EOF
+set auto_convert_model True
+import model loop_qcd_qed_sm_Gmu
+quit
+EOF
+)}
 
-install_pineappl() {
+install_pineappl() {(
     cargo=$(which cargo 2> /dev/null || true)
-    git=$(which git 2> /dev/null || true)
+    git=$(which git 2> /dev/null)
 
     repo=https://github.com/N3PDF/pineappl.git
 
-    if [[ ! -x ${git} ]]; then
-        echo "Couldn't find \`git\`, aborting."
-        exit 1
-    fi
-
     if [[ ! -x ${cargo} ]]; then
-        echo "Couldn't find \`cargo\`, aborting."
+        export CARGO_HOME=${prefix}/cargo
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rustup-init
+        bash /tmp/rustup-init --profile minimal --no-modify-path -y
+        export PATH=${prefix}/cargo/bin:${PATH}
+        cargo="${prefix}"/cargo/bin/cargo
     fi
 
     "${git}" clone ${repo} "${prefix}"/pineappl
     "${cargo}" install --force cargo-c
 
-    pushd .
+    pushd . > /dev/null
     cd "${prefix}"/pineappl
     "${cargo}" cinstall --release --prefix "${prefix}" --manifest-path=pineappl_capi/Cargo.toml
-    "${cargo}" install --path pineappl_cli
-    popd
-
-    echo "LD_LIBRARY_PATH=${destdir}/lib:\$LD_LIBRARY_PATH" >> "${prefix}"/env
-    echo "PKG_CONFIG_PATH=${destdir}/lib/pkgconfig:\$PKG_CONFIG_PATH" >> "${prefix}"/env
-}
+    "${cargo}" install --path pineappl_cli --root "${prefix}"/bin
+    popd > /dev/null
+)}
 
 check_args_and_cd_output() {
     # exit script at the first sign of an error
@@ -94,17 +98,6 @@ check_args_and_cd_output() {
     # name of the dataset
     dataset="$1"
 
-    mg5amc=$(which mg5_aMC 2> /dev/null || true)
-
-    if [[ ! -x ${mg5amc} ]]; then
-        echo "Madgraph5_aMC@NLO (\`mg5_aMC\`) wasn't found in your PATH."
-        if yesno 'Do you want to install it now?'; then
-            install_mg5amc
-        else
-            exit 1
-        fi
-    fi
-
     pkg_config=$(which pkg-config 2> /dev/null || true)
 
     if [[ ! -x ${pkg_config} ]]; then
@@ -112,23 +105,58 @@ check_args_and_cd_output() {
         exit 1
     fi
 
+    # if we've installed dependencies set the correct paths
+    if [[ -d ${prefix} ]]; then
+        pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH}
+        export PATH=${prefix}/mg5amc/bin:${prefix}/bin:$PATH
+        export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
+        export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:$PKG_CONFIG_PATH
+    fi
+
+    install_mg5amc=
+    install_pineappl=
+
+    if ! which mg5_aMC > /dev/null 2>&1; then
+        install_mg5amc=yes
+        echo "Madgraph5_aMC@NLO wasn't found"
+    fi
+
     if ! "${pkg_config}" pineappl_capi; then
+        install_pineappl=yes
         echo "PineAPPL wasn't found"
-        if yesno 'Do you want to install it now?'; then
-            install_pineappl
+    fi
+
+    if [[ -n ${install_mg5amc}${install_pineappl} ]]; then
+        if yesno 'Do you want to install the missing dependencies (into `.prefix`)?'; then
+            if [[ -n ${install_mg5amc} ]]; then
+                install_mg5amc
+            fi
+            if [[ -n ${install_pineappl} ]]; then
+                install_pineappl
+            fi
+
+            pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+            export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH}
+            export PATH=${prefix}/mg5amc/bin:${prefix}/bin:$PATH
+            export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
+            export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:$PKG_CONFIG_PATH
         else
             exit 1
         fi
     fi
 
-    if [[ -e ${prefix}/env ]]; then
-        . "${prefix}"/env
+    mg5amc=$(which mg5_aMC 2> /dev/null || true)
+
+    if [[ ! -x ${mg5amc} ]]; then
+        echo "The binary \`mg5_aMC\` wasn't found. Something went wrong" >&2
+        exit 1
     fi
 
     pineappl=$(which pineappl 2> /dev/null || true)
 
     if [[ ! -x ${pineappl} ]]; then
-        echo "The binary \`pineappl\` wasn't found. Please adjust your PATH variable" >&2
+        echo "The binary \`pineappl\` wasn't found. Something went wrong" >&2
         exit 1
     fi
 
@@ -152,7 +180,7 @@ main() {
     sed -i "s/@OUTPUT@/${dataset}/g" "${output_file}"
 
     # create output folder
-    python2 "${mg5amc}" "${output_file}" |& tee output.log
+    "${mg5amc}" "${output_file}" |& tee output.log
 
     # copy patches if there are any
     for i in $(find ../nnpdf31_proc/"${dataset}" -name '*.patch'); do
@@ -216,7 +244,7 @@ EOF
     fi
 
     # launch run
-    python2 "${mg5amc}" "${launch_file}" |& tee launch.log
+    "${mg5amc}" "${launch_file}" |& tee launch.log
 
     # TODO: the following assumes that all observables belong to the same distribution
 
@@ -300,16 +328,16 @@ EOF
 
     runcardrepohead=$(git rev-parse HEAD)
 
-    bzr=$(which bzr 2> /dev/null || true)
+    bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
 
     if [[ -x "${bzr}" ]]; then
-        pushd .
+        pushd . > /dev/null
         cd $(dirname "${mg5amc}")/..
 
         mg5amcrevno=$("${bzr}" revno)
         mg5amcrepo=$("${bzr}" info | grep 'parent branch' | sed 's/[[:space:]]*parent branch:[[:space:]]*//')
 
-        popd
+        popd > /dev/null
     else
         echo 'warning: `bzr` not found, could not extract mg5_aMC@NLO version information'
 

@@ -18,6 +18,8 @@ yesno() {
 }
 
 install_mg5amc() {(
+    mkdir -p "${prefix}"
+
     brz=$(which brz 2> /dev/null || true)
     bzr=$(which brz 2> /dev/null || true)
     pip=$(which pip 2> /dev/null || true)
@@ -41,6 +43,10 @@ install_mg5amc() {(
         exit 1
     fi
 
+    if ! "${pip}" show six | grep 'Package(s) not found' > /dev/null; then
+        "${pip}" install --prefix "${prefix}" six
+    fi
+
     # in case we're using python3, we need to convert the model file
     "${prefix}"/mg5amc/bin/mg5_aMC <<EOF
 set auto_convert_model True
@@ -50,6 +56,8 @@ EOF
 )}
 
 install_pineappl() {(
+    mkdir -p "${prefix}"
+
     cargo=$(which cargo 2> /dev/null || true)
     git=$(which git 2> /dev/null)
 
@@ -129,7 +137,10 @@ check_args_and_cd_output() {
         echo "Madgraph5_aMC@NLO wasn't found"
     fi
 
-    if [ ! $("${pkg_config}" pineappl_capi) -o -z $(which pineappl > /dev/null 2>&1) ]; then
+    if ! "${pkg_config}" pineappl_capi; then
+        install_pineappl=yes
+        echo "PineAPPL wasn't found"
+    elif ! which pineappl > /dev/null 2>&1; then
         install_pineappl=yes
         echo "PineAPPL wasn't found"
     fi

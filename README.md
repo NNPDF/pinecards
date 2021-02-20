@@ -7,7 +7,7 @@ Run
 
     ./run.sh
 
-to get a list available analyses. Pick the one you're interested in, and pass
+to get a list available datasets. Pick the one you're interested in, and pass
 it to `./run.sh`. The following should run very quickly:
 
     ./run.sh TEST_RUN_SH
@@ -65,8 +65,8 @@ dataset.
   - `hepdata`: The DOI pointing to the experimental data, or a comma-separated
     list of DOIs. Preferably this points to specific tables of the observables
     specified below, as the hepdata entries usually show many of them.
-  - `x1_label`: The name of the first (`x2_label` = second, `x3_label` = third,
-    ...) observable.
+  - `x1_label`: The name of the first (`x2` = second, `x3` = third, ...)
+    observable.
   - `x1_label_tex`: The name of the observable, written in LaTeX.
   - `x1_unit`: The unit of the observable (typically `GeV`). If this key is not
     present, the corresponding observable is assumed to be dimensionless.

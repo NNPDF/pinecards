@@ -43,7 +43,7 @@ install_mg5amc() {(
         exit 1
     fi
 
-    if ! "${pip}" show six | grep 'Package(s) not found' > /dev/null; then
+    if ! "${pip}" show six 2>&1 | grep 'Package(s) not found' > /dev/null; then
         "${pip}" install --prefix "${prefix}" six
     fi
 

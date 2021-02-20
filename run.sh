@@ -69,7 +69,7 @@ install_pineappl() {(
     pushd . > /dev/null
     cd "${prefix}"/pineappl
     "${cargo}" cinstall --release --prefix "${prefix}" --manifest-path=pineappl_capi/Cargo.toml
-    "${cargo}" install --path pineappl_cli --root "${prefix}"/bin
+    "${cargo}" install --path pineappl_cli --root "${prefix}"
     popd > /dev/null
 )}
 

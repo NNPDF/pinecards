@@ -217,9 +217,15 @@ main() {
     # TODO: write a list with variables that should be replaced in the launch file; for the time
     # being we create the file here, but in the future it should be read from the theory database
     cat > variables.txt <<EOF
+GF 1.16639e-5
+MH 125.0
 MT 173.3
 MW 80.419
 MZ 91.176
+WH 4.07468e-3
+WT 1.37758
+WW 2.09291
+WZ 2.49877
 YMT 173.3
 EOF
 

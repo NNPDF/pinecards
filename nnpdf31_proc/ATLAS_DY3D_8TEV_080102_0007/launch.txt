@@ -1,8 +1,15 @@
 launch @OUTPUT@
 fixed_order = ON
+set maxjetflavor 5
+set gf @GF@
+set mh @MH@
+set mt @MT@
 set mw @MW@
 set mz @MZ@
-set ymt @YMT@
+set wh @WH@
+set wt @WT@
+set ww @WW@
+set wz @WZ@
 set ebeam1 4000
 set ebeam2 4000
 set pdlabel lhapdf

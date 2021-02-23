@@ -21,6 +21,9 @@ cuts_variables = {
     'atlas_2jet_7tev_r06': '''c
       real*8 xystar,xmjj
 ''',
+    'cms_2jets_7tev': '''c     variables for cms_2jets_7tev cuts
+      real*8 xymax,xmjj
+''',
 }
 
 cuts_code = {
@@ -55,15 +58,7 @@ cuts_code = {
 
 ''',
     'ptj1min': '''c     cut for ptl1min (leading jet)
-      j = 0
-      do i=1,nexternal
-        if (is_a_j(i)) then
-          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
-            j = i
-          endif
-        endif
-      enddo
-      if (pt_04(p_reco(0,j)) .lt. {}) then
+      if (pt(pjet(0,1)) .lt. {}) then
         passcuts_user=.false.
         return
       endif
@@ -243,7 +238,6 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
       enddo
 
 ''',
-<<<<<<< HEAD
     'yzmin': '''c     cut on the rapidity of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
@@ -473,6 +467,50 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           return
         endif
       endif
+
+''',
+    'cms_2jets_7tev': '''c
+      if ({}) then
+        if (njet.lt.2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        xymax = max(dabs(atanh(pjet(3,1)/pjet(0,1))),
+     $              dabs(atanh(pjet(3,2)/pjet(0,2))))
+        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+        if (xymax.lt.0.5d0) then
+          if (xmjj.lt.197d0 .or. xmjj.gt.4010d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xymax.lt.1.0d0) then
+          if (xmjj.lt.270d0 .or. xmjj.gt.4010d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xymax.lt.1.5d0) then
+          if (xmjj.lt.419d0 .or. xmjj.gt.4509d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xymax.lt.2.0d0) then
+          if (xmjj.lt.565d0 .or. xmjj.gt.5058d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xymax.lt.2.5d0) then
+          if (xmjj.lt.1000d0 .or. xmjj.gt.5058d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else
+          passcuts_user=.false.
+          return
+        endif
+      endif
+
 ''',
 }
 

@@ -1,0 +1,21 @@
+launch @OUTPUT@
+fixed_order = ON
+set mz @MZ@
+set mw @MW@
+set ymt @YMT@
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set jetalgo = -1.0
+set jetradius = 0.7
+set ptj = 50.0
+#user_defined_cut set cms_2jet_3d_8tev = True
+# `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
+set etaj = 3.0
+set req_acc_FO 0.0001
+set pineappl True
+done
+quit

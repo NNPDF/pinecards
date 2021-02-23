@@ -18,6 +18,9 @@ cuts_variables = {
       real*8 ppl(0:4),pplb(0:4)
       real*8 xyll,xeta1,xeta2
 ''',
+    'atlas_2jet_7tev_r06': '''c
+      real*8 xystar,xmjj
+''',
 }
 
 cuts_code = {
@@ -40,6 +43,21 @@ cuts_code = {
       j = 0
       do i=1,nexternal
         if (is_a_lm(i) .or. is_a_lp(i)) then
+          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
+            j = i
+          endif
+        endif
+      enddo
+      if (pt_04(p_reco(0,j)) .lt. {}) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
+    'ptj1min': '''c     cut for ptl1min (leading jet)
+      j = 0
+      do i=1,nexternal
+        if (is_a_j(i)) then
           if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
             j = i
           endif
@@ -225,6 +243,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
       enddo
 
 ''',
+<<<<<<< HEAD
     'yzmin': '''c     cut on the rapidity of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
@@ -399,6 +418,53 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           endif
         elseif (xeta2.lt.2.5d0) then
           if (xeta1.lt.2.5d0 .or. xeta1.gt.4.9d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else
+          passcuts_user=.false.
+          return
+        endif
+      endif
+''',
+    'atlas_2jet_7tev_r06': '''c
+      if ({}) then
+        if (njet.lt.2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        xystar = 0.5d0 * dabs(atanh(pjet(3,1)/pjet(0,1))-
+     $                        atanh(pjet(3,2)/pjet(0,2)))
+        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+        if (xystar.lt.0.5d0) then
+          if (xmjj.lt.260d0 .or. xmjj.gt.4270d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xystar.lt.1.0d0) then
+          if (xmjj.lt.310d0 .or. xmjj.gt.4270d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xystar.lt.1.5d0) then
+          if (xmjj.lt.510d0 .or. xmjj.gt.4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xystar.lt.2.0d0) then
+          if (xmjj.lt.760d0 .or. xmjj.gt.4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xystar.lt.2.5d0) then
+          if (xmjj.lt.1310d0 .or. xmjj.gt.5040d0) then
+            passcuts_user=.false.
+            return
+          endif
+        else if (xystar.lt.3.0d0) then
+          if (xmjj.lt.2120d0 .or. xmjj.gt.5040d0) then
             passcuts_user=.false.
             return
           endif

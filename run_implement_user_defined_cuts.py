@@ -393,9 +393,10 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
       endif
 ''',
     'mtw': '''c     cut on the transverse mass of W bosons
-      do i=3,nexternal-1
-        if (is_a_lm(i) .or. is_a_lp(i)) then
-          do j=i+1,nexternal
+      do i=3,nexternal
+        do j=3,nexternal
+          if (is_a_lm(i) .or. is_a_lp(i) .or.
+     &        is_a_lm(j) .or. is_a_lp(j)) then
             if (abs(ipdg_reco(i)+ipdg_reco(j)).eq.1) then
               xmtw=2d0*sqrt((p_reco(1,i)**2+p_reco(2,i)**2)*
      &                      (p_reco(1,j)**2+p_reco(2,j)**2))-
@@ -404,8 +405,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
                 passcuts_user=.false.
               endif
             endif
-          enddo
-        endif
+          endif
+        enddo
       enddo
 
 ''',

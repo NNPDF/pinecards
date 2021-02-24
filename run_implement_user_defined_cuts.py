@@ -403,6 +403,7 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
      &             2d0*(p_reco(1,i)*p_reco(1,j)+p_reco(2,i)*p_reco(2,j))
               if (xmtw.lt.(({})**2)) then
                 passcuts_user=.false.
+                return
               endif
             endif
           endif

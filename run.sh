@@ -123,10 +123,10 @@ check_args_and_cd_output() {
     # if we've installed dependencies set the correct paths
     if [[ -d ${prefix} ]]; then
         pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
-        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH}
-        export PATH=${prefix}/mg5amc/bin:${prefix}/bin:$PATH
-        export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
-        export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:$PKG_CONFIG_PATH
+        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH:-}
+        export PATH=${prefix}/mg5amc/bin:${prefix}/bin:${PATH:-}
+        export LD_LIBRARY_PATH=${prefix}/lib:${LD_LIBRARY_PATH:-}
+        export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:${PKG_CONFIG_PATH:-}
     fi
 
     install_mg5amc=

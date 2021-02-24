@@ -1,0 +1,11 @@
+arxiv=1705.02628
+description=CMS triple-differential jet cross section at 8 TeV
+hepdata=10.17182/hepdata.79410.v1/t1, 10.17182/hepdata.79410.v1/t3, 10.17182/hepdata.79410.v1/t5, 10.17182/hepdata.79410.v1/t7, 10.17182/hepdata.79410.v1/t9, 10.17182/hepdata.79410.v1/t11
+x1_label=ystar
+x1_label_tex=$0.5 (y_{\mathrm{j}_1} - y_{\mathrm{j}_2})$
+x2_label=yboost
+x2_label_tex=$0.5 (y_{\mathrm{j}_1} + y_{\mathrm{j}_2})$
+x3_label=ptavg
+x3_label_tex=$0.5 (p_{\mathrm{T},\mathrm{j}_1} + p_{\mathrm{T},\mathrm{j}_2})$
+x3_unit=GeV
+y_unit=pb

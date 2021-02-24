@@ -1,0 +1,9 @@
+arxiv=1212.6660
+description=CMS double-differential jet cross section at 7 TeV
+hepdata=10.17182/hepdata.66887.v1/t6, 10.17182/hepdata.66887.v1/t7, 10.17182/hepdata.66887.v1/t8, 10.17182/hepdata.66887.v1/t9, 10.17182/hepdata.66887.v1/t10
+x1_label=ymax
+x1_label_tex=$\operatorname{max}(y_{\mathrm{j}_1},y_{\mathrm{j}_2})$
+x2_label=M_jj
+x2_label_tex=$M_{\mathrm{j}_1\mathrm{j}_2}$
+x2_unit=GeV
+y_unit=pb

@@ -8,7 +8,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'total', 1, 0d0, 1d0)
+      call HwU_book(1,'ptz', 5,  0d0, 150d0)
+      call HwU_book(2,'ptz', 1,150d0, 220d0)
+      call HwU_book(3,'ptz', 1,220d0,1000d0)
       return
       end
 
@@ -34,8 +36,31 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer ibody
       double precision p(0:4,nexternal)
       double precision wgts(*)
+      integer i, j
+      double precision ppl(0:3), pplb(0:3), ppv(0:3), ptll
 
-      call HwU_fill(1,0.5d0,wgts)
+      double precision p_reco(0:4,nexternal)
+      integer iPDG_reco(nexternal)
+
+
+
+      call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
+     $                       p, iPDG, p_reco, iPDG_reco)
+
+      do j = nincoming+1, nexternal
+        if (iPDG_reco(j).eq.11) ppl(0:3)=p_reco(0:3,j)
+        if (iPDG_reco(j).eq.-11) pplb(0:3)=p_reco(0:3,j)
+      enddo
+
+      do i=0,3
+        ppv(i)=ppl(i)+pplb(i)
+      enddo
+
+      ptll = dsqrt(ppv(1)**2+ppv(2)**2)
+
+      call HwU_fill(1,ptll,wgts)
+      call HwU_fill(2,ptll,wgts)
+      call HwU_fill(3,ptll,wgts)
 
  999  return
       end

@@ -1,0 +1,9 @@
+arxiv=1312.3524
+description=ATLAS double-differential jet cross section at 7 TeV
+hepdata=10.17182/hepdata.62289.v1/t7, 10.17182/hepdata.62289.v1/t8, 10.17182/hepdata.62289.v1/t9, 10.17182/hepdata.62289.v1/t10, 10.17182/hepdata.62289.v1/t11, 10.17182/hepdata.62289.v1/t12
+x1_label=ystar
+x1_label_tex=$y^*$
+x2_label=M_jj
+x2_label_tex=$M_{\mathrm{j}_1\mathrm{j}_2}$
+x2_unit=GeV
+y_unit=pb

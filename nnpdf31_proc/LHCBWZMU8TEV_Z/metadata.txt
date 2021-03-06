@@ -1,0 +1,6 @@
+arxiv=1511.08039
+description=LHCb differential Drell–Yan cross section at 8 TeV
+hepdata=10.17182/hepdata.71419.v1/t2
+x1_label=y_ll
+x1_label_tex=$y_{\ell\bar{\ell}}$
+y_unit=pb

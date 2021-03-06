@@ -1,54 +1,25 @@
-# aMCblast
-The madgraph/aMCblast project consists of a set of tools for the automated
-generation of PineAPPL grids that include NLO QCD+EW corrections.
+# Runcards for NNPDF
+This repository stores all runcards needed to generate PineAPPL grids for the
+processes included in NNPDF.
 
-## Prerequisites
-To successfully generate a PineAPPL grid, the following packages are required:
+## How do I generate a PineAPPL grid for an existing dataset?
+Run
 
-* the modified version of **Madgraph/MC@NLO**
-  (<https://launchpad.net/mg5amc-pineappl>) installable as `bzr branch
-  lp:~amcblast/mg5amc-pineappl/trunk` (bazaar is available from
-  <http://bazaar.canonical.com/en/> if it is not already installed on your
-  machine). The binary `mg5_aMC` must also be found in `PATH`.
-* the **Rust** tools, see <https://www.rust-lang.org/tools/install>.
-* the **PineAPPL C API**: download <https://github.com/N3PDF/pineappl>, then
-  execute the following steps inside the repository:
+    ./run.sh
 
-      cd pineappl_capi
-      cargo cinstall --release --prefix=${prefix}
-      cd ..
+to get a list available datasets. Pick the one you're interested in, and pass
+it to `./run.sh`. The following should run very quickly:
 
-  Make sure to replace `${prefix}` with an appropriate installation directory,
-  and that the environment variables are set (permanently in your `~/.bashr`,
-  for examples) to the following values
+    ./run.sh TEST_RUN_SH
 
-      export LD_LIBRARY_PATH=${prefix}/lib
-      export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig
+If any software ([Madgraph5_aMC@NLO](https://launchpad.net/mg5amcnlo),
+[PineAPPL](https://github.com/N3PDF/pineappl)) is missing, `./run.sh` will
+attempt to install it; this works independently of the chosen dataset.
 
-  Test your installation using
-
-      pkg-config pineappl_capi --libs
-
-  This prints the linker flags needed to link against the C API of PineAPPL,
-  and should like similar to the following output
-
-      -L${prefix}/lib -lpineappl_capi
-
-  If there is no output, something is wrong.
-* in the same repository, install the shell program **`pineappl`** using
-
-      cargo install --path pineappl_cli
-
-  Note that this will install the program for the current user. If you want to
-  install the program system-wide use the option `--root` with the proper
-  directory.
-
-## Datasets
-After a successful installation of the prerequisites above, the following files
-must be present for each data set. These files must be located in the
-subdirectory `nnpdf31_proc/DATASET` folder and, where `DATASET` should be named
-after the corresponding data set included in a NNPDF fit. The contents and
-meaning are as follows:
+## How do I implement a new dataset?
+The following files are important for each data set; they must be in the folder
+`nnpdf31_proc/DATASET`, where `DATASET` is the NNPDF identifier for the
+dataset.
 
 * The `output.txt` file (compulsory). This file contains the instructions to
   generate the relevant process. For details, please see
@@ -61,10 +32,10 @@ meaning are as follows:
   run the relevant process, including the relevant physical parameters. Since
   the parameter values are inserted by `run.sh`, do not insert the numerical
   values into the text file but rather the run variables. Currently supported
-  ones are `@MZ@`, `@MW@`, and `@YMT@`. The names are the same as chosen by
-  `mg5_aMC`, but written in uppercase and surrounded with `@`. For details
-  about more parameters, please see the `Template/NLO/Cards/run_card.dat` file
-  in Madgraph/MC@NLO.
+  ones are `@MZ@`, and `@MW@`. The names are the same as chosen by `mg5_aMC`,
+  but written in uppercase and surrounded with `@`. For details about more
+  parameters, please see the `Template/NLO/Cards/run_card.dat` file in
+  Madgraph/MC@NLO.
 
 * The `analysis.f` file (compulsory). This Fortran file contains the
   instructions for the kinematic analysis in the `HwU` format and must fill the
@@ -78,34 +49,51 @@ meaning are as follows:
   original new > patch.patch`. The patches are applied in an unspecified order,
   using `patch -p1 ...`.
 
-* The `postrun.sh` file (optional). This is a BASH script which is run after
-  the successful generation of the PineAPPL grid and can be used to perform
-  additional operations, such as rescaling. The environment variable `$GRID`
-  contains the relative path the PineAPPL grid.
+* The `postrun.sh` file (optional, must be executable). This is a BASH script
+  which is run after the successful generation of the PineAPPL grid and can be
+  used to perform additional operations, such as rescaling. The environment
+  variable `$GRID` contains the relative path the PineAPPL grid.
 
-## Generating the PineAPPL grid(s)
-Provided the above files, the production of the grids only requires the user to
-run the `./run.sh [dataset]` script. The script takes as only parameter the
-dataset, which is the name of the subdirectory containing the all the files
-described before. To list all possibilities of `[dataset]` simply run the
-script without parameters.
+* The `metadata.txt` file (optional). This file collects all metadata, which is
+  written into the grid after generation. Arbitrary `key=value` pairs are
+  supported, the most common are:
+
+  - `arxiv`: The arxiv number of the experimental analysis, or if there are
+    more than one, comma-seperated numbers.
+  - `description`: A short description of the process/observables. Make sure to
+    include also the name of the experiment and the centre-of-mass energy.
+  - `hepdata`: The DOI pointing to the experimental data, or a comma-separated
+    list of DOIs. Preferably this points to specific tables of the observables
+    specified below, as the hepdata entries usually show many of them.
+  - `x1_label`: The name of the first (`x2` = second, `x3` = third, ...)
+    observable.
+  - `x1_label_tex`: The name of the observable, written in LaTeX.
+  - `x1_unit`: The unit of the observable (typically `GeV`). If this key is not
+    present, the corresponding observable is assumed to be dimensionless.
+  - `y_label`: The unit for the cross section (typically `pb`).
 
 ## Where's my output?
-After having run `./run.sh [dataset]` (see above), the script prints some
-output, which is useful to quickly validate the contents of the grid. The last
-line shows the directory where all results are stored, which has the form
-`dataset-date`, where `dataset` is the value given to the run script and `date`
-is a numerical date when the generation was started. The date is added so runs
-for the same dataset do not overwrite each other's output.
+After having run `./run.sh DATASET` (see above), the script prints a table,
+which is useful to quickly validate the MC uncertainty and the interpolation
+error of PineAPPL. The last line shows the directory where all results are
+stored, which has the form `DATASET-DATE`, where `DATASET` is the value given
+to the run script and `DATE` is a numerical date when the generation was
+started. The date is added so runs for the same dataset do not overwrite each
+other's output.
 
-The contents of this directory are:
+The most important file in the output directory is
+
+    DATASET-DATE/DATASET.pineappl.lz4
+
+which is the PineAPPL grid.
+
+The remaining contents of this directory are useful for testing and debugging:
 
 * `DATASET`: The directory created by `mg5_aMC`. A few interesting files in
   this subdirectory are:
   * `Events/*/MADatNLO.HwU`: histograms with uncertainties (HwU)
-  * `Events/*/amcblast_obs_*.root`: grids created by `mg5_aMC`, not yet merged
-    together
-* `DATASET.{pineappl,root}`: All grids created by `mg5_aMC` merged together.
+  * `Events/*/amcblast_obs_*.pineappl`: grids created by `mg5_aMC`, not yet
+    merged together
 * `launch.log`: Output of `mg5_aMC` during the 'launch' phase
 * `launch.txt`: Run card for the 'launch' phase, with all variables substituted
   to their final values

@@ -1,0 +1,9 @@
+arxiv=1706.03192
+description=ATLAS double-differential inclusive jet cross section at 8 TeV
+hepdata=10.17182/hepdata.76967.v1/t1, 10.17182/hepdata.76967.v1/t2, 10.17182/hepdata.76967.v1/t3, 10.17182/hepdata.76967.v1/t4, 10.17182/hepdata.76967.v1/t5, 10.17182/hepdata.76967.v1/t6
+x1_label=y_j
+x1_label_tex=$y_{\mathrm{jet}}$
+x2_label=pt_j
+x2_label_tex=$p_{\mathrm{T},\mathrm{jet}}$
+x2_unit=GeV
+y_unit=pb

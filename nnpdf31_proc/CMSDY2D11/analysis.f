@@ -8,12 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'lmlp m yrap', 24,  20d0*2.4d0,   30d0*2.4d0)
-      call HwU_book(2,'lmlp m yrap', 24,  30d0*2.4d0,   45d0*2.4d0)
-      call HwU_book(3,'lmlp m yrap', 24,  45d0*2.4d0,   60d0*2.4d0)
-      call HwU_book(4,'lmlp m yrap', 24,  60d0*2.4d0,  120d0*2.4d0)
-      call HwU_book(5,'lmlp m yrap', 24, 120d0*2.4d0,  200d0*2.4d0)
-      call HwU_book(6,'lmlp m yrap', 12, 200d0*2.4d0, 1500d0*2.4d0)
+      call HwU_book(1,'lmlp m yrap',96, 0d0, 96d0)
+      call HwU_book(2,'lmlp m yrap',36,96d0,132d0)
 
       return
       end
@@ -43,11 +39,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
-      double precision xyll, getabsy
+      double precision xyll, getabsy, xbin
       external getinvm
       external getabsy
-      integer bin
-      double precision minmll, maxmll
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -68,36 +62,39 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       xmll=getinvm(ppv(0),ppv(1),ppv(2),ppv(3))
       xyll=getabsy(ppv(0),ppv(3))
 
-      bin = -1
-
-      if (xmll.ge.20d0.and.xmll.lt.30d0) then
-        bin=1
-        minmll=20d0
-        maxmll=30d0
-      elseif (xmll.ge.30d0.and.xmll.lt.45d0) then
-        bin=2
-        minmll=30d0
-        maxmll=45d0
-      elseif (xmll.ge.45d0.and.xmll.lt.60d0) then
-        bin=3
-        minmll=45d0
-        maxmll=60d0
-      elseif (xmll.ge.60d0.and.xmll.lt.120d0) then
-        bin=4
-        minmll=60d0
-        maxmll=120d0
-      elseif (xmll.ge.120d0.and.xmll.lt.200d0) then
-        bin=5
-        minmll=120d0
-        maxmll=200d0
-      elseif (xmll.ge.200d0.and.xmll.lt.1500d0) then
-        bin=6
-        minmll=200d0
-        maxmll=1500d0
+      if (xyll.gt.2.4d0) then
+        write (*,*) "error: event outside bin", xmll, xyll
+        stop 1
+      else
+        xbin = dble(int(24d0 * xyll / 2.4d0)) + 0.5d0
       endif
 
-      call HwU_fill(bin,minmll*2.4d0+xyll*(maxmll-minmll),wgts)
+      if (xmll.lt.20d0) then
+        write (*,*) "error: event outside bin", xmll, xyll
+        stop 1
+      elseif (xmll.lt.30d0) then
+        xbin=xbin+0d0
+      elseif (xmll.lt.45d0) then
+        xbin=xbin+24d0
+      elseif (xmll.lt.60d0) then
+        xbin=xbin+24d0+24d0
+      elseif (xmll.lt.120d0) then
+        xbin=xbin+24d0+24d0+24d0
+      elseif (xmll.lt.200d0) then
+        xbin=xbin+24d0+24d0+24d0+24d0
+      elseif (xmll.lt.1500d0) then
+        xbin=24d0+24d0+24d0+24d0+24d0
+        xbin=xbin+dble(int(12d0 * xyll / 2.4d0)) + 0.5d0
+      else
+        write (*,*) "error: event outside bin", xmll, xyll
+        stop 1
+      endif
 
+      if (xbin.lt.96d0) then
+        call HwU_fill(1,xbin,wgts)
+      else
+        call HwU_fill(2,xbin,wgts)
+      endif
 
  999  return
       end

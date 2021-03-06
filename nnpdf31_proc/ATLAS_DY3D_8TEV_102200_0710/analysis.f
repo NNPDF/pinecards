@@ -8,13 +8,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'dist', 12*6,   0d0,  72d0)
-      call HwU_book(2,'dist', 12*6,  72d0, 144d0)
-      call HwU_book(3,'dist', 12*6, 144d0, 216d0)
-      call HwU_book(4,'dist', 12*6, 216d0, 288d0)
-      call HwU_book(5,'dist', 12*6, 288d0, 360d0)
-      call HwU_book(6,'dist', 12*6, 360d0, 432d0)
-      call HwU_book(7,'dist', 12*6, 432d0, 504d0)
+      call HwU_book(1,'dist', 66,   0d0,  66d0)
+      call HwU_book(2,'dist', 66,  66d0, 132d0)
+      call HwU_book(3,'dist', 68, 132d0, 200d0)
+      call HwU_book(4,'dist', 68, 200d0, 268d0)
+      call HwU_book(5,'dist', 66, 268d0, 334d0)
+      call HwU_book(6,'dist', 64, 334d0, 398d0)
+      call HwU_book(7,'dist', 60, 398d0, 458d0)
       return
       end
 
@@ -45,7 +45,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
       double precision xyll, getabsy
       double precision xcos, getcostheta
-      double precision x,xlen,xsize,y,ylen,ysize,z,zsize,obs
+      double precision obs, xlimit
       external getinvm
       external getabsy
       external getcostheta
@@ -72,51 +72,182 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
      &                 pplb(2),pplb(3))
 
       grid=-1
+      obs=0d0
+      xlimit=-1.0d0
 
-      if (xmll.ge.46d0.and.xmll.lt.66d0) then
+      if (xmll.lt.46d0) then
+        grid=-2
+      elseif (xmll.lt.66d0) then
         grid=1
-        z=0d0
-      elseif (xmll.ge.66d0.and.xmll.lt.80d0) then
+        obs=0d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=2.0d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+10d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+10d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+10d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+10d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+10d0+11d0+12d0+12d0+11d0
+          xlimit=2.0d0
+        endif
+      elseif (xmll.lt.80d0) then
         grid=2
-        z=1d0
-      elseif (xmll.ge.80d0.and.xmll.lt.91d0) then
+        obs=66d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=2.0d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+10d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+10d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+10d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+10d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+10d0+11d0+12d0+12d0+11d0
+          xlimit=2.0d0
+        endif
+      elseif (xmll.lt.91d0) then
         grid=3
-        z=2d0
-      elseif (xmll.ge.91d0.and.xmll.lt.102d0) then
+        obs=66d0+66d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=2.2d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+11d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+11d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+11d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+11d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+11d0+11d0+12d0+12d0+11d0
+          xlimit=2.2d0
+        endif
+      elseif (xmll.lt.102d0) then
         grid=4
-        z=3d0
-      elseif (xmll.ge.102d0.and.xmll.lt.116d0) then
+        obs=66d0+66d0+68d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=2.2d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+11d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+11d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+11d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+11d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+11d0+11d0+12d0+12d0+11d0
+          xlimit=2.2d0
+        endif
+      elseif (xmll.lt.116d0) then
         grid=5
-        z=4d0
-      elseif (xmll.ge.116d0.and.xmll.lt.150d0) then
+        obs=66d0+66d0+68d0+68d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=2.0d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+10d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+10d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+10d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+10d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+10d0+11d0+12d0+12d0+11d0
+          xlimit=2.0d0
+        endif
+      elseif (xmll.lt.150d0) then
         grid=6
-        z=5d0
-      elseif (xmll.ge.150d0.and.xmll.lt.200d0) then
+        obs=66d0+66d0+68d0+68d0+66d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=1.8d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+9d0
+          xlimit=2.2d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+9d0+11d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+9d0+11d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+9d0+11d0+12d0+12d0
+          xlimit=2.2d0
+        else
+          obs=obs+9d0+11d0+12d0+12d0+11d0
+          xlimit=1.8d0
+        endif
+      elseif (xmll.lt.200d0) then
         grid=7
-        z=6d0
-      endif
-
-      y=floor(xyll/0.2d0)
-
-      if (xcos.lt.-0.7d0) then
-        x=0d0
-      elseif (xcos.ge.-0.7d0.and.xcos.lt.-0.4d0) then
-        x=1d0
-      elseif (xcos.ge.-0.4d0.and.xcos.lt.0.0d0) then
-        x=2d0
-      elseif (xcos.ge.0.0d0.and.xcos.lt.0.4d0) then
-        x=3d0
-      elseif (xcos.ge.0.4d0.and.xcos.lt.0.7d0) then
-        x=4d0
+        obs=66d0+66d0+68d0+68d0+66d0+64d0
+        if (xcos.lt.-0.7d0) then
+          obs=obs
+          xlimit=1.6d0
+        elseif (xcos.lt.-0.4d0) then
+          obs=obs+8d0
+          xlimit=2.0d0
+        elseif (xcos.lt.0.0d0) then
+          obs=obs+8d0+10d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.4d0) then
+          obs=obs+8d0+10d0+12d0
+          xlimit=2.4d0
+        elseif (xcos.lt.0.7d0) then
+          obs=obs+8d0+10d0+12d0+12d0
+          xlimit=2.0d0
+        else
+          obs=obs+8d0+10d0+12d0+12d0+10d0
+          xlimit=1.6d0
+        endif
       else
-        x=5d0
+        grid=-3
       endif
 
-      xlen=6d0
-      ylen=12d0
-      obs=x+xlen*(y+ylen*z)
+      if (xyll.gt.xlimit) then
+        write (*,*) "error: event outside bins", grid, obs, xyll, xlimit
+        stop 1
+      endif
 
-      call HwU_fill(grid,obs+0.5d0,wgts)
+      obs=obs+floor(xyll/0.2d0)
+
+      if (grid.gt.0d0) then
+        call HwU_fill(grid,obs+0.5d0,wgts)
+      else
+        write (*,*) "error: event outside bins", grid, obs
+        stop 1
+      endif
 
  999  return
       end

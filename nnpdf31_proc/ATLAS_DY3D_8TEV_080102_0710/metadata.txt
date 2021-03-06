@@ -1,0 +1,11 @@
+arxiv=1710.05167
+description=ATLAS triple-differential Drell–Yan cross section at 8 TeV
+hepdata=10.17182/hepdata.77492.v2/t1
+x1_label=M_ll
+x1_label_tex=$M_{\ell\bar{\ell}}$
+x1_unit=GeV
+x2_label=cos_theta
+x2_label_tex=$\cos \theta$
+x3_label=y_ll
+x3_label_tex=$y_{\ell\bar{\ell}}$
+y_unit=pb

@@ -1,12 +1,14 @@
 launch @OUTPUT@
 fixed_order = ON
-set mw @MW@
+set gf @GF@
+set mh @MH@
 set mt @MT@
+set mw @MW@
 set mz @MZ@
-set WT 0.0
-set WZ 0.0
-set WW 0.0
-set WH 0.0
+set wh @WH@
+set wt 0.0
+set ww @WW@
+set wz @WZ@
 set ymt @YMT@
 set ebeam1 7000
 set ebeam2 7000

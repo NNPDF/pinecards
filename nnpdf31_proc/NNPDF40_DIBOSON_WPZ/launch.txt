@@ -15,7 +15,7 @@ set reweight_scale True
 set ptl = 20.0
 set etal = 2.5
 set rphreco = 0.1
-set req_acc_FO 0.001
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

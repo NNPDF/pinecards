@@ -13,7 +13,7 @@ set mur_ref_fixed @MW@
 set muf_ref_fixed @MW@
 set reweight_scale True
 #user_defined_cut yh = 2.5
-set req_acc_FO 0.001
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

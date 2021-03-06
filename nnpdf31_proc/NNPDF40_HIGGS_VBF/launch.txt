@@ -18,7 +18,7 @@ set etja = 4.5
 set jetalgo = -1.0
 set jetradius = 0.4
 #user_defined_cut yh = 2.5
-set req_acc_FO 0.001
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

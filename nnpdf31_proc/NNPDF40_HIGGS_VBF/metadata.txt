@@ -1,0 +1,7 @@
+description=Differential VBF Higgs cross section at 14 TeV
+x1_label=yh
+x1_label_tex=$y_{\mathrm{h}}$
+x1_unit=GeV
+y_unit=pb
+y_label=dsig/dyh
+y_label_tex=$\mathrm{d}\sigma/\mathrm{d} y_{\mathrm{h}}$

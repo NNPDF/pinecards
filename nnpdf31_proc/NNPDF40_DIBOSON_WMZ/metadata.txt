@@ -1,0 +1,7 @@
+description=Differential diboson (W-Z) cross section at 14 TeV
+x1_label=ptll
+x1_label_tex=$p_{\mathrm{T},\ell\bar{\ell}}$
+x1_unit=GeV
+y_unit=pb/GeV
+y_label=dsig/dptll
+y_label_tex=$\mathrm{d}\sigma/\mathrm{d} p_{\mathrm{T},\ell\bar{\ell}}$

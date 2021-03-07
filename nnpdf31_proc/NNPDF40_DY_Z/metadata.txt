@@ -2,6 +2,6 @@ description=Differential Drell–Yan cross section at 14 TeV
 x1_label=Mll
 x1_label_tex=$M_{\ell\bar{\ell}}$
 x1_unit=GeV
-y_unit=pb
+y_unit=pb/GeV
 y_label=dsig/dMll
 y_label_tex=$\mathrm{d}\sigma/\mathrm{d} M_{\ell\bar{\ell}}$

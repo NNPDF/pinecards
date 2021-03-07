@@ -21,7 +21,7 @@ install_mg5amc() {(
     mkdir -p "${prefix}"
 
     brz=$(which brz 2> /dev/null || true)
-    bzr=$(which brz 2> /dev/null || true)
+    bzr=$(which bzr 2> /dev/null || true)
     pip=$(which pip 2> /dev/null || true)
 
     repo=lp:~maddevelopers/mg5amcnlo/3.0.4

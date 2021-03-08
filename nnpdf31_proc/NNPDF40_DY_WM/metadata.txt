@@ -1,7 +1,7 @@
 description=Differential Drell—Yan cross section at 14 TeV
 x1_label=etal
 x1_label_tex=$\eta_{\ell}$
-x1_unit=GeV
+x1_unit=
 y_unit=pb
 y_label=dsig/detal
 y_label_tex=$\mathrm{d}\sigma/\mathrm{d} \eta_{\ell}$

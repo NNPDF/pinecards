@@ -1,0 +1,9 @@
+arxiv=1703.01630
+description=CMS two-dimensional differential ttbar cross section at 8 TeV
+hepdata=10.17182/hepdata.77008.v1/t1
+x2_label=y_t
+x2_label_tex=$y_\mathrm{t}$
+x1_label=pt_t
+x1_label_tex=$p_\mathrm{T}^\mathrm{t}$
+x1_unit=GeV
+y_unit=pb

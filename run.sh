@@ -282,7 +282,7 @@ EOF
     mv "${grid}".tmp "${grid}"
 
     # add metadata
-    runcard="${dataset}"/Events/run_01*/run_01_tag_1_banner.txt
+    runcard="${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
         eval $(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }

@@ -6,10 +6,10 @@ set mh @MH@
 set mt @MT@
 set mw @MW@
 set mz @MZ@
-set wh @WH@
+set wh 0.0
 set wt 0.0
-set ww @WW@
-set wz @WZ@
+set ww 0.0
+set wz 0.0
 set ymt @YMT@
 set ebeam1 7000
 set ebeam2 7000

@@ -1,5 +1,5 @@
 arxiv=1612.03016
-description=ATLAS double-differential Drell–Yan cross section at 7 TeV
+description=ATLAS differential Drell–Yan cross section at 7 TeV
 hepdata=10.17182/hepdata.76541.v1/t9
 x1_label=etal
 x1_label_tex=$\eta_{\ell}$

@@ -40,6 +40,22 @@ cuts_variables = {
 }
 
 cuts_code = {
+    'mjj': '''c     cut on the invariant mass of the leading jets
+      if (invm2_04(pjet(0,1),pjet(0,2),1d0) .lt. ({})**2) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
+    'dyjj': '''c     cut on the rapidity separation of the leading jets
+      tmpvar=atanh(pjet(3,1)/pjet(0,1))
+     &      -atanh(pjet(3,2)/pjet(0,2))
+      if (abs(tmpvar) .lt. {}) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
     'mmllmax': '''c     cut for mmllmax (SFOS lepton pairs)
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
@@ -151,6 +167,30 @@ cuts_code = {
               endif
             endif
           enddo
+        endif
+      enddo
+
+''',
+    'yh': '''c     cut on Higgs particles
+      do i=1,nexternal
+        if (ipdg_reco(i) .eq. 25) then
+          if (abs(atanh(p_reco(3,i)/p_reco(0,i)))
+     &        .gt. {}) then
+            passcuts_user=.false.
+            return
+          endif
+        endif
+      enddo
+
+''',
+    'yt': '''c     cut on top particles
+      do i=1,nexternal
+        if (ipdg_reco(i).eq.6 .or. ipdg_reco(i).eq.-6) then
+          if (abs(atanh(p_reco(3,i)/p_reco(0,i)))
+     &        .gt. {}) then
+            passcuts_user=.false.
+            return
+          endif
         endif
       enddo
 

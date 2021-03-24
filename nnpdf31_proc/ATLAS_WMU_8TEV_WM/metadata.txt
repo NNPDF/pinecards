@@ -1,0 +1,9 @@
+arxiv=1904.05631
+description=ATLAS differential Drell–Yan cross section at 8 TeV
+hepdata=10.17182/hepdata.89322.v1/t3
+x1_label=etal
+x1_label_tex=$\eta_{\ell}$
+x1_unit=
+y_label=dsig/detal
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}\eta_{\ell}}$
+y_unit=pb

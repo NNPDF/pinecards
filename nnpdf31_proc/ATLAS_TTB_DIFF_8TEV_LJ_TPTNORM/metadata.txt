@@ -1,0 +1,9 @@
+arxiv=1511.04716, 1505.04480
+description=ATLAS and CMS ttbar differential cross section at 8 TeV
+hepdata=10.17182/hepdata.84154.v2/t30, 10.17182/hepdata.68516.v1/t15
+x1_label=ptt
+x1_label_tex=$p_\mathrm{T}^\mathrm{t}$
+x1_unit=GeV
+y_label=dsig/dptt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T},\mathrm{t}}}$
+y_unit=pb/GeV

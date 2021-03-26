@@ -1,0 +1,9 @@
+arxiv=1607.07281
+description=ATLAS and CMS ttbar differential cross section at 8 TeV
+hepdata=10.17182/hepdata.75323.v1/t12
+x1_label=ytt
+x1_label_tex=$y_{\mathrm{t}\bar{\mathrm{t}}}$
+x1_unit=
+y_label=dsig/dytt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}y_{\mathrm{t}\bar{\mathrm{t}}}}$
+y_unit=pb

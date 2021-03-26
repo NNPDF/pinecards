@@ -128,7 +128,7 @@ A complete list of all channels and of their contribution to the cross section f
 \label{app:sample-runcard}
 
 The following run card was used to produce the results shown in section~\ref{sec:dy-lepton-pair-production}.
-The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set iappl 1}, which enables to fill a \textsc{PineAPPL} grid.
+The only difference with respect to a standard \textsc{mg5\_aMC} run is the switch \texttt{set pineappl True}, which enables to fill a \textsc{PineAPPL} grid.
 For a complete set of runcards and patches see \url{https://n3pdf.github.io/pineappl}.
 \begin{verbatim}
 set complex_mass_scheme True
@@ -155,7 +155,7 @@ set etal = 2.5
 set mll = 116
 #user_defined_cut set mmllmax = 1500.0
 set req_acc_FO 0.0001
-set iappl 1
+set pineappl True
 done
 quit
 \end{verbatim}
@@ -181,7 +181,7 @@ quit
   stringstyle=\color{orange},
 }
 
-The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC.
+The following listing shows how to setup \textsc{PineAPPL} using its C interface in a simple Monte Carlo integrator for calculating the double-photon contribution to Drell--Yan lepton-pair production at the LHC\@.
 All \textsc{PineAPPL} functions have the prefix \texttt{pineappl\_}.
 The full example together with a makefile can be found at \url{https://github.com/N3PDF/pineappl/tree/master/examples/capi-dy-aa}.
 The documentation of the C API can be found at \url{https://docs.rs/pineappl_capi}.

@@ -3,14 +3,14 @@ fixed_order = ON
 set maxjetflavor 5
 set gf @GF@
 set mh @MH@
-set mt 172.5
+set mt @MT@
 set mw @MW@
 set mz @MZ@
 set wh @WH@
 set wt 0.0
 set ww @WW@
 set wz @WZ@
-set ymt 172.5
+set ymt @MT@
 set ebeam1 4000
 set ebeam2 4000
 set pdlabel lhapdf

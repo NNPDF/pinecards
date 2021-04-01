@@ -226,7 +226,6 @@ WH 4.07468e-3
 WT 1.37758
 WW 2.09291
 WZ 2.49877
-YMT 173.3
 EOF
 
     # replace the variables with their values

@@ -353,7 +353,7 @@ EOF
 
     bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
 
-    if [[ -x "${bzr}" ]]; then
+    if [[ -x "${bzr}" && $("${bzr}" info >/dev/null) ]]; then
         pushd . > /dev/null
         cd $(dirname "${mg5amc}")/..
 
@@ -362,7 +362,7 @@ EOF
 
         popd > /dev/null
     else
-        echo 'warning: `bzr` not found, could not extract mg5_aMC@NLO version information'
+        echo "warning: couldn't extract mg5_aMC@NLO repository information"
 
         mg5amc_revno=""
         mg5amc_repo=""

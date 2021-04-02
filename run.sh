@@ -24,7 +24,7 @@ install_mg5amc() {(
     bzr=$(which bzr 2> /dev/null || true)
     pip=$(which pip 2> /dev/null || true)
 
-    repo=lp:~maddevelopers/mg5amcnlo/3.0.4
+    repo=lp:mg5amcnlo
 
     if [[ -x ${pip} ]] && [[ ! -x ${brz} ]] && [[ ! -x ${bzr} ]]; then
         pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)

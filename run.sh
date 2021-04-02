@@ -198,7 +198,7 @@ main() {
     sed -i "s/@OUTPUT@/${dataset}/g" "${output_file}"
 
     # create output folder
-    python2 "${mg5amc}" "${output_file}" |& tee output.log
+    "${mg5amc}" "${output_file}" |& tee output.log
 
     # copy patches if there are any
     for i in $(find ../nnpdf31_proc/"${dataset}" -name '*.patch'); do
@@ -267,7 +267,7 @@ EOF
     fi
 
     # launch run
-    python2 "${mg5amc}" "${launch_file}" |& tee launch.log
+    "${mg5amc}" "${launch_file}" |& tee launch.log
 
     # TODO: the following assumes that all observables belong to the same distribution
 

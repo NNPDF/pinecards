@@ -10,7 +10,6 @@ set wh @WH@
 set wt 0.0
 set ww @WW@
 set wz @WZ@
-set ymt @MT@
 set ebeam1 7000
 set ebeam2 7000
 set pdlabel lhapdf

@@ -353,7 +353,7 @@ EOF
 
     bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
 
-    if [[ -x "${bzr}" ]] && "${bzr}" info $(dirname "${mg5amc}")/.. 2>/dev/null; then
+    if [[ -x "${bzr}" ]] && "${bzr}" info $(dirname "${mg5amc}")/.. &>/dev/null; then
         pushd . > /dev/null
         cd $(dirname "${mg5amc}")/..
 

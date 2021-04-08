@@ -1,6 +1,7 @@
 arxiv=1706.03192
 description=ATLAS double-differential inclusive jet cross section at 8 TeV
 hepdata=10.17182/hepdata.76967.v1/t1, 10.17182/hepdata.76967.v1/t2, 10.17182/hepdata.76967.v1/t3, 10.17182/hepdata.76967.v1/t4, 10.17182/hepdata.76967.v1/t5, 10.17182/hepdata.76967.v1/t6
+nnpdf_id=ATLAS_1JET_8TEV_R06
 x1_label=yj
 x1_label_tex=$y_{\mathrm{jet}}$
 x1_unit=

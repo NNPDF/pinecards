@@ -1,6 +1,7 @@
 arxiv=1404.1212
 description=ATLAS low-mass differential Drell–Yan cross section at 7 TeV
 hepdata=10.17182/hepdata.64183.v1/t6
+nnpdf_id=ATLASLOMASSDY11EXT
 x1_label=Mll
 x1_label_tex=$M_{\ell\bar{\ell}}$
 x1_unit=GeV

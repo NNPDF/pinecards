@@ -70,6 +70,7 @@ dataset.
   - `hepdata`: The DOI pointing to the experimental data, or a comma-separated
     list of DOIs. Preferably this points to specific tables of the observables
     specified below, as the hepdata entries usually show many of them.
+  - `nnpdf_id`: The NNPDF ID, which can denote multiple datasets.
   - `x1_label`: The name of the first (`x2` = second, `x3` = third, ...)
     observable.
   - `x1_label_tex`: The name of the observable, written in LaTeX.

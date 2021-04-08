@@ -1,6 +1,7 @@
 arxiv=1505.07024
 description=LHCb differential Drell–Yan cross section at 7 TeV
 hepdata=10.17182/hepdata.2114.v1/t4
+nnpdf_id=LHCBWZMU7TEV
 x1_label=etal
 x1_label_tex=$\eta_{\bar{\ell}}$
 x1_unit=

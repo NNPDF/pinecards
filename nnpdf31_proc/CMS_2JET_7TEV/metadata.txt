@@ -1,6 +1,7 @@
 arxiv=1212.6660
 description=CMS double-differential jet cross section at 7 TeV
 hepdata=10.17182/hepdata.66887.v1/t6, 10.17182/hepdata.66887.v1/t7, 10.17182/hepdata.66887.v1/t8, 10.17182/hepdata.66887.v1/t9, 10.17182/hepdata.66887.v1/t10
+nnpdf_id=CMS_2JET_7TEV
 x1_label=ymax
 x1_label_tex=$y_{\mathrm{max}}$
 x1_unit=

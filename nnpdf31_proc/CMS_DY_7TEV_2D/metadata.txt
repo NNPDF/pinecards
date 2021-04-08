@@ -1,6 +1,7 @@
 arxiv=1310.7291
 description=CMS double-differential Drell—Yan cross section at 7 TeV
 hepdata=10.17182/hepdata.62207.v1/t5, 10.17182/hepdata.62207.v1/t6, 10.17182/hepdata.62207.v1/t7, 10.17182/hepdata.62207.v1/t8, 10.17182/hepdata.62207.v1/t9, 10.17182/hepdata.62207.v1/t10
+nnpdf_id=CMSDY2D11
 x1_label=Mll
 x1_label_tex=$M_{\ell\bar{\ell}}$
 x1_unit=GeV

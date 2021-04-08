@@ -1,6 +1,7 @@
 arxiv=1710.05167
 description=ATLAS triple-differential Drell–Yan cross section at 8 TeV
 hepdata=10.17182/hepdata.77492.v2/t1
+nnpdf_id=ATLAS_DY3D_8TEV
 x1_label=Mll
 x1_label_tex=$M_{\ell\bar{\ell}}$
 x1_unit=GeV

@@ -1,5 +1,6 @@
 arxiv=1607.06495
 description=LHCb differential Drell–Yan cross section at 13 TeV
+nnpdf_id=LHCB_Z_13TEV_DIELECTRON
 x1_label=yll
 x1_label_tex=$y_{\ell\bar{\ell}}$
 x1_unit=

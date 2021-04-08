@@ -90,6 +90,10 @@ dataset.
 
   - `initial_state_{1,2}`: The hadronic initial states of the grid, given as
     PDG ids, typically `2212` for protons, `-2212` for anti-protons, and so on.
+  - `lumi_id_types`: The meaning of the luminosities IDs in the definition of
+    the luminosity function of a PineAPPL grid. This is set to `pdg_mc_ids` to
+    signal they are PDG ids (with a possible exception of the gluon, for which
+    `0` may be used).
   - `mg5amc_repo` and `mg5amc_revno`: The repository and revision number of the
     Madgraph5_aMC@NLO version that was used to generate the grid.
   - `pineappl_gitversion`: The PineAPPL version that was used to generate the

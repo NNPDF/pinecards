@@ -372,7 +372,8 @@ EOF
         --entry_from_file results results.log \
         --entry runcard_gitversion "${runcard_gitversion}" \
         --entry mg5amc_revno "${mg5amc_revno}" \
-        --entry mg5amc_repo "${mg5amc_repo}"
+        --entry mg5amc_repo "${mg5amc_repo}" \
+        --entry lumi_id_types pdg_mc_ids
     mv "${grid}".tmp "${grid}"
 
     # if there is anything to do after the run, do it!

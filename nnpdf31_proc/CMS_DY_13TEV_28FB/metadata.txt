@@ -1,6 +1,6 @@
 arxiv=1812.10529
 description=CMS differential Drell–Yan cross section at 13 TeV
-hepdata=10.17182/hepdata.88043.v1/t5
+hepdata=10.17182/hepdata.88043.v1/t3
 x1_label=Mll
 x1_label_tex=$M_{\ell\bar{\ell}}$
 x1_unit=GeV

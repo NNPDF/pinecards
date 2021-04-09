@@ -1,0 +1,7 @@
+arxiv=1711.03143
+description=CMS ttbar total cross section at 5.02 TeV
+hepdata=10.17182/hepdata.81690.v1/t3
+nnpdf_id=CMSTTBARTOT
+y_label=sig
+y_label=$\sigma$
+y_unit=pb

@@ -1,0 +1,25 @@
+--- ATLAS_1JET_8TEV_R06/SubProcesses/setscales.f.orig	2020-11-30 09:45:53.669448000 +0100
++++ ATLAS_1JET_8TEV_R06/SubProcesses/setscales.f	2020-12-09 15:04:10.610477654 +0100
+@@ -562,16 +587,12 @@
+           tmp=muR_ref_fixed
+           temp_scale_id='fixed scale'
+       elseif(dynamical_scale_choice.eq.10) then
+-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-cc      USER-DEFINED SCALE: ENTER YOUR CODE HERE                                 cc
+-cc      to use this code you must set                                            cc
+-cc                 dynamical_scale_choice = 10                                   cc
+-cc      in the run_card (run_card.dat)                                           cc
+-ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-         write(*,*) "User-defined scale not set"
+-         stop 1
+-         temp_scale_id='User-defined dynamical scale' ! use a meaningful string
+-         tmp = 0d0
++         temp_scale_id='H_T hat'
++
++         tmp=0d0
++         do i=3,nexternal
++           tmp=tmp+pt(pp(0,i))
++         enddo
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ cc      USER-DEFINED SCALE: END OF USER CODE                                     cc
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc

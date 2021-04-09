@@ -1,5 +1,93 @@
 #!/bin/bash
 
+prefix=$(pwd)/.prefix
+
+yesno() {
+    echo -n "$@" "[Y/n]"
+    read -r reply
+
+    if [[ -z $reply ]]; then
+        reply=Y
+    fi
+
+    case "${reply}" in
+    Yes|yes|Y|y) return 0;;
+    No|no|N|n) return 1;;
+    *) echo "I didn't understand your reply '${reply}'"; yesno "$@";;
+    esac
+}
+
+install_mg5amc() {(
+    mkdir -p "${prefix}"
+
+    brz=$(which brz 2> /dev/null || true)
+    bzr=$(which bzr 2> /dev/null || true)
+    pip=$(which pip 2> /dev/null || true)
+
+    repo=lp:~maddevelopers/mg5amcnlo/3.2.0
+
+    if [[ -x ${pip} ]] && [[ ! -x ${brz} ]] && [[ ! -x ${bzr} ]]; then
+        pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+        export PATH="${prefix}"/bin:${PATH}
+        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages
+        "${pip}" install --prefix "${prefix}" breezy
+        brz="${prefix}"/bin/brz
+    fi
+
+    if [[ -x ${brz} ]]; then
+        "${brz}" branch "${repo}" "${prefix}"/mg5amc
+    elif [[ -x ${bzr} ]]; then
+        "${bzr}" branch "${repo}" "${prefix}"/mg5amc
+    else
+        echo "Couldn't install Madgraph5_aMC@NLO" >&2
+        exit 1
+    fi
+
+    if "${pip}" show six 2>&1 | grep 'Package(s) not found' > /dev/null; then
+        "${pip}" install --prefix "${prefix}" six
+    fi
+
+    # in case we're using python3, we need to convert the model file
+    "${prefix}"/mg5amc/bin/mg5_aMC <<EOF
+set auto_convert_model True
+import model loop_qcd_qed_sm_Gmu
+quit
+EOF
+)}
+
+install_pineappl() {(
+    mkdir -p "${prefix}"
+
+    cargo=$(which cargo 2> /dev/null || true)
+    git=$(which git 2> /dev/null)
+
+    repo=https://github.com/N3PDF/pineappl.git
+
+    if [[ ! -x ${cargo} ]]; then
+        export CARGO_HOME=${prefix}/cargo
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/rustup-init
+        bash /tmp/rustup-init --profile minimal --no-modify-path -y
+        export PATH=${prefix}/cargo/bin:${PATH}
+        cargo="${prefix}"/cargo/bin/cargo
+    elif [[ -d ${prefix}/cargo ]]; then
+        export CARGO_HOME=${prefix}/cargo
+    fi
+
+    if [[ -d ${prefix}/pineappl ]]; then
+        "${git}" pull
+    else
+        "${git}" clone ${repo} "${prefix}"/pineappl
+    fi
+
+    "${cargo}" install --force cargo-c
+
+    pushd . > /dev/null
+    cd "${prefix}"/pineappl
+    "${cargo}" cinstall --release --prefix "${prefix}" --manifest-path=pineappl_capi/Cargo.toml
+    "${cargo}" install --path pineappl_cli --root "${prefix}"
+    popd > /dev/null
+)}
+
 check_args_and_cd_output() {
     # exit script at the first sign of an error
     set -o errexit
@@ -25,17 +113,68 @@ check_args_and_cd_output() {
     # name of the dataset
     dataset="$1"
 
+    pkg_config=$(which pkg-config 2> /dev/null || true)
+
+    if [[ ! -x ${pkg_config} ]]; then
+        echo "The binary \`pkg-config\` wasn't found. Please install it" >&2
+        exit 1
+    fi
+
+    # if we've installed dependencies set the correct paths
+    if [[ -d ${prefix} ]]; then
+        pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+        export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH:-}
+        export PATH=${prefix}/mg5amc/bin:${prefix}/bin:${PATH:-}
+        export LD_LIBRARY_PATH=${prefix}/lib:${LD_LIBRARY_PATH:-}
+        export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:${PKG_CONFIG_PATH:-}
+    fi
+
+    install_mg5amc=
+    install_pineappl=
+
+    if ! which mg5_aMC > /dev/null 2>&1; then
+        install_mg5amc=yes
+        echo "Madgraph5_aMC@NLO wasn't found"
+    fi
+
+    if ! "${pkg_config}" pineappl_capi; then
+        install_pineappl=yes
+        echo "PineAPPL wasn't found"
+    elif ! which pineappl > /dev/null 2>&1; then
+        install_pineappl=yes
+        echo "PineAPPL wasn't found"
+    fi
+
+    if [[ -n ${install_mg5amc}${install_pineappl} ]]; then
+        if yesno 'Do you want to install the missing dependencies (into `.prefix`)?'; then
+            if [[ -n ${install_mg5amc} ]]; then
+                install_mg5amc
+            fi
+            if [[ -n ${install_pineappl} ]]; then
+                install_pineappl
+            fi
+
+            pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
+            export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages:${PYTHONPATH:-}
+            export PATH=${prefix}/mg5amc/bin:${prefix}/bin:${PATH:-}
+            export LD_LIBRARY_PATH=${prefix}/lib:${LD_LIBRARY_PATH:-}
+            export PKG_CONFIG_PATH=${prefix}/lib/pkgconfig:${PKG_CONFIG_PATH:-}
+        else
+            exit 1
+        fi
+    fi
+
     mg5amc=$(which mg5_aMC 2> /dev/null || true)
 
     if [[ ! -x ${mg5amc} ]]; then
-        echo "The binary \`mg5_aMC\` wasn't found. Please adjust your PATH variable" >&2
+        echo "The binary \`mg5_aMC\` wasn't found. Something went wrong" >&2
         exit 1
     fi
 
     pineappl=$(which pineappl 2> /dev/null || true)
 
     if [[ ! -x ${pineappl} ]]; then
-        echo "The binary \`pineappl\` wasn't found. Please adjust your PATH variable" >&2
+        echo "The binary \`pineappl\` wasn't found. Something went wrong" >&2
         exit 1
     fi
 
@@ -59,7 +198,7 @@ main() {
     sed -i "s/@OUTPUT@/${dataset}/g" "${output_file}"
 
     # create output folder
-    python2 "${mg5amc}" "${output_file}" |& tee output.log
+    "${mg5amc}" "${output_file}" |& tee output.log
 
     # copy patches if there are any
     for i in $(find ../nnpdf31_proc/"${dataset}" -name '*.patch'); do
@@ -78,10 +217,15 @@ main() {
     # TODO: write a list with variables that should be replaced in the launch file; for the time
     # being we create the file here, but in the future it should be read from the theory database
     cat > variables.txt <<EOF
+GF 1.1663787e-5
+MH 125.0
 MT 172.5
-MW 80.419
-MZ 91.176
-YMT 172.5
+MW 80.352
+MZ 91.1535
+WH 4.07468e-3
+WT 1.37758
+WW 2.084
+WZ 2.4943
 EOF
 
     # replace the variables with their values
@@ -123,7 +267,7 @@ EOF
     fi
 
     # launch run
-    python2 "${mg5amc}" "${launch_file}" |& tee launch.log
+    "${mg5amc}" "${launch_file}" |& tee launch.log
 
     # TODO: the following assumes that all observables belong to the same distribution
 
@@ -137,7 +281,7 @@ EOF
     mv "${grid}".tmp "${grid}"
 
     # add metadata
-    runcard="${dataset}"/Events/run_01*/run_01_tag_1_banner.txt
+    runcard="${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
         eval $(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }
@@ -190,11 +334,11 @@ EOF
              if (x9 < result) { result = x9; }
              return result;
          }
-         BEGIN { print "-----------------------------------------------------------------------"
-                 print "   PineAPPL         MC         sigma   diff.   central    min      max "
-                 print "                                       sigma   1/1000   1/1000   1/1000"
-                 print "-----------------------------------------------------------------------" }
-         { printf "% e % e %7.3f%% %7.3f %8.4f %8.4f %8.4f\n",
+         BEGIN { print "----------------------------------------------------------------------"
+                 print "   PineAPPL         MC        sigma      central         min      max "
+                 print "                              1/100   sigma   1/1000   1/1000   1/1000"
+                 print "----------------------------------------------------------------------" }
+         { printf "% e % e %7.3f %7.3f %8.4f %8.4f %8.4f\n",
                   $1,
                   $13,
                   $13 != 0.0 ? $14/$13*100 : 0.0,
@@ -205,7 +349,31 @@ EOF
 
     rm results.mg5_aMC results.grid
 
-    "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file results results.log
+    runcard_gitversion=$(git describe --long --tags --dirty --always)
+
+    bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
+
+    if [[ -x "${bzr}" ]] && "${bzr}" info $(dirname "${mg5amc}")/.. &>/dev/null; then
+        pushd . > /dev/null
+        cd $(dirname "${mg5amc}")/..
+
+        mg5amc_revno=$("${bzr}" revno)
+        mg5amc_repo=$("${bzr}" info | grep 'parent branch' | sed 's/[[:space:]]*parent branch:[[:space:]]*//')
+
+        popd > /dev/null
+    else
+        echo "warning: couldn't extract mg5_aMC@NLO repository information"
+
+        mg5amc_revno=""
+        mg5amc_repo=""
+    fi
+
+    "${pineappl}" set "${grid}" "${grid}".tmp \
+        --entry_from_file results results.log \
+        --entry runcard_gitversion "${runcard_gitversion}" \
+        --entry mg5amc_revno "${mg5amc_revno}" \
+        --entry mg5amc_repo "${mg5amc_repo}" \
+        --entry lumi_id_types pdg_mc_ids
     mv "${grid}".tmp "${grid}"
 
     # if there is anything to do after the run, do it!

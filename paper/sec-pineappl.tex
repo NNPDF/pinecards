@@ -43,7 +43,7 @@ The interface consists of roughly thirty functions, among which only a handful a
 We also provide and support a Python package based on this C interface.
 See appendix~\ref{app:example-program} for an example.
 
-\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard in the next \textsc{mg5\_aMC} release.} see appendix~\ref{app:sample-runcard} for an example of a runcard.
+\item \textsc{PineAPPL} has been explicitly interfaced to \textsc{mg5\_aMC} (v3+)~\cite{Alwall:2014hca,Frederix:2018nkq},\footnote{A version of \textsc{mg5\_aMC} interfaced to \textsc{PineAPPL} can be downloaded from \url{https://launchpad.net/mg5amc-pineappl/trunk}, and it will be included as standard starting from the 3.0.4 release of \textsc{mg5\_aMC}.} see appendix~\ref{app:sample-runcard} for an example of a runcard.
 The usage of \textsc{mg5\_aMC}(v3+) + \textsc{PineAPPL} is similar to that of \textsc{mg5\_aMC}(v2) + \textsc{aMCfast} + \textsc{APPLgrid}.
 While the latter toolchain proved to be sufficiently efficient for NLO QCD calculations of typical kinematic distributions (with a few bins), this is no longer so when taking into account NLO EW calculations and, with more precise data, distributions that are typically more complex and have more bins.
 Taking into account these two reasons, we find that the memory usage of \textsc{APPLgrid} is no longer satisfiable.
@@ -69,7 +69,7 @@ Fixed-order partonic cross sections $a + b \to X$ supported by \textsc{PineAPPL}
 This cross section is differential with respect to the observable $\mathcal{O}$, which, in general, is a function of phase space and subject to the usual conditions (soft and collinear safety, etc.).
 
 In experiments, but also for many calculations where the phase-space integration is performed using MC techniques, finite statistics does not allow for the exact reconstruction of the dependence of the cross section on the observable $\mathcal{O}$.
-Instead, it it sufficient to approximate the derivative using a piecewise-constant function,
+Instead, it is sufficient to approximate the derivative using a piecewise-constant function,
 \begin{equation}
 W_{ab}^{(k,l,m,n)} \left( x_1, x_2, Q^2, \mathcal{O} \right) \approx \sum_{o=1}^M \frac{\Theta (\mathcal{O}_o^\mathrm{min} \le \mathcal{O} < \mathcal{O}_o^\mathrm{max})}{\mathcal{O}_o^\mathrm{max} - \mathcal{O}_o^\mathrm{min}} w_{ab}^{(k,l,m,n,o)} \left( x_1, x_2, Q^2 \right) \text{,}
 \label{eq:differential-cross-section}

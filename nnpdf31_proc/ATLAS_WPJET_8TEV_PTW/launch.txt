@@ -1,0 +1,33 @@
+launch @OUTPUT@
+fixed_order = ON
+set maxjetflavor 5
+set gf @GF@
+set mh @MH@
+set mt @MT@
+set mw @MW@
+set mz @MZ@
+set wh @WH@
+set wt @WT@
+set ww @WW@
+set wz @WZ@
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+# TODO: check if scale choice is right
+set dynamical_scale_choice 10
+set reweight_scale True
+set ptl = 25.0
+set etal = 2.5
+#user_defined_cut set ptmiss = 25.0
+#user_defined_cut set mtw = 40.0
+set jetalgo = -1.0
+set jetradius = 0.4
+set ptj = 30.0
+# `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
+set etaj = 4.4
+# TODO: add Delta R(jet,lepton) cut
+set req_acc_FO 0.001
+set pineappl True
+done
+quit

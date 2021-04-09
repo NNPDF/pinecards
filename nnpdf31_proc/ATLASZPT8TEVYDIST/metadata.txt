@@ -1,6 +1,7 @@
 arxiv=1512.02192
 description=ATLAS transverse momentum of the Z boson at 8 TeV
 hepdata=10.17182/hepdata.71339.v1/t29, 10.17182/hepdata.71339.v1/t30, 10.17182/hepdata.71339.v1/t31, 10.17182/hepdata.71339.v1/t32, 10.17182/hepdata.71339.v1/t33, 10.17182/hepdata.71339.v1/t34
+nnpdf_id=ATLASZPT8TEVYDIST
 x1_label=yll
 x1_label_tex=$y_{\ell\bar{\ell}}$
 x1_unit=

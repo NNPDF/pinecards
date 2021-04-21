@@ -296,7 +296,8 @@ EOF
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
     # (re-)produce predictions
-    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute > pineappl.convolute
+    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute --integrated \
+        > pineappl.convolute
     "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
     "${pineappl}" pdf_uncertainty --threads=1 "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
@@ -305,7 +306,7 @@ EOF
 
     # extract the integrated results from the PineAPPL grid
     cat pineappl.convolute | head -n -2 | tail -n +5 | \
-        awk '{ print $5, $6, $7, $8, $9, $10, $11, $12, $13, $14 }' > results.grid
+        awk '{ print $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
     paste -d ' ' results.grid results.mg5_aMC | awk \

@@ -16,7 +16,7 @@ set pdlabel lhapdf
 set lhaid 324900
 set dynamical_scale_choice 10
 set reweight_scale True
-set req_acc_FO 0.0001
+set req_acc_FO 0.00005
 set pineappl True
 done
 quit

@@ -1,0 +1,41 @@
+\section{Datasets}
+\label{sec:datasets}
+
+We will now discuss potential datasets for an NLO EW PDF fit.
+
+\subsection{Drell--Yan lepton-pair production}
+\label{sec:dy-at-the-lhc}
+
+The inclusive production of a single same-flavour opposite-sign (SFOS) lepton pair, $\mathrm{p}\mathrm{p} \to \ell \bar{\ell} + \mathrm{X}$, is an important ingredient in PDF fitting.
+On the experimental side this process features large cross sections, which translate to small experimental uncertainties.
+On the other hand, the comparative simplicity of the $2 \to 2$ process allows for the calculation of NNLO QCD corrections, which are needed to match the experimental precision.
+Finally, we do not expect any new physics in a very large phase space covered by Drell--Yan (DY) measurements.
+This makes DY an ideal candidate for the inclusion in PDF determinations.
+
+Observables often used in DY datasets are the invariant mass, $M_{\ell\bar{\ell}}$, and the rapidity, $y_{\ell\bar{\ell}}$, both for the lepton pair.
+At LO they are directly related to the parton fractions $x_1$ and $x_2$:
+\begin{equation}
+M_{\ell\bar{\ell}} = \sqrt{s x_1 x_2} \text{,} \quad y_{\ell\bar{\ell}} = \frac{1}{2} \log \left( \frac{x_1}{x_2} \right) \text{.}
+\end{equation}
+Less-used observables include the Collins--Soper angle, $\cos \theta^*$, see e.g.\ ref.~\cite{Aaboud:2017ffb}, and see the discussion in app.~\ref{app:the-collins-soper-angle}.
+
+In the context of EW PDF fits, the following features of are new with respect to a purely QCD fit:
+\begin{enumerate}
+\item Non-zero photon PDFs.
+DY lepton-pair production features a contribution with two photon initial states.
+These contributions are typically neglected in NNLO QCD PDF fits, and, also subtracted in data from the experimental collaborations.
+The size of this contribution depends---obviously---on the PDF set used in the calculation, and can be as high as TODO in the region of $\SI{1}{\tera\electronvolt} < M_{\ell\bar{\ell}} < \SI{1.5}{\tera\electronvolt}$ for $\sqrt{s} = \SI{7}{\tera\electronvolt}$.
+\item Final-state radiation (FSR).
+The radiation of photons off the final-state leptons induce very large corrections, typically in the invariant mass distributions $M_{\ell\bar{\ell}}$ in the vicinity of the Z-boson mass.
+For example, for the CMS \SI{13}{\tera\electronvolt} measurement~\cite{Sirunyan:2018owv}, the NLO EW corrections (which include a perturbative approximation of the FSR corrections) are as large as \SI{60}{\percent}.
+However, the size depends very strongly on the chosen bin limits; often bin limits are chosen symmetrically around the Z-boson mass, in which positive and negative corrections almost cancel each other.
+The remainder of large FSR corrections are then only seen in the bins below the Z peak.
+
+Since FSR corrections are potentially large, but not covered by NNLO QCD corrections, they are often subtracted in data.
+The problems of this practice are discussed e.g.\ in ref.~\cite{Carrazza:2020gss}.
+\item Weak corrections.
+Above a certain invariant mass of the lepton pair, say at \SI{200}{\giga\electronvolt}, the electroweak corrections show the typical negative corrections, which can be as large as TODO around \SI{1}{\tera\electronvolt}.
+In NNLO QCD PDF fits this regions is therefore usually excluded.
+\end{enumerate}
+
+

@@ -1,0 +1,68 @@
+\documentclass[a4paper,11pt]{article}
+\pdfoutput=1
+\pdfsuppresswarningpagegroup=1
+
+% load before csquotes
+\usepackage[utf8]{inputenc}
+
+\usepackage[UKenglish]{babel}
+%\usepackage{booktabs}
+%\usepackage{csquotes}
+\usepackage{jheppub}
+\usepackage[T1]{fontenc}
+%\usepackage{listings}
+\usepackage{lmodern}
+\usepackage[binary-units=true,detect-weight=true,group-digits=false,table-format=4.2]{siunitx}
+%\usepackage{xcolor}
+%\usepackage[percent]{overpic}
+%\usepackage{mathcomp}
+%\usepackage{tabularx}
+%\usepackage{textcomp}
+
+%\newcommand{\alphas}{\alpha_\mathrm{s}}
+%\DeclareSIUnit\permille{\text{\textperthousand}}
+
+\preprint{TODO}
+
+\title{TODO}
+
+\author[a]{S. Carrazza,}
+\author[b]{E.R. Nocera,}
+\author[a]{C. Schwan}
+\author[a]{and M. Zaro}
+
+\affiliation[a]{Tif Lab, Dipartimento di Fisica, 
+Universit\`a di Milano and INFN, Sezione di Milano, 20133 Milano, Italy}
+\affiliation[b]{Nikhef Theory Group, Science Park 105, 1098 XG Amsterdam, 
+The Netherlands}
+
+\emailAdd{stefano.carrazza@mi.infn.it}
+\emailAdd{e.nocera@nikhef.nl}
+\emailAdd{christopher.schwan@mi.infn.it}
+\emailAdd{marco.zaro@mi.infn.it}
+
+\abstract{TODO}
+
+\arxivnumber{TODO}
+
+\begin{document}
+
+\maketitle
+\flushbottom
+
+\input{sec-introduction}
+\input{sec-results}
+\input{sec-datasets}
+\input{sec-conclusion}
+
+\appendix
+
+\acknowledgments
+S.C.\ and C.S.\ are supported by the European Research Council under the European Union's Horizon 2020 research and innovation Programme (grant agreement no.\ 740006).
+
+\input{app-misc}
+
+\bibliographystyle{JHEP}
+\bibliography{paper}
+
+\end{document}

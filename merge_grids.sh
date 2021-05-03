@@ -27,11 +27,9 @@ keys=( $(for i in "$@"; do
 done | sort -u) )
 
 grids=( "$@" )
-echo "${grids[@]}"
 
 # extract the results from each grid
 for (( i=0; i != ${#grids[@]}; i++ )); do
-    echo $i
     pineappl info "${grids[$i]}" --get results | \
         sed '/^ [0-9].*/!d' | \
         sed 's/^ 0.000000e+00  0.000000e+00   0.000   0.000   0.0000   0.0000   0.0000$//' \
@@ -60,6 +58,7 @@ for key in "${keys[@]}"; do
     for g in "$@"; do
         rhs=$(pineappl info "${g}" --get "${key}")
         if ! diff <(echo "${lhs}") <(echo "${rhs}") >/dev/null; then
+            # TODO: what do we do in this case?
             echo ${key} differs
         fi
     done

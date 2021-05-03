@@ -177,7 +177,9 @@ check_args_and_cd_output() {
         echo "The binary \`pineappl\` wasn't found. Something went wrong" >&2
         exit 1
     fi
+}
 
+output_and_launch() {
     # name of the directory where the output is written to
     output="${dataset}"-$(date +%Y%m%d%H%M%S)
 
@@ -189,9 +191,7 @@ check_args_and_cd_output() {
 
     mkdir "${output}"
     cd "${output}"
-}
 
-main() {
     # copy the output file to the directory and replace the variables
     output_file=output.txt
     cp ../nnpdf31_proc/"${dataset}"/output.txt "${output_file}"
@@ -268,7 +268,9 @@ EOF
 
     # launch run
     "${mg5amc}" "${launch_file}" |& tee launch.log
+}
 
+merge() {
     # TODO: the following assumes that all observables belong to the same distribution
 
     grid="${dataset}".pineappl
@@ -394,8 +396,22 @@ EOF
 
 check_args_and_cd_output "$@"
 
-# record the time and write it to stdout and `time.log`
-{ { time { main 2>&3; } } 2>time.log; } 3>&2
-cat time.log
+if [[ -d $1 ]]; then
+    if yesno "Shall I regenerate the grid in ``$1``?"; then
+        cd $1
+        dataset=${1%-[0-9]*}
+        launch_file=launch.txt
+        output=$1
+    fi
+else
+    # record the time and write it to `time.log`
+    { { time { output_and_launch 2>&3; } } 2>time.log; } 3>&2
+fi
+
+merge
+
+if [[ -e time.log ]]; then
+    cat time.log
+fi
 
 echo "Output stored in ${output}"

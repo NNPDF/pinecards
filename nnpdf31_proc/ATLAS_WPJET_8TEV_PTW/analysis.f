@@ -40,8 +40,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision ppl(0:3), pplb(0:3), ppv(0:3), ptv, getinvm
-      external getinvm
+      double precision ppl(0:3), pplb(0:3), ppv(0:3), ptv
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
@@ -65,24 +64,4 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(4,ptv,wgts)
 
  999  return
-      end
-
-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      function getinvm(en,ptx,pty,pl)
-      implicit none
-      real*8 getinvm,en,ptx,pty,pl,tiny,tmp
-      parameter (tiny=1.d-5)
-c
-      tmp=en**2-ptx**2-pty**2-pl**2
-      if(tmp.gt.0.d0)then
-        tmp=sqrt(tmp)
-      elseif(tmp.gt.-tiny)then
-        tmp=0.d0
-      else
-        write(*,*)'Attempt to compute a negative mass'
-        stop
-      endif
-      getinvm=tmp
-      return
       end

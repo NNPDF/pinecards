@@ -103,7 +103,7 @@ check_args_and_cd_output() {
         echo "Usage: ./run.sh [dataset]" >&2
         echo "  The following datasets are available:" >&2
 
-        for i in $(ls -d nnpdf31_proc/*); do
+        for i in nnpdf31_proc/*; do
             echo "  - ${i##*/}" >&2
         done
 
@@ -146,7 +146,7 @@ check_args_and_cd_output() {
     fi
 
     if [[ -n ${install_mg5amc}${install_pineappl} ]]; then
-        if yesno 'Do you want to install the missing dependencies (into `.prefix`)?'; then
+        if yesno "Do you want to install the missing dependencies (into \`.prefix\`)?"; then
             if [[ -n ${install_mg5amc} ]]; then
                 install_mg5amc
             fi
@@ -200,10 +200,11 @@ output_and_launch() {
     # create output folder
     "${mg5amc}" "${output_file}" |& tee output.log
 
-    # copy patches if there are any
-    for i in $(find ../nnpdf31_proc/"${dataset}" -name '*.patch'); do
-        patch -p1 -d "${dataset}" < $i
-    done
+    # copy patches if there are any; '+' errors out if patch fails
+    cd "${dataset}"
+    find ../../nnpdf31_proc/"${dataset}" -name '*.patch' -exec \
+        bash -c 'patch -p1 < "$1"' find-sh {} +
+    cd -
 
     # enforce proper analysis
     cp ../nnpdf31_proc/"${dataset}"/analysis.f "${dataset}"/FixedOrderAnalysis/"${dataset}".f
@@ -261,9 +262,14 @@ EOF
     user_defined_cuts=$(grep '^#user_defined_cut' launch.txt || true)
 
     # if there are user-defined cuts, implement them
-    if [[ -n ${user_defined_cuts[@]} ]]; then
-        user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)') )
-        ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
+    if [[ -n ${user_defined_cuts} ]]; then
+        cuts=()
+        mapfile -d ' ' -t cuts < <(
+            echo "${user_defined_cuts[@]}" | \
+            grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)' | \
+            tr -d '\n'
+        )
+        ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${cuts[@]}"
     fi
 
     # launch run
@@ -275,22 +281,26 @@ merge() {
 
     grid="${dataset}".pineappl
 
+    # sort the file we want to merge into an array properly (1 2 3 ... 10 11 instead of 1 10 11 ...)
+    merge=()
+    mapfile -t merge < <(printf "%s\n" "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl | sort -V)
+
     # merge the final bins
-    "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl)
+    "${pineappl}" merge "${grid}" "${merge[@]}"
 
     # optimize the grids
     "${pineappl}" optimize "${grid}" "${grid}".tmp
     mv "${grid}".tmp "${grid}"
 
     # add metadata
-    runcard="${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt
+    runcard=( "${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt )
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
-        eval $(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
+        eval "$(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }
-                        END   { printf \"--entry_from_file runcard ${runcard}\\n\" }" \
-            ../nnpdf31_proc/"${dataset}"/metadata.txt)
+                        END   { printf \"--entry_from_file runcard ${runcard[0]}\\n\" }" \
+            ../nnpdf31_proc/"${dataset}"/metadata.txt)"
     else
-        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard ${runcard}
+        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard "${runcard[0]}"
     fi
     mv "${grid}".tmp "${grid}"
 
@@ -307,7 +317,7 @@ merge() {
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the integrated results from the PineAPPL grid
-    cat pineappl.convolute | head -n -2 | tail -n +5 | \
+    head -n -2 pineappl.convolute | tail -n +5 | \
         awk '{ print $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
@@ -356,9 +366,9 @@ merge() {
 
     bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
 
-    if [[ -x "${bzr}" ]] && "${bzr}" info $(dirname "${mg5amc}")/.. &>/dev/null; then
+    if [[ -x "${bzr}" ]] && "${bzr}" info "$(dirname "${mg5amc}")"/.. &>/dev/null; then
         pushd . > /dev/null
-        cd $(dirname "${mg5amc}")/..
+        cd "$(dirname "${mg5amc}")"/..
 
         mg5amc_revno=$("${bzr}" revno)
         mg5amc_repo=$("${bzr}" info | grep 'parent branch' | sed 's/[[:space:]]*parent branch:[[:space:]]*//')
@@ -398,7 +408,7 @@ check_args_and_cd_output "$@"
 
 if [[ -d $1 ]]; then
     if yesno "Shall I regenerate the grid in ``$1``?"; then
-        cd $1
+        cd "$1"
         dataset=${1%-[0-9]*}
         launch_file=launch.txt
         output=$1

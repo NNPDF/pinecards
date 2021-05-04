@@ -26,7 +26,7 @@ set jetradius = 0.4
 set ptj = 30.0
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 4.4
-# TODO: add Delta R(jet,lepton) cut
+#user_defined_cut set deltarjl = 0.4
 set req_acc_FO 0.001
 set pineappl True
 done

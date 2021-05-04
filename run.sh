@@ -267,7 +267,7 @@ EOF
         mapfile -d ' ' -t cuts < <(
             echo "${user_defined_cuts[@]}" | \
             grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)' | \
-            tr -d '\n'
+            tr '\n' ' '
         )
         ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${cuts[@]}"
     fi

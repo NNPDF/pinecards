@@ -790,16 +790,17 @@ if __name__ == '__main__':
         name = i[0]
         value = i[1]
 
-        try:
-            value = float(value)
-        except ValueError:
-            if value == "True":
-                value = ".true."
-            elif value == "False":
-                value = ".false."
-            else:
+        if value == "True":
+            value = ".true."
+        elif value == "False":
+            value = ".false."
+        else:
+            try:
+                float(value)
+            except ValueError:
                 print('Error: format of value `{}` not understood'.format(value))
                 exit(6)
+            value = value + 'd0'
 
         code = cuts_code[name].format(value)
         contents.insert(marker_pos, code)

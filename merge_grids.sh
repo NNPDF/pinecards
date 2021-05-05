@@ -39,8 +39,8 @@ done
 # extract the header from the first grid
 pineappl info "${grids[0]}" --get results | sed -e '/^ [0-9]/d' -e '$ d' > tmp.results
 
-# paste the results together and remove leading spaces
-paste -d ' ' tmp.results.* | sed 's/^ */ /' >> tmp.results
+# paste the results together and remove leading and trailing spaces
+paste -d ' ' tmp.results.* | sed -e 's/^ */ /' -e 's/ +$//' >> tmp.results
 rm tmp.results.*
 
 # set the results metadata in the new grid

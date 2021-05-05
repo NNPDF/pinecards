@@ -19,10 +19,10 @@ set reweight_scale True
 set ptl = 10.0
 #user_defined_cut set ptl1min = 22.0
 set etal = 2.4
-set mll_sf = 15.0
-#user_defined_cut set mmllmax = 3000.0
+set mll_sf = 120.0
+#user_defined_cut set mmllmax = 200.0
 set rphreco = 0.1
-set req_acc_FO 0.00007
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

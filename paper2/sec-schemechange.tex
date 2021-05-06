@@ -1,0 +1,28 @@
+\section{Scheme-change operator}
+\label{sec:scheme-change-operator}
+
+At LO in $\alpha$, the coupling $\alpha$ in the PDF (as used in the evolution equations) and in the fixed-order calculations can be chosen independently.
+This is important, because in the PDFs the coupling is typically assumed to be renormalised in the $\overline{\mathrm{MS}}$ scheme, while in fixed-order calculations $\alpha$ is usually chosen according to the $G_\mu$ scheme.
+
+At NLO in $\alpha$, this is---at least conceptually---no longer trivially possible: in the fixed-order calculation a collinear counter term is present, which implements the PDF redefinition and, in particular, subtracts initial-state QED singularities.
+From the PDF redefinition the evolution equations can be derived, which makes clear that there is a non-trivial connection in the choice of $\alpha$ in 1) the evolution equations and 2) the collinear counter term.
+Note this only concerns the additional power in $\alpha$ in the counter term, as this corresponds to the $\alpha$ in the evolution equations.
+The remaining powers in $\alpha$ coming from the LO are disconnected from the DGLAP equations, as argued above, and can therefore still be chosen independently.
+
+For the additional power in $\alpha$ we therefore have a mismatch between the evolution equations and the collinear counter term in the fixed-order calculation.
+We can correct for this mismatch by introducing a new term in the fixed-order calculation, which is the difference between the collinear counter term with a running $\overline{\mathrm{MS}}$ $\alpha (\mu)$, and the counter term actually used.
+If we assume for the following that we use a $G_\mu$ input scheme for $\alpha$, this term is the collinear counter term, with the additional power in $\alpha$ replaced by
+\begin{equation}
+\alpha (Q^2) - \alpha_{G_\mu} \text{,} \label{eq:consistency-condition}
+\end{equation}
+and the remaining powers of $\alpha$ in the LO matrix element as chosen in the fixed-order calculation.
+Consistency requires this term not to introduce additional singularities at NLO EW, so we have to expand $\alpha (Q^2)$, at the order given by the evolution equations used for fitting the PDFs.
+For example, in leading-logarithmic approximation,
+\begin{equation}
+\alpha (Q^2) = \frac{\alpha (\mu^2)}{1 - \alpha (\mu^2)/(3\pi) \ln (Q^2/\mu^2)} \text{,}
+\end{equation}
+we can find a scale $\mu^2$ so that $\alpha (\mu^2) = \alpha_{G_\mu}$, and therefore eq.~\eqref{eq:consistency-condition} becomes
+\begin{equation}
+\alpha (Q^2) - \alpha_{G_\mu} = \frac{\alpha_{G_\mu}^2}{3 \pi} \ln \frac{Q^2}{\mu^2} + \mathcal{O} (\alpha_{G_\mu}^3) \text{,}
+\end{equation}
+which shows that although there is a non-trivial consistency condition at NLO EW, the difference is formally higher order.

@@ -22,7 +22,7 @@ set ptl = 9.0
 set etal = 2.4
 set mll_sf = 20.0
 #user_defined_cut set mmllmax = 45.0
-set req_acc_FO 0.00005
+set req_acc_FO 0.000075
 set pineappl True
 done
 quit

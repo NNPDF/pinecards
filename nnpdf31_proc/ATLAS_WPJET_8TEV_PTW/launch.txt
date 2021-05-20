@@ -27,7 +27,7 @@ set ptj = 30.0
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 4.4
 #user_defined_cut set deltarjl = 0.4
-set req_acc_FO 0.0001
+set req_acc_FO 0.000075
 set pineappl True
 done
 quit

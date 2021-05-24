@@ -1,26 +1,50 @@
 \section{Scheme-change operator}
 \label{sec:scheme-change-operator}
 
-At LO in $\alpha$, the coupling $\alpha$ in the PDF (as used in the evolution equations) and in the fixed-order calculations can be chosen independently, if no initial-state photons are present.
-\textbf{TODO}: Marco insert discussion here, and change the next sentence accordingly.
+In this section, we elaborate on the consistency between the coupling renormalisation in the PDFs (entering the evolution equation) and in 
+the partonic matrix-element. {\bf MZ add citations}
+At LO accuracy in $\alpha$, the two couplings can be chosen independently, as any ambiguity in the definition of $\alpha$  is higher-order.
+While, in general, $\alpha$ is defined in the $\overline{\textrm{MS}}$ scheme in the PDF, the choice for the value (and renormalisation conditions)
+in the partonic matrix-element depends on the process at hand. For example, for most LHC processes, 
+one may want to use a scheme such as the $G_\mu$ scheme, which includes all-order weak effects. An exception is the case where tagged final-state
+photons are present, where one should use the Thomson value $\alpha(0)$ for the vertices where the photons are present. In the counterpart
+of this last example where the photons are in the initial state, i.e. they are part of the partonic content of the proton, a sensible choice 
+seems the one of employing $\overline{\textrm{MS}}$ scheme, at least for the vertices where the photons eneter, since they come 
+directly from the parton evolution.\\
 
-This is important, because in the PDFs the coupling is typically assumed to be renormalised in the $\overline{\mathrm{MS}}$ scheme, while in fixed-order calculations $\alpha$ is usually chosen according to the $G_\mu$ scheme.
-
-At NLO in $\alpha$, this is---at least conceptually---no longer trivially possible: in the fixed-order calculation a collinear counter term is present, which implements the PDF redefinition and, in particular, subtracts initial-state QED singularities.
-From the PDF redefinition the evolution equations can be derived, which makes clear that there is a non-trivial connection in the choice of $\alpha$ in 1) the evolution equations and 2) the collinear counter term.
-Note this only concerns the additional power in $\alpha$ in the counter term, as this corresponds to the $\alpha$ in the evolution equations.
-The remaining powers in $\alpha$ coming from the LO are disconnected from the DGLAP equations, as argued above, and can therefore still be chosen independently.
-
-For the additional power in $\alpha$ we therefore have a mismatch between the evolution equations and the collinear counter term in the fixed-order calculation.
-We can correct for this mismatch by introducing a new term in the fixed-order calculation, which is the difference between the collinear counter term with a running $\overline{\mathrm{MS}}$ $\hat{\alpha} (\mu_\mathrm{R})$, and the counter term actually used.
-If we assume for the following that we use a $G_\mu$ input scheme for $\alpha$, this term is the collinear counter term, with the additional power in $\alpha$ replaced by the difference of $\alpha_{G_\mu}$ and the $\overline{\text{MS}}$ coupling $\hat{\alpha} (\mu_\mathrm{R}^2)$:
+At NLO in $\alpha$, this freedom seems not to be there any longer, at least conceptually: in fixed-order calculations a collinear counter term is present,
+which subtracts initial-state collinear singularities and implements the so-called PDF redefinition. This counter-term is
+essentially the $\mathcal O(\alpha)$ expansion, or at least it should be, since the two definitions of $\alpha$ may differ. However, any
+dfference in the two definitions is $\mathcal O(\alpha^2)$, thus beyond NLO accuracy. This is why the usage of e.g. the $G_\mu$ scheme
+is still possible (and in general recommended) when NLO EW corrections are computed. One notable exception
+is the case when initial-state photons are present. As argued above, the corresponding coupling should be renormalised in the $\overline{\textrm{MS}}$ scheme.
+If one fails to do so, as it is the case for all (to our knowledge) general-purpose programs which compute NLO EW corrections for a generic process, in
+principle a mismatch is introduced at NLO. In practice, given that \emph{numerically} photon-initiated processes are of the same order of EW corrections,
+one can argue that such a mismatch turns to be subleading for all practical purposes. Still, it is worth to provide some formulas, which can help to gauge the impact of the missing terms.
+Let $n_I$ be the number of initial-state photons, and $b$ the power of $\alpha$ entering (a given contribution to) the Born squared matrix-element $\mathcal B$. If
+one employs the $G_\mu$ scheme everywhere, then
 \begin{equation}
-\hat{\alpha} (\mu_\mathrm{R}^2) - \alpha_{G_\mu} = \alpha_{G_\mu} \left( \Delta \hat{\alpha} (\mu_\mathrm{R}^2) - \Delta r^{(1)} + \ldots \right) \text{,} \label{eq:consistency-condition}
+    \mathcal B_{G_\mu}= \alpha_{G_\mu}^b B,
+\end{equation}
+where $B$ does not contain any power of $\alpha$. If instead the $\overline{\textrm{MS}}$ scheme is employed for initial-state photons, then one has
+\begin{equation}
+    \mathcal B_{\overline{\textrm{MS}}}= \alpha_{G_\mu}^{b-n_I} \hat \alpha^{n_I} B,
+\end{equation}
+where we have denoted $\alpha$ in the $\overline{\textrm{MS}}$ scheme as $\hat\alpha$, and we have omitted its dependence on the scale.
+Thus, the mismatch between the two cases is
+\begin{equation}
+    \mathcal B_{G_\mu} - \mathcal B_{\overline{\textrm{MS}}}  = \left[ \alpha_{G_\mu}^b B - \alpha_{G_\mu}^{b-n_I} \alpha_{\overline{\textrm{MS}}}^{n_I} \right] B =
+    n_I \frac{\Delta \alpha_{G_\mu-\overline{\textrm{MS}}}}{\alpha_{G_\mu}} \alpha_{G_\mu}^b B  + \mathcal O (\alpha^2),
+\end{equation}
+where
+\begin{equation}
+\frac{\Delta \alpha_{G_\mu-\overline{\textrm{MS}}}}{\alpha_{G_\mu}}(\mu_\mathrm{R}^2) = 
+\left(\Delta r^{(1)} - \Delta \hat{\alpha} (\mu_\mathrm{R}^2) + \ldots \right) \text{,} \label{eq:consistency-condition}
 \end{equation}
 which uses the following definitions,
 \begin{equation}
 \hat{\alpha} (\mu_\mathrm{R}^2) = \frac{\alpha(0)}{1 - \Delta \hat{\alpha} (\mu_\mathrm{R}^2)} \text{,} \qquad \alpha_{G_\mu} = \alpha(0) \left( 1 + \Delta r^{(1)} \right) + \mathcal{O} (\alpha(0)^3) \text{,}
 \end{equation}
 which in make use of the fine-structure constant $\alpha(0)$; all quantities are given e.g.\ in ref.~\cite{Denner:2019vbn} and references therein.
-Since all $\Delta$ terms are $\mathcal{O} (\alpha)$, the difference in eq.~\eqref{eq:consistency-condition} is $\mathcal{O} (\alpha^2)$ and therefore zero at NLO EW in the full perturbative calculation.
-This must be the case, otherwise the scheme-change operator we defined above would introduce additional singularities.
+
+{\bf MZ add plot of DeltaAlpha and discuss it a bit}

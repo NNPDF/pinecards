@@ -203,7 +203,7 @@ output_and_launch() {
     # copy patches if there are any; '+' errors out if patch fails
     cd "${dataset}"
     find ../../nnpdf31_proc/"${dataset}" -name '*.patch' -exec \
-        bash -c 'patch -p1 < "$1"' find-sh {} +
+        bash -c 'patch -p1 < "$1"' find-sh '{}' \;
     cd -
 
     # enforce proper analysis

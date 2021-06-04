@@ -21,7 +21,7 @@ set muf_ref_fixed @MW@
 set reweight_scale True
 set rphreco = 0.1
 set ptj = 20.0
-set etja = 4.5
+set etaj = 4.5
 set jetalgo = -1.0
 set jetradius = 0.4
 #user_defined_cut yh = 2.5

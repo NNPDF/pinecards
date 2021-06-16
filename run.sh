@@ -202,10 +202,10 @@ output_and_launch() {
     # create output folder
     "${mg5amc}" "${output_file}" |& tee output.log
 
-    # copy patches if there are any; '+' errors out if patch fails
+    # copy patches if there are any; use xargs to properly signal failures
     cd "${dataset}"
-    find ../../nnpdf31_proc/"${dataset}" -name '*.patch' -exec \
-        bash -c 'patch -p1 < "$1"' find-sh '{}' \;
+    find ../../nnpdf31_proc/"${dataset}" -name '*.patch' -print0 | \
+        xargs -0 -I file sh -c 'patch -p1 < file'
     cd -
 
     # enforce proper analysis

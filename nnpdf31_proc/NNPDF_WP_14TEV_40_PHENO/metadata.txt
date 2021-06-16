@@ -1,4 +1,4 @@
-description=Differential W-boson production cross section at 14 TeV
+description=Differential W+boson production cross section at 14 TeV
 x1_label=etal
 x1_label_tex=$\eta_{\bar{\ell}}$
 x1_unit=

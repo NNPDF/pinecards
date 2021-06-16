@@ -24,7 +24,7 @@ set mll_sf = 46.0
 #user_defined_cut set abscoscsmin = 0.7
 #user_defined_cut set atlas_dy3d_8tev = True
 set rphreco = 0.1
-set req_acc_FO 0.00005
+set req_acc_FO 0.0001
 set pineappl True
 done
 quit

@@ -2,6 +2,8 @@
 
 prefix=$(pwd)/.prefix
 
+export LC_ALL=C
+
 yesno() {
     echo -n "$@" "[Y/n]"
     read -r reply

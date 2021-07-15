@@ -24,10 +24,10 @@ install_pineappl() {(
         export CARGO_HOME=${prefix}/cargo
     fi
 
-    if [[ -d ${prefix}/pineappl ]]; then
+    if [[ -d ${prefix}/pineappl2 ]]; then
         "${git}" pull
     else
-        "${git}" clone ${repo} "${prefix}"/pineappl
+        "${git}" clone ${repo} -b pyo3 "${prefix}"/pineappl2
     fi
 
     if [[ ! -x ${maturin} ]]; then
@@ -38,10 +38,10 @@ install_pineappl() {(
     fi
 
     pushd . > /dev/null
-    cd "${prefix}"/pineappl/pineappl_py
+    cd "${prefix}"/pineappl2/pineappl_py
     maturin build --manylinux off
     popd > /dev/null
-    "${pip}" install --prefix "${prefix}" "${prefix}"/pineappl/target/wheels/pineappl_py*.whl
+    "${pip}" install --prefix "${prefix}" "${prefix}"/pineappl2/target/wheels/pineappl_py*.whl
 )}
 
 install_yadism() {
@@ -59,7 +59,7 @@ install_yadism() {
 
 }
 
-#install_pineappl
+install_pineappl
 install_yadism
 
 python run_dis.py "$@"

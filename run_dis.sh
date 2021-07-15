@@ -10,6 +10,7 @@ install_pineappl() {(
     cargo=$(which cargo 2> /dev/null || true)
     git=$(which git 2> /dev/null)
     pip=$(which pip 2> /dev/null || true)
+    maturin=$(which maturin 2> /dev/null || true)
 
     repo=https://github.com/N3PDF/pineappl.git
 
@@ -29,9 +30,7 @@ install_pineappl() {(
         "${git}" clone ${repo} "${prefix}"/pineappl
     fi
 
-    "${cargo}" install --force cargo-c
-
-    if [[ -x ${pip} ]]; then
+    if [[ ! -x ${maturin} ]]; then
         pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
         export PATH="${prefix}"/bin:${PATH}
         export PYTHONPATH="${prefix}"/lib/python${pyver}/site-packages

@@ -9,15 +9,15 @@ root = pathlib.Path(__file__).absolute().parents[1]
 
 
 @click.command()
-def hadronic():
-    rich.print("Computing [blue]hadronic[/]...")
+def dis():
+    rich.print("Computing [red]dis[/]...")
     rich.print(select_datasets())
 
 
 def load_datasets():
     proc = root / "nnpdf31_proc"
-    hadronic_sets = [p for p in proc.iterdir() if not (p / "observable.yaml").is_file()]
-    return hadronic_sets
+    dis_sets = [p for p in proc.iterdir() if (p / "observable.yaml").is_file()]
+    return dis_sets
 
 
 def select_datasets():

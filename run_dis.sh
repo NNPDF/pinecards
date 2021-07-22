@@ -114,3 +114,26 @@ if [[ -n ${install_pineappl}${install_yadism} ]]; then
 fi
 
 python run_dis.py "$@"
+
+# name of the dataset
+dataset="$1"
+
+cd "${dataset}"
+
+grid="${dataset}".pineappl
+
+if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
+    eval "$(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
+                          { printf \"--entry %s '%s' \", \$1, \$2 }" \
+        ../nnpdf31_proc/"${dataset}"/metadata.txt)"
+fi
+
+mv "${grid}".tmp "${grid}"
+
+lz4=$(which lz4 2> /dev/null || true)
+
+# compress the grid with `lz4` if it's available
+if [[ -x ${lz4} ]]; then
+    lz4 -9 "${grid}"
+    rm "${grid}"
+fi

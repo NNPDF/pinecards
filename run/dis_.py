@@ -11,14 +11,15 @@ from . import tools, paths, table
 
 @click.command()
 @click.option("--datasets", multiple=True)
-def dis(datasets):
+@click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
+def dis(datasets, pdf):
     rich.print("Computing [red]dis[/]...")
     if len(datasets) == 0:
         datasets = select_datasets()
 
     rich.print(datasets)
     for name in datasets:
-        run_dataset(name)
+        run_dataset(name, pdf)
 
 
 def load_datasets():
@@ -42,7 +43,7 @@ def yadism_results(out, pdf_name):
     return pdf_out
 
 
-def run_dataset(name):
+def run_dataset(name, pdf):
     # load runcards
     with open(paths.pkg / "theory.yaml") as t:
         theory = yaml.safe_load(t)
@@ -58,5 +59,4 @@ def run_dataset(name):
     grid_path = target / f"{name}.pineappl"
     out.dump_pineappl_to_file(str(grid_path), next(iter(obs["observables"].keys())))
 
-    pdf = "NNPDF31_nlo_as_0118_luxqed"
     table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))

@@ -27,14 +27,6 @@ def compute_data(grid, pdf_name):
 
 
 def print_table(pineappl_results, external_results):
-    labels = [
-        "PineAPPL",
-        "MC",
-        "sigma 1/100",
-        "central sigma",
-        "min 1/1000",
-        "max 1/1000",
-    ]
     comparison = pd.DataFrame()
     comparison["PineAPPL"] = pineappl_results["integ"]
     comparison["MC"] = external_results["result"]
@@ -50,4 +42,5 @@ def print_table(pineappl_results, external_results):
     ).replace(float("inf"), 0.0)
     comparison["min 1/1000"] = 0.0
     comparison["max 1/1000"] = 0.0
-    print(comparison)
+    with pd.option_context("display.max_rows", None):
+        print(comparison)

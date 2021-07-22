@@ -56,7 +56,7 @@ install_pineappl() {(
     cd "${prefix}"/pineappl2/pineappl_py
     maturin build --manylinux off
     popd > /dev/null
-    "${pip}" install --prefix "${prefix}" "${prefix}"/pineappl2/target/wheels/pineappl_py*.whl
+    "${pip}" install --prefix "${prefix}" "${prefix}"/pineappl2/pineappl_py/target/wheels/pineappl_py*.whl
 )}
 
 install_yadism() {(

@@ -4,14 +4,18 @@ import click
 import rich
 import yaml
 import yadism
+import lhapdf
 
-from . import tools, paths
+from . import tools, paths, table
 
 
 @click.command()
-def dis():
+@click.option("--datasets", multiple=True)
+def dis(datasets):
     rich.print("Computing [red]dis[/]...")
-    datasets = select_datasets()
+    if len(datasets) == 0:
+        datasets = select_datasets()
+
     rich.print(datasets)
     for name in datasets:
         run_dataset(name)
@@ -29,15 +33,30 @@ def select_datasets():
     return tools.select_datasets(datasets)
 
 
+def yadism_results(out, pdf_name):
+    pdf = lhapdf.mkPDF(pdf_name)
+    pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
+        pdf, lambda muR: lhapdf.mkAlphaS(pdf_name).alphasQ(muR), lambda muR: 0, 1.0, 1.0
+    )
+    pdf_out = next(iter(pdf_out.tables.values()))
+    return pdf_out
+
+
 def run_dataset(name):
+    # load runcards
     with open(paths.pkg / "theory.yaml") as t:
         theory = yaml.safe_load(t)
     with open(paths.runcards / name / "observable.yaml") as o:
         obs = yaml.safe_load(o)
 
+    # run yadism
     out = yadism.run_yadism(theory, obs)
+
+    # dump pineappl
     target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
     target.mkdir(exist_ok=True)
-    out.dump_pineappl_to_file(
-        str(target / f"{name}.pineappl"), next(iter(obs["observables"].keys()))
-    )
+    grid_path = target / f"{name}.pineappl"
+    out.dump_pineappl_to_file(str(grid_path), next(iter(obs["observables"].keys())))
+
+    pdf = "NNPDF31_nlo_as_0118_luxqed"
+    table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))

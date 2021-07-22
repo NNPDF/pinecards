@@ -1,4 +1,6 @@
 .prefix/
+# ignore any folder like '<DATASET>-YYYYMMDDHHmmss'
+*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
 
 ### Python
 # Byte-compiled / optimized / DLL files

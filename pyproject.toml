@@ -5,10 +5,12 @@ description = "generate runcards"
 authors = ["Alessandro Candido <candido.ale@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.7,<3.10"
 click = "^8.0.1"
 PyInquirer = "^1.0.3"
 rich = "^10.6.0"
+PyYAML = "^5.4.1"
+yadism = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

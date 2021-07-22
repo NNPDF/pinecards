@@ -72,6 +72,15 @@ install_yadism() {(
     fi
 )}
 
+# exit script at the first sign of an error
+set -o errexit
+
+# the following exits if undeclared variables are used
+set -o nounset
+
+# exit if some program in a pipeline fails
+set -o pipefail
+
 # if we've installed dependencies set the correct paths
 if [[ -d ${prefix} ]]; then
     pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)

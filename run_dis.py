@@ -4,10 +4,6 @@ import pathlib
 import numpy as np
 import argparse
 
-here = pathlib.Path(__file__).parent
-
-runcards = here / "nnpdf31_proc"
-
 theory = {
     "CKM": "0.97428 0.22530 0.003470 0.22520 0.97345 0.041000 0.00862 0.04030 0.999152",
     "Comments": "LO baseline for small-x res",
@@ -55,19 +51,18 @@ theory = {
 }
 
 
-def run_dataset(name):
-    with open(runcards / name / "observable.yaml") as o:
+def run_dataset(runcard, dataset):
+    with open(runcard) as o:
         obs = yaml.safe_load(o)
     out = yadism.run_yadism(theory, obs)
-    target = here / name
-    target.mkdir(exist_ok=True)
     out.dump_pineappl_to_file(
-        str(target / f"{name}.pineappl"), next(iter(obs["observables"].keys()))
+        str(f"{dataset}.pineappl"), next(iter(obs["observables"].keys()))
     )
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
+    ap.add_argument("runcard")
     ap.add_argument("dataset")
     args = ap.parse_args()
-    run_dataset(args.dataset)
+    run_dataset(args.runcard, args.dataset)

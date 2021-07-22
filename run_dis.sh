@@ -113,12 +113,22 @@ if [[ -n ${install_pineappl}${install_yadism} ]]; then
     fi
 fi
 
-python run_dis.py "$@"
-
 # name of the dataset
 dataset="$1"
 
-cd "${dataset}"
+# name of the directory where the output is written to
+output="${dataset}"-$(date +%Y%m%d%H%M%S)
+
+if [[ -d $output ]]; then
+    # since we add a date postfix to the name this shouldn't happen
+    echo "Error: output directory already exists" >&2
+    exit 1
+fi
+
+mkdir "${output}"
+cd "${output}"
+
+python ../run_dis.py ../nnpdf31_proc/"${dataset}"/observable.yaml "${dataset}"
 
 grid="${dataset}".pineappl
 

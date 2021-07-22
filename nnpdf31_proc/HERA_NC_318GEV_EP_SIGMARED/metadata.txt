@@ -1,0 +1,13 @@
+arxiv=1506.06042
+description=HERA NC reduced cross section at 318 GeV positron scattering
+hepdata=10.17182/hepdata.68951.v1/t1
+nnpdf_id=HERACOMBNCEP920
+x1_label=x
+x1_label_tex=$x$
+x1_unit=
+x2_label=Q2
+x2_label_tex=$Q^2$
+x2_unit=GeV^2
+y_label=sigma_red
+y_label_tex=$\sigma_{red}$
+y_unit=

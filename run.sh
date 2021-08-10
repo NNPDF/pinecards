@@ -416,6 +416,8 @@ if [[ -d $1 ]]; then
         output=$1
     fi
 else
+    # TODO: fix location of `time.log`
+
     # record the time and write it to `time.log`
     { { time { output_and_launch 2>&3; } } 2>time.log; } 3>&2
 fi

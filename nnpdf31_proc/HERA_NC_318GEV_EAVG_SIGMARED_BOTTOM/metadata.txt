@@ -1,4 +1,4 @@
-arxiv=
+arxiv=1804.01019
 description=HERA NC reduced bottom cross section at 318 GeV
 hepdata=
 nnpdf_id=HERACOMB_SIGMARED_B

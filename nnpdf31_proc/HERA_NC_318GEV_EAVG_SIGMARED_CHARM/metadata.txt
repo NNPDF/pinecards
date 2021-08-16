@@ -1,4 +1,4 @@
-arxiv=1211.1182
+arxiv=1804.01019
 description=HERA NC reduced charm cross section at 318 GeV
 hepdata=
 nnpdf_id=HERACOMB_SIGMARED_C

@@ -274,6 +274,17 @@ EOF
         ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${cuts[@]}"
     fi
 
+    # parse launch file for user-defined minimum tau
+    user_defined_tau_min=$(grep '^#user_defined_tau_min' launch.txt || true)
+
+    # if there is one, implement it
+    if [[ -n ${user_defined_tau_min} ]]; then
+        user_defined_tau_min=( ${user_defined_tau_min} )
+        sed "s/@TAU_MIN@/${user_defined_tau_min[1]}d0/" ../patches/set_tau_min.patch > \
+            set_tau_min.patch
+        patch -p1 -d "${dataset}" < set_tau_min.patch
+    fi
+
     # launch run
     "${mg5amc}" "${launch_file}" |& tee launch.log
 }

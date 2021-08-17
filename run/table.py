@@ -36,17 +36,16 @@ def print_table(pineappl_results, external_results):
     comparison["PineAPPL"] = pineappl_results["integ"]
     comparison["MC"] = external_results["result"]
     comparison["sigma 1/100"] = (
-        external_results["error"] / external_results["result"] * 100
-    ).replace(float("inf"), 0.0)
+        external_results["error"] / external_results["result"] * 1e2
+    )
 
     # ratios
     comparison["central sigma"] = (
-        (pineappl_results["integ"] - external_results["result"]).abs()
-        / external_results["error"]
-    ).replace(float("inf"), 0.0)
+        pineappl_results["integ"] - external_results["result"]
+    ).abs() / external_results["error"]
     comparison["central 1/1000"] = (
-        (pineappl_results["integ"] / external_results["result"] - 1).abs() * 1000
-    ).replace(float("inf"), 0.0)
+        pineappl_results["integ"] / external_results["result"] - 1
+    ).abs() * 1e3
 
     # scale variation ratios
     comparison["min 1/1000"] = (
@@ -55,6 +54,8 @@ def print_table(pineappl_results, external_results):
     comparison["max 1/1000"] = (
         pineappl_results["sv_max"] / external_results["sv_max"] - 1.0
     ).abs() * 1e3
+
+    comparison.replace(float("inf"), 0.0, inplace=True)
 
     with pd.option_context(
         "display.max_rows", None, "display.float_format", lambda f: f"{f:.1e}"

@@ -1,4 +1,5 @@
 import datetime
+import itertools
 from difflib import SequenceMatcher
 
 import rich
@@ -87,3 +88,7 @@ def decompress(path):
         f.write(data)
 
     return decompressed_path
+
+
+three_points = [0.5, 1.0, 2.0]
+nine_points = itertools.product(three_points, three_points)

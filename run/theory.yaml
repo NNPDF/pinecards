@@ -14,7 +14,7 @@ MaxNfAs: 6
 MaxNfPdf: 6
 ModEv: EXA
 NfFF: 3
-PTO: 0
+PTO: 1
 Q0: 1.0
 QED: 0
 Qedref: 1.777

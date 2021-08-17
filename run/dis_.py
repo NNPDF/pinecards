@@ -1,5 +1,3 @@
-import datetime
-
 import click
 import rich
 import yaml
@@ -54,9 +52,12 @@ def run_dataset(name, pdf):
     out = yadism.run_yadism(theory, obs)
 
     # dump pineappl
-    target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
-    target.mkdir(exist_ok=True)
-    grid_path = target / f"{name}.pineappl"
+    grid_path = tools.create_folder(name)
     out.dump_pineappl_to_file(str(grid_path), next(iter(obs["observables"].keys())))
 
     table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))
+
+    # compress
+    tools.compress(grid_path)
+    if (grid_path.parent / (grid_path.name + ".lz4")).exists():
+        grid_path.unlink()

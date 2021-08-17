@@ -1,6 +1,10 @@
+import datetime
 from difflib import SequenceMatcher
 
 import rich
+import lz4.frame
+
+from . import paths
 
 
 def similar(a, b):
@@ -53,3 +57,27 @@ def select_datasets(datasets_list):
     ans = input("> ")
     readline.set_completer()
     return ans.split()
+
+
+def create_folder(name):
+    target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
+    target.mkdir(exist_ok=True)
+    return target / f"{name}.pineappl"
+
+
+def compress(path):
+    with open(path, "rb") as f:
+        data = f.read()
+
+    with lz4.frame.open(path.parent / (path.name + ".lz4"), "wb") as f:
+        f.write(data)
+
+
+def decompress(path):
+    with lz4.frame.open(path, "r") as f:
+        data = f.read()
+
+    with open(
+        path.parent / (path.stem + ".".join(path.suffix.split(".")[:-1])), "wb"
+    ) as f:
+        f.write(data)

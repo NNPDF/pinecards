@@ -21,9 +21,6 @@ cuts_variables = {
     'atlas_2jet_7tev_r06': '''c
       real*8 xystar,xmjj
 ''',
-    'cms_2jets_7tev': '''c     variables for cms_2jets_7tev cuts
-      real*8 xymax,xmjj
-''',
     'atlas_1jet_8tev_r06': '''c     variables for atlas_1jet_8tev_r06 cuts
       real*8 xptj,xyj
       logical xjet
@@ -570,47 +567,114 @@ c             exit
       endif
 
 ''',
-    'cms_2jets_7tev': '''c
+    'cms_2jets_7tev_0005': '''c
       if ({}) then
-        if (njet.lt.2) then
-          passcuts_user=.false.
-          return
-        endif
+        block
+          real*8 xymax, xmjj
 
-        xymax = max(dabs(atanh(pjet(3,1)/pjet(0,1))),
-     $              dabs(atanh(pjet(3,2)/pjet(0,2))))
-        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
 
-        if (xymax.lt.0.5d0) then
-          if (xmjj.lt.197d0 .or. xmjj.gt.4010d0) then
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax > 0.5d0 .or. xmjj < 197d0 .or. xmjj > 4010d0) then
             passcuts_user=.false.
             return
-          endif
-        else if (xymax.lt.1.0d0) then
-          if (xmjj.lt.270d0 .or. xmjj.gt.4010d0) then
+          end if
+        end block
+      end if
+
+''',
+    'cms_2jets_7tev_0510': '''c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 0.5d0 .or. xymax > 1.0d0 .or. xmjj < 270d0 .or. xmjj > 4010d0) then
             passcuts_user=.false.
             return
-          endif
-        else if (xymax.lt.1.5d0) then
-          if (xmjj.lt.419d0 .or. xmjj.gt.4509d0) then
+          end if
+        end block
+      end if
+
+''',
+    'cms_2jets_7tev_1015': '''c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 1.0d0 .or. xymax > 1.5d0 .or. xmjj < 419d0 .or. xmjj > 4509d0) then
             passcuts_user=.false.
             return
-          endif
-        else if (xymax.lt.2.0d0) then
-          if (xmjj.lt.565d0 .or. xmjj.gt.5058d0) then
+          end if
+        end block
+      end if
+
+''',
+    'cms_2jets_7tev_1520': '''c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 1.5d0 .or. xymax > 2.0d0 .or. xmjj < 565d0 .or. xmjj > 5058d0) then
             passcuts_user=.false.
             return
-          endif
-        else if (xymax.lt.2.5d0) then
-          if (xmjj.lt.1000d0 .or. xmjj.gt.5058d0) then
+          end if
+        end block
+      end if
+
+''',
+    'cms_2jets_7tev_2025': '''c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 2.0d0 .or. xymax > 2.5d0 .or. xmjj < 1000d0 .or. xmjj > 5058d0) then
             passcuts_user=.false.
             return
-          endif
-        else
-          passcuts_user=.false.
-          return
-        endif
-      endif
+          end if
+        end block
+      end if
 
 ''',
     'cms_2jet_3d_8tev': '''c

@@ -69,15 +69,21 @@ def compress(path):
     with open(path, "rb") as f:
         data = f.read()
 
-    with lz4.frame.open(path.parent / (path.name + ".lz4"), "wb") as f:
+    compressed_path = path.parent / (path.name + ".lz4")
+    with lz4.frame.open(compressed_path, "wb") as f:
         f.write(data)
+
+    return compressed_path
 
 
 def decompress(path):
     with lz4.frame.open(path, "r") as f:
         data = f.read()
 
-    with open(
-        path.parent / (path.stem + ".".join(path.suffix.split(".")[:-1])), "wb"
-    ) as f:
+    decompressed_path = path.parent / (
+        path.stem + ".".join(path.suffix.split(".")[:-1])
+    )
+    with open(decompressed_path, "wb") as f:
         f.write(data)
+
+    return decompressed_path

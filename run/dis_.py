@@ -55,9 +55,10 @@ def run_dataset(name, pdf):
     grid_path = tools.create_folder(name)
     out.dump_pineappl_to_file(str(grid_path), next(iter(obs["observables"].keys())))
 
-    table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))
-
     # compress
-    tools.compress(grid_path)
-    if (grid_path.parent / (grid_path.name + ".lz4")).exists():
+    cpath = tools.compress(grid_path)
+    if cpath.exists():
         grid_path.unlink()
+        grid_path = cpath
+
+    table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))

@@ -4,6 +4,7 @@ from difflib import SequenceMatcher
 
 import rich
 import lz4.frame
+import pygit2
 
 from . import paths
 
@@ -92,3 +93,24 @@ def decompress(path):
 
 three_points = [0.5, 1.0, 2.0]
 nine_points = itertools.product(three_points, three_points)
+
+
+def git_pull(repo, remote_name="origin", branch="master"):
+    for remote in repo.remotes:
+        if remote.name == remote_name:
+            remote.fetch()
+            remote_master_id = repo.lookup_reference(
+                f"refs/remotes/{remote_name}/{branch}"
+            ).target
+            merge_result, _ = repo.merge_analysis(remote_master_id)
+            # Up to date, do nothing
+            if merge_result & pygit2.GIT_MERGE_ANALYSIS_UP_TO_DATE:
+                return
+            # We can just fastforward
+            elif merge_result & pygit2.GIT_MERGE_ANALYSIS_FASTFORWARD:
+                repo.checkout_tree(repo.get(remote_master_id))
+                master_ref = repo.lookup_reference(f"refs/heads/{branch}")
+                master_ref.set_target(remote_master_id)
+                repo.head.set_target(remote_master_id)
+            else:
+                raise AssertionError(f"Impossible to pull git repo '{repo.path}'")

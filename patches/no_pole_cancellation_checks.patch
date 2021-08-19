@@ -1,0 +1,10 @@
+--- NLO/SubProcesses/test_soft_col_limits.f.orig	2021-08-19 07:43:51.264779395 +0200
++++ NLO/SubProcesses/test_soft_col_limits.f	2021-08-19 07:44:10.103784550 +0200
+@@ -85,6 +85,7 @@
+ c-----
+ c  Begin Code
+ c-----
++      return
+       if (fks_configs.eq.1) then
+          if (pdg_type_d(1,fks_i_d(1)).eq.-21) then
+             write (*,*) 'Process generated with [LOonly=QCD]. '/

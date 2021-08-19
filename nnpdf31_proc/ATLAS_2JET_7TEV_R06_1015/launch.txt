@@ -21,7 +21,8 @@ set jetradius = 0.6
 set ptj = 50.0
 # ordering of the two user-defined cuts is important
 #user_defined_cut set ptj1min = 100.0
-#user_defined_cut set atlas_2jet_7tev_r06 = True
+#user_defined_cut set atlas_2jet_7tev_r06_1015 = True
+#user_defined_tau_min 510.0
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 3.0
 set req_acc_FO 0.0002

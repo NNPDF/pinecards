@@ -18,9 +18,6 @@ cuts_variables = {
       real*8 ppl(0:4),pplb(0:4)
       real*8 xyll,xeta1,xeta2
 ''',
-    'atlas_2jet_7tev_r06': '''c
-      real*8 xystar,xmjj
-''',
     'atlas_1jet_8tev_r06': '''c     variables for atlas_1jet_8tev_r06 cuts
       real*8 xptj,xyj
       logical xjet
@@ -471,51 +468,135 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       endif
 ''',
-    'atlas_2jet_7tev_r06': '''c
+    'atlas_2jet_7tev_r06_0005': '''c
       if ({}) then
-        if (njet.lt.2) then
+        if (njet < 2) then
           passcuts_user=.false.
           return
         endif
 
-        xystar = 0.5d0 * dabs(atanh(pjet(3,1)/pjet(0,1))-
-     $                        atanh(pjet(3,2)/pjet(0,2)))
-        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+        block
+          real*8 xystar, xmjj
 
-        if (xystar.lt.0.5d0) then
-          if (xmjj.lt.260d0 .or. xmjj.gt.4270d0) then
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar > 0.5d0 .or. xmjj < 260d0 .or. xmjj > 4270d0) then
             passcuts_user=.false.
             return
           endif
-        else if (xystar.lt.1.0d0) then
-          if (xmjj.lt.310d0 .or. xmjj.gt.4270d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.1.5d0) then
-          if (xmjj.lt.510d0 .or. xmjj.gt.4640d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.2.0d0) then
-          if (xmjj.lt.760d0 .or. xmjj.gt.4640d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.2.5d0) then
-          if (xmjj.lt.1310d0 .or. xmjj.gt.5040d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.3.0d0) then
-          if (xmjj.lt.2120d0 .or. xmjj.gt.5040d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else
+        end block
+      endif
+
+''',
+    'atlas_2jet_7tev_r06_0510': '''c
+      if ({}) then
+        if (njet < 2) then
           passcuts_user=.false.
           return
         endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 0.5d0 .or. xystar > 1.0d0 .or. xmjj < 310d0 .or. xmjj > 4270d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+''',
+    'atlas_2jet_7tev_r06_1015': '''c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 1.0d0 .or. xystar > 1.5d0 .or. xmjj < 510d0 .or. xmjj > 4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+''',
+    'atlas_2jet_7tev_r06_1520': '''c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 1.5d0 .or. xystar > 2.0d0 .or. xmjj < 760d0 .or. xmjj > 4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+''',
+    'atlas_2jet_7tev_r06_2025': '''c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 2.0d0 .or. xystar > 2.5d0 .or. xmjj < 1310d0 .or. xmjj > 5040d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+''',
+    'atlas_2jet_7tev_r06_2530': '''c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 2.5d0 .or. xystar > 3.0d0 .or. xmjj < 2120d0 .or. xmjj > 5040d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
       endif
 
 ''',

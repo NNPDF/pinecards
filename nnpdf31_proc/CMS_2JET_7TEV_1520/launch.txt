@@ -23,6 +23,7 @@ set ptj = 30.0
 #user_defined_cut set ptj1min = 60.0
 #user_defined_cut set cms_2jets_7tev_1520 = True
 #user_defined_tau_min 565.0
+#enable_patch no_pole_cancellation_checks
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 2.5
 set req_acc_FO 0.0001

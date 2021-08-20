@@ -12,6 +12,8 @@ from . import paths, tools
 
 
 paths.prefix.mkdir(exist_ok=True)
+paths.bin.mkdir(exist_ok=True)
+paths.lib.mkdir(exist_ok=True)
 
 mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.2.0"
 mg5_convert = """
@@ -106,14 +108,18 @@ def pineappl():
         repo = pygit2.clone_repository(pineappl_repo, paths.pineappl)
 
     cargo_exe = cargo()
-    subprocess.run(f"{cargo_exe} install --force cargo-c".split())
+    subprocess.run([cargo_exe] + "install --force cargo-c".split())
 
     subprocess.run(
-        f'{cargo_exe} cinstall --release --prefix "{paths.prefix}" --manifest-path=pineappl_capi/Cargo.toml'.split(),
+        [cargo_exe]
+        + "cinstall --release --prefix".split()
+        + [str(paths.prefix), "--manifest-path=pineappl_capi/Cargo.toml"],
         cwd=paths.pineappl,
     )
     subprocess.run(
-        f'{cargo_exe} install --path pineappl_cli --root "{paths.prefix}"',
+        [cargo_exe]
+        + "install --path pineappl_cli --root".split()
+        + [str(paths.prefix)],
         cwd=paths.pineappl,
     )
 

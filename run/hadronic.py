@@ -3,15 +3,23 @@ import pathlib
 import click
 import rich
 
-from . import tools
+from . import install, tools
 
 root = pathlib.Path(__file__).absolute().parents[1]
 
 
 @click.command()
-def hadronic():
+@click.option("--datasets", multiple=True)
+@click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
+def hadronic(datasets, pdf):
     rich.print("Computing [blue]hadronic[/]...")
-    rich.print(select_datasets())
+    if len(datasets) == 0:
+        datasets = tools.select_datasets([p.stem for p in load_datasets()])
+
+    rich.print(datasets)
+    install_reqs()
+    for name in datasets:
+        run_dataset(name, pdf)
 
 
 def load_datasets():
@@ -20,6 +28,11 @@ def load_datasets():
     return hadronic_sets
 
 
-def select_datasets():
-    datasets = [p.stem for p in load_datasets()]
-    return tools.select_datasets(datasets)
+def install_reqs():
+    install.update_environ()
+    install.mg5amc()
+    install.pineappl()
+
+
+def run_dataset(name, pdf):
+    pass

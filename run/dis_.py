@@ -2,12 +2,8 @@ import click
 import rich
 import yaml
 import yadism
-import lhapdf
-from functools import reduce
 
-import pandas as pd
-
-from . import tools, paths, table
+from . import install, tools, paths, table, external
 
 
 @click.command()
@@ -16,10 +12,14 @@ from . import tools, paths, table
 def dis(datasets, pdf):
     rich.print("Computing [red]dis[/]...")
     if len(datasets) == 0:
-        datasets = select_datasets()
+        datasets = tools.select_datasets([p.stem for p in load_datasets()])
 
     rich.print(datasets)
+
+    install_reqs()
     for name in datasets:
+        if tools.avoid_recompute(name):
+            continue
         run_dataset(name, pdf)
 
 
@@ -30,49 +30,9 @@ def load_datasets():
     return dis_sets
 
 
-def select_datasets():
-    datasets = [p.stem for p in load_datasets()]
-    return tools.select_datasets(datasets)
-
-
-def yadism_results(out, pdf_name):
-    pdf = lhapdf.mkPDF(pdf_name)
-    pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
-        pdf,
-        lambda muR: lhapdf.mkAlphaS(pdf_name).alphasQ(muR),
-        lambda _muR: 0,
-        1.0,
-        1.0,
-    )
-    pdf_out = next(iter(pdf_out.tables.values()))
-
-    sv_pdf_out = []
-    for xiR, xiF in tools.nine_points:
-        sv_point = out.apply_pdf_alphas_alphaqed_xir_xif(
-            pdf,
-            lambda muR: lhapdf.mkAlphaS(pdf_name).alphasQ(muR),
-            lambda _muR: 0.0,
-            xiR,
-            xiF,
-        )
-        df = (
-            next(iter(sv_point.tables.values()))
-            .rename({"result": (xiR, xiF)}, axis=1)
-            .drop("error", axis=1)
-        )
-        sv_pdf_out.append(df)
-
-    sv_pdf_merged = reduce(
-        lambda left, right: pd.merge(left, right, on=["x", "Q2"], how="outer"),
-        sv_pdf_out,
-    )
-    svdf = sv_pdf_merged[
-        list(filter(lambda name: isinstance(name, tuple), sv_pdf_merged.columns))
-    ]
-    pdf_out["sv_max"] = svdf.max(axis=1)
-    pdf_out["sv_min"] = svdf.min(axis=1)
-
-    return pdf_out
+def install_reqs():
+    install.update_environ()
+    install.pineappl()
 
 
 def run_dataset(name, pdf):
@@ -95,4 +55,6 @@ def run_dataset(name, pdf):
         grid_path.unlink()
         grid_path = cpath
 
-    table.print_table(table.compute_data(grid_path, pdf), yadism_results(out, pdf))
+    table.print_table(
+        table.compute_data(grid_path, pdf), external.yadism_results(out, pdf)
+    )

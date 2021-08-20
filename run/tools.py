@@ -5,6 +5,7 @@ from difflib import SequenceMatcher
 import rich
 import lz4.frame
 import pygit2
+import PyInquirer
 
 from . import paths
 
@@ -59,6 +60,24 @@ def select_datasets(datasets_list):
     ans = input("> ")
     readline.set_completer()
     return ans.split()
+
+
+def avoid_recompute(name):
+    for p in paths.root.iterdir():
+        if p.is_dir() and name in p.name:
+            rich.print(
+                f"[i grey50]dataset already in '[/][yellow]{p.name}[i grey50]'[/]"
+            )
+            questions = [
+                {
+                    "type": "confirm",
+                    "name": "recompute",
+                    "message": f"Do you want to recompute '{name}'?\n",
+                }
+            ]
+            answers = PyInquirer.prompt(questions)
+            return not answers["recompute"]
+    return False
 
 
 def create_folder(name):

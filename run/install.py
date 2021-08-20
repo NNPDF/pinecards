@@ -45,7 +45,7 @@ def mg5amc():
     condition = lambda: mg5_exe.exists() and os.access(mg5_exe, os.X_OK)
 
     if condition():
-        print("Found mg5amc")
+        print("✓ Found mg5amc")
         return True
     if not confirm("mg5amc"):
         return False
@@ -94,7 +94,7 @@ def pineappl():
     )
 
     if condition():
-        print("Found pineappl")
+        print("✓ Found pineappl")
         return True
     if not confirm("pineappl"):
         return False
@@ -136,9 +136,3 @@ def update_environ():
     prepend("PATH", paths.prefix / "bin")
     prepend("LD_LIBRARY_PATH", paths.prefix / "lib")
     prepend("PKG_CONFIG_PATH", paths.prefix / "lib" / "pkgconfig")
-
-
-def all():
-    update_environ()
-    mg5amc()
-    pineappl()

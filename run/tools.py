@@ -1,6 +1,7 @@
-import datetime
+import time, datetime
 import itertools
 from difflib import SequenceMatcher
+import subprocess
 
 import rich
 import lz4.frame
@@ -83,7 +84,19 @@ def avoid_recompute(name):
 def create_folder(name):
     target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
     target.mkdir(exist_ok=True)
-    return target / f"{name}.pineappl"
+    return target
+
+
+def print_time(t0, what=None):
+    dt = time.perf_counter() - t0
+
+    if what is None:
+        what = ""
+
+    print()
+    rich.print(f"[b u]{what}[/] [i green]completed[/]")
+    rich.print(f"> took {dt:.2f} s")
+    print()
 
 
 def compress(path):
@@ -133,3 +146,21 @@ def git_pull(repo, remote_name="origin", branch="master"):
                 repo.head.set_target(remote_master_id)
             else:
                 raise AssertionError(f"Impossible to pull git repo '{repo.path}'")
+
+
+def run_subprocess(*args, dest):
+    p = subprocess.Popen(
+        *args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=dest
+    )
+    output = []
+
+    while True:
+        # returns None while subprocess is running
+        retcode = p.poll()
+        line = p.stdout.readline().decode()[:-1]
+        if retcode is not None:
+            break
+        print(line)
+        output.append(line)
+
+    return "\n".join(output)

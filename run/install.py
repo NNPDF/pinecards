@@ -21,7 +21,6 @@ set auto_convert_model True
 import model loop_qcd_qed_sm_Gmu
 quit
 """
-mg5_exe = paths.mg5amc / "bin" / "mg5_aMC"
 
 pineappl_repo = "https://github.com/N3PDF/pineappl.git"
 
@@ -42,7 +41,7 @@ def confirm(name):
 
 def mg5amc():
     # define availability condition
-    condition = lambda: mg5_exe.exists() and os.access(mg5_exe, os.X_OK)
+    condition = lambda: paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
 
     if condition():
         print("✓ Found mg5amc")
@@ -56,7 +55,7 @@ def mg5amc():
     subprocess.run(f"brz branch {mg5_repo} {paths.mg5amc}".split())
 
     # in case we're using python3, we need to convert the model file
-    subprocess.run(f"{mg5_exe}", input=mg5_convert, encoding="ascii")
+    subprocess.run(f"{paths.mg5_exe}", input=mg5_convert, encoding="ascii")
 
     # retest availability
     return condition()

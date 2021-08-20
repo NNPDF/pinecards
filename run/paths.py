@@ -10,6 +10,7 @@ prefix = root / ".prefix"
 bin = prefix / "bin"
 lib = prefix / "lib"
 mg5amc = prefix / "mg5amc"
+mg5_exe = mg5amc / "bin" / "mg5_aMC"
 pineappl = prefix / "pineappl"
 cargo = prefix / "cargo"
 

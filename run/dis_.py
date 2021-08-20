@@ -1,3 +1,5 @@
+import time
+
 import click
 import rich
 import yaml
@@ -17,6 +19,7 @@ def dis(datasets, pdf):
     rich.print(datasets)
 
     install_reqs()
+
     for name in datasets:
         if tools.avoid_recompute(name):
             continue
@@ -31,11 +34,17 @@ def load_datasets():
 
 
 def install_reqs():
+    t0 = time.perf_counter()
+
     install.update_environ()
     install.pineappl()
 
+    tools.print_time(t0, "Installation")
+
 
 def run_dataset(name, pdf):
+    t0 = time.perf_counter()
+
     # load runcards
     with open(paths.pkg / "theory.yaml") as t:
         theory = yaml.safe_load(t)
@@ -46,7 +55,8 @@ def run_dataset(name, pdf):
     out = yadism.run_yadism(theory, obs)
 
     # dump pineappl
-    grid_path = tools.create_folder(name)
+    dest = tools.create_folder(name)
+    grid_path = dest / f"{name}.pineappl"
     out.dump_pineappl_to_file(str(grid_path), next(iter(obs["observables"].keys())))
 
     # compress
@@ -58,3 +68,5 @@ def run_dataset(name, pdf):
     table.print_table(
         table.compute_data(grid_path, pdf), external.yadism_results(out, pdf)
     )
+
+    tools.print_time(t0, "Grid calculation")

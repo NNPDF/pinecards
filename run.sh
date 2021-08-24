@@ -288,11 +288,13 @@ EOF
     # parse launch file for other patches
     enable_patches=$(grep '^#enable_patch' launch.txt || true)
 
-    while IFS= read -r line; do
-        patch=( $line )
+    if [[ -n ${enable_patches} ]]; then
+        while IFS= read -r line; do
+            patch=( $line )
 
-        patch -p1 -d "${dataset}" < ../patches/"${patch[1]}".patch
-    done < <(printf '%s\n' "${enable_patches}")
+            patch -p1 -d "${dataset}" < ../patches/"${patch[1]}".patch
+        done < <(printf '%s\n' "${enable_patches}")
+    fi
 
     # launch run
     "${mg5amc}" "${launch_file}" |& tee launch.log

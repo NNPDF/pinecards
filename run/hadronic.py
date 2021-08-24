@@ -89,15 +89,15 @@ def run_dataset(name, pdf):
         launch = launch.replace(f"@{name}@", value)
 
     # perform simple arithmetic on lines containing 'set' and '=' and arithmetic operators
-    interpreter = asteval.Interpreter()  # use asteval for safety
-    lines = []
-    pattern = re.compile(r"(set [\w_]* = )(.*)")
-    for line in launch.splitlines():
-        m = re.fullmatch(pattern, line)
-        if m is not None:
-            line = m[1] + str(interpreter.eval(m[2]))
-        lines.append(line)
-    launch = "\n".join(lines)
+    #  interpreter = asteval.Interpreter()  # use asteval for safety
+    #  lines = []
+    #  pattern = re.compile(r"(set [\w_]* = )(.*)")
+    #  for line in launch.splitlines():
+    #  m = re.fullmatch(pattern, line)
+    #  if m is not None:
+    #  line = m[1] + str(interpreter.eval(m[2]))
+    #  lines.append(line)
+    #  launch = "\n".join(lines)
 
     # finally write launch
     launch_file.write_text(launch)

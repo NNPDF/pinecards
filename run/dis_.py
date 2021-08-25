@@ -5,7 +5,8 @@ import rich
 import yaml
 import yadism
 
-from . import install, tools, paths, table, external
+from . import install, tools, paths, table
+from .external import yad
 
 
 @click.command()
@@ -65,8 +66,6 @@ def run_dataset(name, pdf):
         grid_path.unlink()
         grid_path = cpath
 
-    table.print_table(
-        table.compute_data(grid_path, pdf), external.yadism_results(out, pdf)
-    )
+    table.print_table(table.compute_data(grid_path, pdf), yad.yadism_results(out, pdf))
 
     tools.print_time(t0, "Grid calculation")

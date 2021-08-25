@@ -3,7 +3,7 @@ from functools import reduce
 import lhapdf
 import pandas as pd
 
-from . import tools
+from .. import tools
 
 
 def yadism_results(out, pdf_name):

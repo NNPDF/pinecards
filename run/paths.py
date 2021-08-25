@@ -3,6 +3,11 @@ import pathlib
 pkg = pathlib.Path(__file__).absolute().parent
 root = pkg.parent
 
+# internal
+cuts_code = pkg / "cuts_code"
+cuts_variables = pkg / "cuts_variables"
+
+# external
 runcards = root / "nnpdf31_proc"
 
 # prefix  and locally installed

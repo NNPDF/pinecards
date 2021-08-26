@@ -3,7 +3,7 @@ import time
 import click
 import rich
 
-from . import install, paths, tools
+from . import install, paths, tools, table
 from .external import mg5
 
 
@@ -42,6 +42,11 @@ def run_dataset(name, pdf):
     t0 = time.perf_counter()
 
     dest = mg5.run_mc(name)
-    mg5.merge(name, dest)
+    grid, pdf = mg5.merge(name, dest)
 
     tools.print_time(t0, "Grid calculation")
+
+    table.print_table(table.compute_data(grid, pdf), mg5.results(dest, dest / name))
+
+    mg5.annotate_versions(name, dest)
+    mg5.postrun(name, dest)

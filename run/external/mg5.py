@@ -2,6 +2,11 @@ import subprocess
 import json
 import re
 import shutil
+import io
+import os
+
+import pandas as pd
+import pygit2
 
 from .. import paths, tools
 from . import interface
@@ -174,8 +179,6 @@ def merge(name, dest):
     )
     shutil.move(gridtmp, grid)
 
-    __import__("pdb").set_trace()
-
     # find out which PDF set was used to generate the predictions
     pdf = re.search(r"set lhaid (\d+)", (dest / "launch.txt").read_text())[1]
 
@@ -191,3 +194,69 @@ def merge(name, dest):
         subprocess.run(
             f"{pineappl} pdf_uncertainty --threads=1 {grid} {pdf}".split(), stdout=fd
         )
+
+    return grid, pdf
+
+
+def results(dest, mg5_dir):
+    madatnlo = next(iter(mg5_dir.glob("Events/run_01*/MADatNLO.HwU"))).read_text()
+    table = list(
+        filter(
+            lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
+        )
+    )
+    res = io.StringIO("\n".join(table))
+    __import__("pdb").set_trace()
+    df = pd.read_csv(res, header=list(range(len(table[0].split()))))
+
+
+def annotate_versions(name, dest):
+    grid = dest / f"{name}.pineappl"
+    gridtmp = dest / f"{name}.pineappl.tmp"
+    results_log = dest / "results.log"
+    pineappl = paths.pineappl_exe()
+
+    runcard_gitversion = pygit2.Repository(paths.root).describe(
+        always_use_long_format=True,
+        describe_strategy=pygit2.GIT_DESCRIBE_TAGS,
+        dirty_suffix="-dirty",
+        show_commit_oid_as_fallback=True,
+    )
+    mg5amc_revno = (
+        subprocess.run("brz revno".split(), cwd=paths.mg5amc, stdout=subprocess.PIPE)
+        .stdout.decode()
+        .strip()
+    )
+    mg5amc_repo = (
+        subprocess.run("brz info".split(), cwd=paths.mg5amc, stdout=subprocess.PIPE)
+        .stdout.decode()
+        .strip()
+    )
+    mg5amc_repo = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)[1]
+
+    entries = []
+    entries += ["--entries", "runcard_gitversion", runcard_gitversion]
+    entries += ["--entries", "mg5amc_revno", mg5amc_revno]
+    entries += ["--entries", "mg5amc_repo", mg5amc_repo]
+    entries += ["--entries", "lumi_id_types", "pdg_mc_ids"]
+    subprocess.run(
+        f"{pineappl} set {grid} {gridtmp}".split()
+        + f"--entry_from_file results {results_log}".split()
+        + entries
+    )
+    shutil.move(gridtmp, grid)
+
+
+def postrun(name, dest):
+    source = paths.runcards / name
+    mg5_dir = dest / name
+    grid = dest / f"{name}.pineappl"
+
+    if os.access((source / "postrun.sh"), os.X_OK):
+        shutil.copy2(source / "postrun.sh", dest)
+        os.environ["GRID"] = str(grid)
+        subprocess.run("postrun.sh", cwd=dest)
+
+    if shutil.which("lz4") is not None:
+        subprocess.run("lz4 -9 {grid}")
+        grid.unlink()

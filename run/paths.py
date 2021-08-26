@@ -1,4 +1,5 @@
 import pathlib
+import shutil
 
 pkg = pathlib.Path(__file__).absolute().parent
 root = pkg.parent
@@ -18,6 +19,7 @@ mg5amc = prefix / "mg5amc"
 mg5_exe = mg5amc / "bin" / "mg5_aMC"
 pineappl = prefix / "pineappl"
 cargo = prefix / "cargo"
+pineappl_exe = lambda: pathlib.Path(shutil.which("pineappl"))
 
 # tmp
 rust_init = pathlib.Path("/tmp/rustup-init")

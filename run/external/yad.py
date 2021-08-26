@@ -1,12 +1,13 @@
 from functools import reduce
 
-import lhapdf
 import pandas as pd
 
 from .. import tools
 
 
 def yadism_results(out, pdf_name):
+    import lhapdf
+
     pdf = lhapdf.mkPDF(pdf_name)
     pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
         pdf,

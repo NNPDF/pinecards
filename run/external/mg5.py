@@ -147,31 +147,34 @@ def merge(name, dest):
     mg5_dir = dest / name
     grid = dest / f"{name}.pineappl"
     gridtmp = dest / f"{name}.pineappl.tmp"
+    pineappl = paths.pineappl_exe()
 
     # merge the final bins
     mg5_grids = " ".join(
-        str(p) for p in dest.glob("Events/run_01*/amcblast_obs_*.pineappl")
+        sorted(str(p) for p in mg5_dir.glob("Events/run_01*/amcblast_obs_*.pineappl"))
     )
-    subprocess.run(f"pineappl merge {grid} {mg5_grids}".split())
+    subprocess.run(f"{pineappl} merge {grid} {mg5_grids}".split())
 
     # optimize the grids
-    subprocess.run(f"pineappl optimize {grid} {gridtmp}".split())
+    subprocess.run(f"{pineappl} optimize {grid} {gridtmp}".split())
     shutil.move(gridtmp, grid)
 
     # add metadata
     metadata = source / "metadata.txt"
     runcard = next(iter(mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt")))
-    entries = ""
+    entries = []
     if metadata.exists():
         for line in metadata.read_text().splitlines():
             k, v = line.split("=")
-            entries += f"--entry {k} '{v}' "
+            entries += ["--entry", k, f"'{v}'"]
     subprocess.run(
-        f"pineappl set {grid} {gridtmp}".split()
-        + entries.split()
+        f"{pineappl} set {grid} {gridtmp}".split()
+        + entries
         + f"--entry_from_file runcard {runcard}".split()
     )
     shutil.move(gridtmp, grid)
+
+    __import__("pdb").set_trace()
 
     # find out which PDF set was used to generate the predictions
     pdf = re.search(r"set lhaid (\d+)", (dest / "launch.txt").read_text())[1]
@@ -179,12 +182,12 @@ def merge(name, dest):
     # (re-)produce predictions
     with open(dest / "pineappl.convolute", "w") as fd:
         subprocess.run(
-            f"pineappl convolute {grid} {pdf} --scales 9 --absolute --integrated".split(),
+            f"{pineappl} convolute {grid} {pdf} --scales 9 --absolute --integrated".split(),
             stdout=fd,
         )
     with open(dest / "pineappl.orders", "w") as fd:
-        subprocess.run(f"pineappl orders {grid} {pdf} --absolute".split(), stdout=fd)
+        subprocess.run(f"{pineappl} orders {grid} {pdf} --absolute".split(), stdout=fd)
     with open(dest / "pineappl.pdf_uncertainty", "w") as fd:
         subprocess.run(
-            f"pineappl pdf_uncertainty --threads=1 {grid} {pdf}".split(), stdout=fd
+            f"{pineappl} pdf_uncertainty --threads=1 {grid} {pdf}".split(), stdout=fd
         )

@@ -1,5 +1,7 @@
 import subprocess
 import itertools
+import inspect
+
 
 import pandas as pd
 
@@ -59,10 +61,32 @@ def print_table(pineappl_results, external_results, dest):
 
     comparison.replace(float("inf"), 0.0, inplace=True)
 
-    with pd.option_context(
-        "display.max_rows", None, "display.float_format", lambda f: f"{f:.2e}"
-    ):
-        comp_str = str(comparison)
+    header = inspect.cleandoc(
+        """
+        ----------------------------------------------------------------------
+           PineAPPL         MC        sigma      central         min      max
+                                      1/100   sigma   1/1000   1/1000   1/1000
+        ----------------------------------------------------------------------
+        """
+    )
+    exp_float = lambda f: f" {f:.6e}"
+    fixed_decimals = lambda w, n: lambda f: f"{{:{w}.{n}f}}".format(f)
+    formatters = {
+        "PineAPPL": exp_float,
+        "MC": exp_float,
+        "sigma 1/100": fixed_decimals(7, 3),
+        "central sigma": fixed_decimals(7, 3),
+        "central 1/1000": fixed_decimals(8, 4),
+        "min 1/1000": fixed_decimals(8, 4),
+        "max 1/1000": fixed_decimals(8, 4),
+    }
+
+    with pd.option_context("display.max_rows", None):
+        comp_str = comparison.to_string(
+            index=False, header=False, formatters=formatters
+        )
+
+    comp_str = f"{header}\n{comp_str}"
 
     with open(dest / "results.log", "w") as fd:
         fd.write(comp_str)

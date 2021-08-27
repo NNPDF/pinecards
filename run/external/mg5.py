@@ -5,6 +5,7 @@ import shutil
 import io
 import os
 
+import numpy as np
 import pandas as pd
 import pygit2
 
@@ -195,19 +196,23 @@ def merge(name, dest):
             f"{pineappl} pdf_uncertainty --threads=1 {grid} {pdf}".split(), stdout=fd
         )
 
-    return grid, pdf
+    return (dest / "pineappl.convolute").read_text().splitlines()[2:-2]
 
 
 def results(dest, mg5_dir):
     madatnlo = next(iter(mg5_dir.glob("Events/run_01*/MADatNLO.HwU"))).read_text()
-    table = list(
-        filter(
-            lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
-        )
+    table = filter(
+        lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
     )
-    res = io.StringIO("\n".join(table))
-    __import__("pdb").set_trace()
-    df = pd.read_csv(res, header=list(range(len(table[0].split()))))
+    df = pd.DataFrame(np.array([[float(x) for x in l.split()] for l in table]))
+    # start column from 1
+    df.columns += 1
+    df["result"] = df[3]
+    df["error"] = df[4]
+    df["sv_min"] = df[6]
+    df["sv_max"] = df[7]
+
+    return df
 
 
 def annotate_versions(name, dest):
@@ -235,10 +240,10 @@ def annotate_versions(name, dest):
     mg5amc_repo = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)[1]
 
     entries = []
-    entries += ["--entries", "runcard_gitversion", runcard_gitversion]
-    entries += ["--entries", "mg5amc_revno", mg5amc_revno]
-    entries += ["--entries", "mg5amc_repo", mg5amc_repo]
-    entries += ["--entries", "lumi_id_types", "pdg_mc_ids"]
+    entries += ["--entry", "runcard_gitversion", runcard_gitversion]
+    entries += ["--entry", "mg5amc_revno", mg5amc_revno]
+    entries += ["--entry", "mg5amc_repo", mg5amc_repo]
+    entries += ["--entry", "lumi_id_types", "pdg_mc_ids"]
     subprocess.run(
         f"{pineappl} set {grid} {gridtmp}".split()
         + f"--entry_from_file results {results_log}".split()
@@ -258,5 +263,5 @@ def postrun(name, dest):
         subprocess.run("postrun.sh", cwd=dest)
 
     if shutil.which("lz4") is not None:
-        subprocess.run("lz4 -9 {grid}")
+        subprocess.run(f"lz4 -9 {grid.name}".split(), cwd=grid.parent)
         grid.unlink()

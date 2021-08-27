@@ -42,11 +42,14 @@ def run_dataset(name, pdf):
     t0 = time.perf_counter()
 
     dest = mg5.run_mc(name)
-    grid, pdf = mg5.merge(name, dest)
+    pineappl_table = mg5.merge(name, dest)
 
     tools.print_time(t0, "Grid calculation")
 
-    table.print_table(table.compute_data(grid, pdf), mg5.results(dest, dest / name))
+    table.print_table(
+        table.parse_pineappl_table(pineappl_table), mg5.results(dest, dest / name), dest
+    )
 
     mg5.annotate_versions(name, dest)
     mg5.postrun(name, dest)
+    print(f"Output stored in {dest.name}")

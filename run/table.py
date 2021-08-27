@@ -9,8 +9,10 @@ def compute_data(grid, pdf_name):
         f"pineappl convolute {grid} {pdf_name} --scales 9 --absolute --integrated".split(),
         capture_output=True,
     )
+    return pineappl_results.stdout.decode().splitlines()[2:-2]
 
-    output = pineappl_results.stdout.decode().splitlines()[2:-2]
+
+def parse_pineappl_table(output):
     header = output[0].split()
     header = [
         header[0],
@@ -29,7 +31,7 @@ def compute_data(grid, pdf_name):
     return df
 
 
-def print_table(pineappl_results, external_results):
+def print_table(pineappl_results, external_results, dest):
     comparison = pd.DataFrame()
 
     # bare results
@@ -58,6 +60,10 @@ def print_table(pineappl_results, external_results):
     comparison.replace(float("inf"), 0.0, inplace=True)
 
     with pd.option_context(
-        "display.max_rows", None, "display.float_format", lambda f: f"{f:.1e}"
+        "display.max_rows", None, "display.float_format", lambda f: f"{f:.2e}"
     ):
-        print(comparison)
+        comp_str = str(comparison)
+
+    with open(dest / "results.log", "w") as fd:
+        fd.write(comp_str)
+    print(comp_str)

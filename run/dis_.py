@@ -66,6 +66,10 @@ def run_dataset(name, pdf):
         grid_path.unlink()
         grid_path = cpath
 
-    table.print_table(table.compute_data(grid_path, pdf), yad.yadism_results(out, pdf))
+    table.print_table(
+        table.parse_pineappl_table(table.compute_data(grid_path, pdf)),
+        yad.yadism_results(out, pdf),
+        dest,
+    )
 
     tools.print_time(t0, "Grid calculation")

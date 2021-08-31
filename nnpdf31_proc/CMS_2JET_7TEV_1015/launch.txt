@@ -26,7 +26,7 @@ set ptj = 30.0
 #enable_patch no_pole_cancellation_checks
 # `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
 set etaj = 2.5
-set req_acc_FO 0.0001
+set req_acc_FO 0.0002
 set pineappl True
 done
 quit

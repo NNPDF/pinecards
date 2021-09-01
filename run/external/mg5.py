@@ -8,6 +8,7 @@ import os
 import numpy as np
 import pandas as pd
 import pygit2
+import lz4.frame
 
 from .. import paths, tools
 from . import interface
@@ -260,8 +261,11 @@ def postrun(name, dest):
     if os.access((source / "postrun.sh"), os.X_OK):
         shutil.copy2(source / "postrun.sh", dest)
         os.environ["GRID"] = str(grid)
-        subprocess.run("postrun.sh", cwd=dest)
+        subprocess.run("./postrun.sh", cwd=dest)
 
-    if shutil.which("lz4") is not None:
-        subprocess.run(f"lz4 -9 {grid.name}".split(), cwd=grid.parent)
-        grid.unlink()
+    with lz4.frame.open(
+        grid.with_suffix(grid.suffix + ".lz4"),
+        "wb",
+        compression_level=lz4.frame.COMPRESSIONLEVEL_MAX,
+    ) as fd:
+        fd.write(grid.read_bytes())

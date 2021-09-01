@@ -6,7 +6,7 @@ set mh @MH@
 set mt @MT@
 set mw @MW@
 set mz @MZ@
-set wh @WH@
+set wh 0.0
 set wt @WT@
 set ww @WW@
 set wz @WZ@

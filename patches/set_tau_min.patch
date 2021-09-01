@@ -1,0 +1,166 @@
+--- NLO/SubProcesses/setcuts.f.orig	2021-08-16 12:51:13.650701622 +0200
++++ NLO/SubProcesses/setcuts.f	2021-08-16 13:04:27.267730079 +0200
+@@ -261,160 +261,11 @@
+             taumin_s(iFKS,ichan)=0.d0
+             taumin_j(iFKS,ichan)=0.d0
+             do i=nincoming+1,nexternal
+-C Skip i_fks
+-               if (i.eq.i_fks) cycle
+-c Add the minimal jet pTs to tau
+-               if(IS_A_J(i)) then
+-                  if  (j_fks.gt.nincoming .and. j_fks.lt.nexternal) then
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+dsqrt(ptj**2 +emass(i)**2)
+-                     taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan)+dsqrt(ptj**2 +emass(i)**2)
+-                     taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan)+dsqrt(ptj**2 +emass(i)**2)
+-                  elseif (j_fks.ge.1 .and. j_fks.le.nincoming) then
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+emass(i)
+-                     taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan)+dsqrt(ptj**2 +emass(i)**2)
+-                     taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan)+dsqrt(ptj**2 +emass(i)**2)
+-                  elseif (j_fks.eq.nexternal) then
+-                     write (*,*)
+-     &                    'ERROR, j_fks cannot be the final parton'
+-     &                    ,j_fks
+-                     stop
+-                  else
+-                     write (*,*) 'ERROR, j_fks not correctly defined'
+-     &                    ,j_fks
+-                     stop
+-                  endif
+-                  xm(i)=emass(i)+ptj
+-c Add the minimal photon pTs to tau
+-               elseif(IS_A_PH(i))then
+-                  if (abs(emass(i)).gt.vtiny) then
+-                     write (*,*) 'Error in set_tau_min in setcuts.f:'
+-                     write (*,*) 'mass of a photon should be zero',i
+-     &                    ,emass(i)
+-                     stop
+-                  endif
+-                  if  (j_fks.gt.nincoming)
+-     &                 taumin(iFKS,ichan)=taumin(iFKS,ichan)+ptgmin
+-                  taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan)+ptgmin
+-                  taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan)+ptgmin
+-                  xm(i)=emass(i)+ptgmin
+-               elseif (is_a_lp(i)) then
+-c Add the postively charged lepton pTs to tau
+-                  if (j_fks.gt.nincoming) then
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+dsqrt(ptl**2+emass(i)**2)
+-                  else
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+emass(i)
+-                  endif
+-                  taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan)+dsqrt(emass(i)**2+ptl**2)
+-                  taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan)+dsqrt(emass(i)**2+ptl**2)
+-                  xm(i)=emass(i)+ptl
+-c Add the lepton invariant mass to tau if there is at least another
+-c lepton of opposite charge. (Only add half of it, i.e. 'the part
+-c contributing from this lepton'). Remove possible overcounting with the
+-c lepton pT
+-                  do j=nincoming+1,nexternal
+-                     if (is_a_lm(j) .and. idup(i,1).eq.-idup(j,1) .and.
+-     $                    (mll_sf.ne.0d0 .or. mll.ne.0d0) ) then
+-                        if (j_fks.gt.nincoming)
+-     &                       taumin(iFKS,ichan) = taumin(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2) +
+-     &                              max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_s(iFKS,ichan) = taumin_s(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_j(iFKS,ichan) = taumin_j(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        xm(i)=xm(i)-ptl-emass(i)+max(mll/2d0,mll_sf/2d0
+-     $                       ,ptl+emass(i))
+-                        exit
+-                     elseif (is_a_lm(j) .and. mll.ne.0d0) then
+-                        if (j_fks.gt.nincoming)
+-     &                       taumin(iFKS,ichan)= taumin(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2) +
+-     &                                     max(mll/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_s(iFKS,ichan) = taumin_s(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0, dsqrt(ptl**2+emass(i)**2))
+-                        taumin_j(iFKS,ichan) = taumin_j(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        xm(i)=xm(i)-ptl-emass(i)+max(mll/2d0,ptl
+-     $                       +emass(i))
+-                        exit
+-                     endif
+-                  enddo
+-               elseif (is_a_lm(i)) then
+-c Add the negatively charged lepton pTs to tau
+                   if (j_fks.gt.nincoming) then
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+dsqrt(ptl**2+emass(i)**2)
+-                  else
+-                     taumin(iFKS,ichan)=taumin(iFKS,ichan)+emass(i)
+-                  endif
+-                  taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan)+dsqrt(ptl**2+emass(i)**2)
+-                  taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan)+dsqrt(ptl**2+emass(i)**2)
+-                  xm(i)=emass(i)+ptl
+-c Add the lepton invariant mass to tau if there is at least another
+-c lepton of opposite charge. (Only add half of it, i.e. 'the part
+-c contributing from this lepton'). Remove possible overcounting with the
+-c lepton pT
+-                  do j=nincoming+1,nexternal
+-                     if (is_a_lp(j) .and. idup(i,1).eq.-idup(j,1) .and.
+-     $                    (mll_sf.ne.0d0 .or. mll.ne.0d0) ) then
+-                        if (j_fks.gt.nincoming)
+-     &                       taumin(iFKS,ichan) = taumin(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2) +
+-     &                              max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_s(iFKS,ichan) = taumin_s(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_j(iFKS,ichan) = taumin_j(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,mll_sf/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        xm(i)=xm(i)-ptl-emass(i)+max(mll/2d0,mll_sf/2d0
+-     $                       ,ptl+emass(i))
+-                        exit
+-                     elseif (is_a_lp(j) .and. mll.ne.0d0) then
+-                        if (j_fks.gt.nincoming)
+-     &                       taumin(iFKS,ichan) = taumin(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2) +
+-     &                                      max(mll/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_s(iFKS,ichan) = taumin_s(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        taumin_j(iFKS,ichan) = taumin_j(iFKS,ichan)-dsqrt(ptl**2+emass(i)**2)
+-     $                       + max(mll/2d0,dsqrt(ptl**2+emass(i)**2))
+-                        xm(i)=xm(i)-ptl-emass(i)+max(mll/2d0,ptl
+-     $                       +emass(i))
+-                        exit
+-                     endif
+-                  enddo
+-               else
+-                  if (i.eq.nexternal)then
+-                        taumin(iFKS,ichan)=taumin(iFKS,ichan) + emass(i)
+-                        taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan) +  emass(i)
+-                        taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan) + emass(i)
+-                        xm(i) = emass(i)
+-                  else
+-                     smin_update = 0
+-                     nb_iden_pdg = 1
+-                     mxx = 0d0
+-c                    assume smin apply always on the same set of particle
+-                     do j=nincoming+1,nexternal-1
+-                        if (mxxmin(i,j).ne.0d0.or.mxxmin(j,i).ne.0d0) then
+-                           nb_iden_pdg = nb_iden_pdg +1
+-                           if (mxx.eq.0d0) mxx = max(mxxmin(i,j), mxxmin(j,i))
+-                        endif
+-                     enddo
+-                     ! S >= (2*N-N^2)*M1^2 + (N^2-N)/2 * Mxx^2
+-                     smin_update = nb_iden_pdg*((2-nb_iden_pdg)*emass(i)**2 + (nb_iden_pdg-1)/2.*mxx**2)
+-                     ! compare with the update from pt cut
+-                     if (smin_update.lt.nb_iden_pdg**2*(etmin(i)**2 + emass(i)**2))then
+-                        ! the pt is more restrictive
+-                        smin_update = dsqrt(etmin(i)**2 + emass(i)**2)
+-                     else
+-                        smin_update = dsqrt(smin_update)/nb_iden_pdg ! share over N particle, and change dimension
+-                     endif
+-                     ! update in sqrt(s) so take the 
+-                     if  (j_fks.gt.nincoming) then
+-                        taumin(iFKS,ichan)=taumin(iFKS,ichan) + smin_update
+-                     else
+-                        taumin(iFKS,ichan)=taumin(iFKS,ichan) + emass(i)
+-                     endif
+-                     taumin_s(iFKS,ichan)=taumin_s(iFKS,ichan) + smin_update
+-                     taumin_j(iFKS,ichan)=taumin_j(iFKS,ichan) + smin_update
+-                     xm(i) = smin_update
+-                  endif
++                  taumin(iFKS,ichan)=@TAU_MIN@
+                endif
+-               xw(i)=0d0
++               taumin_s(iFKS,ichan)=@TAU_MIN@
++               taumin_j(iFKS,ichan)=@TAU_MIN@
+             enddo
+             stot = 4d0*ebeam(1)*ebeam(2)
+             tau_Born_lower_bound=taumin(iFKS,ichan)**2/stot

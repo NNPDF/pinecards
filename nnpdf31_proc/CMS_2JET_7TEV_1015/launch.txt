@@ -1,0 +1,32 @@
+launch @OUTPUT@
+fixed_order = ON
+set maxjetflavor 5
+set gf @GF@
+set mh @MH@
+set mt @MT@
+set mw @MW@
+set mz @MZ@
+set wh @WH@
+set wt @WT@
+set ww @WW@
+set wz @WZ@
+set ebeam1 3500
+set ebeam2 3500
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set jetalgo = -1.0
+set jetradius = 0.7
+set ptj = 30.0
+# ordering of the two user-defined cuts is important
+#user_defined_cut set ptj1min = 60.0
+#user_defined_cut set cms_2jets_7tev_1015 = True
+#user_defined_tau_min 419.0
+#enable_patch no_pole_cancellation_checks
+# `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
+set etaj = 2.5
+set req_acc_FO 0.0002
+set pineappl True
+done
+quit

@@ -6,7 +6,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer nwgt
       character*(*) weights_info(*)
 
-      call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
       call HwU_book(1,'tt m ',1, 300.0d0, 380.0d0)
       call HwU_book(2,'tt m ',1, 380.0d0, 470.0d0)

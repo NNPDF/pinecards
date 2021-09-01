@@ -6,7 +6,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer nwgt
       character*(*) weights_info(*)
 
-      call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
       call HwU_book(1,'t-tx pair rap ', 3,0.0d0,0.9d0)
       call HwU_book(2,'t-tx pair rap ', 1,0.9d0,1.3d0)

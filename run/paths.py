@@ -10,6 +10,7 @@ cuts_variables = pkg / "cuts_variables"
 
 # external
 runcards = root / "nnpdf31_proc"
+patches = root / "patches"
 
 # prefix  and locally installed
 prefix = root / ".prefix"

@@ -75,6 +75,7 @@ def run_mc(name):
     launch_file = dest / "launch.txt"
     launch_file.write_text(launch)
 
+    # parse launch file for user-defined cuts
     user_cuts_pattern = re.compile(
         r"^#user_defined_cut set (\w+)\s+=\s+([+-]?\d+(?:\.\d+)?|True|False)$"
     )
@@ -84,7 +85,52 @@ def run_mc(name):
         if m is not None:
             user_cuts.append((m[1], m[2]))
 
+    # if there are user-defined cuts, implement them
     apply_user_cuts(mg5_dir / "SubProcesses" / "cuts.f", user_cuts)
+
+    # parse launch file for user-defined minimum tau
+    user_taumin_pattern = re.compile(r"^#user_defined_tau_min (.*)")
+    user_taumin = None
+    for line in launch.splitlines():
+        m = re.fullmatch(user_taumin_pattern, line)
+        if m is not None:
+            try:
+                user_taumin = float(m[1])
+            except ValueError:
+                raise ValueError("User defined tau_min is expected to be a number")
+
+    if user_taumin is not None:
+        set_tau_min_patch = (
+            (paths.patches / "set_tau_min.patch")
+            .read_text()
+            .replace("@TAU_MIN@", f"{user_taumin}d0")
+        )
+        (dest / "set_tau_min.patch").write_text(set_tau_min_patch)
+        subprocess.run(
+            f"patch -p1 -d '{mg5_dir}'".split(), input=set_tau_min_patch, text=True
+        )
+
+    # parse launch file for other patches
+    enable_patches_pattern = re.compile(r"^#enable_patch (.*)")
+    enable_patches_list = []
+    for line in launch.splitlines():
+        m = re.fullmatch(user_taumin_pattern, line)
+        if m is not None:
+            enable_patches_list.append(m[1])
+
+    if len(enable_patches_list) != 0:
+        for patch in enable_patches_list:
+            patch_file = paths.patches / patch
+            patch_file = patch_file.with_suffix(patch_file.suffix + ".patch")
+            if not patch_file.exists():
+                raise ValueError(
+                    f"Patch '{patch}' requested, but does not exist in patches folder"
+                )
+            subprocess.run(
+                f"patch -p1 -d '{mg5_dir}'".split(),
+                input=patch_file.read_text(),
+                text=True,
+            )
 
     # launch run
     launch_log = tools.run_subprocess([str(paths.mg5_exe), str(launch_file)], dest=dest)

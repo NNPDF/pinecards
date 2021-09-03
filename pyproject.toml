@@ -24,8 +24,7 @@ pytest = "^5.2"
 pdbpp = "^0.10.3"
 
 [tool.poetry.scripts]
-dis = "run:dis"
-hadronic = "run:hadronic"
+run = "run:run"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

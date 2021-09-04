@@ -1,6 +1,7 @@
 import abc
 import shutil
 import subprocess
+from pkgconfig.pkgconfig import exists
 
 import pygit2
 
@@ -8,16 +9,14 @@ from .. import paths, tools
 
 
 class External(abc.ABC):
-    def __init__(self, name):
+    def __init__(self, name, pdf):
         self.name = name
+        self.pdf = pdf
+        self.dest = tools.create_folder(self.name)
 
     @property
     def source(self):
         return paths.runcards / self.name
-
-    @property
-    def dest(self):
-        return tools.create_folder(self.name)
 
     @property
     def grid(self):

@@ -1,20 +1,23 @@
 import time
+import pathlib
 
 import click
 import rich
 
 from . import install, tools, table
-from .external import mg5
+from .external import mg5, yad
 
 
 @click.command()
 @click.argument("dataset")
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def run(dataset, pdf):
-    rich.print("Computing [blue]hadronic[/]...")
+    dataset = pathlib.Path(dataset).name
 
     rich.print(dataset)
     install_reqs()
+    if tools.avoid_recompute(dataset):
+        return
     run_dataset(dataset, pdf)
 
 
@@ -31,7 +34,12 @@ def install_reqs():
 def run_dataset(name, pdf):
     t0 = time.perf_counter()
 
-    runner = mg5.Mg5(name)
+    if tools.is_dis(name):
+        rich.print(f"Computing [red]{name}[/]...")
+        runner = yad.Yadism(name, pdf)
+    else:
+        rich.print(f"Computing [blue]{name}[/]...")
+        runner = mg5.Mg5(name, pdf)
 
     tools.print_time(t0, "Grid calculation")
 

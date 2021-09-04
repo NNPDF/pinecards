@@ -31,6 +31,10 @@ COMMANDS = ["extra", "extension", "stuff", "errors", "email", "foobar", "foo"]
 re_space = re.compile(".*\s+$", re.M)
 
 
+def is_dis(name):
+    return (paths.runcards / name / "observable.yaml").exists()
+
+
 class Completer:
     def __init__(self, tokens):
         self.tokens = tokens

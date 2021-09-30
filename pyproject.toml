@@ -18,6 +18,7 @@ six = "^1.16.0"
 pkgconfig = "^1.5.5"
 pygit2 = "^1.6.1"
 requests = "^2.26.0"
+a3b2bbc3ced97675ac3a71df45f55ba = "^6.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -1,12 +1,13 @@
-import time, datetime
+import datetime
 import itertools
-from difflib import SequenceMatcher
 import subprocess
+import time
+from difflib import SequenceMatcher
 
-import rich
+import InquirerPy
 import lz4.frame
 import pygit2
-import PyInquirer
+import rich
 
 from . import paths
 
@@ -80,7 +81,7 @@ def avoid_recompute(name):
                     "message": f"Do you want to recompute '{name}'?\n",
                 }
             ]
-            answers = PyInquirer.prompt(questions)
+            answers = InquirerPy.prompt(questions)
             return not answers["recompute"]
     return False
 

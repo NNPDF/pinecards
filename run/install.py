@@ -1,15 +1,14 @@
-import sys
 import os
-import subprocess
 import shutil
+import subprocess
+import sys
 
+import InquirerPy
 import pkgconfig
 import pygit2
 import requests
-import PyInquirer
 
 from . import paths, tools
-
 
 paths.prefix.mkdir(exist_ok=True)
 paths.bin.mkdir(exist_ok=True)
@@ -34,7 +33,7 @@ def confirm(name):
             "message": "Do you want to install it?",
         }
     ]
-    answers = PyInquirer.prompt(questions)
+    answers = InquirerPy.prompt(questions)
 
     return answers["install"]
 
@@ -124,6 +123,11 @@ def pineappl():
 
     # retest availability
     return condition()
+
+
+def lhapdf():
+    paths.lhapdf_data.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data)
 
 
 def update_environ():

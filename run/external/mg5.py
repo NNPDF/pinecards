@@ -1,14 +1,14 @@
-import subprocess
 import json
+import os
 import re
 import shutil
-import os
+import subprocess
 
+import lz4.frame
 import numpy as np
 import pandas as pd
-import lz4.frame
 
-from .. import paths, tools
+from .. import install, paths, tools
 from . import interface
 
 
@@ -16,6 +16,10 @@ class Mg5(interface.External):
     @property
     def mg5_dir(self):
         return self.dest / self.name
+
+    @staticmethod
+    def install():
+        install.mg5amc()
 
     def run(self):
         # copy the output file to the directory and replace the variables

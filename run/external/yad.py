@@ -1,11 +1,12 @@
 from functools import reduce
 
-import pandas as pd
-import yaml
-import yadism
 import lhapdf
+import lhapdf_management
+import pandas as pd
+import yadism
+import yaml
 
-from .. import paths, table, tools
+from .. import install, paths, table, tools
 from . import interface
 
 
@@ -13,6 +14,10 @@ class Yadism(interface.External):
     def __init__(self, *args):
         super().__init__(*args)
         self.out = None
+
+    @staticmethod
+    def install():
+        install.lhapdf()
 
     def run(self):
         print("Running yadism...")
@@ -32,6 +37,7 @@ class Yadism(interface.External):
         )
 
     def results(self):
+        lhapdf_management.pdf_install(self.pdf)
         pdf = lhapdf.mkPDF(self.pdf)
         pdf_out = self.out.apply_pdf_alphas_alphaqed_xir_xif(
             pdf,

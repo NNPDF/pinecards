@@ -1,9 +1,9 @@
 import abc
 import shutil
 import subprocess
-from pkgconfig.pkgconfig import exists
 
 import pygit2
+from pkgconfig.pkgconfig import exists
 
 from .. import paths, tools
 
@@ -28,6 +28,10 @@ class External(abc.ABC):
 
     def update_with_tmp(self):
         shutil.move(self.gridtmp, self.grid)
+
+    @staticmethod
+    def install():
+        pass
 
     @abc.abstractmethod
     def run(self):

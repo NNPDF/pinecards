@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "run"
 version = "0.0.0"
-description = "generate runcards"
+description = "Generate runcards for producing PineAPPL grids."
 authors = ["Alessandro Candido <candido.ale@gmail.com>"]
 
 [tool.poetry.dependencies]

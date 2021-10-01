@@ -45,9 +45,11 @@ def run_dataset(runner, name, pdf):
     tools.print_time(t0, "Grid calculation")
 
     runner.run()
+    # we need results first because this may install the PDF set
+    results = runner.results()
     table.print_table(
         table.parse_pineappl_table(runner.generate_pineappl()),
-        runner.results(),
+        results,
         runner.dest,
     )
 

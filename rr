@@ -70,6 +70,7 @@ if __name__ == "__main__":
     if sys.argv[1] != "install":
         subprocess.run("poetry run rr".split() + sys.argv[1:])
     else:
+        sys.argv = [sys.argv[0]] + sys.argv[2:]
         args = parse_args()
 
         question = load_options(args.yes, args.no, args.default)

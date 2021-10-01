@@ -6,6 +6,21 @@ import pandas as pd
 
 
 def compute_data(grid, pdf_name):
+    """
+    Call `convolute` via PineAPPL CLI.
+
+    Parameters
+    ----------
+        grid : str
+            grid path
+        pdf_name : str
+            PDF name
+
+    Returns
+    -------
+        list(str) :
+            (essential) output splitted by line
+    """
     pineappl_results = subprocess.run(
         f"pineappl convolute {grid} {pdf_name} --scales 9 --absolute --integrated".split(),
         capture_output=True,
@@ -14,6 +29,19 @@ def compute_data(grid, pdf_name):
 
 
 def parse_pineappl_table(output):
+    """
+    Parse PineAPPL CLI output to :class:`~pandas.DataFrame`.
+
+    Parameters
+    ----------
+        output : list(str)
+            output
+
+    Returns
+    -------
+        pandas.DataFrame :
+            parsed data
+    """
     header = output[0].split()
     header = [
         header[0],
@@ -33,6 +61,18 @@ def parse_pineappl_table(output):
 
 
 def print_table(pineappl_results, external_results, dest):
+    """
+    Print comparison table to screen.
+
+    Parameters
+    ----------
+        pineappl_results : pandas.DataFrame
+            results from the generated grid
+        external_results : pandas.DataFrame
+            results from the external program
+        dest : pathlib.Path
+            path to output file
+    """
     comparison = pd.DataFrame()
 
     # bare results

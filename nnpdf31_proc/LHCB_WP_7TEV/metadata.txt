@@ -5,6 +5,6 @@ nnpdf_id=LHCBWZMU7TEV
 x1_label=etal
 x1_label_tex=$\eta_{\bar{\ell}}$
 x1_unit=
-y_label=disg/detal
+y_label=dsig/detal
 y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}\eta_{\bar{\ell}}}$
 y_unit=pb

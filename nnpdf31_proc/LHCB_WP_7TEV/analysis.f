@@ -49,7 +49,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       do i = nincoming+1, nexternal
         if (iPDG_reco(i).eq.-13) then
-          xeta = eta_04(p_reco(0,i))
+          xeta = abs(eta_04(p_reco(0,i)))
         endif
       enddo
 

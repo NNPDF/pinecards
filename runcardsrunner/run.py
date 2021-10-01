@@ -12,6 +12,16 @@ from .external import mg5, yad
 @click.argument("dataset")
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def run(dataset, pdf):
+    """
+    Compute a dataset and compare using a given PDF.
+
+    Parameters
+    ----------
+        dataset : str
+            dataset name
+        pdf : str
+            pdf name
+    """
     dataset = pathlib.Path(dataset).name
 
     rich.print(dataset)
@@ -26,13 +36,23 @@ def run(dataset, pdf):
         runner = mg5.Mg5(dataset, pdf)
 
     install_reqs(runner, pdf)
-    run_dataset(runner, dataset, pdf)
+    run_dataset(runner)
 
 
 def install_reqs(runner, pdf):
+    """
+    Execute runner and apply common post process.
+
+    Parameters
+    ----------
+        runner : interface.External
+            runner instance
+        pdf : str
+            pdf name
+    """
     # lhapdf_management determine paths at import time, so it is important to
     # late import it, in particular after `.path` module has been imported
-    import lhapdf_management
+    import lhapdf_management  # pylint: disable=import-outside-toplevel
 
     t0 = time.perf_counter()
 
@@ -44,7 +64,15 @@ def install_reqs(runner, pdf):
     tools.print_time(t0, "Installation")
 
 
-def run_dataset(runner, name, pdf):
+def run_dataset(runner):
+    """
+    Execute runner and apply common post process.
+
+    Parameters
+    ----------
+        runner : interface.External
+            runner instance
+    """
     t0 = time.perf_counter()
 
     tools.print_time(t0, "Grid calculation")

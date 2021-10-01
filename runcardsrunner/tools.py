@@ -8,6 +8,7 @@ import time
 
 import InquirerPy
 import lz4.frame
+import pineappl
 import pygit2
 import rich
 
@@ -261,3 +262,31 @@ def run_subprocess(*args, dest):
         output.append(line)
 
     return "\n".join(output)
+
+
+def set_grid_metadata(input_file, output_file, entries, entries_from_file):
+    """
+    Set metadata on a pineappl grid stored in a file, and save in a new one.
+
+    Parameters
+    ----------
+        input_file : path-like
+            file storing input grid
+        output_file : path-like
+            file to store the result
+        entries : dict
+            mapping of key-value to store in the grid
+        entries_from_file : dict
+            mapping of key-value pairs, whose value are file paths of which
+            storing the content
+    """
+    grid = pineappl.grid.Grid.read(str(input_file))
+
+    for k, v in entries.items():
+        grid.set_key_value(k, v)
+
+    for k, v in entries_from_file.items():
+        with open(v) as fd:
+            grid.set_key_value(k, fd.read())
+
+    grid.write(str(output_file))

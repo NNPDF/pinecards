@@ -2,7 +2,9 @@ import inspect
 import itertools
 import subprocess
 
+import lhapdf
 import pandas as pd
+import pineappl
 
 
 def compute_data(grid, pdf_name):
@@ -21,11 +23,23 @@ def compute_data(grid, pdf_name):
         list(str) :
             (essential) output splitted by line
     """
-    pineappl_results = subprocess.run(
-        f"pineappl convolute {grid} {pdf_name} --scales 9 --absolute --integrated".split(),
-        capture_output=True,
+    pdf = lhapdf.mkPDF(pdf_name)
+    #  TODO: is_dis and scale variations still missing
+    #  grid_loaded = pineappl.grid.Grid.read(str(grid))
+    #  if True:  # is dis
+    #  projectile_pdf = lambda pid, x, Q2: 1.0
+    #  else:
+    #  projectile_pdf = pdf.xfxQ2
+    #  pineappl_results = grid_loaded.convolute(pdf.xfxQ2, projectile_pdf, pdf.alphasQ2)
+    pineappl_results = (
+        subprocess.run(
+            f"pineappl convolute {grid} {pdf_name} --scales 9 --absolute --integrated".split(),
+            capture_output=True,
+        )
+        .stdout.decode()
+        .splitlines()[2:-2]
     )
-    return pineappl_results.stdout.decode().splitlines()[2:-2]
+    return pineappl_results
 
 
 def parse_pineappl_table(output):

@@ -1,7 +1,6 @@
 from functools import reduce
 
 import lhapdf
-import lhapdf_management
 import pandas as pd
 import yadism
 import yaml
@@ -37,7 +36,6 @@ class Yadism(interface.External):
         )
 
     def results(self):
-        lhapdf_management.pdf_install(self.pdf)
         pdf = lhapdf.mkPDF(self.pdf)
         pdf_out = self.out.apply_pdf_alphas_alphaqed_xir_xif(
             pdf,

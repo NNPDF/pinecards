@@ -14,4 +14,3 @@ c     cut on the sum of all missing transverse momentum
         passcuts_user=.false.
         return
       endif
-

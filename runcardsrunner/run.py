@@ -15,6 +15,8 @@ def run(dataset, pdf):
     dataset = pathlib.Path(dataset).name
 
     rich.print(dataset)
+    if tools.avoid_recompute(dataset):
+        return
 
     if tools.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")
@@ -24,8 +26,6 @@ def run(dataset, pdf):
         runner = mg5.Mg5(dataset, pdf)
 
     install_reqs(runner)
-    if tools.avoid_recompute(dataset):
-        return
     run_dataset(runner, dataset, pdf)
 
 

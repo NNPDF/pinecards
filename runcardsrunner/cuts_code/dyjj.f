@@ -5,4 +5,3 @@ c     cut on the rapidity separation of the leading jets
         passcuts_user=.false.
         return
       endif
-

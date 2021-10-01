@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "run"
+name = "runcardsrunner"
 version = "0.0.0"
 description = "Generate runcards for producing PineAPPL grids."
 authors = ["Alessandro Candido <candido.ale@gmail.com>"]
@@ -30,7 +30,7 @@ isort = "^5.9.3"
 ipython = "^7.28.0"
 
 [tool.poetry.scripts]
-rr = "run:run"
+rr = "runcardsrunner:run"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

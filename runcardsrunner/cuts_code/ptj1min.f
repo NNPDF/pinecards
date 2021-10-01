@@ -3,4 +3,3 @@ c     cut for ptl1min (leading jet)
         passcuts_user=.false.
         return
       endif
-

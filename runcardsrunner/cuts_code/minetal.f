@@ -8,4 +8,3 @@ c     cut on the minimum pseudorapidity of leptons
           endif
         endif
       enddo
-

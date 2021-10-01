@@ -26,4 +26,3 @@ c     cut on the rapidity of the two leading leptons
         passcuts_user=.false.
         return
       endif
-

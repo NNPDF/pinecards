@@ -25,6 +25,19 @@ pineappl_repo = "https://github.com/N3PDF/pineappl.git"
 
 
 def confirm(name):
+    """
+    Ask for the confirmation to install a given program.
+
+    Parameters
+    ----------
+        name : str
+            program name
+
+    Returns
+    -------
+        bool :
+            install the program?
+    """
     print(f"{name} not found")
     questions = [
         {
@@ -39,6 +52,14 @@ def confirm(name):
 
 
 def mg5amc():
+    """
+    Initialize `MadGraph5_aMC@NLO <https://code.launchpad.net/mg5amcnlo>`_.
+
+    Returns
+    -------
+        callable :
+            condition to check whether the main executable exists.
+    """
     # define availability condition
     condition = lambda: paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
 
@@ -61,6 +82,14 @@ def mg5amc():
 
 
 def cargo():
+    """
+    Initialize `Rust <https://www.rust-lang.org/>`_.
+
+    Returns
+    -------
+        str :
+            path to `cargo`
+    """
     # look for existing cargo
     cargo_exe = shutil.which("cargo")
 
@@ -86,6 +115,14 @@ def cargo():
 
 
 def pineappl():
+    """
+    Initialize `PineAPPL <https://github.com/N3PDF/pineappl>`_.
+
+    Returns
+    -------
+        callable :
+            condition to check whether `pineappl` and  `pineappl_capi` are available.
+    """
     # define availability condition
     condition = lambda: shutil.which("pineappl") is not None and pkgconfig.exists(
         "pineappl_capi"
@@ -126,11 +163,14 @@ def pineappl():
 
 
 def lhapdf():
+    """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
     paths.lhapdf_data.mkdir(parents=True, exist_ok=True)
     shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data)
 
 
 def update_environ():
+    """Adjust necessary environment files."""
+
     def prepend(name, value):
         os.environ[name] = str(value) + os.pathsep + os.environ[name]
 

@@ -115,6 +115,8 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "numpy": ("https://numpy.org/doc/stable", None),
+    "pygit2": ("https://www.pygit2.org/", None),
+    "pandas": ("https://pandas.pydata.org/docs/", None),
 }
 # -- Options for todo extension ----------------------------------------------
 

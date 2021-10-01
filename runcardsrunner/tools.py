@@ -264,7 +264,7 @@ def run_subprocess(*args, dest):
     return "\n".join(output)
 
 
-def set_grid_metadata(input_file, output_file, entries, entries_from_file):
+def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=None):
     """
     Set metadata on a pineappl grid stored in a file, and save in a new one.
 
@@ -280,6 +280,10 @@ def set_grid_metadata(input_file, output_file, entries, entries_from_file):
             mapping of key-value pairs, whose value are file paths of which
             storing the content
     """
+    if entries is None:
+        entries = {}
+    if entries_from_file is None:
+        entries_from_file = {}
     grid = pineappl.grid.Grid.read(str(input_file))
 
     for k, v in entries.items():

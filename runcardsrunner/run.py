@@ -12,16 +12,8 @@ from .external import mg5, yad
 @click.argument("dataset")
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def run(dataset, pdf):
-    """
-    Compute a dataset and compare using a given PDF.
+    """Compute a dataset and compare using a given PDF."""
 
-    Parameters
-    ----------
-        dataset : str
-            dataset name
-        pdf : str
-            pdf name
-    """
     dataset = pathlib.Path(dataset).name
     timestamp = None
 

@@ -2,6 +2,7 @@ import pathlib
 import time
 
 import click
+import lhapdf_management
 import rich
 
 from . import install, table, tools
@@ -26,6 +27,7 @@ def run(dataset, pdf):
         runner = mg5.Mg5(dataset, pdf)
 
     install_reqs(runner)
+    lhapdf_management.pdf_install(pdf)
     run_dataset(runner, dataset, pdf)
 
 
@@ -45,11 +47,9 @@ def run_dataset(runner, name, pdf):
     tools.print_time(t0, "Grid calculation")
 
     runner.run()
-    # we need results first because this may install the PDF set
-    results = runner.results()
     table.print_table(
         table.parse_pineappl_table(runner.generate_pineappl()),
-        results,
+        runner.results(),
         runner.dest,
     )
 

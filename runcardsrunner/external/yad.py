@@ -10,10 +10,6 @@ from . import interface
 
 
 class Yadism(interface.External):
-    def __init__(self, *args):
-        super().__init__(*args)
-        self.out = None
-
     @staticmethod
     def install():
         install.lhapdf()
@@ -28,16 +24,16 @@ class Yadism(interface.External):
             obs = yaml.safe_load(o)
 
         # run yadism
-        self.out = yadism.run_yadism(theory, obs)
+        out = yadism.run_yadism(theory, obs)
 
         # dump pineappl
-        self.out.dump_pineappl_to_file(
-            str(self.grid), next(iter(obs["observables"].keys()))
-        )
+        out.dump_pineappl_to_file(str(self.grid), next(iter(obs["observables"].keys())))
+        out.dump_yaml_to_file(self.grid.with_suffix(".yaml"))
 
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
-        pdf_out = self.out.apply_pdf_alphas_alphaqed_xir_xif(
+        out = yadism.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
+        pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
             pdf,
             lambda muR: lhapdf.mkAlphaS(self.pdf).alphasQ(muR),
             lambda _muR: 0,
@@ -48,7 +44,7 @@ class Yadism(interface.External):
 
         sv_pdf_out = []
         for xiR, xiF in tools.nine_points:
-            sv_point = self.out.apply_pdf_alphas_alphaqed_xir_xif(
+            sv_point = out.apply_pdf_alphas_alphaqed_xir_xif(
                 pdf,
                 lambda muR: lhapdf.mkAlphaS(self.pdf).alphasQ(muR),
                 lambda _muR: 0.0,

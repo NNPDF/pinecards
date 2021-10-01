@@ -153,6 +153,11 @@ class Mg5(interface.External):
     def generate_pineappl(self):
         pineappl = paths.pineappl_exe()
 
+        # if rerunning without regenerating, let's remove the already merged
+        # grid (it will be soon reobtained)
+        if self.timestamp is not None:
+            self.grid.unlink()
+
         # merge the final bins
         mg5_grids = " ".join(
             sorted(

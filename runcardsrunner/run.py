@@ -13,17 +13,27 @@ from .external import mg5, yad
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def run(dataset, pdf):
     dataset = pathlib.Path(dataset).name
+    timestamp = None
+
+    if "-" in dataset:
+        try:
+            dataset, timestamp = dataset.split("-")
+        except:
+            raise ValueError(
+                f"'{dataset}' not valid. '-' is only allowed once,"
+                " to separate dataset name from timestamp."
+            )
 
     rich.print(dataset)
-    if tools.avoid_recompute(dataset):
+    if timestamp is None and tools.avoid_recompute(dataset):
         return
 
     if tools.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")
-        runner = yad.Yadism(dataset, pdf)
+        runner = yad.Yadism(dataset, pdf, timestamp=timestamp)
     else:
         rich.print(f"Computing [blue]{dataset}[/]...")
-        runner = mg5.Mg5(dataset, pdf)
+        runner = mg5.Mg5(dataset, pdf, timestamp=timestamp)
 
     install_reqs(runner, pdf)
     run_dataset(runner, dataset, pdf)
@@ -39,6 +49,7 @@ def install_reqs(runner, pdf):
     install.update_environ()
     runner.install()
     install.pineappl()
+    lhapdf_management.pdf_update()
     lhapdf_management.pdf_install(pdf)
 
     tools.print_time(t0, "Installation")
@@ -49,7 +60,9 @@ def run_dataset(runner, name, pdf):
 
     tools.print_time(t0, "Grid calculation")
 
-    runner.run()
+    # if output folder specified, do not rerun
+    if runner.timestamp is None:
+        runner.run()
     table.print_table(
         table.parse_pineappl_table(runner.generate_pineappl()),
         runner.results(),

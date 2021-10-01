@@ -167,7 +167,7 @@ def compress(path):
     with open(path, "rb") as f:
         data = f.read()
 
-    compressed_path = path.parent / (path.name + ".lz4")
+    compressed_path = path.with_suffix(".pineappl.lz4")
     with lz4.frame.open(compressed_path, "wb") as f:
         f.write(data)
 

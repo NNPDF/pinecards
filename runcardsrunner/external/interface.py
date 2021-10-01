@@ -9,10 +9,17 @@ from .. import paths, tools
 
 
 class External(abc.ABC):
-    def __init__(self, name, pdf):
+    def __init__(self, name, pdf, timestamp=None):
         self.name = name
         self.pdf = pdf
-        self.dest = tools.create_folder(self.name)
+        self.timestamp = timestamp
+
+        if timestamp is None:
+            self.dest = tools.create_folder(self.name)
+        else:
+            self.dest = paths.root / (self.name + "-" + self.timestamp)
+            if not self.grid.exists():
+                tools.decompress(self.grid.with_suffix(".pineappl.lz4"))
 
     @property
     def source(self):

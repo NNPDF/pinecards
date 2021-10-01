@@ -3,12 +3,22 @@ import shutil
 import subprocess
 
 import pygit2
-from pkgconfig.pkgconfig import exists
 
 from .. import paths, tools
 
 
 class External(abc.ABC):
+    """
+    Interface class for external providers.
+
+    Parameters
+    ----------
+        name : str
+            dataset name
+        pdf : str
+            PDF name
+    """
+
     def __init__(self, name, pdf):
         self.name = name
         self.pdf = pdf
@@ -16,40 +26,45 @@ class External(abc.ABC):
 
     @property
     def source(self):
+        """Runcard base directory."""
         return paths.runcards / self.name
 
     @property
     def grid(self):
+        """Target PineAPPL grid name."""
         return self.dest / f"{self.name}.pineappl"
 
     @property
     def gridtmp(self):
+        """Intermediate PineAPPL grid name."""
         return self.dest / f"{self.name}.pineappl.tmp"
 
     def update_with_tmp(self):
+        """Move intermediate grid to final position."""
         shutil.move(self.gridtmp, self.grid)
 
     @staticmethod
     def install():
-        pass
+        """Install all needed programs."""
 
     @abc.abstractmethod
     def run(self):
-        pass
+        """Execute the program."""
 
     @abc.abstractproperty
     def results(self):
-        pass
+        """Results as computed by the program."""
 
-    @abc.abstractproperty
+    @abc.abstractmethod
     def generate_pineappl(self):
-        pass
+        """Generate PineAPPL output."""
 
     @abc.abstractmethod
     def collect_versions(self):
-        pass
+        """Collect necessary version informations."""
 
     def annotate_versions(self):
+        """Add version informations as meta data."""
         results_log = self.dest / "results.log"
         pineappl = paths.pineappl_exe()
 
@@ -74,4 +89,4 @@ class External(abc.ABC):
 
     @abc.abstractmethod
     def postprocess(self):
-        pass
+        """Postprocess grid."""

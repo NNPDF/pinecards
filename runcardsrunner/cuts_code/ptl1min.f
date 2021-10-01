@@ -11,4 +11,3 @@ c     cut for ptl1min (leading lepton)
         passcuts_user=.false.
         return
       endif
-

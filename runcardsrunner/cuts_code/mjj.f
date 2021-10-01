@@ -3,4 +3,3 @@ c     cut on the invariant mass of the leading jets
         passcuts_user=.false.
         return
       endif
-

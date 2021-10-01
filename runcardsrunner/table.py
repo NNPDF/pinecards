@@ -1,7 +1,6 @@
-import subprocess
-import itertools
 import inspect
-
+import itertools
+import subprocess
 
 import pandas as pd
 

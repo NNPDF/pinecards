@@ -38,4 +38,3 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           enddo
         endif
       enddo
-

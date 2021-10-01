@@ -2,7 +2,6 @@ import pathlib
 import time
 
 import click
-import lhapdf_management
 import rich
 
 from . import install, table, tools
@@ -26,17 +25,21 @@ def run(dataset, pdf):
         rich.print(f"Computing [blue]{dataset}[/]...")
         runner = mg5.Mg5(dataset, pdf)
 
-    install_reqs(runner)
-    lhapdf_management.pdf_install(pdf)
+    install_reqs(runner, pdf)
     run_dataset(runner, dataset, pdf)
 
 
-def install_reqs(runner):
+def install_reqs(runner, pdf):
+    # lhapdf_management determine paths at import time, so it is important to
+    # late import it, in particular after `.path` module has been imported
+    import lhapdf_management
+
     t0 = time.perf_counter()
 
     install.update_environ()
     runner.install()
     install.pineappl()
+    lhapdf_management.pdf_install(pdf)
 
     tools.print_time(t0, "Installation")
 

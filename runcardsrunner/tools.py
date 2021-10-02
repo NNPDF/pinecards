@@ -294,3 +294,52 @@ def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=N
             grid.set_key_value(k, fd.read())
 
     grid.write(str(output_file))
+
+
+def common_substring(s1, s2, *sn):
+    """
+    Return the longest common part of two iterables, starting from the begininng
+
+    Parameters
+    ----------
+        s1 : sequence
+        s2 : sequence
+
+    Returns
+    -------
+        sequence
+            longest common subsequence
+
+    Examples
+    --------
+
+    >>> common_substring("test test", "test toast")
+    "test t"
+    >>> common_substring("test test", "test test test")
+    "test test"
+    >>> common_substring("test test", "")
+    ""
+    >>> common_substring("test test", "test test test", "test")
+    "test"
+    >>> common_substring("test test", "test test test", "test toast")
+    "test t"
+
+    """
+    try:
+        # since it is common to all, we can take the matching chunk from the first
+        return s1[
+            # stop at first non-matching element
+            : next(
+                n
+                # iterate over all elements
+                for n, (c1, c2, *cn) in enumerate(zip(s1, s2, *sn))
+                # if they are all equal keep going
+                if len(set([c1, c2, *cn])) > 1
+            )
+        ]
+    except StopIteration:
+        # if they match up to the end of one of the inputs, return the shortest
+        ss = (s1, s2, *sn)
+        # sort by length and take the first
+        shortest = min(enumerate(len(s) for s in ss), key=lambda el: el[1])[0]
+        return ss[shortest]

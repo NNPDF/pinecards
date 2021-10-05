@@ -86,15 +86,6 @@ class External(abc.ABC):
             show_commit_oid_as_fallback=True,
         )
 
-        # entries = []
-        # for name, version in versions.items():
-        # entries += ["--entry", name, version]
-        # entries += ["--entry", "lumi_id_types", "pdg_mc_ids"]
-        # subprocess.run(
-        #     f"{pineappl} set {self.grid} {self.gridtmp}".split()
-        #     + f"--entry_from_file results {results_log}".split()
-        #     + entries
-        # )
         entries = {}
         entries.update(versions)
         entries["lumi_id_types"] = "pdg_mc_ids"

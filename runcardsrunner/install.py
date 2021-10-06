@@ -172,6 +172,8 @@ def update_environ():
     """Adjust necessary environment files."""
 
     def prepend(name, value):
+        if name not in os.environ:
+            os.environ[name] = ""
         os.environ[name] = str(value) + os.pathsep + os.environ[name]
 
     pyver = ".".join(sys.version.split(".")[:2])

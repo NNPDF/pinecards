@@ -106,11 +106,6 @@ if __name__ == "__main__":
 
         subprocess.run("poetry install".split())
         if sys.version_info < (3, 8):
-            env_path = (
-                subprocess.run("poetry env info -p".split(), capture_output=True)
-                .stdout.decode()
-                .strip()
-            )
-            python_exe = pathlib.Path(env_path).absolute() / "bin" / "python"
+            python_exe = sys.executable
             subprocess.run(f"{python_exe} -m pip install cached_property".split())
         subprocess.run("pre-commit install".split())

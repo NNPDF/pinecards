@@ -18,13 +18,11 @@ class Yadism(interface.External):
         print("Running yadism...")
 
         # load runcards
-        with open(paths.pkg / "theory.yaml") as t:
-            theory = yaml.safe_load(t)
         with open(paths.runcards / self.name / "observable.yaml") as o:
             obs = yaml.safe_load(o)
 
         # run yadism
-        out = yadism.run_yadism(theory, obs)
+        out = yadism.run_yadism(self.theory, obs)
 
         # dump pineappl
         out.dump_pineappl_to_file(str(self.grid), next(iter(obs["observables"].keys())))

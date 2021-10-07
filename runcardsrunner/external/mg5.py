@@ -58,6 +58,7 @@ class Mg5(interface.External):
 
         # TODO: write a list with variables that should be replaced in the launch file; for the time
         # being we create the file here, but in the future it should be read from the theory database
+        # EDIT: now available in self.theory
         variables = json.loads((paths.pkg / "variables.json").read_text())
 
         # replace the variables with their values

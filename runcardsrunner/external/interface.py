@@ -15,6 +15,8 @@ class External(abc.ABC):
     ----------
         name : str
             dataset name
+        theory : dict
+            theory dictionary
         pdf : str
             PDF name
         timestamp : str
@@ -22,8 +24,9 @@ class External(abc.ABC):
 
     """
 
-    def __init__(self, name, pdf, timestamp=None):
+    def __init__(self, name, theory, pdf, timestamp=None):
         self.name = name
+        self.theory = theory
         self.pdf = pdf
         self.timestamp = timestamp
 

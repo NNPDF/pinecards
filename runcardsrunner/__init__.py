@@ -3,7 +3,7 @@ __version__ = "0.0.0"
 import click
 
 from .merge import merge
-from .run import subcommand as sc_run
+from .runm import subcommand as sc_run
 from .update import update
 
 

@@ -232,12 +232,8 @@ class Mg5(interface.External):
             os.environ["GRID"] = str(self.grid)
             subprocess.run("./postrun.sh", cwd=self.dest)
 
-        with lz4.frame.open(
-            self.grid.with_suffix(self.grid.suffix + ".lz4"),
-            "wb",
-            compression_level=lz4.frame.COMPRESSIONLEVEL_MAX,
-        ) as fd:
-            fd.write(self.grid.read_bytes())
+        tools.compress(self.grid)
+        self.grid.unlink()
 
 
 def find_marker_position(insertion_marker, contents):

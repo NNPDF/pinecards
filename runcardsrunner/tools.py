@@ -165,12 +165,11 @@ def compress(path):
         pathlib.Path
             path to compressed file
     """
-    with open(path, "rb") as f:
-        data = f.read()
-
     compressed_path = path.with_suffix(".pineappl.lz4")
-    with lz4.frame.open(compressed_path, "wb") as f:
-        f.write(data)
+    with lz4.frame.open(
+        compressed_path, "wb", compression_level=lz4.frame.COMPRESSIONLEVEL_MAX
+    ) as fd:
+        fd.write(path.read_bytes())
 
     return compressed_path
 

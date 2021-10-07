@@ -6,7 +6,6 @@ import itertools
 import subprocess
 import time
 
-import InquirerPy
 import lz4.frame
 import pineappl
 import pygit2
@@ -77,37 +76,6 @@ def is_dis(name):
 #     ans = input("> ")
 #     readline.set_completer()
 #     return ans.split()
-
-
-def avoid_recompute(name):
-    """
-    Ask the user whether he really wants to recompute the dataset.
-
-    Parameters
-    ----------
-        name : str
-            dataset name
-
-    Returns
-    -------
-        bool :
-            do NOT recompute?
-    """
-    for p in paths.root.iterdir():
-        if p.is_dir() and name in p.name:
-            rich.print(
-                f"[i grey50]dataset already in '[/][yellow]{p.name}[i grey50]'[/]"
-            )
-            questions = [
-                {
-                    "type": "confirm",
-                    "name": "recompute",
-                    "message": f"Do you want to recompute '{name}'?\n",
-                }
-            ]
-            answers = InquirerPy.prompt(questions)
-            return not answers["recompute"]
-    return False
 
 
 def create_folder(name):

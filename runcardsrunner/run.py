@@ -27,8 +27,6 @@ def run(dataset, pdf):
             )
 
     rich.print(dataset)
-    if timestamp is None and tools.avoid_recompute(dataset):
-        return
 
     if tools.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")

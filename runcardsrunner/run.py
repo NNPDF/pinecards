@@ -3,17 +3,48 @@ import time
 
 import click
 import rich
+import yaml
 
 from . import install, table, tools
 from .external import mg5, yad
 
 
-@click.command()
+@click.command("run")
 @click.argument("dataset")
+@click.argument("theory_path", type=click.Path(exists=True))
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
-def run(dataset, pdf):
-    """Compute a dataset and compare using a given PDF."""
+def subcommand(dataset, theory_path, pdf):
+    """
+    Compute a dataset and compare using a given PDF.
 
+    Parameters
+    ----------
+        dataset : str
+            dataset name
+        theory_path : str
+            path to theory runcard
+        pdf : str
+            pdf name
+    """
+    # read theory card from file
+    with open(theory_path) as f:
+        theory_card = yaml.safe_load(f)
+    run(dataset, theory_card, pdf)
+
+
+def run(dataset, theory, pdf):
+    """
+    Compute a dataset and compare using a given PDF.
+
+    Parameters
+    ----------
+        dataset : str
+            dataset name
+        theory : dict
+            theory dictionary
+        pdf : str
+            pdf name
+    """
     dataset = pathlib.Path(dataset).name
     timestamp = None
 
@@ -30,10 +61,10 @@ def run(dataset, pdf):
 
     if tools.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")
-        runner = yad.Yadism(dataset, pdf, timestamp=timestamp)
+        runner = yad.Yadism(dataset, theory, pdf, timestamp=timestamp)
     else:
         rich.print(f"Computing [blue]{dataset}[/]...")
-        runner = mg5.Mg5(dataset, pdf, timestamp=timestamp)
+        runner = mg5.Mg5(dataset, theory, pdf, timestamp=timestamp)
 
     install_reqs(runner, pdf)
     run_dataset(runner)
@@ -41,7 +72,7 @@ def run(dataset, pdf):
 
 def install_reqs(runner, pdf):
     """
-    Execute runner and apply common post process.
+    Install requirements.
 
     Parameters
     ----------
@@ -52,7 +83,7 @@ def install_reqs(runner, pdf):
     """
     # lhapdf_management determine paths at import time, so it is important to
     # late import it, in particular after `.path` module has been imported
-    import lhapdf_management  # pylint: disable=import-outside-toplevel
+    import lhapdf_management  # pylint: disable=import-error,import-outside-toplevel
 
     t0 = time.perf_counter()
 

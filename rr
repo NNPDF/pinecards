@@ -69,7 +69,24 @@ def repo_management(pipx, user):
         subprocess.run(f"pip install{user} pre-commit".split())
 
 
+def update_path():
+    """
+    Since in some environments the User Scripts Directory (PEP-370) is not part
+    of the path, let's include it to make user to be able to run `poetry`.
+
+    (for `pre-commit` the user will have to do on its own, since it's not run by
+    this script)
+    """
+    scripts_base_dir = (
+        site.getuserbase() + "/bin"
+        if not sys.platform.startswith("win")
+        else r"\Scripts"
+    )
+    os.environ["PATH"] += os.pathsep + str(scripts_base_dir)
+
+
 if __name__ == "__main__":
+    update_path()
     if sys.argv[1] != "install":
         subprocess.run("poetry run rr".split() + sys.argv[1:])
     else:
@@ -87,12 +104,13 @@ if __name__ == "__main__":
         user = " --user" if args.user else ""
         repo_management(pipx, user)
 
-        scripts_base_dir = (
-            site.getuserbase() + "/bin"
-            if not sys.platform.startswith("win")
-            else r"\Scripts"
-        )
-        os.environ["PATH"] += os.pathsep + str(scripts_base_dir)
-
         subprocess.run("poetry install".split())
+        if sys.version_info < (3, 8):
+            env_path = (
+                subprocess.run("poetry env info -p".split(), capture_output=True)
+                .stdout.decode()
+                .strip()
+            )
+            python_exe = pathlib.Path(env_path).absolute() / "bin" / "python"
+            subprocess.run(f"{python_exe} -m pip install cached_property".split())
         subprocess.run("pre-commit install".split())

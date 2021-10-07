@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tarfile
 
 import pkgconfig
 import pygit2
@@ -104,6 +105,9 @@ def pineappl():
 
     print("Installing...")
 
+    if not pkgconfig.exists("lhapdf"):
+        lhapdf()
+
     try:
         repo = pygit2.Repository(paths.pineappl)
         tools.git_pull(repo)
@@ -130,10 +134,35 @@ def pineappl():
     return condition()
 
 
-def lhapdf():
+def lhapdf_conf():
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
     paths.lhapdf_data.mkdir(parents=True, exist_ok=True)
     shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data)
+
+
+def lhapdf():
+    """Install `LHAPDF <https://lhapdf.hepforge.org/>`_ C++ library."""
+    version = "LHAPDF-6.4.0"
+    lhapdf_tar = paths.lhapdf_dir / (version + ".tar.gz")
+    lhapdf_code = paths.lhapdf_dir / version
+
+    paths.lhapdf_dir.mkdir(exist_ok=True)
+    with requests.get(
+        f"https://lhapdf.hepforge.org/downloads/?f={lhapdf_tar.name}"
+    ) as r:
+        with open(lhapdf_tar, "wb") as f:
+            f.write(r.content)
+
+    with tarfile.open(lhapdf_tar, "r:gz") as tar:
+        tar.extractall(paths.lhapdf_dir)
+
+    env = os.environ.copy()
+    env["PYTHON"] = sys.executable
+    subprocess.run(
+        f"./configure --prefix={paths.prefix}".split(), env=env, cwd=lhapdf_code
+    )
+    subprocess.run("make", cwd=lhapdf_code)
+    subprocess.run("make install".split(), cwd=lhapdf_code)
 
 
 def update_environ():

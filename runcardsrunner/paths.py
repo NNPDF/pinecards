@@ -23,11 +23,12 @@ mg5amc = prefix / "mg5amc"
 mg5_exe = mg5amc / "bin" / "mg5_aMC"
 pineappl = prefix / "pineappl"
 cargo = prefix / "cargo"
+lhapdf_dir = prefix / "lhapdf"
 pineappl_exe = lambda: pathlib.Path(shutil.which("pineappl"))
 
 # tmp
 rust_init = pathlib.Path("/tmp/rustup-init")
 
-# lhapdf
+# lhapdf data
 lhapdf_data = prefix / "share" / "LHAPDF"
 lhapdf.pathsPrepend(str(lhapdf_data))

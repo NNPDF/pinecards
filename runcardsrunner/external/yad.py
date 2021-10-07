@@ -12,7 +12,7 @@ from . import interface
 class Yadism(interface.External):
     @staticmethod
     def install():
-        install.lhapdf()
+        install.lhapdf_conf()
 
     def run(self):
         print("Running yadism...")

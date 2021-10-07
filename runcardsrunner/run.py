@@ -29,10 +29,10 @@ def subcommand(dataset, theory_path, pdf):
     # read theory card from file
     with open(theory_path) as f:
         theory_card = yaml.safe_load(f)
-    run(dataset, theory_card, pdf)
+    main(dataset, theory_card, pdf)
 
 
-def run(dataset, theory, pdf):
+def main(dataset, theory, pdf):
     """
     Compute a dataset and compare using a given PDF.
 

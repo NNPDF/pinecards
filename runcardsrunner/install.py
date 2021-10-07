@@ -3,7 +3,6 @@ import shutil
 import subprocess
 import sys
 
-import InquirerPy
 import pkgconfig
 import pygit2
 import requests
@@ -24,33 +23,6 @@ quit
 pineappl_repo = "https://github.com/N3PDF/pineappl.git"
 
 
-def confirm(name):
-    """
-    Ask for the confirmation to install a given program.
-
-    Parameters
-    ----------
-        name : str
-            program name
-
-    Returns
-    -------
-        bool :
-            install the program?
-    """
-    print(f"{name} not found")
-    questions = [
-        {
-            "type": "confirm",
-            "name": "install",
-            "message": "Do you want to install it?",
-        }
-    ]
-    answers = InquirerPy.prompt(questions)
-
-    return answers["install"]
-
-
 def mg5amc():
     """
     Initialize `MadGraph5_aMC@NLO <https://code.launchpad.net/mg5amcnlo>`_.
@@ -66,8 +38,6 @@ def mg5amc():
     if condition():
         print("✓ Found mg5amc")
         return True
-    if not confirm("mg5amc"):
-        return False
 
     print("Installing...")
 
@@ -131,8 +101,6 @@ def pineappl():
     if condition():
         print("✓ Found pineappl")
         return True
-    if not confirm("pineappl"):
-        return False
 
     print("Installing...")
 

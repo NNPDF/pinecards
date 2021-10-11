@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""
+Zero-dependency bootstrap script
+"""
+import argparse
+import os
+import pathlib
+import shutil
+import site
+import subprocess
+import sys
+
+here = pathlib.Path(".").parent.absolute()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    silence = parser.add_mutually_exclusive_group()
+    silence.add_argument(
+        "-y", "--yes", action="store_true", help="yes to every questions"
+    )
+    silence.add_argument(
+        "-n", "--no", action="store_true", help="no to every questions"
+    )
+    silence.add_argument(
+        "--default", action="store_true", help="default to every questions"
+    )
+
+    parser.add_argument(
+        "--user",
+        action="store_true",
+        help="install user wide (only relevant for pip installation)",
+    )
+
+    return parser.parse_args()
+
+
+def load_options(yes, no, default):
+    yes_choice = "[Y/n]"
+    no_choice = "[y/N]"
+
+    def question(input_text, default_yes):
+        if not any([yes, no, default]):
+            choice = yes_choice if default_yes else no_choice
+            answer = input(f"{input_text} {choice} ")
+        else:
+            if yes:
+                answer = "y"
+            elif no:
+                answer = "n"
+            else:
+                answer = "y" if default_yes else "n"
+        return answer
+
+    return question
+
+
+def repo_management(pipx, user):
+    if pipx:
+        print("installing management dependecies with pipx...")
+        subprocess.run("pipx install poetry".split())
+        subprocess.run("pipx inject poetry poetry-dynamic-versioning".split())
+        subprocess.run("pipx install pre-commit".split())
+    else:
+        print("installing management dependecies with pip...")
+        install_poetry_url = "https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py"
+        pip = f"{sys.executable} -m pip"
+
+        proc = subprocess.run(
+            f"curl -sSL {install_poetry_url}".split(), capture_output=True
+        )
+        subprocess.run(f"{sys.executable} -".split(), input=proc.stdout)
+        subprocess.run(f"{pip} install{user} poetry-dynamic-versioning".split())
+        subprocess.run(f"{pip} install{user} pre-commit".split())
+
+
+def update_path():
+    """
+    Since in some environments the User Scripts Directory (PEP-370) is not part
+    of the path, let's include it to make user to be able to run `poetry`.
+
+    (for `pre-commit` the user will have to do on its own, since it's not run by
+    this script)
+    """
+    scripts_base_dir = (
+        site.getuserbase() + "/bin"
+        if not sys.platform.startswith("win")
+        else r"\Scripts"
+    )
+    os.environ["PATH"] += os.pathsep + str(scripts_base_dir)
+
+
+if __name__ == "__main__":
+    update_path()
+    if sys.argv[1] != "install":
+        subprocess.run("poetry run rr".split() + sys.argv[1:])
+    else:
+        sys.argv = [sys.argv[0]] + sys.argv[2:]
+        args = parse_args()
+
+        question = load_options(args.yes, args.no, args.default)
+
+        if shutil.which("pipx") is not None:
+            pipx_answer = question("Do you want to install with pipx?", False)
+        else:
+            pipx_answer = "no"
+
+        pipx = pipx_answer.lower() in ["y", "yes"]
+        user = " --user" if args.user else ""
+        repo_management(pipx, user)
+
+        subprocess.run("poetry install".split())
+        if sys.version_info < (3, 8):
+            env_path = (
+                subprocess.run("poetry env info -p".split(), capture_output=True)
+                .stdout.decode()
+                .strip()
+            )
+            python_exe = pathlib.Path(env_path).absolute() / "bin" / "python"
+            subprocess.run(f"{python_exe} -m pip install cached_property".split())
+        subprocess.run("pre-commit install".split())

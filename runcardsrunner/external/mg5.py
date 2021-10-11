@@ -110,7 +110,7 @@ class Mg5(interface.External):
         enable_patches_pattern = re.compile(r"^#enable_patch (.*)")
         enable_patches_list = []
         for line in launch.splitlines():
-            m = re.fullmatch(user_taumin_pattern, line)
+            m = re.fullmatch(enable_patches_pattern, line)
             if m is not None:
                 enable_patches_list.append(m[1])
 

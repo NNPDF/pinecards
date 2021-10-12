@@ -4,11 +4,10 @@ import re
 import shutil
 import subprocess
 
-import lz4.frame
 import numpy as np
 import pandas as pd
 
-from .. import install, paths, tools
+from .. import install, log, paths, tools
 from . import interface
 
 
@@ -28,7 +27,7 @@ class Mg5(interface.External):
         output_file.write_text(output)
 
         # create output folder
-        output_log = tools.run_subprocess(
+        output_log = log.subprocess(
             [str(paths.mg5_exe), str(output_file)], dest=self.dest
         )
         (self.dest / "output.log").write_text(output_log)
@@ -129,7 +128,7 @@ class Mg5(interface.External):
                 )
 
         # launch run
-        launch_log = tools.run_subprocess(
+        launch_log = log.subprocess(
             [str(paths.mg5_exe), str(launch_file)], dest=self.dest
         )
         (self.dest / "launch.log").write_text(launch_log)

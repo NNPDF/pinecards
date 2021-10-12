@@ -59,7 +59,7 @@ def main(dataset, theory, pdf):
 
     rich.print(dataset)
 
-    if tools.is_dis(dataset):
+    if yad.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")
         runner = yad.Yadism(dataset, theory, pdf, timestamp=timestamp)
     else:

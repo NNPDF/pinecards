@@ -1,9 +1,5 @@
 import datetime
 import itertools
-
-# import re
-# import readline
-import subprocess
 import time
 
 import lz4.frame
@@ -13,72 +9,8 @@ import rich
 
 from . import paths
 
-# from difflib import SequenceMatcher
 
-
-# def similar(a, b):
-#     """
-#     Compare strings
-
-#     .. todo::
-
-#         use to suggest dataset in prompt
-#     """
-#     return SequenceMatcher(None, a, b).ratio()
-
-# COMMANDS = ["extra", "extension", "stuff", "errors", "email", "foobar", "foo"]
-
-
-# re_space = re.compile(".*\s+$", re.M)
-
-
-def is_dis(name):
-    """
-    Is this a DIS dataset, i.e. is yadism needed to run?
-
-    The decision is based on the existance of the `observable.yaml` file.
-
-    Parameters
-    ----------
-        name : str
-            dataset name
-    """
-    return (paths.runcards / name / "observable.yaml").exists()
-
-
-# class Completer:
-#     def __init__(self, tokens):
-#         self.tokens = tokens
-
-#     def complete(self, text, state):
-#         "Generic readline completion entry point."
-#         buffer = readline.get_line_buffer()
-#         line = readline.get_line_buffer().split()
-#         # show all commands
-#         if not line:
-#             return [c + " " for c in self.tokens][state]
-#         # account for last argument ending in a space
-#         if re_space.match(buffer):
-#             line.append("")
-#         # resolve command to the implementation function
-#         token = line[-1].strip()
-#         results = [c + " " for c in self.tokens if c.startswith(token)] + [None]
-#         return results[state]
-
-
-# def select_datasets(datasets_list):
-#     comp = Completer(datasets_list)
-#     # we want to treat '/' as part of a word, so override the delimiters
-#     readline.set_completer_delims(" \t\n;")
-#     readline.parse_and_bind("tab: complete")
-#     readline.set_completer(comp.complete)
-#     rich.print("[i magenta]Enter dataset name:")
-#     ans = input("> ")
-#     readline.set_completer()
-#     return ans.split()
-
-
-def create_folder(name):
+def create_output_folder(name):
     """
     Create output folder.
 
@@ -203,32 +135,6 @@ def git_pull(repo, remote_name="origin", branch="master"):
                 repo.head.set_target(remote_master_id)
             else:
                 raise AssertionError(f"Impossible to pull git repo '{repo.path}'")
-
-
-def run_subprocess(*args, dest):
-    """
-    Wrapper to :class:`subprocess.Popen` to print the output to screen and capture it.
-
-    Returns
-    -------
-        str :
-            output
-    """
-    p = subprocess.Popen(
-        *args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=dest
-    )
-    output = []
-
-    while True:
-        # returns None while subprocess is running
-        retcode = p.poll()
-        line = p.stdout.readline().decode()[:-1]
-        if retcode is not None:
-            break
-        print(line)
-        output.append(line)
-
-    return "\n".join(output)
 
 
 def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=None):

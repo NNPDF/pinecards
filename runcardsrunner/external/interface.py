@@ -1,6 +1,5 @@
 import abc
 import shutil
-import subprocess
 
 import pygit2
 
@@ -31,7 +30,7 @@ class External(abc.ABC):
         self.timestamp = timestamp
 
         if timestamp is None:
-            self.dest = tools.create_folder(self.name)
+            self.dest = tools.create_output_folder(self.name)
         else:
             self.dest = paths.root / (self.name + "-" + self.timestamp)
             if not self.grid.exists():
@@ -79,6 +78,7 @@ class External(abc.ABC):
     def annotate_versions(self):
         """Add version informations as meta data."""
         results_log = self.dest / "results.log"
+        # TODO: add pineappl version
         pineappl = paths.pineappl_exe()
 
         versions = {}

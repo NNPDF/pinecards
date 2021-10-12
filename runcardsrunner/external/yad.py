@@ -3,10 +3,25 @@ from functools import reduce
 import lhapdf
 import pandas as pd
 import yadism
+import yadism.output
 import yaml
 
 from .. import install, paths, table, tools
 from . import interface
+
+
+def is_dis(name):
+    """
+    Is this a DIS dataset, i.e. is yadism needed to run?
+
+    The decision is based on the existance of the `observable.yaml` file.
+
+    Parameters
+    ----------
+        name : str
+            dataset name
+    """
+    return (paths.runcards / name / "observable.yaml").exists()
 
 
 class Yadism(interface.External):
@@ -30,7 +45,7 @@ class Yadism(interface.External):
 
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
-        out = yadism.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
+        out = yadism.output.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
         pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
             pdf,
             lambda muR: lhapdf.mkAlphaS(self.pdf).alphasQ(muR),

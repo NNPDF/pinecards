@@ -1,5 +1,7 @@
 import abc
+import os
 import shutil
+import subprocess
 
 import pygit2
 
@@ -97,6 +99,14 @@ class External(abc.ABC):
         )
         self.update_with_tmp()
 
-    @abc.abstractmethod
     def postprocess(self):
         """Postprocess grid."""
+        if os.access((self.source / "postrun.sh"), os.X_OK):
+            shutil.copy2(self.source / "postrun.sh", self.dest)
+            os.environ["GRID"] = str(self.grid)
+            subprocess.run("./postrun.sh", cwd=self.dest)
+
+        # compress
+        compressed_path = tools.compress(self.grid)
+        if compressed_path.exists():
+            self.grid.unlink()

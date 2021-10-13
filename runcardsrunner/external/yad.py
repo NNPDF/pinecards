@@ -88,9 +88,3 @@ class Yadism(interface.External):
 
     def collect_versions(self):
         return {}
-
-    def postprocess(self):
-        # compress
-        compressed_path = tools.compress(self.grid)
-        if compressed_path.exists():
-            self.grid.unlink()

@@ -1,13 +1,11 @@
 import json
-import os
 import re
-import shutil
 import subprocess
 
 import numpy as np
 import pandas as pd
 
-from .. import install, log, paths, tools
+from .. import install, log, paths
 from . import interface
 
 
@@ -225,15 +223,6 @@ class Mg5(interface.External):
         )
         versions["mg5amc_repo"] = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)[1]
         return versions
-
-    def postprocess(self):
-        if os.access((self.source / "postrun.sh"), os.X_OK):
-            shutil.copy2(self.source / "postrun.sh", self.dest)
-            os.environ["GRID"] = str(self.grid)
-            subprocess.run("./postrun.sh", cwd=self.dest)
-
-        tools.compress(self.grid)
-        self.grid.unlink()
 
 
 def find_marker_position(insertion_marker, contents):

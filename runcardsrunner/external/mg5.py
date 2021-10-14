@@ -98,7 +98,8 @@ class Mg5(interface.External):
             )
             (self.dest / "set_tau_min.patch").write_text(set_tau_min_patch)
             subprocess.run(
-                f"patch -p1 -d '{self.mg5_dir}'".split(),
+                f"patch -p1".split(),
+                cwd=self.mg5_dir,
                 input=set_tau_min_patch,
                 text=True,
             )
@@ -120,7 +121,8 @@ class Mg5(interface.External):
                         f"Patch '{patch}' requested, but does not exist in patches folder"
                     )
                 subprocess.run(
-                    f"patch -p1 -d '{self.mg5_dir}'".split(),
+                    f"patch -p1".split(),
+                    cwd=self.mg5_dir,
                     input=patch_file.read_text(),
                     text=True,
                 )

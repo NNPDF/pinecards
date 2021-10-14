@@ -34,6 +34,11 @@ pylint = "^2.11.1"
 [tool.poetry.scripts]
 rr = "runcardsrunner:cli"
 
+[tool.poe.tasks]
+lint = "pylint runcardsrunner"
+ipy = "ipython"
+test-mg5 = "rr run TEST_RUN_SH theories/theory_200.yaml"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

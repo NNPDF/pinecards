@@ -5,7 +5,7 @@ import subprocess
 import numpy as np
 import pandas as pd
 
-from .. import install, log, paths
+from .. import install, log, paths, tools
 from . import interface
 
 
@@ -97,12 +97,7 @@ class Mg5(interface.External):
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
             (self.dest / "set_tau_min.patch").write_text(set_tau_min_patch)
-            subprocess.run(
-                f"patch -p1".split(),
-                cwd=self.mg5_dir,
-                input=set_tau_min_patch,
-                text=True,
-            )
+            tools.patch(set_tau_min_patch, self.mg5_dir)
 
         # parse launch file for other patches
         enable_patches_pattern = re.compile(r"^#enable_patch (.*)")
@@ -120,12 +115,7 @@ class Mg5(interface.External):
                     raise ValueError(
                         f"Patch '{patch}' requested, but does not exist in patches folder"
                     )
-                subprocess.run(
-                    f"patch -p1".split(),
-                    cwd=self.mg5_dir,
-                    input=patch_file.read_text(),
-                    text=True,
-                )
+                tools.patch(patch_file.read_text(), self.mg5_dir)
 
         # launch run
         launch_log = log.subprocess(

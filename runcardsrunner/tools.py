@@ -1,5 +1,6 @@
 import datetime
 import itertools
+import subprocess
 import time
 
 import lz4.frame
@@ -98,6 +99,12 @@ def decompress(path):
         f.write(data)
 
     return decompressed_path
+
+
+def patch(patch, base_dir="."):
+    subprocess.run(
+        "patch -p1".split(), cwd=base_dir, input=patch, text=True, check=True
+    )
 
 
 three_points = [0.5, 1.0, 2.0]

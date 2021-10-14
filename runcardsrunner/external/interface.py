@@ -65,7 +65,7 @@ class External(abc.ABC):
     def run(self):
         """Execute the program."""
 
-    @abc.abstractproperty
+    @abc.abstractmethod
     def results(self):
         """Results as computed by the program."""
 
@@ -81,7 +81,7 @@ class External(abc.ABC):
         """Add version informations as meta data."""
         results_log = self.dest / "results.log"
         # TODO: add pineappl version
-        pineappl = paths.pineappl_exe()
+        #  pineappl = paths.pineappl_exe()
 
         versions = {}
         versions["runcard_gitversion"] = pygit2.Repository(paths.root).describe(
@@ -104,7 +104,7 @@ class External(abc.ABC):
         if os.access((self.source / "postrun.sh"), os.X_OK):
             shutil.copy2(self.source / "postrun.sh", self.dest)
             os.environ["GRID"] = str(self.grid)
-            subprocess.run("./postrun.sh", cwd=self.dest)
+            subprocess.run("./postrun.sh", cwd=self.dest, check=True)
 
         # compress
         compressed_path = tools.compress(self.grid)

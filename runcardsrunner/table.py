@@ -2,9 +2,10 @@ import inspect
 import itertools
 import subprocess
 
-import lhapdf
+#  import lhapdf
 import pandas as pd
-import pineappl
+
+#  import pineappl
 
 
 def compute_data(grid, pdf_name):
@@ -23,7 +24,7 @@ def compute_data(grid, pdf_name):
         list(str) :
             (essential) output splitted by line
     """
-    pdf = lhapdf.mkPDF(pdf_name)
+    #  pdf = lhapdf.mkPDF(pdf_name)
     #  TODO: is_dis and scale variations still missing
     #  grid_loaded = pineappl.grid.Grid.read(str(grid))
     #  if True:  # is dis

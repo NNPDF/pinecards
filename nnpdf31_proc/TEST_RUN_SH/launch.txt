@@ -23,6 +23,8 @@ set ptl = 25.0
 set etal = 2.5
 set mll_sf = 116
 #user_defined_cut set mmllmax = 1500.0
+#user_defined_tau_min 116.0
+#enable_patch change_etaj_to_rapj
 set req_acc_FO 0.1
 set pineappl True
 done

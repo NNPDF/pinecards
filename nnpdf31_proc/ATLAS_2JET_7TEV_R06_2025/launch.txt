@@ -23,7 +23,7 @@ set ptj = 50.0
 #user_defined_cut set ptj1min = 100.0
 #user_defined_cut set atlas_2jet_7tev_r06_2025 = True
 #user_defined_tau_min 1310.0
-# `change_etaj_to_rapj.patch` changes the following to rapidity instead of pseudo-rapidity
+#enable_patch change_etaj_to_rapj
 set etaj = 3.0
 set req_acc_FO 0.0002
 set pineappl True

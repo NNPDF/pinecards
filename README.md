@@ -18,6 +18,9 @@ For development the dependencies can be bootstrapped by running:
 ./rr install
 ```
 
+See [below](#non-python-dependencies) for a few dependencies (already available
+on most systems).
+
 ## Documentation
 
 The documentation is not deployed at the moment.
@@ -29,3 +32,26 @@ cd docs
 make html
 make view
 ```
+
+### Non Python dependencies
+
+Even if the bootstrap script and the installation management try to reduce as
+much as possible the amount of dependencies, still a few ingredients have to be
+available on the system.
+
+To run `./rr install`:
+
+- `python` itself
+- `pip` available as a module of the `python` that is running `rr` (as usually
+  is)
+- `curl`
+
+To install `pineappl`:
+
+- `pkg-config`
+- `openssl.pc` (e.g. on Debian available in the `libssl-dev` package)
+
+To install `mg5amc@nlo` and its dependencies:
+
+- `gfortran`
+- `wget`

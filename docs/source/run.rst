@@ -1,0 +1,2 @@
+Generate a PineAPPL grid
+========================

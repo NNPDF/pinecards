@@ -38,6 +38,7 @@ rr = "runcardsrunner:cli"
 lint = "pylint runcardsrunner"
 ipy = "ipython"
 test-mg5 = "rr run TEST_RUN_SH theories/theory_200.yaml"
+docs = { "shell" = "cd docs; make html" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

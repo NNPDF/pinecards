@@ -1,0 +1,6 @@
+# Ignore auto generated module references
+source/modules
+# ignore temporary build files
+_build/
+# Ignore generated sphinx-bibtex file
+source/bibtex.json

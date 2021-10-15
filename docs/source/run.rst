@@ -79,14 +79,14 @@ The remaining contents of this directory are useful for testing and debugging:
     signal they are PDG ids (with a possible exception of the gluon, for which
     ``0`` may be used).
   - ``mg5amc_repo`` and ``mg5amc_revno``: The repository and revision number of the
-    Madgraph5_aMC@NLO version that was used to generate the grid.
+    Madgraph5_aMC\@NLO version that was used to generate the grid.
   - ``pineappl_gitversion``: The PineAPPL version that was used to generate the
     grid.
   - ``results``: The comparison of the HwU results against a convolution of the
     PineAPPL grid with the PDF selected in ``launch.txt``. This is the same table
     printed at the end by ``run.sh``, and is used to verify the contents of each
     grid. It also stores the MC uncertainties.
-  - ``runcard``: Madgraph5_aMC@NLO's runcard that was used to generate the grid.
+  - ``runcard``: Madgraph5_aMC\@NLO's runcard that was used to generate the grid.
     Here all parameters are documented.
   - ``runcard_gitversion``: The git version of this repository that was used to
     generate the grid.

@@ -1,5 +1,5 @@
-Mg5aMC@NLO
-==========
+Mg5aMC\@NLO
+===========
 
 Runcard structure
 -----------------
@@ -40,9 +40,11 @@ Output
 
 - ``DATASET``: The directory created by ``mg5_aMC``. A few interesting files in
   this subdirectory are:
+
   - ``Events/-/MADatNLO.HwU``: histograms with uncertainties (HwU)
   - ``Events/-/amcblast_obs_-.pineappl``: grids created by ``mg5_aMC``, not yet
     merged together
+
 - ``launch.txt``: Run card for the 'launch' phase, with all variables substituted
   to their final values
 - ``output.txt``: Run card for the 'output' phase, with all variables substituted

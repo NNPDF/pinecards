@@ -1067,7 +1067,7 @@ python-versions = "*"
 
 [[package]]
 name = "yadism"
-version = "0.9.0"
+version = "0.9.1"
 description = "Yet Another Deep-Inelastic Scattering Module"
 category = "main"
 optional = false
@@ -1822,6 +1822,6 @@ wrapt = [
     {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
 ]
 yadism = [
-    {file = "yadism-0.9.0-py3-none-any.whl", hash = "sha256:4f9440a0dd4d55dcea4773154174b0d6333d00f78e6374c3c908d4580d29fb13"},
-    {file = "yadism-0.9.0.tar.gz", hash = "sha256:fb866ae7bfbbccea2deb7e8f47d5c7dbd1708887c393a41c74215fe31390a5f8"},
+    {file = "yadism-0.9.1-py3-none-any.whl", hash = "sha256:d5832cc7bc6c76ca1b6824ff8c4ec592d7a7c152df692f852e1fa508a245e680"},
+    {file = "yadism-0.9.1.tar.gz", hash = "sha256:f667e639c185b364540cb3eba0810cf24976da6f209cccfbc044188eccb6b772"},
 ]

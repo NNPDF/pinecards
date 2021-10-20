@@ -101,6 +101,17 @@ class External(abc.ABC):
 
     def postprocess(self):
         """Postprocess grid."""
+        # add metadata
+        metadata = self.source / "metadata.txt"
+        entries = {}
+        if metadata.exists():
+            for line in metadata.read_text().splitlines():
+                k, v = line.split("=")
+                entries[k] = v
+        tools.set_grid_metadata(self.grid, self.gridtmp, entries)
+        self.update_with_tmp()
+
+        # apply postrun, if present
         if os.access((self.source / "postrun.sh"), os.X_OK):
             shutil.copy2(self.source / "postrun.sh", self.dest)
             os.environ["GRID"] = str(self.grid)

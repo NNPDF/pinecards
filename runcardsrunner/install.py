@@ -1,4 +1,5 @@
 import os
+import pathlib
 import shutil
 import subprocess
 import sys
@@ -136,8 +137,15 @@ def pineappl():
 
 def lhapdf_conf():
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
-    paths.lhapdf_data.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data)
+    if pkgconfig.exists("lhapdf"):
+        os.environ["LHAPDF_DATA_PATH"] = str(
+            pathlib.Path(pkgconfig.variables("lhapdf")["datarootdir"]).absolute()
+            / "LHAPDF"
+        )
+    else:
+        paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
+        os.environ["LHAPDF_DATA_PATH"] = str(paths.lhapdf_data_alternative)
 
 
 def lhapdf():

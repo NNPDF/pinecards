@@ -81,15 +81,19 @@ def install_reqs(runner, pdf):
         pdf : str
             pdf name
     """
-    # lhapdf_management determine paths at import time, so it is important to
-    # late import it, in particular after `.path` module has been imported
-    import lhapdf_management  # pylint: disable=import-error,import-outside-toplevel
-
     t0 = time.perf_counter()
 
     install.update_environ()
     runner.install()
     install.pineappl()
+
+    # install chosen PDF set
+    install.lhapdf_conf()
+
+    # lhapdf_management determine paths at import time, so it is important to
+    # late import it, in particular after environ has been updated by `install.lhlhapdf_conf`
+    import lhapdf_management  # pylint: disable=import-error,import-outside-toplevel
+
     lhapdf_management.pdf_update()
     lhapdf_management.pdf_install(pdf)
 

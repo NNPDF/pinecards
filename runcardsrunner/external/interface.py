@@ -66,12 +66,12 @@ class External(abc.ABC):
         """Execute the program."""
 
     @abc.abstractmethod
-    def results(self):
-        """Results as computed by the program."""
-
-    @abc.abstractmethod
     def generate_pineappl(self):
         """Generate PineAPPL output."""
+
+    @abc.abstractmethod
+    def results(self):
+        """Results as computed by the program."""
 
     @abc.abstractmethod
     def collect_versions(self):
@@ -83,7 +83,7 @@ class External(abc.ABC):
         # TODO: add pineappl version
         #  pineappl = paths.pineappl_exe()
 
-        versions = {}
+        versions = self.collect_versions()
         versions["runcard_gitversion"] = pygit2.Repository(paths.root).describe(
             always_use_long_format=True,
             describe_strategy=pygit2.GIT_DESCRIBE_TAGS,

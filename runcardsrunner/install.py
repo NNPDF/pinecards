@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tarfile
 
+import lhapdf_management
 import pkgconfig
 import pygit2
 import requests
@@ -135,6 +136,11 @@ def pineappl():
     return condition()
 
 
+def update_lhapdf_path(path):
+    os.environ["LHAPDF_DATA_PATH"] = str(path)
+    lhapdf_management.environment.datapath = pathlib.Path(path)
+
+
 def lhapdf_conf(pdf):
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
     if pkgconfig.exists("lhapdf"):
@@ -142,12 +148,14 @@ def lhapdf_conf(pdf):
             pathlib.Path(pkgconfig.variables("lhapdf")["datarootdir"]).absolute()
             / "LHAPDF"
         )
-        os.environ["LHAPDF_DATA_PATH"] = str(lhapdf_data)
-        if os.access(lhapdf_data, os.W_OK) or (lhapdf_data / pdf).is_dir():
+        update_lhapdf_path(lhapdf_data)
+        if os.access(lhapdf_data, os.W_OK) or pdf in (
+            x.name for x in lhapdf_management.pdf_list("--installed")
+        ):
             return
     paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
     shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
-    os.environ["LHAPDF_DATA_PATH"] = str(paths.lhapdf_data_alternative)
+    update_lhapdf_path(paths.lhapdf_data_alternative)
 
 
 def lhapdf():

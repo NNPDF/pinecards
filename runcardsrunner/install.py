@@ -15,7 +15,7 @@ paths.prefix.mkdir(exist_ok=True)
 paths.bin.mkdir(exist_ok=True)
 paths.lib.mkdir(exist_ok=True)
 
-mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.2.1"
+mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.1.2"
 mg5_convert = """
 set auto_convert_model True
 import model loop_qcd_qed_sm_Gmu

@@ -88,7 +88,7 @@ def install_reqs(runner, pdf):
     install.pineappl()
 
     # install chosen PDF set
-    install.lhapdf_conf()
+    install.lhapdf_conf(pdf)
 
     # lhapdf_management determine paths at import time, so it is important to
     # late import it, in particular after environ has been updated by `install.lhlhapdf_conf`

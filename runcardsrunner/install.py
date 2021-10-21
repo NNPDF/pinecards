@@ -135,17 +135,19 @@ def pineappl():
     return condition()
 
 
-def lhapdf_conf():
+def lhapdf_conf(pdf):
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
     if pkgconfig.exists("lhapdf"):
-        os.environ["LHAPDF_DATA_PATH"] = str(
+        lhapdf_data = (
             pathlib.Path(pkgconfig.variables("lhapdf")["datarootdir"]).absolute()
             / "LHAPDF"
         )
-    else:
-        paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
-        os.environ["LHAPDF_DATA_PATH"] = str(paths.lhapdf_data_alternative)
+        os.environ["LHAPDF_DATA_PATH"] = str(lhapdf_data)
+        if os.access(lhapdf_data, os.W_OK) or (lhapdf_data / pdf).is_dir():
+            return
+    paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
+    os.environ["LHAPDF_DATA_PATH"] = str(paths.lhapdf_data_alternative)
 
 
 def lhapdf():

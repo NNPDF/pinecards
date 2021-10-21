@@ -149,10 +149,15 @@ def lhapdf_conf(pdf):
             / "LHAPDF"
         )
         update_lhapdf_path(lhapdf_data)
-        if os.access(lhapdf_data, os.W_OK) or pdf in (
-            x.name for x in lhapdf_management.pdf_list("--installed")
-        ):
-            return
+        # attempt to determine if it is possible to get the required PDF in the
+        # existing folder (if possible return)
+        try:
+            if os.access(lhapdf_data, os.W_OK) or pdf in (
+                x.name for x in lhapdf_management.pdf_list("--installed")
+            ):
+                return
+        except PermissionError:
+            pass
     paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
     shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
     update_lhapdf_path(paths.lhapdf_data_alternative)

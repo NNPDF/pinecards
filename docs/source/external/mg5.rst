@@ -45,10 +45,12 @@ Output
   - ``Events/-/amcblast_obs_-.pineappl``: grids created by ``mg5_aMC``, not yet
     merged together
 
-- ``launch.txt``: Run card for the 'launch' phase, with all variables substituted
-  to their final values
 - ``output.txt``: Run card for the 'output' phase, with all variables substituted
   to their final values
+- ``output.log``: Output of the external runner during the 'output' phase
+- ``launch.txt``: Run card for the 'launch' phase, with all variables substituted
+  to their final values
+- ``launch.log``: Output of the external runner during the 'launch' phase
 - ``pineappl.convolute``: Output of ``pineappl convolute``
 - ``pineappl.orders``: Output of ``pineappl orders``
 - ``pineappl.pdf_uncertainty``: Output of ``pineappl pdf_uncertainty``

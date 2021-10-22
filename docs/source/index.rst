@@ -35,6 +35,7 @@ There are two ways of installing ``rr``, that are:
    :caption: Usage
 
    run
+   output
    external/index
    cli
 

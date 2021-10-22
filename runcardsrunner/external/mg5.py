@@ -166,14 +166,8 @@ class Mg5(interface.External):
         runcard = next(
             iter(self.mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt"))
         )
-        entries = []
-        if metadata.exists():
-            for line in metadata.read_text().splitlines():
-                k, v = line.split("=")
-                entries += ["--entry", k, f"'{v}'"]
         subprocess.run(
             f"{pineappl} set {self.grid} {self.gridtmp}".split()
-            + entries
             + f"--entry_from_file runcard {runcard}".split()
         )
         self.update_with_tmp()

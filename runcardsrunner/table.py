@@ -117,10 +117,10 @@ def print_table(pineappl_results, external_results, dest):
 
     header = inspect.cleandoc(
         """
-        ----------------------------------------------------------------------
-           PineAPPL         MC        sigma      central         min      max
-                                      1/100   sigma   1/1000   1/1000   1/1000
-        ----------------------------------------------------------------------
+        -------------------------------------------------------------------------
+        bin   PineAPPL         MC        sigma      central         min      max
+                                         1/100   sigma   1/1000   1/1000   1/1000
+        -------------------------------------------------------------------------
         """
     )
     exp_float = lambda f: f" {f:.6e}"
@@ -136,9 +136,7 @@ def print_table(pineappl_results, external_results, dest):
     }
 
     with pd.option_context("display.max_rows", None):
-        comp_str = comparison.to_string(
-            index=False, header=False, formatters=formatters
-        )
+        comp_str = comparison.to_string(index=True, header=False, formatters=formatters)
 
     comp_str = f"{header}\n{comp_str}"
 

@@ -66,12 +66,12 @@ class External(abc.ABC):
         """Execute the program."""
 
     @abc.abstractmethod
-    def results(self):
-        """Results as computed by the program."""
-
-    @abc.abstractmethod
     def generate_pineappl(self):
         """Generate PineAPPL output."""
+
+    @abc.abstractmethod
+    def results(self):
+        """Results as computed by the program."""
 
     @abc.abstractmethod
     def collect_versions(self):
@@ -83,7 +83,7 @@ class External(abc.ABC):
         # TODO: add pineappl version
         #  pineappl = paths.pineappl_exe()
 
-        versions = {}
+        versions = self.collect_versions()
         versions["runcard_gitversion"] = pygit2.Repository(paths.root).describe(
             always_use_long_format=True,
             describe_strategy=pygit2.GIT_DESCRIBE_TAGS,
@@ -94,6 +94,7 @@ class External(abc.ABC):
         entries = {}
         entries.update(versions)
         entries["lumi_id_types"] = "pdg_mc_ids"
+        entries["results_pdf"] = self.pdf
         tools.set_grid_metadata(
             self.grid, self.gridtmp, entries, {"results": results_log}
         )
@@ -101,6 +102,17 @@ class External(abc.ABC):
 
     def postprocess(self):
         """Postprocess grid."""
+        # add metadata
+        metadata = self.source / "metadata.txt"
+        entries = {}
+        if metadata.exists():
+            for line in metadata.read_text().splitlines():
+                k, v = line.split("=")
+                entries[k] = v
+        tools.set_grid_metadata(self.grid, self.gridtmp, entries)
+        self.update_with_tmp()
+
+        # apply postrun, if present
         if os.access((self.source / "postrun.sh"), os.X_OK):
             shutil.copy2(self.source / "postrun.sh", self.dest)
             os.environ["GRID"] = str(self.grid)

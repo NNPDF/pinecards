@@ -25,10 +25,6 @@ def is_dis(name):
 
 
 class Yadism(interface.External):
-    @staticmethod
-    def install():
-        install.lhapdf_conf()
-
     def run(self):
         print("Running yadism...")
 

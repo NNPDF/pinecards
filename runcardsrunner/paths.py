@@ -30,5 +30,4 @@ pineappl_exe = lambda: pathlib.Path(shutil.which("pineappl"))
 rust_init = pathlib.Path("/tmp/rustup-init")
 
 # lhapdf data
-lhapdf_data = prefix / "share" / "LHAPDF"
-lhapdf.pathsPrepend(str(lhapdf_data))
+lhapdf_data_alternative = prefix / "share" / "LHAPDF"

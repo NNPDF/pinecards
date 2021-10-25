@@ -94,7 +94,11 @@ def install_reqs(runner, pdf):
     # late import it, in particular after environ has been updated by `install.lhlhapdf_conf`
     import lhapdf_management  # pylint: disable=import-error,import-outside-toplevel
 
-    lhapdf_management.pdf_update()
+    try:
+        lhapdf_management.pdf_update()
+    # survive even if it's not possible to write 'pdfsets.index'
+    except PermissionError:
+        pass
     lhapdf_management.pdf_install(pdf)
 
     tools.print_time(t0, "Installation")

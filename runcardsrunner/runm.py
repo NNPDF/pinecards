@@ -14,17 +14,17 @@ from .external import mg5, yad
 @click.argument("theory_path", type=click.Path(exists=True))
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def subcommand(dataset, theory_path, pdf):
-    """
-    Compute a dataset and compare using a given PDF.
+    """Compute a dataset and compare using a given PDF.
 
     Parameters
     ----------
-        dataset : str
-            dataset name
-        theory_path : str
-            path to theory runcard
-        pdf : str
-            pdf name
+    dataset : str
+        dataset name
+    theory_path : str
+        path to theory runcard
+    pdf : str
+        pdf name
+
     """
     # read theory card from file
     with open(theory_path) as f:
@@ -33,17 +33,17 @@ def subcommand(dataset, theory_path, pdf):
 
 
 def main(dataset, theory, pdf):
-    """
-    Compute a dataset and compare using a given PDF.
+    """Compute a dataset and compare using a given PDF.
 
     Parameters
     ----------
-        dataset : str
-            dataset name
-        theory : dict
-            theory dictionary
-        pdf : str
-            pdf name
+    dataset : str
+        dataset name
+    theory : dict
+        theory dictionary
+    pdf : str
+        pdf name
+
     """
     dataset = pathlib.Path(dataset).name
     timestamp = None
@@ -71,15 +71,15 @@ def main(dataset, theory, pdf):
 
 
 def install_reqs(runner, pdf):
-    """
-    Install requirements.
+    """Install requirements.
 
     Parameters
     ----------
-        runner : interface.External
-            runner instance
-        pdf : str
-            pdf name
+    runner : interface.External
+        runner instance
+    pdf : str
+        pdf name
+
     """
     t0 = time.perf_counter()
 
@@ -101,13 +101,13 @@ def install_reqs(runner, pdf):
 
 
 def run_dataset(runner):
-    """
-    Execute runner and apply common post process.
+    """Execute runner and apply common post process.
 
     Parameters
     ----------
-        runner : interface.External
-            runner instance
+    runner : interface.External
+        runner instance
+
     """
     t0 = time.perf_counter()
 

@@ -9,20 +9,20 @@ import pandas as pd
 
 
 def compute_data(grid, pdf_name):
-    """
-    Call `convolute` via PineAPPL CLI.
+    """Call `convolute` via PineAPPL CLI.
 
     Parameters
     ----------
-        grid : str
-            grid path
-        pdf_name : str
-            PDF name
+    grid : str
+        grid path
+    pdf_name : str
+        PDF name
 
     Returns
     -------
-        list(str) :
-            (essential) output splitted by line
+    list(str)
+        (essential) output splitted by line
+
     """
     #  pdf = lhapdf.mkPDF(pdf_name)
     #  TODO: is_dis and scale variations still missing
@@ -44,18 +44,18 @@ def compute_data(grid, pdf_name):
 
 
 def parse_pineappl_table(output):
-    """
-    Parse PineAPPL CLI output to :class:`~pandas.DataFrame`.
+    """Parse PineAPPL CLI output to :class:`~pandas.DataFrame`.
 
     Parameters
     ----------
-        output : list(str)
-            output
+    output : list(str)
+        output of ``pineappl convolute ...``
 
     Returns
     -------
-        pandas.DataFrame :
-            parsed data
+    pandas.DataFrame
+        parsed data
+
     """
     header = output[0].split()
     header = [
@@ -76,17 +76,17 @@ def parse_pineappl_table(output):
 
 
 def print_table(pineappl_results, external_results, dest):
-    """
-    Print comparison table to screen.
+    """Print comparison table to screen.
 
     Parameters
     ----------
-        pineappl_results : pandas.DataFrame
-            results from the generated grid
-        external_results : pandas.DataFrame
-            results from the external program
-        dest : pathlib.Path
-            path to output file
+    pineappl_results : pandas.DataFrame
+        results from the generated grid
+    external_results : pandas.DataFrame
+        results from the external program
+    dest : pathlib.Path
+        path to output file
+
     """
     comparison = pd.DataFrame()
 

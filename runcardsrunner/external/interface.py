@@ -67,15 +67,39 @@ class External(abc.ABC):
 
     @abc.abstractmethod
     def generate_pineappl(self):
-        """Generate PineAPPL output."""
+        """Generate PineAPPL grid and extract output.
+
+        Returns
+        -------
+        str
+            output of ``pineappl convolute`` on the generate grid and selected
+            :attr:`pdf`
+
+        """
 
     @abc.abstractmethod
     def results(self):
-        """Results as computed by the program."""
+        """Results as computed by the program.
+
+        Returns
+        -------
+        pandas.DataFrame
+            standardized dataframe with results (containing ``result``,
+            ``error``, ``sv_min``, and ``sv_max`` columns)
+
+        """
 
     @abc.abstractmethod
     def collect_versions(self):
-        """Collect necessary version informations."""
+        """Collect necessary version informations.
+
+        Returns
+        -------
+        dict
+            program - version mapping related to programs specific to a single
+            runner (common ones are already abstracted)
+
+        """
 
     def annotate_versions(self):
         """Add version informations as meta data."""

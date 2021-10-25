@@ -145,9 +145,9 @@ def lhapdf_conf(pdf):
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
     if shutil.which("lhapdf-config") is not None or pkgconfig.exists("lhapdf"):
         lhapdf_data = pathlib.Path(
-            subprocess.run(
-                "lhapdf-config --datadir".split(), capture_output=True
-            ).stdout.decode()
+            subprocess.run("lhapdf-config --datadir".split(), capture_output=True)
+            .stdout.decode()
+            .strip()
         )
         if not lhapdf_data.exists():
             lhapdf_data = (

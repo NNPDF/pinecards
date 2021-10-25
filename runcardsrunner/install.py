@@ -143,11 +143,17 @@ def update_lhapdf_path(path):
 
 def lhapdf_conf(pdf):
     """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
-    if pkgconfig.exists("lhapdf"):
-        lhapdf_data = (
-            pathlib.Path(pkgconfig.variables("lhapdf")["datarootdir"]).absolute()
-            / "LHAPDF"
+    if shutil.which("lhapdf-config") is not None or pkgconfig.exists("lhapdf"):
+        lhapdf_data = pathlib.Path(
+            subprocess.run(
+                "lhapdf-config --datadir".split(), capture_output=True
+            ).stdout.decode()
         )
+        if not lhapdf_data.exists():
+            lhapdf_data = (
+                pathlib.Path(pkgconfig.variables("lhapdf")["datarootdir"]).absolute()
+                / "LHAPDF"
+            )
         update_lhapdf_path(lhapdf_data)
         # attempt to determine if it is possible to get the required PDF in the
         # existing folder (if possible return)

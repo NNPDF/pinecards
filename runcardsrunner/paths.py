@@ -7,8 +7,8 @@ pkg = pathlib.Path(__file__).absolute().parent
 root = pkg.parent
 
 # internal
-cuts_code = pkg / "cuts_code"
-cuts_variables = pkg / "cuts_variables"
+cuts_code = pkg / "external" / "mg5" / "cuts_code"
+cuts_variables = pkg / "external" / "mg5" / "cuts_variables"
 lhapdf_conf = pkg / "confs" / "lhapdf.conf"
 
 # external

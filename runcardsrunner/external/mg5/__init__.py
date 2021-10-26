@@ -5,8 +5,8 @@ import subprocess
 import numpy as np
 import pandas as pd
 
-from .. import install, log, paths, tools
-from . import interface
+from ... import install, log, paths, tools
+from .. import interface
 
 
 class Mg5(interface.External):

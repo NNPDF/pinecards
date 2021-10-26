@@ -1,7 +1,7 @@
 What is all the output?
 =======================
 
-After having run ``./run.sh DATASET`` (see above), the script prints a table,
+After having run ``rr run DATASET THEORY`` (see :doc:`cli`), the script prints a table,
 which is useful to quickly validate the MC uncertainty and the interpolation
 error of PineAPPL. The last line shows the directory where all results are
 stored, which has the form ``DATASET-DATE``, where ``DATASET`` is the value given
@@ -41,8 +41,9 @@ The remaining contents of this directory are useful for testing and debugging:
     the luminosity function of a PineAPPL grid. This is set to ``pdg_mc_ids`` to
     signal they are PDG ids (with a possible exception of the gluon, for which
     ``0`` may be used).
-  - ``mg5amc_repo`` and ``mg5amc_revno``: The repository and revision number of the
-    Madgraph5_aMC\@NLO version that was used to generate the grid.
+  - ``mg5amc_repo`` and ``mg5amc_revno`` (only :doc:`external/mg5` grids): The
+    repository and revision number of the Madgraph5_aMC\@NLO version that was
+    used to generate the grid.
   - ``pineappl_gitversion``: The PineAPPL version that was used to generate the
     grid.
   - ``results``: The comparison of the HwU results against a convolution of the
@@ -53,6 +54,9 @@ The remaining contents of this directory are useful for testing and debugging:
     Here all parameters are documented.
   - ``runcard_gitversion``: The git version of this repository that was used to
     generate the grid.
+  - ``yadism_version`` (only :doc:`external/yadism` grids): The |yadism| version
+    used to generate the grid (if not a released version have been used it
+    includes also git details).
 
 Runner dependent output
 -----------------------

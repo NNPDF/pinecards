@@ -5,8 +5,8 @@ import subprocess
 import numpy as np
 import pandas as pd
 
-from .. import install, log, paths, tools
-from . import interface
+from ... import install, log, paths, tools
+from .. import interface
 
 
 class Mg5(interface.External):
@@ -123,23 +123,6 @@ class Mg5(interface.External):
         )
         (self.dest / "launch.log").write_text(launch_log)
 
-    def results(self):
-        madatnlo = next(
-            iter(self.mg5_dir.glob("Events/run_01*/MADatNLO.HwU"))
-        ).read_text()
-        table = filter(
-            lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
-        )
-        df = pd.DataFrame(np.array([[float(x) for x in l.split()] for l in table]))
-        # start column from 1
-        df.columns += 1
-        df["result"] = df[3]
-        df["error"] = df[4]
-        df["sv_min"] = df[6]
-        df["sv_max"] = df[7]
-
-        return df
-
     def generate_pineappl(self):
         pineappl = paths.pineappl_exe()
 
@@ -193,6 +176,23 @@ class Mg5(interface.External):
 
         return (self.dest / "pineappl.convolute").read_text().splitlines()[2:-2]
 
+    def results(self):
+        madatnlo = next(
+            iter(self.mg5_dir.glob("Events/run_01*/MADatNLO.HwU"))
+        ).read_text()
+        table = filter(
+            lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
+        )
+        df = pd.DataFrame(np.array([[float(x) for x in l.split()] for l in table]))
+        # start column from 1
+        df.columns += 1
+        df["result"] = df[3]
+        df["error"] = df[4]
+        df["sv_min"] = df[6]
+        df["sv_max"] = df[7]
+
+        return df
+
     def collect_versions(self):
         versions = {}
         versions["mg5amc_revno"] = (
@@ -227,8 +227,9 @@ def find_marker_position(insertion_marker, contents):
     return marker_pos
 
 
-def apply_user_cuts(file_path, user_cuts):
-    with open(file_path, "r") as fd:
+def apply_user_cuts(cuts_file, user_cuts):
+    """Apply a user defined cut, patching a suitable cuts file"""
+    with open(cuts_file, "r") as fd:
         contents = fd.readlines()
 
     # insert variable declaration
@@ -263,5 +264,5 @@ def apply_user_cuts(file_path, user_cuts):
         code = (paths.cuts_code / f"{name}.f").read_text().format(value)
         contents.insert(marker_pos, code)
 
-    with open(file_path, "w") as fd:
+    with open(cuts_file, "w") as fd:
         fd.writelines(contents)

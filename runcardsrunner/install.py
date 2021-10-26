@@ -17,23 +17,26 @@ paths.bin.mkdir(exist_ok=True)
 paths.lib.mkdir(exist_ok=True)
 
 mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.1.2"
+"bazaar/breeze repo location for MG5aMC\\@NLO"
 mg5_convert = """
 set auto_convert_model True
 import model loop_qcd_qed_sm_Gmu
 quit
 """
+"instructions to set the correct model for MG5aMC\\@NLO"
 
 pineappl_repo = "https://github.com/N3PDF/pineappl.git"
+"git repo location for pineappl"
 
 
 def mg5amc():
-    """
-    Initialize `MadGraph5_aMC@NLO <https://code.launchpad.net/mg5amcnlo>`_.
+    """Initialize `MadGraph5_aMC\\@NLO <https://code.launchpad.net/mg5amcnlo>`_.
 
     Returns
     -------
-        callable :
-            condition to check whether the main executable exists.
+    bool
+        whether the main executable is now existing.
+
     """
     # define availability condition
     condition = lambda: paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
@@ -55,13 +58,14 @@ def mg5amc():
 
 
 def cargo():
-    """
-    Initialize `Rust <https://www.rust-lang.org/>`_.
+    """Initialize `Rust <https://www.rust-lang.org/>`_ and `Cargo
+    <https://doc.rust-lang.org/stable/cargo/>`_.
 
     Returns
     -------
-        str :
-            path to `cargo`
+    str
+        path to `cargo`
+
     """
     # look for existing cargo
     cargo_exe = shutil.which("cargo")
@@ -88,13 +92,13 @@ def cargo():
 
 
 def pineappl():
-    """
-    Initialize `PineAPPL <https://github.com/N3PDF/pineappl>`_.
+    """Initialize `PineAPPL <https://github.com/N3PDF/pineappl>`_.
 
     Returns
     -------
-        callable :
-            condition to check whether `pineappl` and  `pineappl_capi` are available.
+    bool
+        whether `pineappl` and  `pineappl_capi` are now available.
+
     """
     # define availability condition
     condition = lambda: shutil.which("pineappl") is not None and pkgconfig.exists(
@@ -137,12 +141,28 @@ def pineappl():
 
 
 def update_lhapdf_path(path):
+    """Update LHAPDF path, both in environment and `lhapdf_management
+    <https://pypi.org/project/lhapdf-management/>`_
+
+    Parameters
+    ----------
+    path : str or pathlib.Path
+        path to LHAPDF data
+
+    """
     os.environ["LHAPDF_DATA_PATH"] = str(path)
     lhapdf_management.environment.datapath = pathlib.Path(path)
 
 
 def lhapdf_conf(pdf):
-    """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_."""
+    """Initialize `LHAPDF <https://lhapdf.hepforge.org/>`_.
+
+    Parameters
+    ----------
+    pdf : str
+        LHAPDF name of the required PDF
+
+    """
     if shutil.which("lhapdf-config") is not None or pkgconfig.exists("lhapdf"):
         lhapdf_data = pathlib.Path(
             subprocess.run("lhapdf-config --datadir".split(), capture_output=True)

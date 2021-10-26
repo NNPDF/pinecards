@@ -4,12 +4,34 @@ import sys
 
 
 class WhileRedirectedError(RuntimeError):
+    """Error to signal a generic error, while stderr was redirected to file
+
+    Parameters
+    ----------
+    *args
+        arguments passed to :class:`RuntimeError`
+    file : str
+        path to file to which stderr is redirected
+    **kwargs
+        keyword arguments passed to :class:`RuntimeError`
+
+    """
+
     def __init__(self, *args, file, **kwargs):
         super().__init__(*args, **kwargs)
         self.file = file.absolute() if isinstance(file, pathlib.Path) else file
 
 
 class Tee:
+    """Context manager to tee stdout to file
+
+    Parameters
+    ----------
+    name : str or pathlib.Path
+        path to redirect stdout to
+
+    """
+
     def __init__(self, name):
         self.file = open(name, "w")
 
@@ -35,13 +57,13 @@ class Tee:
 
 
 def subprocess(*args, dest):
-    """
-    Wrapper to :class:`subprocess.Popen` to print the output to screen and capture it.
+    """Wrapper to :class:`subprocess.Popen` to print the output to screen and capture it.
 
     Returns
     -------
-        str :
-            output
+    str
+        output of the command run in the subprocess
+
     """
     p = sp.Popen(*args, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=dest)
     output = []

@@ -12,18 +12,18 @@ from . import paths
 
 
 def create_output_folder(name):
-    """
-    Create output folder.
+    """Create output folder.
 
     Parameters
     ----------
-        name : str
-            dataset name
+    name : str
+        dataset name
 
     Returns
     -------
-        pathlib.Path :
-            path to output folder
+    pathlib.Path
+        path to output folder
+
     """
     target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
     target.mkdir(exist_ok=True)
@@ -31,15 +31,15 @@ def create_output_folder(name):
 
 
 def print_time(t0, what=None):
-    """
-    Report completion together with timing to the user.
+    """Report completion together with timing to the user.
 
     Parameters
     ----------
-        t0 : int
-            start time
-        what : str
-            subject that is completed
+    t0 : int
+        start time
+    what : str
+        subject that is completed
+
     """
     dt = time.perf_counter() - t0
 
@@ -53,18 +53,18 @@ def print_time(t0, what=None):
 
 
 def compress(path):
-    """
-    Compress a file into lz4.
+    """Compress a file into lz4.
 
     Parameters
     ----------
-        path : pathlib.Path
-            input path
+    path : pathlib.Path
+        input path
 
     Returns
     -------
-        pathlib.Path
-            path to compressed file
+    pathlib.Path
+        path to compressed file
+
     """
     compressed_path = path.with_suffix(".pineappl.lz4")
     with lz4.frame.open(
@@ -76,18 +76,18 @@ def compress(path):
 
 
 def decompress(path):
-    """
-    Decompress a file from lz4.
+    """Decompress a file from lz4.
 
     Parameters
     ----------
-        path : pathlib.Path
-            path to compressed file
+    path : pathlib.Path
+        path to compressed file
 
     Returns
     -------
-        pathlib.Path
-            path to raw file
+    pathlib.Path
+        path to raw file
+
     """
     with lz4.frame.open(path, "r") as f:
         data = f.read()
@@ -102,27 +102,40 @@ def decompress(path):
 
 
 def patch(patch, base_dir="."):
+    """Apply patch.
+
+    Parameters
+    ----------
+    patch : str
+        patch to apply (text content, not path)
+    base_dir : str or pathlib.Path
+        path to dir where to apply patch (default: ``.``)
+
+    """
     subprocess.run(
         "patch -p1".split(), cwd=base_dir, input=patch, text=True, check=True
     )
 
 
 three_points = [0.5, 1.0, 2.0]
+"Three points prescription for scale variations."
 nine_points = itertools.product(three_points, three_points)
+"""Nine points prescription for scale variations (as couples, referred to ``(fact,
+ren)`` scales)."""
 
 
 def git_pull(repo, remote_name="origin", branch="master"):
-    """
-    Pull a remote repository.
+    """Pull a remote repository.
 
     Parameters
     ----------
-        repo : pygit2.Repository
-            repository
-        remote_name : str
-            remote name
-        branch : str
-            branch to get
+    repo : pygit2.Repository
+        repository
+    remote_name : str
+        remote name
+    branch : str
+        branch to get
+
     """
     for remote in repo.remotes:
         if remote.name == remote_name:
@@ -145,20 +158,20 @@ def git_pull(repo, remote_name="origin", branch="master"):
 
 
 def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=None):
-    """
-    Set metadata on a pineappl grid stored in a file, and save in a new one.
+    """Set metadata on a pineappl grid stored in a file, and save in a new one.
 
     Parameters
     ----------
-        input_file : path-like
-            file storing input grid
-        output_file : path-like
-            file to store the result
-        entries : dict
-            mapping of key-value to store in the grid
-        entries_from_file : dict
-            mapping of key-value pairs, whose value are file paths of which
-            storing the content
+    input_file : path-like
+        file storing input grid
+    output_file : path-like
+        file to store the result
+    entries : dict
+        mapping of key-value to store in the grid
+    entries_from_file : dict
+        mapping of key-value pairs, whose value are file paths of which
+        storing the content
+
     """
     if entries is None:
         entries = {}
@@ -177,22 +190,24 @@ def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=N
 
 
 def common_substring(s1, s2, *sn):
-    """
-    Return the longest common part of two iterables, starting from the begininng
+    """Return the longest common part of two iterables, starting from the begininng
 
     Parameters
     ----------
-        s1 : sequence
-        s2 : sequence
+    s1 : Sequence
+        first sequence to compare
+    s2 : Sequence
+        second sequence to compare
+    *sn : Sequence
+        any further sequence to compare
 
     Returns
     -------
-        sequence
-            longest common subsequence
+    Sequence
+        longest common subsequence
 
     Examples
     --------
-
     >>> common_substring("test test", "test toast")
     "test t"
     >>> common_substring("test test", "test test test")

@@ -4,14 +4,6 @@ External runners
 The ``rr run`` is mainly a uniform interface to some Monte Carlo (and non)
 generator that are able to produce PineAPPL grids.
 
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
-
-   mg5
-   yadism
-
 Internally the runners are managed through a class system, with a base class
 :class:`~runcardsrunner.external.interface.External`, that defines the basic
 steps and attributes, while implementing the common actions.

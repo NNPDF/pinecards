@@ -1,6 +1,15 @@
 Mg5aMC\@NLO
 ===========
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+
+   mg5_launch
+   mg5_cuts
+   mg5_patches
+
+
 Runcard structure
 -----------------
 
@@ -12,28 +21,18 @@ Runcard structure
   files.
 
 - The ``launch.txt`` file (compulsory). This file contains the instructions to
-  run the relevant process, including the relevant physical parameters and cuts.
-  Since the parameter values are inserted by ``run.sh``, do not insert the
-  numerical values into the text file but rather the run variables. Supported
-  are ``@GF``, ``@MH@``, ``@MT@``, ``@MW@``, ``@MZ@``, ``@WH@``, ``@WT@``,
-  ``@WW@``, and ``@WZ@``. The names are the same as chosen by ``mg5_aMC``, but
-  written in uppercase and surrounded with ``@``. For details about more
-  parameters, please see the ``Template/NLO/Cards/run_card.dat`` file in
-  Madgraph5_aMC\@NLO.
+  run the relevant process, including the relevant physical parameters and cuts,
+  more info in :doc:`mg5_launch`.
 
 - The ``analysis.f`` file (compulsory). This Fortran file must fill the
   histograms from which the ``HwU`` files (histograms with uncertainties) and
   the PineAPPL grids are generated. Note that a single histogram must not
-  contain more than 100 bins, otherwise Madgraph5_aMC\@NLO will crash. However,
-  big histograms can be split up into multiple histograms, for which `run.sh`
+  contain more than 100 bins, otherwise |mg5| will crash. However,
+  big histograms can be split up into multiple histograms, for which the runner
   will merge the PineAPPL grids together.
 
 - The ``*.patch`` file(s) (optional). These are one or more ``.patch`` files
-  that are applied after Madgraph5_aMC\@NLO has generated the sources. For
-  instance, to use a dynamical scale, a patch modifying ``setscales.f`` file
-  should be included in the directory. To create patches use the command ``diff
-  -Naurb original new > patch.patch``. The patches are applied in an unspecified
-  order, using ``patch -p1 ...``.
+  that are applied after |mg5| has generated the sources.
 
 Output
 ------

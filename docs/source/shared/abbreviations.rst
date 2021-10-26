@@ -45,6 +45,10 @@
 
 .. external
 
+.. |mg5| raw:: html
+
+   <a href="https://launchpad.net/mg5amcnlo">MadGraph5_aMC@NLO</a>
+
 .. |yadism| replace::
    :yadism:`\ `
 

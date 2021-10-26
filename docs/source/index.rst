@@ -36,7 +36,6 @@ There are two ways of installing ``rr``, that are:
 
    run
    output
-   external/index
    cli
 
 .. toctree::
@@ -47,6 +46,15 @@ There are two ways of installing ``rr``, that are:
    runcards/index
    runcards/metadata
    runcards/postrun
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Externals
+
+   external/index
+   external/mg5
+   external/yadism
 
 .. toctree::
    :maxdepth: 1

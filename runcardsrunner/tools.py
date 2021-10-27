@@ -119,7 +119,7 @@ def patch(patch, base_dir="."):
 
 three_points = [0.5, 1.0, 2.0]
 "Three points prescription for scale variations."
-nine_points = itertools.product(three_points, three_points)
+nine_points = list(itertools.product(three_points, three_points))
 """Nine points prescription for scale variations (as couples, referred to ``(fact,
 ren)`` scales)."""
 

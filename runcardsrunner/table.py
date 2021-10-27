@@ -2,10 +2,12 @@ import inspect
 import itertools
 import subprocess
 
-#  import lhapdf
+import lhapdf
+import more_itertools
 import pandas as pd
+import pineappl
 
-#  import pineappl
+from . import tools
 
 
 def compute_data(grid, pdf_name):
@@ -24,23 +26,19 @@ def compute_data(grid, pdf_name):
         (essential) output splitted by line
 
     """
-    #  pdf = lhapdf.mkPDF(pdf_name)
-    #  TODO: is_dis and scale variations still missing
-    #  grid_loaded = pineappl.grid.Grid.read(str(grid))
-    #  if True:  # is dis
-    #  projectile_pdf = lambda pid, x, Q2: 1.0
-    #  else:
-    #  projectile_pdf = pdf.xfxQ2
-    #  pineappl_results = grid_loaded.convolute(pdf.xfxQ2, projectile_pdf, pdf.alphasQ2)
-    pineappl_results = (
-        subprocess.run(
-            f"pineappl convolute {grid} {pdf_name} --scales 9 --absolute --integrated".split(),
-            capture_output=True,
-        )
-        .stdout.decode()
-        .splitlines()[2:-2]
+    pdf = lhapdf.mkPDF(pdf_name)
+    loaded_grid = pineappl.grid.Grid.read(str(grid))
+    pineappl_results = loaded_grid.convolute_with_one(
+        2212, pdf.xfxQ2, pdf.alphasQ2, xi=tools.nine_points
     )
-    return pineappl_results
+
+    df = pd.DataFrame(more_itertools.chunked(pineappl_results, len(tools.nine_points)))
+    df.rename
+    df["sv_max"] = df.max(axis=1)
+    df["sv_min"] = df.min(axis=1)
+    df.rename(columns={tools.nine_points.index((1.0, 1.0)): "integ"}, inplace=True)
+
+    return df
 
 
 def parse_pineappl_table(output):
@@ -48,8 +46,9 @@ def parse_pineappl_table(output):
 
     Parameters
     ----------
-    output : list(str)
-        output of ``pineappl convolute ...``
+    output : list(str) or pd.DataFrame
+        output of ``pineappl convolute ...`` or already parsed object (such that
+        this function is idempotent)
 
     Returns
     -------
@@ -57,6 +56,9 @@ def parse_pineappl_table(output):
         parsed data
 
     """
+    if isinstance(output, pd.DataFrame):
+        return output
+
     header = output[0].split()
     header = [
         header[0],

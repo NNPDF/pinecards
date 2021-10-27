@@ -13,6 +13,7 @@ lhapdf_conf = pkg / "confs" / "lhapdf.conf"
 
 # external
 runcards = root / "nnpdf31_proc"
+theories = root / "theories"
 patches = root / "patches"
 
 # prefix  and locally installed

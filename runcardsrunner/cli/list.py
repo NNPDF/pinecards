@@ -23,10 +23,21 @@ def theories():
     main(paths.theories, files=True, prefix="theory_")
 
 
-@subcommand.command()
+@subcommand.group()
+def mg5():
+    """MG5aMC@NLO related assets."""
+
+
+@mg5.command()
 def patches():
     """List available patches."""
     main(paths.patches, files=True)
+
+
+@mg5.command()
+def cuts():
+    """List available cuts."""
+    main(paths.cuts_code, files=True)
 
 
 def main(path, files=False, prefix=""):

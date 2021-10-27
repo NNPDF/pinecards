@@ -7,9 +7,10 @@ import yaml
 
 from .. import install, table, tools
 from ..external import mg5, yad
+from ._base import command
 
 
-@click.command("run")
+@command.command("run")
 @click.argument("dataset")
 @click.argument("theory_path", type=click.Path(exists=True))
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")

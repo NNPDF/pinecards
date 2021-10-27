@@ -5,12 +5,13 @@ import click
 import rich
 
 from .. import paths, tools
+from ._base import command
 
 
-@click.command("update")
+@command.command("update")
 @click.argument("datasets", nargs=-1)
 def subcommand(datasets):
-    """Update datasets metadata"""
+    """Update datasets metadata."""
     main(datasets)
 
 

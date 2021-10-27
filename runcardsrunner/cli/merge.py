@@ -7,12 +7,13 @@ import pineappl
 import rich
 
 from .. import tools
+from ._base import command
 
 
-@click.command("merge")
+@command.command("merge")
 @click.argument("grids", nargs=-1)
 def subcommand(grids):
-    """Merge multiple PineAPPL grids into a single one"""
+    """Merge multiple PineAPPL grids into a single one."""
 
     main(grids)
 

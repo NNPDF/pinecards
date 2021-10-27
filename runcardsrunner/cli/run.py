@@ -5,8 +5,8 @@ import click
 import rich
 import yaml
 
-from . import install, table, tools
-from .external import mg5, yad
+from .. import install, table, tools
+from ..external import mg5, yad
 
 
 @click.command("run")

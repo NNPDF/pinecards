@@ -44,7 +44,7 @@ docs = [
 ]
 
 [tool.poetry.scripts]
-rr = "runcardsrunner:cli"
+rr = "runcardsrunner:command"
 
 [tool.poe.tasks]
 lint = "pylint runcardsrunner"

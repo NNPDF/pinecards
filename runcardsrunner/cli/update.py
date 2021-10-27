@@ -4,10 +4,10 @@ import shutil
 import click
 import rich
 
-from . import paths, tools
+from .. import paths, tools
 
 
-@click.command()
+@click.command("update")
 @click.argument("datasets", nargs=-1)
 def subcommand(datasets):
     """Update datasets metadata"""

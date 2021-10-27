@@ -93,7 +93,7 @@ def update_path():
 
 if __name__ == "__main__":
     update_path()
-    if sys.argv[1] != "install":
+    if sys.argv[1] != "install" or len(sys.argv) > 2:
         subprocess.run("poetry run rr".split() + sys.argv[1:])
     else:
         sys.argv = [sys.argv[0]] + sys.argv[2:]

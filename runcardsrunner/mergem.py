@@ -11,9 +11,13 @@ from . import tools
 
 @click.command()
 @click.argument("grids", nargs=-1)
-def merge(grids):
+def subcommand(grids):
     """Merge multiple PineAPPL grids into a single one"""
 
+    main(grids)
+
+
+def main(grids):
     if len(grids) < 2:
         raise ValueError("At least 2 grids needed for a merge.")
 
@@ -51,7 +55,7 @@ def merge(grids):
 
     # set the results metadata in the new grid
     mgridtmp = mgrid.parent / (mgrid.name + ".tmp")
-    tools.set_grid_metadata(
+    tools.update_grid_metadata(
         mgrid, mgridtmp, entries_from_file={"results": "\n".join(tmpresults)}
     )
     shutil.move(mgridtmp, mgrid)

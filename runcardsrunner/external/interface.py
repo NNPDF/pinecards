@@ -119,7 +119,7 @@ class External(abc.ABC):
         entries.update(versions)
         entries["lumi_id_types"] = "pdg_mc_ids"
         entries["results_pdf"] = self.pdf
-        tools.set_grid_metadata(
+        tools.update_grid_metadata(
             self.grid, self.gridtmp, entries, {"results": results_log}
         )
         self.update_with_tmp()
@@ -133,7 +133,7 @@ class External(abc.ABC):
             for line in metadata.read_text().splitlines():
                 k, v = line.split("=")
                 entries[k] = v
-        tools.set_grid_metadata(self.grid, self.gridtmp, entries)
+        tools.update_grid_metadata(self.grid, self.gridtmp, entries)
         self.update_with_tmp()
 
         # apply postrun, if present

@@ -157,7 +157,7 @@ def git_pull(repo, remote_name="origin", branch="master"):
                 raise AssertionError(f"Impossible to pull git repo '{repo.path}'")
 
 
-def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=None):
+def update_grid_metadata(input_file, output_file, entries=None, entries_from_file=None):
     """Set metadata on a pineappl grid stored in a file, and save in a new one.
 
     Parameters
@@ -173,11 +173,30 @@ def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=N
         storing the content
 
     """
+    grid = pineappl.grid.Grid.read(str(input_file))
+    set_grid_metadata(grid, entries, entries_from_file)
+
+    grid.write(str(output_file))
+
+
+def set_grid_metadata(grid, entries=None, entries_from_file=None):
+    """Set metadata on a pineappl grid (in-place operation)
+
+    Parameters
+    ----------
+    input_grid : pineappl.grid.Grid
+        input grid on which to set metadata
+    entries : dict
+        mapping of key-value to store in the grid
+    entries_from_file : dict
+        mapping of key-value pairs, whose value are file paths of which
+        storing the content
+
+    """
     if entries is None:
         entries = {}
     if entries_from_file is None:
         entries_from_file = {}
-    grid = pineappl.grid.Grid.read(str(input_file))
 
     for k, v in entries.items():
         grid.set_key_value(k, v)
@@ -185,8 +204,6 @@ def set_grid_metadata(input_file, output_file, entries=None, entries_from_file=N
     for k, v in entries_from_file.items():
         with open(v) as fd:
             grid.set_key_value(k, fd.read())
-
-    grid.write(str(output_file))
 
 
 def common_substring(s1, s2, *sn):

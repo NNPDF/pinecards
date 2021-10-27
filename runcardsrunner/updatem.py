@@ -9,9 +9,12 @@ from . import paths, tools
 
 @click.command()
 @click.argument("datasets", nargs=-1)
-def update(datasets):
+def subcommand(datasets):
     """Update datasets metadata"""
+    main(datasets)
 
+
+def main(datasets):
     for path in datasets:
         path = pathlib.Path(path)
         dataset = path.stem
@@ -28,7 +31,7 @@ def update(datasets):
                 entries[k] = v
 
         dest = path.parent / (path.name + ".tmp")
-        tools.set_grid_metadata(path, dest, entries)
+        tools.update_grid_metadata(path, dest, entries)
         compressed = tools.compress(dest)
         dest.unlink()
         shutil.move(compressed, path)

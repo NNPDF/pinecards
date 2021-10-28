@@ -123,6 +123,18 @@ class Mg5(interface.External):
         )
         (self.dest / "launch.log").write_text(launch_log)
 
+        # find out which PDF set was used to generate the predictions
+        # TODO: is a bit weird that I can't specify the PDF on which to
+        # compare...
+        import lhapdf_management
+
+        res = re.search(r"set lhaid (\d+)", (self.dest / "launch.txt").read_text())
+        res = re.search(  # lookup for PDF set name in pdfsets.index
+            rf"{res[1]} (\S*)",
+            (lhapdf_management.environment.datapath / "pdfsets.index").read_text(),
+        )
+        self.pdf = res[1]
+
     def generate_pineappl(self):
         pineappl = paths.pineappl_exe()
 
@@ -154,27 +166,6 @@ class Mg5(interface.External):
             + f"--entry_from_file runcard {runcard}".split()
         )
         self.update_with_tmp()
-
-        # find out which PDF set was used to generate the predictions
-        pdf = re.search(r"set lhaid (\d+)", (self.dest / "launch.txt").read_text())[1]
-
-        # (re-)produce predictions
-        with open(self.dest / "pineappl.convolute", "w") as fd:
-            subprocess.run(
-                f"{pineappl} convolute {self.grid} {pdf} --scales 9 --absolute --integrated".split(),
-                stdout=fd,
-            )
-        with open(self.dest / "pineappl.orders", "w") as fd:
-            subprocess.run(
-                f"{pineappl} orders {self.grid} {pdf} --absolute".split(), stdout=fd
-            )
-        with open(self.dest / "pineappl.pdf_uncertainty", "w") as fd:
-            subprocess.run(
-                f"{pineappl} pdf_uncertainty --threads=1 {self.grid} {pdf}".split(),
-                stdout=fd,
-            )
-
-        return (self.dest / "pineappl.convolute").read_text().splitlines()[2:-2]
 
     def results(self):
         madatnlo = next(

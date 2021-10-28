@@ -25,19 +25,27 @@ def is_dis(name):
 
 
 class Yadism(interface.External):
-    def run(self):
-        print("Running yadism...")
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         # load runcards
         with open(paths.runcards / self.name / "observable.yaml") as o:
-            obs = yaml.safe_load(o)
+            self.obs = yaml.safe_load(o)
+
+    def run(self):
+        print("Running yadism...")
 
         # run yadism
-        out = yadism.run_yadism(self.theory, obs)
+        out = yadism.run_yadism(self.theory, self.obs)
 
-        # dump pineappl
-        out.dump_pineappl_to_file(str(self.grid), next(iter(obs["observables"].keys())))
+        # dump output
         out.dump_yaml_to_file(self.grid.with_suffix(".yaml"))
+
+    def generate_pineappl(self):
+        out = yadism.output.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
+        out.dump_pineappl_to_file(
+            str(self.grid), next(iter(self.obs["observables"].keys()))
+        )
 
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
@@ -78,9 +86,6 @@ class Yadism(interface.External):
         pdf_out["sv_min"] = svdf.min(axis=1)
 
         return pdf_out
-
-    def generate_pineappl(self):
-        return table.compute_data(self.grid, self.pdf)
 
     def collect_versions(self):
         return {}

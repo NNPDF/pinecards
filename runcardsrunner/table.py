@@ -10,7 +10,7 @@ import pineappl
 from . import tools
 
 
-def compute_data(grid, pdf_name):
+def convolute_grid(grid, pdf_name):
     """Call `convolute` via PineAPPL CLI.
 
     Parameters
@@ -37,42 +37,6 @@ def compute_data(grid, pdf_name):
     df["sv_max"] = df.max(axis=1)
     df["sv_min"] = df.min(axis=1)
     df.rename(columns={tools.nine_points.index((1.0, 1.0)): "integ"}, inplace=True)
-
-    return df
-
-
-def parse_pineappl_table(output):
-    """Parse PineAPPL CLI output to :class:`~pandas.DataFrame`.
-
-    Parameters
-    ----------
-    output : list(str) or pd.DataFrame
-        output of ``pineappl convolute ...`` or already parsed object (such that
-        this function is idempotent)
-
-    Returns
-    -------
-    pandas.DataFrame
-        parsed data
-
-    """
-    if isinstance(output, pd.DataFrame):
-        return output
-
-    header = output[0].split()
-    header = [
-        header[0],
-        *itertools.chain(*[(e + "_min", e + "_max") for e in header[1:-10]]),
-        *header[-10:],
-    ]
-    output = output[2:]
-
-    df = pd.DataFrame([row.split() for row in output], dtype=float, columns=header)
-    df.drop("bin", axis=1, inplace=True)
-
-    svdf = df[list(filter(lambda s: s[0] == "(", df.columns))]
-    df["sv_max"] = svdf.max(axis=1)
-    df["sv_min"] = svdf.min(axis=1)
 
     return df
 

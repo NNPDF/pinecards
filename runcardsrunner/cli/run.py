@@ -121,8 +121,11 @@ def run_dataset(runner):
     # if output folder specified, do not rerun
     if runner.timestamp is None:
         runner.run()
+    # collect results in the output pineappl grid
+    runner.generate_pineappl()
+
     table.print_table(
-        table.parse_pineappl_table(runner.generate_pineappl()),
+        table.convolute_grid(runner.grid, runner.pdf),
         runner.results(),
         runner.dest,
     )

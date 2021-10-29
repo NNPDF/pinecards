@@ -125,7 +125,9 @@ def run_dataset(runner):
     runner.generate_pineappl()
 
     table.print_table(
-        table.convolute_grid(runner.grid, runner.pdf),
+        table.convolute_grid(
+            runner.grid, runner.pdf, integrated=isinstance(runner, mg5.Mg5)
+        ),
         runner.results(),
         runner.dest,
     )

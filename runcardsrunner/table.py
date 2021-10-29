@@ -10,7 +10,7 @@ import pineappl
 from . import tools
 
 
-def convolute_grid(grid, pdf_name):
+def convolute_grid(grid, pdf_name, integrated=False):
     """Call `convolute` via PineAPPL CLI.
 
     Parameters
@@ -19,6 +19,8 @@ def convolute_grid(grid, pdf_name):
         grid path
     pdf_name : str
         PDF name
+    integrated : bool
+        whether the bins have to be integrated with bins normalizations
 
     Returns
     -------
@@ -37,6 +39,9 @@ def convolute_grid(grid, pdf_name):
     df["sv_max"] = df.max(axis=1)
     df["sv_min"] = df.min(axis=1)
     df.rename(columns={tools.nine_points.index((1.0, 1.0)): "integ"}, inplace=True)
+    if integrated:
+        normalizations = loaded_grid.bin_normalizations()
+        df = df.multiply(normalizations, axis="index")
 
     return df
 

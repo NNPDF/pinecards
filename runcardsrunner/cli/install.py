@@ -10,6 +10,7 @@ def subcommand():
 
 
 @subcommand.command()
+@click.option("--cli", is_flag=True, help="install PineAPPL CLI as well")
 def pineappl():
     """Install pineappl."""
     install.pineappl()

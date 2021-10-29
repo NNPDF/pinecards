@@ -91,8 +91,14 @@ def cargo():
     return str(paths.cargo / "bin" / "cargo")
 
 
-def pineappl():
+def pineappl(cli=False):
     """Initialize `PineAPPL <https://github.com/N3PDF/pineappl>`_.
+
+    Parameters
+    ----------
+    cli : bool
+        whether to install even PineAPPL CLI (by default `False`, since it's
+        not required to run)
 
     Returns
     -------
@@ -129,12 +135,13 @@ def pineappl():
         + [str(paths.prefix), "--manifest-path=pineappl_capi/Cargo.toml"],
         cwd=paths.pineappl,
     )
-    subprocess.run(
-        [cargo_exe]
-        + "install --path pineappl_cli --root".split()
-        + [str(paths.prefix)],
-        cwd=paths.pineappl,
-    )
+    if cli:
+        subprocess.run(
+            [cargo_exe]
+            + "install --path pineappl_cli --root".split()
+            + [str(paths.prefix)],
+            cwd=paths.pineappl,
+        )
 
     # retest availability
     return condition()

@@ -11,12 +11,14 @@ def subcommand():
 
 @subcommand.command()
 @click.option("--cli", is_flag=True, help="install PineAPPL CLI as well")
-def pineappl():
+def pineappl(cli):
     """Install pineappl."""
-    install.pineappl()
+    install.update_environ()
+    install.pineappl(cli)
 
 
 @subcommand.command()
 def mg5amc():
     """Install MG5aMC@NLO."""
+    install.update_environ()
     install.mg5amc()

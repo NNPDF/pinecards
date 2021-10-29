@@ -107,11 +107,10 @@ def pineappl(cli=False):
 
     """
     # define availability condition
-    condition = lambda: shutil.which("pineappl") is not None and pkgconfig.exists(
-        "pineappl_capi"
-    )
+    installed = lambda: pkgconfig.exists("pineappl_capi")
+    cli_installed = lambda: shutil.which("pineappl") is not None
 
-    if condition():
+    if installed() and (not cli or cli_installed()):
         print("✓ Found pineappl")
         return True
 
@@ -120,22 +119,25 @@ def pineappl(cli=False):
     if not pkgconfig.exists("lhapdf"):
         lhapdf()
 
-    try:
-        repo = pygit2.Repository(paths.pineappl)
-        tools.git_pull(repo)
-    except pygit2.GitError:
-        repo = pygit2.clone_repository(pineappl_repo, paths.pineappl)
+    if not installed():
+        try:
+            repo = pygit2.Repository(paths.pineappl)
+            tools.git_pull(repo)
+        except pygit2.GitError:
+            repo = pygit2.clone_repository(pineappl_repo, paths.pineappl)
 
-    cargo_exe = cargo()
-    subprocess.run([cargo_exe] + "install --force cargo-c".split())
+        cargo_exe = cargo()
+        subprocess.run([cargo_exe] + "install --force cargo-c".split())
 
-    subprocess.run(
-        [cargo_exe]
-        + "cinstall --release --prefix".split()
-        + [str(paths.prefix), "--manifest-path=pineappl_capi/Cargo.toml"],
-        cwd=paths.pineappl,
-    )
-    if cli:
+        subprocess.run(
+            [cargo_exe]
+            + "cinstall --release --prefix".split()
+            + [str(paths.prefix), "--manifest-path=pineappl_capi/Cargo.toml"],
+            cwd=paths.pineappl,
+        )
+
+    if cli and not cli_installed():
+        cargo_exe = cargo()
         subprocess.run(
             [cargo_exe]
             + "install --path pineappl_cli --root".split()

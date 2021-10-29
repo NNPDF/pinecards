@@ -137,34 +137,31 @@ class Mg5(interface.External):
         self.pdf = res[1]
 
     def generate_pineappl(self):
-        pineappl_exe = paths.pineappl_exe()
-
         # if rerunning without regenerating, let's remove the already merged
         # grid (it will be soon reobtained)
         if self.timestamp is not None:
             self.grid.unlink()
 
         # merge the final bins
-        mg5_grids = " ".join(
-            sorted(
-                str(p)
-                for p in self.mg5_dir.glob("Events/run_01*/amcblast_obs_*.pineappl")
-            )
+        mg5_grids = sorted(
+            str(p.absolute())
+            for p in self.mg5_dir.glob("Events/run_01*/amcblast_obs_*.pineappl")
         )
-        subprocess.run(f"{pineappl_exe} merge {self.grid} {mg5_grids}".split())
+        # read the first one from file
+        grid = pineappl.grid.Grid.read(mg5_grids[0])
+        # subsequently merge all the others (disk -> memory)
+        for path in mg5_grids[1:]:
+            grid.merge_from_file(path)
 
         # optimize the grids
-        grid = pineappl.grid.Grid.read(str(self.grid))
         grid.optimize()
 
-        # add metadata
-        metadata = self.source / "metadata.txt"
+        # add results to metadata
         runcard = next(
             iter(self.mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt"))
         )
         grid.set_key_value("runcard", runcard.read_text())
 
-        self.grid.unlink()
         grid.write(str(self.grid))
 
     def results(self):

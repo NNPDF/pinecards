@@ -4,6 +4,7 @@ import subprocess
 
 import numpy as np
 import pandas as pd
+import pineappl
 
 from ... import install, log, paths, tools
 from .. import interface
@@ -136,7 +137,7 @@ class Mg5(interface.External):
         self.pdf = res[1]
 
     def generate_pineappl(self):
-        pineappl = paths.pineappl_exe()
+        pineappl_exe = paths.pineappl_exe()
 
         # if rerunning without regenerating, let's remove the already merged
         # grid (it will be soon reobtained)
@@ -150,22 +151,21 @@ class Mg5(interface.External):
                 for p in self.mg5_dir.glob("Events/run_01*/amcblast_obs_*.pineappl")
             )
         )
-        subprocess.run(f"{pineappl} merge {self.grid} {mg5_grids}".split())
+        subprocess.run(f"{pineappl_exe} merge {self.grid} {mg5_grids}".split())
 
         # optimize the grids
-        subprocess.run(f"{pineappl} optimize {self.grid} {self.gridtmp}".split())
-        self.update_with_tmp()
+        grid = pineappl.grid.Grid.read(str(self.grid))
+        grid.optimize()
 
         # add metadata
         metadata = self.source / "metadata.txt"
         runcard = next(
             iter(self.mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt"))
         )
-        subprocess.run(
-            f"{pineappl} set {self.grid} {self.gridtmp}".split()
-            + f"--entry_from_file runcard {runcard}".split()
-        )
-        self.update_with_tmp()
+        grid.set_key_value("runcard", runcard.read_text())
+
+        self.grid.unlink()
+        grid.write(str(self.grid))
 
     def results(self):
         madatnlo = next(

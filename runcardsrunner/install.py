@@ -146,7 +146,7 @@ def pineappl(cli=False):
         )
 
     # retest availability
-    return condition()
+    return installed() and (not cli or cli_installed())
 
 
 def update_lhapdf_path(path):

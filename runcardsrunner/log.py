@@ -22,6 +22,19 @@ class WhileRedirectedError(RuntimeError):
         self.file = file.absolute() if isinstance(file, pathlib.Path) else file
 
 
+class ChildStream:
+    def __init__(self, parent):
+        self.parent = parent
+
+    def write(self, data):
+        self.parent.write(data, self)
+
+    def __getattribute__(self, name):
+        if name[0] != "_" and name not in ["parent", "write"]:
+            return super().__getattribute__("parent").__getattribute__(name)
+        return super().__getattribute__(name)
+
+
 class Tee:
     """Context manager to tee stdout to file
 
@@ -34,24 +47,46 @@ class Tee:
 
     def __init__(self, name):
         self.file = open(name, "w")
+        self.stdout = ChildStream(self)
+        self.stderr = ChildStream(self)
 
     def __enter__(self):
-        self.stdout = sys.stdout
-        sys.stdout = self
+        self.stdout_bk = sys.stdout
+        self.stderr_bk = sys.stderr
+        sys.stdout = self.stdout
+        sys.stderr = self.stderr
+        return self
 
     def __exit__(self, exc_type, exc, _):
         if exc_type is WhileRedirectedError:
-            print(f"Error occurred while the output was redirected to '{exc.file}'")
-        sys.stdout = self.stdout
+            self.write(
+                f"Error occurred while the output was redirected to '{exc.file}'",
+                self.stderr,
+            )
+        sys.stdout = self.stdout_bk
+        sys.stderr = self.stderr_bk
         self.file.flush()
         self.file.close()
 
-    def write(self, data):
+    def write(self, data, stream):
         self.file.write(data)
-        self.stdout.write(data)
+        if stream is self.stdout:
+            self.stdout_bk.write(data)
+        elif stream is self.stderr:
+            self.stderr_bk.write(data)
+
+    def flush(self):
+        self.file.flush()
 
     def __getattribute__(self, name):
-        if name[0] != "_" and name not in ["file", "stdout", "write"]:
+        if name[0] != "_" and name not in [
+            "file",
+            "stdout",
+            "stderr",
+            "stdout_bk",
+            "stderr_bk",
+            "write",
+        ]:
             return super().__getattribute__("file").__getattribute__(name)
         return super().__getattribute__(name)
 

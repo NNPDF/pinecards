@@ -5,7 +5,7 @@ import click
 import rich
 import yaml
 
-from .. import install, table, tools
+from .. import install, log, table, tools
 from ..external import mg5, yad
 from ._base import command
 
@@ -118,20 +118,22 @@ def run_dataset(runner):
 
     tools.print_time(t0, "Grid calculation")
 
-    # if output folder specified, do not rerun
-    if runner.timestamp is None:
-        runner.run()
-    # collect results in the output pineappl grid
-    runner.generate_pineappl()
+    with log.Tee(runner.dest / "errors.log", stdout=False, stderr=True):
+        # if output folder specified, do not rerun
+        if runner.timestamp is None:
+            runner.run()
+        # collect results in the output pineappl grid
+        runner.generate_pineappl()
 
-    table.print_table(
-        table.convolute_grid(
-            runner.grid, runner.pdf, integrated=isinstance(runner, mg5.Mg5)
-        ),
-        runner.results(),
-        runner.dest,
-    )
+        table.print_table(
+            table.convolute_grid(
+                runner.grid, runner.pdf, integrated=isinstance(runner, mg5.Mg5)
+            ),
+            runner.results(),
+            runner.dest,
+        )
 
-    runner.annotate_versions()
-    runner.postprocess()
+        runner.annotate_versions()
+        runner.postprocess()
+
     print(f"Output stored in {runner.dest.name}")

@@ -45,10 +45,10 @@ class Tee:
 
     """
 
-    def __init__(self, name):
+    def __init__(self, name, stdout=True, stderr=False):
         self.file = open(name, "w")
-        self.stdout = ChildStream(self)
-        self.stderr = ChildStream(self)
+        self.stdout = ChildStream(self) if stdout else sys.stdout
+        self.stderr = ChildStream(self) if stderr else sys.stderr
 
     def __enter__(self):
         self.stdout_bk = sys.stdout

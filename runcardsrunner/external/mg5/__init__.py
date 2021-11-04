@@ -26,10 +26,11 @@ class Mg5(interface.External):
         output_file.write_text(output)
 
         # create output folder
-        output_log = log.subprocess(
-            [str(paths.mg5_exe), str(output_file)], dest=self.dest
+        log.subprocess(
+            [str(paths.mg5_exe), str(output_file)],
+            cwd=self.dest,
+            out=(self.dest / "output.log"),
         )
-        (self.dest / "output.log").write_text(output_log)
 
         # copy patches if there are any; use xargs to properly signal failures
         for p in self.source.iterdir():
@@ -119,10 +120,11 @@ class Mg5(interface.External):
                 tools.patch(patch_file.read_text(), self.mg5_dir)
 
         # launch run
-        launch_log = log.subprocess(
-            [str(paths.mg5_exe), str(launch_file)], dest=self.dest
+        log.subprocess(
+            [str(paths.mg5_exe), str(launch_file)],
+            cwd=self.dest,
+            out=self.dest / "launch.log",
         )
-        (self.dest / "launch.log").write_text(launch_log)
 
         # find out which PDF set was used to generate the predictions
         # TODO: is a bit weird that I can't specify the PDF on which to

@@ -163,6 +163,9 @@ class Mg5(interface.External):
             iter(self.mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt"))
         )
         grid.set_key_value("runcard", runcard.read_text())
+        # add generated cards to metadata
+        grid.set_key_value("output.txt", (self.dest / "output.txt").read_text())
+        grid.set_key_value("launch.txt", (self.dest / "launch.txt").read_text())
 
         grid.write(str(self.grid))
 

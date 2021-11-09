@@ -11,6 +11,13 @@ from .. import interface
 
 
 class Mg5(interface.External):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.user_cuts = []
+        self.patches = []
+        self.tau_min = None
+
     @property
     def mg5_dir(self):
         return self.dest / self.name
@@ -72,14 +79,13 @@ class Mg5(interface.External):
         user_cuts_pattern = re.compile(
             r"^#user_defined_cut set (\w+)\s+=\s+([+-]?\d+(?:\.\d+)?|True|False)$"
         )
-        user_cuts = []
         for line in launch.splitlines():
             m = re.fullmatch(user_cuts_pattern, line)
             if m is not None:
-                user_cuts.append((m[1], m[2]))
+                self.user_cuts.append((m[1], m[2]))
 
         # if there are user-defined cuts, implement them
-        apply_user_cuts(self.mg5_dir / "SubProcesses" / "cuts.f", user_cuts)
+        apply_user_cuts(self.mg5_dir / "SubProcesses" / "cuts.f", self.user_cuts)
 
         # parse launch file for user-defined minimum tau
         user_taumin_pattern = re.compile(r"^#user_defined_tau_min (.*)")
@@ -99,6 +105,7 @@ class Mg5(interface.External):
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
             (self.dest / "set_tau_min.patch").write_text(set_tau_min_patch)
+            self.tau_min = user_taumin
             tools.patch(set_tau_min_patch, self.mg5_dir)
 
         # parse launch file for other patches
@@ -117,6 +124,7 @@ class Mg5(interface.External):
                     raise ValueError(
                         f"Patch '{patch}' requested, but does not exist in patches folder"
                     )
+                self.patches.append(patch)
                 tools.patch(patch_file.read_text(), self.mg5_dir)
 
         # launch run
@@ -166,6 +174,12 @@ class Mg5(interface.External):
         # add generated cards to metadata
         grid.set_key_value("output.txt", (self.dest / "output.txt").read_text())
         grid.set_key_value("launch.txt", (self.dest / "launch.txt").read_text())
+        # add patches and cuts used to metadata
+        grid.set_key_value("patches", "\n".join(self.patches))
+        grid.set_key_value("tau_min", str(self.tau_min))
+        grid.set_key_value(
+            "user_cuts", "\n".join(f"{var}={value}" for var, value in self.user_cuts)
+        )
 
         grid.write(str(self.grid))
 

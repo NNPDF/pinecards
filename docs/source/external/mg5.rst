@@ -34,6 +34,24 @@ Runcard structure
 - The ``*.patch`` file(s) (optional). These are one or more ``.patch`` files
   that are applied after |mg5| has generated the sources.
 
+Additional metadata
+-------------------
+
+- ``output.txt``: contains the generated ``output.txt`` script (after all
+  substitutions have been done)
+- ``launch.txt``: contains the generated ``launch.txt`` script (after all
+  substitutions have been done)
+- ``patch``: a list of patches' names, one per row (corresponding to those
+  described in :doc:`mg5_patches`)
+- ``tau_min``: the minimum :math:`\tau` value set by the user
+- ``user_cuts``: user defined cuts and cuts values, one per row in the format
+  ``cut=value`` (cuts are those defined in :doc:`mg5_cuts`)
+
+.. note::
+
+   It is guaranteed that the keys listed above are always present in grid's
+   metadata (even if some of the corresponding values might be empty).
+
 Output
 ------
 

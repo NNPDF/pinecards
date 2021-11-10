@@ -28,3 +28,8 @@ Arbitrary ``key=value`` pairs are supported, the most common are:
 This key-value pairs are written into the final PineAPPL, to allow the user
 to easily identify what is stored in the grid and how it was generated. It
 also allows for easily plotting the contents of the grids.
+
+.. note::
+
+   Further metadata are specific for each external, you can find them in the
+   respective external page, in the section "Additional metadata".

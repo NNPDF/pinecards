@@ -175,15 +175,13 @@ class Mg5(interface.External):
         grid.set_key_value("output.txt", (self.dest / "output.txt").read_text())
         grid.set_key_value("launch.txt", (self.dest / "launch.txt").read_text())
         # add patches and cuts used to metadata
-        if len(self.patches) > 0:
-            grid.set_key_value("patches", "\n".join(self.patches))
-        if self.tau_min is not None:
-            grid.set_key_value("tau_min", str(self.tau_min))
-        if len(self.user_cuts) > 0:
-            grid.set_key_value(
-                "user_cuts",
-                "\n".join(f"{var}={value}" for var, value in self.user_cuts),
-            )
+        grid.set_key_value("patches", "\n".join(self.patches))
+        grid.set_key_value(
+            "tau_min", str(self.tau_min) if self.tau_min is not None else ""
+        )
+        grid.set_key_value(
+            "user_cuts", "\n".join(f"{var}={value}" for var, value in self.user_cuts)
+        )
 
         grid.write(str(self.grid))
 

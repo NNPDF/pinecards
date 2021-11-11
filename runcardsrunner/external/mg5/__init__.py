@@ -71,7 +71,7 @@ class Mg5(interface.External):
         # being we create the file here, but in the future it should be read from the theory database
         # EDIT: now available in self.theory
         variables = json.loads((paths.pkg / "variables.json").read_text())
-        variables["PDF_ID"] = self.pdf_id
+        variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
         for name, value in variables.items():

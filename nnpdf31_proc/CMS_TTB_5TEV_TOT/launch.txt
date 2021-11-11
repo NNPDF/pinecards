@@ -13,7 +13,7 @@ set wz @WZ@
 set ebeam1 2510
 set ebeam2 2510
 set pdlabel lhapdf
-set lhaid @PDF_ID@
+set lhaid @LHAPDF_ID@
 set dynamical_scale_choice 10
 set reweight_scale True
 set req_acc_FO 0.001

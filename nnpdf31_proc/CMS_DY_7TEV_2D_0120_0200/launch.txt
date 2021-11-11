@@ -13,7 +13,7 @@ set wz @WZ@
 set ebeam1 3500
 set ebeam2 3500
 set pdlabel lhapdf
-set lhaid 324900
+set lhaid @PDF_ID@
 set dynamical_scale_choice 10
 set reweight_scale True
 #user_defined_cut set ptl1min = 14.0

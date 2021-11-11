@@ -75,7 +75,7 @@ class Mg5(interface.External):
 
         # replace the variables with their values
         for name, value in variables.items():
-            launch = launch.replace(f"@{name}@", value)
+            launch = launch.replace(f"@{name}@", str(value))
 
         # finally write launch
         launch_file = self.dest / "launch.txt"

@@ -2,6 +2,7 @@ import json
 import re
 import subprocess
 
+import lhapdf
 import numpy as np
 import pandas as pd
 import pineappl
@@ -25,6 +26,10 @@ class Mg5(interface.External):
     @staticmethod
     def install():
         install.mg5amc()
+
+    @property
+    def pdf_id(self):
+        return lhapdf.mkPDF(self.pdf).info().get_entry("SetIndex")
 
     def run(self):
         # copy the output file to the directory and replace the variables
@@ -66,10 +71,11 @@ class Mg5(interface.External):
         # being we create the file here, but in the future it should be read from the theory database
         # EDIT: now available in self.theory
         variables = json.loads((paths.pkg / "variables.json").read_text())
+        variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
         for name, value in variables.items():
-            launch = launch.replace(f"@{name}@", value)
+            launch = launch.replace(f"@{name}@", str(value))
 
         # finally write launch
         launch_file = self.dest / "launch.txt"
@@ -133,18 +139,6 @@ class Mg5(interface.External):
             cwd=self.dest,
             out=self.dest / "launch.log",
         )
-
-        # find out which PDF set was used to generate the predictions
-        # TODO: is a bit weird that I can't specify the PDF on which to
-        # compare...
-        import lhapdf_management
-
-        res = re.search(r"set lhaid (\d+)", (self.dest / "launch.txt").read_text())
-        res = re.search(  # lookup for PDF set name in pdfsets.index
-            rf"{res[1]} (\S*)",
-            (lhapdf_management.environment.datapath / "pdfsets.index").read_text(),
-        )
-        self.pdf = res[1]
 
     def generate_pineappl(self):
         # if rerunning without regenerating, let's remove the already merged

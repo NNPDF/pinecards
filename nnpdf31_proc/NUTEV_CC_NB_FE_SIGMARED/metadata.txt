@@ -3,6 +3,7 @@ description=NUTEV reduced cross section for antineutrino-nucleon scattering on i
 hepdata=10.17182/hepdata.42034.v1
 data_url=
 nnpdf_id=NTVNBDMNFe
+fktable_id=NTVNBDMNFe
 x1_label=Q2
 x1_label_tex=$Q^2$
 x1_unit=GeV^2

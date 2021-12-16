@@ -3,6 +3,7 @@ description=HERA NC reduced cross section at 318 GeV electron scattering
 hepdata=10.17182/hepdata.68951.v1/t5
 data_url=https://www.desy.de/h1zeus/herapdf20
 nnpdf_id=HERACOMBNCEM
+fktable_id=HERACOMBNCEM
 x1_label=Q2
 x1_label_tex=$Q^2$
 x1_unit=GeV^2

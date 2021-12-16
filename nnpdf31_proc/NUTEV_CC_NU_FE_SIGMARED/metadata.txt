@@ -3,6 +3,7 @@ description=NUTEV reduced cross section for neutrino-nucleon scattering on iron
 hepdata=10.17182/hepdata.42034.v1
 data_url=
 nnpdf_id=NTVNUDMNFe
+fktable_id=NTVNUDMNFe
 x1_label=Q2
 x1_label_tex=$Q^2$
 x1_unit=GeV^2

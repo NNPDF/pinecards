@@ -56,7 +56,7 @@ interpolation_xgrid:
 - 0.9309440808717544
 - 1
 observables:
-  F2total:
+  F2_total:
   - Q2: 0.59
     x: 0.07
     y: 1.0

@@ -1,0 +1,29 @@
+launch @OUTPUT@
+fixed_order = ON
+set gf @GF@
+set mh @MH@
+set mt @MT@
+set mw @MW@
+set mz @MZ@
+set wh @WH@
+set wt @WT@
+set ww @WW@
+set wz @WZ@
+set ebeam1 4000
+set ebeam2 4000
+set pdlabel lhapdf
+set lhaid 324900
+set dynamical_scale_choice 10
+set reweight_scale True
+set ptl = 20.0
+set etal = 2.4
+set ptj = 5.0
+set jetradius = 0.5
+set jetalgo = -1
+set mll_sf = 12.0
+#user_defined_cut set yz = 2.4
+#user_defined_cut set atlas_zpt_8tev_mdist = True
+set req_acc_FO 0.0001
+set pineappl True
+done
+quit

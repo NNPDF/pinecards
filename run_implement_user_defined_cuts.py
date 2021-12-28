@@ -865,6 +865,19 @@ c             exit
       enddo
 
 ''',
+    'deltarjl': '''c     cut on the delta R distance of all lepton-jet pairs
+      do i=3,nexternal
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          do j=1,njet
+            if (r2_04(p_reco(0,i),pjet(0,j)).lt.{}**2) then
+              passcuts_user=.false.
+              return
+            endif
+          enddo
+        endif
+      enddo
+
+''',
 }
 
 if __name__ == '__main__':

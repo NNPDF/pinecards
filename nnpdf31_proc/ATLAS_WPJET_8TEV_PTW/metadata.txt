@@ -1,0 +1,10 @@
+arxiv=1711.03296
+description=ATLAS transverse momentum of the W+ boson at 8 TeV
+hepdata=10.17182/hepdata.80076.v2/t13
+nnpdf_id=ATLAS_WP_JET_8TEV_PT
+x1_label=ptlv
+x1_label_tex=$p_{\mathrm{T},\bar{\ell}\nu_\ell}$
+x1_unit=GeV
+y_label=dsig/dptlv
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T},\bar{\ell}\nu_\ell}}$
+y_unit=pb/GeV

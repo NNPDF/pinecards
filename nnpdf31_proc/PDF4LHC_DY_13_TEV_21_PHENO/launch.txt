@@ -21,8 +21,6 @@ set ptl = 10.0
 set etal = 2.4
 set mll_sf = 1000.0
 #user_defined_cut set mmllmax = 7000.0
-#user_defined_tau_min 1000.0
-#enable_patch no_pole_cancellation_checks
 set rphreco = 0.1
 set req_acc_FO 0.01
 set pineappl True

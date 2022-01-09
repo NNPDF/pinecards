@@ -72,8 +72,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
         obs=-3d0
       endif
 
-      print *, xmll, obs
-
       if (obs.gt.0d0) then
         call HwU_fill(1,obs,wgts)
       else

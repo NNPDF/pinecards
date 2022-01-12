@@ -1,4 +1,4 @@
-arxiv=
+arxiv=hep-ex/9611022
 description=NMC F2 structure function, deuteron data
 hepdata=10.17182/hepdata.32750.v1
 data_url=
@@ -11,5 +11,5 @@ x2_label=x
 x2_label_tex=$x$
 x2_unit=
 y_label=F2d
-y_label_tex=$\F_{2,\mathrm{tot}}^{(d)}$
+y_label_tex=$F_{2,\mathrm{tot}}^{(d)}$
 y_unit=

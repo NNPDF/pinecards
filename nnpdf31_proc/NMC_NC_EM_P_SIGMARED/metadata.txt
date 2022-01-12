@@ -1,5 +1,5 @@
 arxiv=
-description=NMC reduced cross section
+description=NMC reduced cross section, scattering on proton
 hepdata=10.17182/hepdata.32750.v1
 data_url=
 nnpdf_id=NMC

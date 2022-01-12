@@ -1,7 +1,7 @@
 PolarizationDIS: 0.0
 ProjectileDIS: electron
 PropagatorCorrection: 0.0
-TargetDIS: isoscalar
+TargetDIS: proton
 interpolation_is_log: true
 interpolation_polynomial_degree: 4
 interpolation_xgrid:

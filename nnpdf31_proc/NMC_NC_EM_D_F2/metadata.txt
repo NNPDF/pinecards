@@ -11,5 +11,5 @@ x2_label=x
 x2_label_tex=$x$
 x2_unit=
 y_label=F2d
-y_label_tex=$F_{2,\mathrm{tot}}^{(d)}$
+y_label_tex=$F_{2,\mathrm{tot}}^{(\mathrm{d})}$
 y_unit=

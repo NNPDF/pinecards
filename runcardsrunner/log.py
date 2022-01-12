@@ -45,10 +45,10 @@ class Tee:
 
     """
 
-    def __init__(self, name):
+    def __init__(self, name, stdout=True, stderr=False):
         self.file = open(name, "w")
-        self.stdout = ChildStream(self)
-        self.stderr = ChildStream(self)
+        self.stdout = ChildStream(self) if stdout else sys.stdout
+        self.stderr = ChildStream(self) if stderr else sys.stderr
 
     def __enter__(self):
         self.stdout_bk = sys.stdout
@@ -91,8 +91,17 @@ class Tee:
         return super().__getattribute__(name)
 
 
-def subprocess(*args, dest):
+def subprocess(*args, cwd, out):
     """Wrapper to :class:`subprocess.Popen` to print the output to screen and capture it.
+
+    Parameters
+    ----------
+    args
+        positional arguments to pass to `subprocess.Popen`
+    cwd : path-like or str
+        directory where to execute the command
+    out : path-like or str
+        file to which (also) redirect the output
 
     Returns
     -------
@@ -100,16 +109,18 @@ def subprocess(*args, dest):
         output of the command run in the subprocess
 
     """
-    p = sp.Popen(*args, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=dest)
-    output = []
+    p = sp.Popen(*args, stdout=sp.PIPE, stderr=sp.STDOUT, cwd=cwd)
 
-    while True:
-        # returns None while subprocess is running
-        retcode = p.poll()
-        line = p.stdout.readline().decode()[:-1]
-        if retcode is not None:
-            break
-        print(line)
-        output.append(line)
+    try:
+        with open(out, "w") as fd:
+            while True:
+                # returns None while subprocess is running
+                retcode = p.poll()
+                line = p.stdout.readline().decode()[:-1]
+                if retcode is not None:
+                    break
+                print(line)
 
-    return "\n".join(output)
+                fd.write(line + "\n")
+    except Exception as e:
+        raise WhileRedirectedError(file=out)

@@ -1,6 +1,5 @@
 import inspect
 import itertools
-import subprocess
 
 import lhapdf
 import more_itertools

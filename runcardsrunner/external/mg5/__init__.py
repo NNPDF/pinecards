@@ -2,6 +2,7 @@ import json
 import re
 import subprocess
 
+import lhapdf
 import numpy as np
 import pandas as pd
 import pineappl
@@ -11,6 +12,13 @@ from .. import interface
 
 
 class Mg5(interface.External):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.user_cuts = []
+        self.patches = []
+        self.tau_min = None
+
     @property
     def mg5_dir(self):
         return self.dest / self.name
@@ -19,6 +27,10 @@ class Mg5(interface.External):
     def install():
         install.mg5amc()
 
+    @property
+    def pdf_id(self):
+        return lhapdf.mkPDF(self.pdf).info().get_entry("SetIndex")
+
     def run(self):
         # copy the output file to the directory and replace the variables
         output = (self.source / "output.txt").read_text().replace("@OUTPUT@", self.name)
@@ -26,10 +38,11 @@ class Mg5(interface.External):
         output_file.write_text(output)
 
         # create output folder
-        output_log = log.subprocess(
-            [str(paths.mg5_exe), str(output_file)], dest=self.dest
+        log.subprocess(
+            [str(paths.mg5_exe), str(output_file)],
+            cwd=self.dest,
+            out=(self.dest / "output.log"),
         )
-        (self.dest / "output.log").write_text(output_log)
 
         # copy patches if there are any; use xargs to properly signal failures
         for p in self.source.iterdir():
@@ -58,10 +71,11 @@ class Mg5(interface.External):
         # being we create the file here, but in the future it should be read from the theory database
         # EDIT: now available in self.theory
         variables = json.loads((paths.pkg / "variables.json").read_text())
+        variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
         for name, value in variables.items():
-            launch = launch.replace(f"@{name}@", value)
+            launch = launch.replace(f"@{name}@", str(value))
 
         # finally write launch
         launch_file = self.dest / "launch.txt"
@@ -71,14 +85,13 @@ class Mg5(interface.External):
         user_cuts_pattern = re.compile(
             r"^#user_defined_cut set (\w+)\s+=\s+([+-]?\d+(?:\.\d+)?|True|False)$"
         )
-        user_cuts = []
         for line in launch.splitlines():
             m = re.fullmatch(user_cuts_pattern, line)
             if m is not None:
-                user_cuts.append((m[1], m[2]))
+                self.user_cuts.append((m[1], m[2]))
 
         # if there are user-defined cuts, implement them
-        apply_user_cuts(self.mg5_dir / "SubProcesses" / "cuts.f", user_cuts)
+        apply_user_cuts(self.mg5_dir / "SubProcesses" / "cuts.f", self.user_cuts)
 
         # parse launch file for user-defined minimum tau
         user_taumin_pattern = re.compile(r"^#user_defined_tau_min (.*)")
@@ -98,6 +111,7 @@ class Mg5(interface.External):
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
             (self.dest / "set_tau_min.patch").write_text(set_tau_min_patch)
+            self.tau_min = user_taumin
             tools.patch(set_tau_min_patch, self.mg5_dir)
 
         # parse launch file for other patches
@@ -116,25 +130,15 @@ class Mg5(interface.External):
                     raise ValueError(
                         f"Patch '{patch}' requested, but does not exist in patches folder"
                     )
+                self.patches.append(patch)
                 tools.patch(patch_file.read_text(), self.mg5_dir)
 
         # launch run
-        launch_log = log.subprocess(
-            [str(paths.mg5_exe), str(launch_file)], dest=self.dest
+        log.subprocess(
+            [str(paths.mg5_exe), str(launch_file)],
+            cwd=self.dest,
+            out=self.dest / "launch.log",
         )
-        (self.dest / "launch.log").write_text(launch_log)
-
-        # find out which PDF set was used to generate the predictions
-        # TODO: is a bit weird that I can't specify the PDF on which to
-        # compare...
-        import lhapdf_management
-
-        res = re.search(r"set lhaid (\d+)", (self.dest / "launch.txt").read_text())
-        res = re.search(  # lookup for PDF set name in pdfsets.index
-            rf"{res[1]} (\S*)",
-            (lhapdf_management.environment.datapath / "pdfsets.index").read_text(),
-        )
-        self.pdf = res[1]
 
     def generate_pineappl(self):
         # if rerunning without regenerating, let's remove the already merged
@@ -161,6 +165,17 @@ class Mg5(interface.External):
             iter(self.mg5_dir.glob("Events/run_01*/run_01*_tag_1_banner.txt"))
         )
         grid.set_key_value("runcard", runcard.read_text())
+        # add generated cards to metadata
+        grid.set_key_value("output.txt", (self.dest / "output.txt").read_text())
+        grid.set_key_value("launch.txt", (self.dest / "launch.txt").read_text())
+        # add patches and cuts used to metadata
+        grid.set_key_value("patches", "\n".join(self.patches))
+        grid.set_key_value(
+            "tau_min", str(self.tau_min) if self.tau_min is not None else ""
+        )
+        grid.set_key_value(
+            "user_cuts", "\n".join(f"{var}={value}" for var, value in self.user_cuts)
+        )
 
         grid.write(str(self.grid))
 

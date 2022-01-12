@@ -13,7 +13,7 @@ set wz @WZ@
 set ebeam1 4000
 set ebeam2 4000
 set pdlabel lhapdf
-set lhaid 324900
+set lhaid @LHAPDF_ID@
 set fixed_ren_scale True
 set fixed_fac_scale True
 set mur_ref_fixed @MZ@

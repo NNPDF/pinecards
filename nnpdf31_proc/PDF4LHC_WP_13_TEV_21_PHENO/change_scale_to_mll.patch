@@ -60,7 +60,7 @@
 +         else if (xmll.lt.7000d0) then
 +           tmp=0.5*(5000d0+7000d0)
 +         else
-+           write (*,*) "error: event outside bins", xmll
++           !write (*,*) "error: event outside bins", xmll
 +         endif
  ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
  cc      USER-DEFINED SCALE: END OF USER CODE                                     cc

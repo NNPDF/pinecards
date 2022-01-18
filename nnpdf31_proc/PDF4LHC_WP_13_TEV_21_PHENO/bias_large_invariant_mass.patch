@@ -1,0 +1,45 @@
+--- PDF4LHC_WP_13_TEV_21_PHENO/SubProcesses/cuts.f.old	2022-01-18 14:44:46.095088533 +0100
++++ PDF4LHC_WP_13_TEV_21_PHENO/SubProcesses/cuts.f	2022-01-18 14:49:52.421021878 +0100
+@@ -975,25 +975,29 @@
+ c      'bias' = event_norm      
+ c
+       implicit none
++      include 'cuts.inc'
+       include 'nexternal.inc'
+       double precision bias_wgt,p(0:3,nexternal),H_T
+       integer ipdg(nexternal),i
++      double precision ppl(0:3), pplb(0:3), ppv(0:3)
++      double precision p_reco(0:4,nexternal)
++      integer iPDG_reco(nexternal),grid
++
+ 
+       bias_wgt=1d0
+ 
+-c How to enhance the tails is very process dependent. For example for
+-c top quark production one could use:
+-c      do i=1,nexternal
+-c         if (ipdg(i).eq.6) then
+-c            bias_wgt=sqrt(p(1,i)**2+p(2,i)**2)**3
+-c         endif
+-c      enddo
+-c Or to use H_T^2 one does     
+-c      H_T=0d0
+-c      do i=3,nexternal
+-c         H_T=H_T+sqrt(max(0d0,(p(0,i)+p(3,i))*(p(0,i)-p(3,i))))
+-c      enddo
+-c      bias_wgt=H_T**2
++      call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
++     $                       p, iPDG, p_reco, iPDG_reco)
++
++      do i = nincoming+1, nexternal
++        if (iPDG_reco(i).eq.14) ppl(0:3)=p_reco(0:3,i)
++        if (iPDG_reco(i).eq.-13) pplb(0:3)=p_reco(0:3,i)
++      enddo
++      do i=0,3
++        ppv(i)=ppl(i)+pplb(i)
++      enddo
++
++      bias_wgt=sqrt(ppv(0)**2-ppv(1)**2-ppv(2)**2-ppv(3)**2)**3
+       return
+       end
+ 

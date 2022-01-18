@@ -75,8 +75,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       if (obs.gt.0d0) then
         call HwU_fill(1,obs,wgts)
       else
-        write (*,*) "error: event outside bins", obs
-        stop 1
+        !write (*,*) "error: event outside bins", obs
+        !stop 1
       endif
 
  999  return

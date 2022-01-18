@@ -16,14 +16,12 @@ set pdlabel lhapdf
 set lhaid @LHAPDF_ID@
 set dynamical_scale_choice 10
 set reweight_scale True
+set event_norm = bias
 set ptl = 22.0
 set etal = 2.4
-#user_defined_cut set mmlnumin = 1000.0
 #user_defined_cut set mmlnumax = 7000.0
-#user_defined_tau_min 500.0
-#enable_patch no_pole_cancellation_checks
 set rphreco = 0.1
-set req_acc_FO 0.1
+set req_acc_FO 0.001
 set pineappl True
 done
 quit

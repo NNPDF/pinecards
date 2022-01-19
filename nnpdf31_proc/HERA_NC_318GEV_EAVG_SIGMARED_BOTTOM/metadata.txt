@@ -11,5 +11,5 @@ x2_label=x
 x2_label_tex=$x$
 x2_unit=
 y_label=sigr
-y_label_tex=$\sigma_\mathrm{red,\mathrm{b}\bar\mathrm{b}}$
+y_label_tex=$\sigma_{\mathrm{red},\mathrm{b}\bar{\mathrm{b}}}$
 y_unit=

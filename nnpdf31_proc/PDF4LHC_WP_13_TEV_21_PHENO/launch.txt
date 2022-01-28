@@ -21,7 +21,15 @@ set ptl = 22.0
 set etal = 2.4
 #user_defined_cut set mmlnumax = 7000.0
 set rphreco = 0.1
-set req_acc_FO 0.001
+# with a bias function we degrade the uncertainty of the integrated cross
+# section, so don't optimize this quantity; instead, set the integration
+# parameters explicitly
+set req_acc_FO -1
+set npoints_fo_grid 500000 # step 0 points
+set niters_fo_grid 100 # step 0 iterations
+set npoints_fo 100000000 # step 1 points
+set niters_fo 50 # step 1 iterations
+#
 set pineappl True
 done
 quit

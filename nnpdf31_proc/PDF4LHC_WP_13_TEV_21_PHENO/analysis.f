@@ -7,7 +7,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'mll', 6, 0d0, 6d0)
+      call HwU_book(1,'mll', 7, 0d0, 7d0)
       return
       end
 
@@ -55,19 +55,19 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       obs=-1d0
 
       if (xmll.lt.1000d0) then
-        obs = -2d0
-      else if (xmll.lt.1500d0) then
         obs=0.5d0
-      else if (xmll.lt.2000d0) then
+      else if (xmll.lt.1500d0) then
         obs=1.5d0
-      else if (xmll.lt.3000d0) then
+      else if (xmll.lt.2000d0) then
         obs=2.5d0
-      else if (xmll.lt.4000d0) then
+      else if (xmll.lt.3000d0) then
         obs=3.5d0
-      else if (xmll.lt.5000d0) then
+      else if (xmll.lt.4000d0) then
         obs=4.5d0
-      else if (xmll.lt.7000d0) then
+      else if (xmll.lt.5000d0) then
         obs=5.5d0
+      else if (xmll.lt.7000d0) then
+        obs=6.5d0
       else
         obs=-3d0
       endif

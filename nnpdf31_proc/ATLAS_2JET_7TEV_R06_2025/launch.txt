@@ -24,6 +24,7 @@ set ptj = 50.0
 #user_defined_cut set atlas_2jet_7tev_r06_2025 = True
 #user_defined_tau_min 1310.0
 #enable_patch change_etaj_to_rapj
+#enable_patch no_pole_cancellation_checks
 set etaj = 3.0
 set req_acc_FO 0.0002
 set pineappl True

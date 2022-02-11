@@ -30,7 +30,7 @@ eko = {extras = ["box"], version = "^0.9.4"}
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pdbpp = "^0.10.3"
-black = "^21.9b0"
+black = "^22.1.0"
 isort = "^5.9.3"
 ipython = "^8.0"
 Sphinx = "^4.2.0"

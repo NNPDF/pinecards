@@ -9,6 +9,7 @@ import pineappl
 
 from ... import install, log, paths, tools
 from .. import interface
+from . import paths as mg5_paths
 
 
 class Mg5(interface.External):
@@ -67,9 +68,10 @@ class Mg5(interface.External):
         # copy the launch file to the directory and replace the variables
         launch = (self.source / "launch.txt").read_text().replace("@OUTPUT@", self.name)
 
-        # TODO: write a list with variables that should be replaced in the launch file; for the time
-        # being we create the file here, but in the future it should be read from the theory database
-        # EDIT: now available in self.theory
+        # TODO: write a list with variables that should be replaced in the
+        # launch file; for the time being we create the file here, but in the
+        # future it should be read from the theory database EDIT: now available
+        # in self.theory
         variables = json.loads((paths.pkg / "variables.json").read_text())
         variables["LHAPDF_ID"] = self.pdf_id
 
@@ -106,7 +108,7 @@ class Mg5(interface.External):
 
         if user_taumin is not None:
             set_tau_min_patch = (
-                (paths.patches / "set_tau_min.patch")
+                (mg5_paths.patches / "set_tau_min.patch")
                 .read_text()
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
@@ -124,7 +126,7 @@ class Mg5(interface.External):
 
         if len(enable_patches_list) != 0:
             for patch in enable_patches_list:
-                patch_file = paths.patches / patch
+                patch_file = mg5_paths.patches / patch
                 patch_file = patch_file.with_suffix(patch_file.suffix + ".patch")
                 if not patch_file.exists():
                     raise ValueError(
@@ -186,7 +188,9 @@ class Mg5(interface.External):
         table = filter(
             lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
         )
-        df = pd.DataFrame(np.array([[float(x) for x in l.split()] for l in table]))
+        df = pd.DataFrame(
+            np.array([[float(x) for x in line.split()] for line in table])
+        )
         # start column from 1
         df.columns += 1
         df["result"] = df[3]
@@ -239,7 +243,7 @@ def apply_user_cuts(cuts_file, user_cuts):
     marker_pos = find_marker_position("logical function passcuts_user", contents)
     marker_pos = marker_pos + 8
 
-    for fname in paths.cuts_variables.iterdir():
+    for fname in mg5_paths.cuts_variables.iterdir():
         name = fname.stem
         if any(i[0].startswith(name) for i in user_cuts):
             contents.insert(marker_pos, fname.read_text())
@@ -264,7 +268,7 @@ def apply_user_cuts(cuts_file, user_cuts):
 
             value = value + "d0"
 
-        code = (paths.cuts_code / f"{name}.f").read_text().format(value)
+        code = (mg5_paths.cuts_code / f"{name}.f").read_text().format(value)
         contents.insert(marker_pos, code)
 
     with open(cuts_file, "w") as fd:

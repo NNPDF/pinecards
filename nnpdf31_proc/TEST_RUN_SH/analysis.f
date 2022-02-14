@@ -24,7 +24,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -36,7 +36,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       integer j
       double precision p(0:4,nexternal)
@@ -73,7 +73,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(6,xmll,wgts)
       call HwU_fill(7,xmll,wgts)
 
- 999  return      
+ 999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -95,4 +95,3 @@ c
       getinvm=tmp
       return
       end
-

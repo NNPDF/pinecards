@@ -30,7 +30,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       integer j
       double precision p(0:4,nexternal)

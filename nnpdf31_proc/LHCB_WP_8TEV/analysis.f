@@ -9,7 +9,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_inithist(nwgt,weights_info)
       call HwU_book(1,'eta', 6, 2.0d0, 3.5d0)
       call HwU_book(2,'eta', 2, 3.5d0, 4.5d0)
-      
+
       return
       end
 
@@ -32,7 +32,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       integer j
       double precision p(0:4,nexternal)

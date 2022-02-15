@@ -76,7 +76,7 @@ class Yadism(interface.External):
             sv_pdf_out.append(df)
 
         sv_pdf_merged = reduce(
-            lambda left, right: pd.merge(left, right, on=["x", "Q2"], how="outer"),
+            lambda left, right: pd.merge(left, right, left_index=True, right_index=True),
             sv_pdf_out,
         )
         svdf = sv_pdf_merged[

@@ -41,6 +41,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll, getinvm
+      logical is_nextph_iso(nexternal),is_nextph_iso_reco(nexternal)
       double precision xeta
       double precision eta_04
       external eta_04
@@ -50,8 +51,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 
 
+      is_nextph_iso(:) = .false.
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
-     $                       p, iPDG, p_reco, iPDG_reco)
+     $                       p, iPDG, is_nextph_iso, p_reco, iPDG_reco,
+     $                       is_nextph_iso_reco)
 
       xeta = 0d0
       do i = nincoming+1, nexternal

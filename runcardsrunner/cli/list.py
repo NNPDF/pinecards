@@ -1,8 +1,7 @@
 import rich
 import rich.markdown
 
-from .. import paths
-from ..external.mg5 import paths as mg5_paths
+from .. import external, paths
 from ._base import command
 
 
@@ -31,13 +30,13 @@ def mg5():
 @mg5.command()
 def patches():
     """List available patches."""
-    main(mg5_paths.patches, files=True)
+    main(external.mg5.paths.patches, files=True)
 
 
 @mg5.command()
 def cuts():
     """List available cuts."""
-    main(mg5_paths.cuts_code, files=True)
+    main(external.mg5.paths.cuts_code, files=True)
 
 
 def main(path, files=False, prefix=""):

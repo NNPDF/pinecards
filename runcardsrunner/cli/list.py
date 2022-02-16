@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import rich
 import rich.markdown
 

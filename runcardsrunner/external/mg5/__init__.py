@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import re
 import subprocess
@@ -116,7 +117,6 @@ class Mg5(interface.External):
             )
             (self.dest / "set_tau_min.patch").write_text(set_tau_min_patch)
             self.tau_min = user_taumin
-            __import__("pdb").set_trace()
             tools.patch(set_tau_min_patch, self.mg5_dir)
 
         # parse launch file for other patches

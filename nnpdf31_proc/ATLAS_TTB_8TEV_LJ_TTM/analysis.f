@@ -25,7 +25,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -46,9 +46,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       do i=0,3
          pttx(i)=p(i,3)+p(i,4)
       enddo
-      
+
       mtt    = dsqrt(dot(pttx, pttx))
-      
+
       call HwU_fill(1,mtt,wgts)
       call HwU_fill(2,mtt,wgts)
       call HwU_fill(3,mtt,wgts)
@@ -57,7 +57,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(6,mtt,wgts)
       call HwU_fill(7,mtt,wgts)
 
- 999  return      
+ 999  return
       end
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc

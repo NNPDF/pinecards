@@ -73,10 +73,20 @@ class Yadism(interface.External):
                 .rename({"result": (xiR, xiF)}, axis=1)
                 .drop("error", axis=1)
             )
+            if len(sv_pdf_out) > 0:
+                df.drop(
+                    [col for col in df if col in sv_pdf_out[0]], axis=1, inplace=True
+                )
             sv_pdf_out.append(df)
 
         sv_pdf_merged = reduce(
-            lambda left, right: pd.merge(left, right, left_index=True, right_index=True),
+            lambda left, right: pd.merge(
+                left,
+                right,
+                left_index=True,
+                right_index=True,
+                validate="one_to_one",
+            ),
             sv_pdf_out,
         )
         svdf = sv_pdf_merged[

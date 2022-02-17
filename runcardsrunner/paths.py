@@ -3,6 +3,7 @@ import pathlib
 import shutil
 import tempfile
 
+# TODO: deprecated
 pkg = pathlib.Path(__file__).absolute().parent
 root = pkg.parent
 

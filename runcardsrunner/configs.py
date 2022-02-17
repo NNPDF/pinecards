@@ -1,37 +1,13 @@
-import pathlib
+# -*- coding: utf-8 -*-
+import copy
 
-import appdirs
-import tomli
-
+configs = None
+"Holds loaded configurations"
 name = "runcardsrunner.toml"
+"Name of the config while (wherever it is placed)"
 
 
-def detect(path=None):
-    paths = []
+def defaults(base_configs):
+    configs = copy.deepcopy(base_configs)
 
-    if path is not None:
-        path = pathlib.Path(path)
-        paths.append(path)
-
-    paths.append(pathlib.Path.cwd())
-    paths.append(pathlib.Path.home())
-    paths.append(pathlib.Path(appdirs.user_config_dir()))
-    paths.append(pathlib.Path(appdirs.site_config_dir()))
-
-    for p in paths:
-        configs = p / name
-        if configs.is_file():
-            return configs
-
-    raise FileNotFoundError("No configurations file detected.")
-
-
-def load(path=None):
-    if path is None:
-        try:
-            path = detect()
-        except FileNotFoundError:
-            return None
-
-    with open(path, "rb") as fd:
-        return tomli.load(fd)
+    return configs

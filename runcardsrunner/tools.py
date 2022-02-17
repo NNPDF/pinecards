@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import itertools
 import subprocess
@@ -246,7 +247,7 @@ def common_substring(s1, s2, *sn):
                 # iterate over all elements
                 for n, (c1, c2, *cn) in enumerate(zip(s1, s2, *sn))
                 # if they are all equal keep going
-                if len(set([c1, c2, *cn])) > 1
+                if len({c1, c2, *cn}) > 1
             )
         ]
     except StopIteration:

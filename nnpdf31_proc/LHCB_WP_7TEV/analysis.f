@@ -31,7 +31,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       integer j
       double precision p(0:4,nexternal)
@@ -40,12 +40,15 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       external eta_04
 
       double precision p_reco(0:4,nexternal)
+      logical is_nextph_iso(nexternal),is_nextph_iso_reco(nexternal)
       integer iPDG_reco(nexternal)
 
 
 
+      is_nextph_iso(:) = .false.
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
-     $                       p, iPDG, p_reco, iPDG_reco)
+     $                       p, iPDG, is_nextph_iso, p_reco, iPDG_reco,
+     $                       is_nextph_iso_reco)
 
       do i = nincoming+1, nexternal
         if (iPDG_reco(i).eq.-13) then

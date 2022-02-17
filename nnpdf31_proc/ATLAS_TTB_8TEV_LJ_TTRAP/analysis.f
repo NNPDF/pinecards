@@ -20,7 +20,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -31,7 +31,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'nexternal.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       double precision p(0:4,nexternal)
       double precision wgts(*)
@@ -48,7 +48,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(2,yttx,wgts)
       call HwU_fill(3,yttx,wgts)
 
- 999  return      
+ 999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -65,7 +65,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

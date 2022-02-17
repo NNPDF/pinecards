@@ -22,7 +22,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_book(13,'Z pT',  2, 300.0d0, 500.0d0)
       call HwU_book(14,'Z pT',  1, 500.0d0, 800.0d0)
       call HwU_book(15,'Z pT',  1, 800.0d0,1500.0d0)
-      
+
       return
       end
 
@@ -33,7 +33,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -45,19 +45,22 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'cuts.inc'
       integer istatus(nexternal)
       integer iPDG(nexternal)
-      integer ibody  
+      integer ibody
       integer i
       integer j
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision ppl(0:3), pplb(0:3), ppv(0:3), ptv, getinvm
+      logical is_nextph_iso(nexternal),is_nextph_iso_reco(nexternal)
       external getinvm
 
       double precision p_reco(0:4,nexternal)
       integer iPDG_reco(nexternal)
 
+      is_nextph_iso(:) = .false.
       call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
-     $                       p, iPDG, p_reco, iPDG_reco)
+     $                       p, iPDG, is_nextph_iso, p_reco, iPDG_reco,
+     $                       is_nextph_iso_reco)
 
       do j = nincoming+1, nexternal
         if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
@@ -66,7 +69,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       do i=0,3
         ppv(i)=ppl(i)+pplb(i)
       enddo
-      
+
       ptv=sqrt(ppv(1)**2+ppv(2)**2)
 
       call HwU_fill(1,ptv,wgts)
@@ -85,7 +88,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(14,ptv,wgts)
       call HwU_fill(15,ptv,wgts)
 
- 999  return      
+ 999  return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -107,4 +110,3 @@ c
       getinvm=tmp
       return
       end
-

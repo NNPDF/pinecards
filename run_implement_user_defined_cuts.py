@@ -80,6 +80,21 @@ cuts_code = {
       endif
 
 ''',
+    'etal1': '''c     pseudo-rapidity cut for leading lepton
+      j = 0
+      do i=1,nexternal
+        if (is_a_lm(i) .or. is_a_lp(i)) then
+          if (j.eq.0 .or. pt_04(p_reco(0,i)).ge.pt_04(p_reco(0,j))) then
+            j = i
+          endif
+        endif
+      enddo
+      if (abs(eta_04(p_reco(0,j))) .gt. {}) then
+        passcuts_user=.false.
+        return
+      endif
+
+''',
     'ptj1min': '''c     cut for ptl1min (leading jet)
       if (pt(pjet(0,1)) .lt. {}) then
         passcuts_user=.false.

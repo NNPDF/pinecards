@@ -1,0 +1,7 @@
+set complex_mass_scheme True
+import model loop_qcd_qed_sm_Gmu
+define p = p b b~
+define j = p
+generate p p > mu+ mu- j [QCD] # QCD^2<=2 QED^2<=6
+output @OUTPUT@
+quit

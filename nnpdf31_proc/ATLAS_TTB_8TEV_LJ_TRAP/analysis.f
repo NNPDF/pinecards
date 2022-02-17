@@ -19,7 +19,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       implicit none
       double precision dummy
       call HwU_write_file
-      return                
+      return
       end
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -36,13 +36,13 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision wgts(*)
       double precision yt, getrapidity
       external getrapidity
- 
+
       yt  = abs(getrapidity(p(0,3), p(3,3)))
 
       call HwU_fill(1,yt,wgts)
       call HwU_fill(2,yt,wgts)
 
- 999  return      
+ 999  return
       end
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -59,7 +59,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          else
             y=sign(1.d0,pl)*1.d8
          endif
-      else 
+      else
          y=sign(1.d0,pl)*1.d8
       endif
       getrapidity=y

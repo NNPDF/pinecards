@@ -38,7 +38,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision p(0:4,nexternal)
       double precision wgts(*)
       double precision pt_t
- 
+
       pt_t = dsqrt(p(1,3)**2 + p(2,3)**2)
 
       call HwU_fill(1,pt_t,wgts)

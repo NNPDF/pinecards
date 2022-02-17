@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import re
 import subprocess
@@ -7,8 +8,11 @@ import numpy as np
 import pandas as pd
 import pineappl
 
-from ... import install, log, paths, tools
+from ... import install, log
+from ... import paths as gpaths
+from ... import tools
 from .. import interface
+from . import paths
 
 
 class Mg5(interface.External):
@@ -39,7 +43,7 @@ class Mg5(interface.External):
 
         # create output folder
         log.subprocess(
-            [str(paths.mg5_exe), str(output_file)],
+            [str(gpaths.mg5_exe), str(output_file)],
             cwd=self.dest,
             out=(self.dest / "output.log"),
         )
@@ -56,7 +60,7 @@ class Mg5(interface.External):
 
         # enforce proper analysis
         # - copy analysis.f
-        analysis = (paths.runcards / self.name / "analysis.f").read_text()
+        analysis = (gpaths.runcards / self.name / "analysis.f").read_text()
         (self.mg5_dir / "FixedOrderAnalysis" / f"{self.name}.f").write_text(analysis)
         # - update analysis card
         analysis_card = self.mg5_dir / "Cards" / "FO_analyse_card.dat"
@@ -67,10 +71,11 @@ class Mg5(interface.External):
         # copy the launch file to the directory and replace the variables
         launch = (self.source / "launch.txt").read_text().replace("@OUTPUT@", self.name)
 
-        # TODO: write a list with variables that should be replaced in the launch file; for the time
-        # being we create the file here, but in the future it should be read from the theory database
-        # EDIT: now available in self.theory
-        variables = json.loads((paths.pkg / "variables.json").read_text())
+        # TODO: write a list with variables that should be replaced in the
+        # launch file; for the time being we create the file here, but in the
+        # future it should be read from the theory database EDIT: now available
+        # in self.theory
+        variables = json.loads((gpaths.pkg / "variables.json").read_text())
         variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
@@ -135,7 +140,7 @@ class Mg5(interface.External):
 
         # launch run
         log.subprocess(
-            [str(paths.mg5_exe), str(launch_file)],
+            [str(gpaths.mg5_exe), str(launch_file)],
             cwd=self.dest,
             out=self.dest / "launch.log",
         )
@@ -186,7 +191,9 @@ class Mg5(interface.External):
         table = filter(
             lambda line: re.match("^  [+-]", line) is not None, madatnlo.splitlines()
         )
-        df = pd.DataFrame(np.array([[float(x) for x in l.split()] for l in table]))
+        df = pd.DataFrame(
+            np.array([[float(x) for x in line.split()] for line in table])
+        )
         # start column from 1
         df.columns += 1
         df["result"] = df[3]
@@ -200,13 +207,15 @@ class Mg5(interface.External):
         versions = {}
         versions["mg5amc_revno"] = (
             subprocess.run(
-                "brz revno".split(), cwd=paths.mg5amc, stdout=subprocess.PIPE
+                "brz revno".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
             )
             .stdout.decode()
             .strip()
         )
         mg5amc_repo = (
-            subprocess.run("brz info".split(), cwd=paths.mg5amc, stdout=subprocess.PIPE)
+            subprocess.run(
+                "brz info".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
+            )
             .stdout.decode()
             .strip()
         )

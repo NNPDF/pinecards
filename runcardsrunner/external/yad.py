@@ -7,7 +7,7 @@ import yadism
 import yadism.output
 import yaml
 
-from .. import install, paths, table, tools
+from .. import install, paths, table, tools, log
 from . import interface
 
 
@@ -37,7 +37,8 @@ class Yadism(interface.External):
         print("Running yadism...")
 
         # run yadism
-        out = yadism.run_yadism(self.theory, self.obs)
+        with log.Tee(self.dest / "run.log"):
+            out = yadism.run_yadism(self.theory, self.obs)
 
         # dump output
         out.dump_yaml_to_file(self.grid.with_suffix(".yaml"))
@@ -74,10 +75,20 @@ class Yadism(interface.External):
                 .rename({"result": (xiR, xiF)}, axis=1)
                 .drop("error", axis=1)
             )
+            if len(sv_pdf_out) > 0:
+                df.drop(
+                    [col for col in df if col in sv_pdf_out[0]], axis=1, inplace=True
+                )
             sv_pdf_out.append(df)
 
         sv_pdf_merged = reduce(
-            lambda left, right: pd.merge(left, right, on=["x", "Q2"], how="outer"),
+            lambda left, right: pd.merge(
+                left,
+                right,
+                left_index=True,
+                right_index=True,
+                validate="one_to_one",
+            ),
             sv_pdf_out,
         )
         svdf = sv_pdf_merged[

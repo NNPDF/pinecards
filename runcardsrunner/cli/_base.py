@@ -25,6 +25,10 @@ def command(cfg):
     if cfg is not None:
         print(f"Configurations loaded from '{cfg}'")
 
+    import rich
+
+    rich.print(configs.configs)
+
 
 def detect(path=None):
     paths = []
@@ -52,12 +56,15 @@ def load(path=None):
         path = detect(path)
     except FileNotFoundError:
         if path is None:
-            return {"root": pathlib.Path.cwd()}
+            return {"paths": {"root": pathlib.Path.cwd()}}
         else:
             print("Configuration path specified is not valid.")
             quit()
 
     with open(path, "rb") as fd:
         loaded = tomli.load(fd)
+
+    if "root" not in loaded["paths"]:
+        loaded["paths"]["root"] = pathlib.Path(path).parent
 
     return loaded

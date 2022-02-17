@@ -12,7 +12,7 @@ import pkgconfig
 import pygit2
 import requests
 
-from . import paths, tools
+from . import configs, paths, tools
 from .external import vrap
 
 paths.prefix.mkdir(exist_ok=True)
@@ -42,7 +42,8 @@ def mg5amc():
 
     """
     # define availability condition
-    condition = lambda: paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
+    def condition():
+        paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
 
     if condition():
         print("✓ Found mg5amc")
@@ -150,9 +151,13 @@ def pineappl(cli=False):
 
     """
     # define availability condition
-    installed = lambda: pkgconfig.exists("pineappl_capi")
-    cli_installed = lambda: shutil.which("pineappl") is not None
+    def installed():
+        pkgconfig.exists("pineappl_capi")
 
+    def cli_installed():
+        shutil.which("pineappl") is not None
+
+    # check if there is something to do at all
     if installed() and (not cli or cli_installed()):
         print("✓ Found pineappl")
         return True
@@ -187,6 +192,7 @@ def pineappl(cli=False):
             + [str(paths.prefix)],
             cwd=paths.pineappl,
         )
+        configs.configs["commands"]["pineappl"] = shutil.which("pineappl")
 
     # retest availability
     return installed() and (not cli or cli_installed())

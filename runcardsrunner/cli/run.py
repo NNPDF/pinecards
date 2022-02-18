@@ -91,6 +91,7 @@ def install_reqs(runner, pdf):
     """
     t0 = time.perf_counter()
 
+    install.init_prefix()
     install.update_environ()
     runner.install()
     install.pineappl()

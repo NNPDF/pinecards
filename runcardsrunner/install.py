@@ -245,7 +245,10 @@ def lhapdf_conf(pdf):
         except PermissionError:
             pass
     paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(paths.lhapdf_conf, paths.lhapdf_data_alternative)
+    shutil.copy2(
+        pathlib.Path(__file__).absolute().parent / "confs" / "lhapdf.conf",
+        paths.lhapdf_data_alternative,
+    )
     update_lhapdf_path(paths.lhapdf_data_alternative)
 
 

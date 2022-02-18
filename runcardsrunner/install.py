@@ -276,7 +276,26 @@ def lhapdf_conf(pdf):
 
 
 def lhapdf():
-    """Install `LHAPDF <https://lhapdf.hepforge.org/>`_ C++ library."""
+    """Install `LHAPDF <https://lhapdf.hepforge.org/>`_ C++ library.
+
+    Not needed:
+        - for `mg5`, since it's vendored
+        - for `yadism`, since we depend on the PyPI version
+    """
+    # define availability condition
+    def installed():
+        try:
+            # test python package availability
+            import lhapdf  # pylint: disable=unused-import
+        except ModuleNotFoundError:
+            return False
+        return pkgconfig.exists("lhapdf")
+
+    # check if there is something to do at all
+    if installed():
+        print("✓ Found lhapdf")
+        return True
+
     version = "LHAPDF-6.4.0"
     lhapdf_dest = configs.configs.paths.prefixed.lhapdf
     lhapdf_tar = lhapdf_dest / (version + ".tar.gz")
@@ -302,6 +321,8 @@ def lhapdf():
     )
     subprocess.run("make", cwd=lhapdf_code)
     subprocess.run("make install".split(), cwd=lhapdf_code)
+
+    return installed()
 
 
 def update_environ():

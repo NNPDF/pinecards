@@ -123,5 +123,5 @@ def subprocess(*args, cwd, out):
                 print(line)
 
                 fd.write(line + "\n")
-    except Exception as e:
+    except Exception:
         raise WhileRedirectedError(file=out)

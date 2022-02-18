@@ -7,7 +7,7 @@ import yadism
 import yadism.output
 import yaml
 
-from .. import install, paths, table, tools, log
+from .. import log, paths, tools
 from . import interface
 
 
@@ -37,8 +37,12 @@ class Yadism(interface.External):
         print("Running yadism...")
 
         # run yadism
-        with log.Tee(self.dest / "run.log"):
-            out = yadism.run_yadism(self.theory, self.obs)
+        run_log = self.dest / "run.log"
+        with log.Tee(run_log, stderr=True):
+            try:
+                out = yadism.run_yadism(self.theory, self.obs)
+            except Exception:
+                raise log.WhileRedirectedError(file=run_log)
 
         # dump output
         out.dump_yaml_to_file(self.grid.with_suffix(".yaml"))

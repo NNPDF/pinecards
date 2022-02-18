@@ -7,7 +7,7 @@ import pandas as pd
 import pineappl
 import yaml
 
-from .. import paths
+from .. import configs
 from . import interface
 
 
@@ -22,7 +22,7 @@ def is_positivity(name):
         name : str
             dataset name
     """
-    return (paths.runcards / name / "positivity.yaml").exists()
+    return (configs.configs.paths.runcards / name / "positivity.yaml").exists()
 
 
 class Positivity(interface.External):
@@ -30,7 +30,7 @@ class Positivity(interface.External):
         super().__init__(*args, **kwargs)
 
     def run(self):
-        with open(paths.runcards / self.name / "positivity.yaml") as o:
+        with open(configs.configs.paths.runcards / self.name / "positivity.yaml") as o:
             self.runcard = yaml.safe_load(o)
 
     def generate_pineappl(self):

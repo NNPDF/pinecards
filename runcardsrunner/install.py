@@ -12,7 +12,7 @@ import pkgconfig
 import pygit2
 import requests
 
-from . import configs, paths, tools
+from . import configs, tools
 from .external import vrap
 
 mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.3.1"
@@ -45,7 +45,9 @@ def mg5amc():
     """
     # define availability condition
     def condition():
-        paths.mg5_exe.exists() and os.access(paths.mg5_exe, os.X_OK)
+        configs.configs.paths.mg5_exe.exists() and os.access(
+            configs.configs.paths.mg5_exe, os.X_OK
+        )
 
     if condition():
         print("✓ Found mg5amc")
@@ -54,10 +56,12 @@ def mg5amc():
     print("Installing...")
 
     # download madgraph in prefix (if not present)
-    subprocess.run(f"brz branch {mg5_repo} {paths.mg5amc}".split())
+    subprocess.run(f"brz branch {mg5_repo} {configs.configs.paths.mg5amc}".split())
 
     # in case we're using python3, we need to convert the model file
-    subprocess.run(f"{paths.mg5_exe}", input=mg5_convert, encoding="ascii")
+    subprocess.run(
+        f"{configs.configs.paths.mg5_exe}", input=mg5_convert, encoding="ascii"
+    )
 
     # retest availability
     return condition()
@@ -72,7 +76,9 @@ def hawaiian_vrap():
     bool
         whether vrap is now installed
     """
-    condition = lambda: paths.vrap_exe.exists() and os.access(paths.vrap_exe, os.X_OK)
+    condition = lambda: configs.configs.paths.vrap_exe.exists() and os.access(
+        configs.configs.paths.vrap_exe, os.X_OK
+    )
 
     if condition():
         print("✓ Found vrap")
@@ -96,7 +102,9 @@ def hawaiian_vrap():
         build_dir = tmp_vrap / "build"
         build_dir.mkdir(exist_ok=True)
         subprocess.run(
-            ["../src/configure", "--prefix", paths.prefix], cwd=build_dir, check=True
+            ["../src/configure", "--prefix", configs.configs.paths.prefix],
+            cwd=build_dir,
+            check=True,
         )
         subprocess.run(["make", "install"], cwd=build_dir, check=True)
 
@@ -121,20 +129,20 @@ def cargo():
         return cargo_exe
 
     # if there is not a user cargo update environment
-    os.environ["CARGO_HOME"] = str(paths.cargo)
-    if paths.cargo.is_dir():
-        return str(paths.cargo / "bin" / "cargo")
+    os.environ["CARGO_HOME"] = str(configs.configs.paths.cargo)
+    if configs.configs.paths.cargo.is_dir():
+        return str(configs.configs.paths.cargo / "bin" / "cargo")
 
     # if cargo not available let's install
     with requests.get("https://sh.rustup.rs") as r:
-        with open(paths.rust_init, "wb") as f:
+        with open(configs.configs.paths.rust_init, "wb") as f:
             f.write(r.content)
     # install location is controlled by CARGO_HOME variable
     subprocess.run(
-        f"bash {paths.rust_init} --profile minimal --no-modify-path -y".split()
+        f"bash {configs.configs.paths.rust_init} --profile minimal --no-modify-path -y".split()
     )
 
-    return str(paths.cargo / "bin" / "cargo")
+    return str(configs.configs.paths.cargo / "bin" / "cargo")
 
 
 def pineappl(cli=False):
@@ -171,10 +179,12 @@ def pineappl(cli=False):
 
     if not installed():
         try:
-            repo = pygit2.Repository(paths.pineappl)
+            repo = pygit2.Repository(configs.configs.paths.pineappl)
             tools.git_pull(repo)
         except pygit2.GitError:
-            repo = pygit2.clone_repository(pineappl_repo, paths.pineappl)
+            repo = pygit2.clone_repository(
+                pineappl_repo, configs.configs.paths.pineappl
+            )
 
         cargo_exe = cargo()
         subprocess.run([cargo_exe] + "install --force cargo-c".split())
@@ -182,8 +192,11 @@ def pineappl(cli=False):
         subprocess.run(
             [cargo_exe]
             + "cinstall --release --prefix".split()
-            + [str(paths.prefix), "--manifest-path=pineappl_capi/Cargo.toml"],
-            cwd=paths.pineappl,
+            + [
+                str(configs.configs.paths.prefix),
+                "--manifest-path=pineappl_capi/Cargo.toml",
+            ],
+            cwd=configs.configs.paths.pineappl,
         )
 
     if cli and not cli_installed():
@@ -191,8 +204,8 @@ def pineappl(cli=False):
         subprocess.run(
             [cargo_exe]
             + "install --path pineappl_cli --root".split()
-            + [str(paths.prefix)],
-            cwd=paths.pineappl,
+            + [str(configs.configs.paths.prefix)],
+            cwd=configs.configs.paths.pineappl,
         )
         configs.configs["commands"]["pineappl"] = shutil.which("pineappl")
 
@@ -244,21 +257,21 @@ def lhapdf_conf(pdf):
                 return
         except PermissionError:
             pass
-    paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
+    configs.configs.paths.lhapdf_data_alternative.mkdir(parents=True, exist_ok=True)
     shutil.copy2(
         pathlib.Path(__file__).absolute().parent / "confs" / "lhapdf.conf",
-        paths.lhapdf_data_alternative,
+        configs.configs.paths.lhapdf_data_alternative,
     )
-    update_lhapdf_path(paths.lhapdf_data_alternative)
+    update_lhapdf_path(configs.configs.paths.lhapdf_data_alternative)
 
 
 def lhapdf():
     """Install `LHAPDF <https://lhapdf.hepforge.org/>`_ C++ library."""
     version = "LHAPDF-6.4.0"
-    lhapdf_tar = paths.lhapdf_dir / (version + ".tar.gz")
-    lhapdf_code = paths.lhapdf_dir / version
+    lhapdf_tar = configs.configs.paths.lhapdf_dir / (version + ".tar.gz")
+    lhapdf_code = configs.configs.paths.lhapdf_dir / version
 
-    paths.lhapdf_dir.mkdir(exist_ok=True)
+    configs.configs.paths.lhapdf_dir.mkdir(exist_ok=True)
     with requests.get(
         f"https://lhapdf.hepforge.org/downloads/?f={lhapdf_tar.name}"
     ) as r:
@@ -266,12 +279,14 @@ def lhapdf():
             f.write(r.content)
 
     with tarfile.open(lhapdf_tar, "r:gz") as tar:
-        tar.extractall(paths.lhapdf_dir)
+        tar.extractall(configs.configs.paths.lhapdf_dir)
 
     env = os.environ.copy()
     env["PYTHON"] = sys.executable
     subprocess.run(
-        f"./configure --prefix={paths.prefix}".split(), env=env, cwd=lhapdf_code
+        f"./configure --prefix={configs.configs.paths.prefix}".split(),
+        env=env,
+        cwd=lhapdf_code,
     )
     subprocess.run("make", cwd=lhapdf_code)
     subprocess.run("make install".split(), cwd=lhapdf_code)
@@ -283,10 +298,13 @@ def update_environ():
     def prepend(name, value):
         if name not in os.environ:
             os.environ[name] = ""
-        os.environ[name] = str(value) + os.pathsep + os.environ[name]
+        os.environ[name] = str(value) + os.configs.configs.pathsep + os.environ[name]
 
     pyver = ".".join(sys.version.split(".")[:2])
-    prepend("PYTHONPATH", paths.prefix / "lib" / f"python{pyver}" / "site-packages")
-    prepend("PATH", paths.prefix / "bin")
-    prepend("LD_LIBRARY_PATH", paths.prefix / "lib")
-    prepend("PKG_CONFIG_PATH", paths.prefix / "lib" / "pkgconfig")
+    prepend(
+        "PYTHONPATH",
+        configs.configs.paths.prefix / "lib" / f"python{pyver}" / "site-packages",
+    )
+    prepend("PATH", configs.configs.paths.prefix / "bin")
+    prepend("LD_LIBRARY_PATH", configs.configs.paths.prefix / "lib")
+    prepend("PKG_CONFIG_PATH", configs.configs.paths.prefix / "lib" / "pkgconfig")

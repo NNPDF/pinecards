@@ -25,7 +25,7 @@ from lhapdf_management import environment
 from pineappl.bin import BinRemapper
 from pineappl.grid import Grid
 
-from .. import install, paths
+from .. import configs, install
 from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
@@ -41,7 +41,7 @@ def is_vrap(name):
     """
     Checks whether this is a dataset to be run with vrap
     """
-    return (paths.runcards / name / "vrap.yaml").exists()
+    return (configs.configs.paths.runcards / name / "vrap.yaml").exists()
 
 
 def yaml_to_vrapcard(yaml_dict, pdf, output_file):
@@ -122,7 +122,9 @@ class Vrap(interface.External):
         """
         for b, kin_card in enumerate(self._kin_cards):
             sp.run(
-                [paths.vrap_exe, self._input_card, kin_card], cwd=self.dest, check=True
+                [configs.configs.commands.vrap, self._input_card, kin_card],
+                cwd=self.dest,
+                check=True,
             )
             tmppine = self.dest / _PINEAPPL
 
@@ -193,7 +195,11 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        vrap_run = sp.run([paths.vrap_exe, "--version"], capture_output=True, check=True)
+        vrap_run = sp.run(
+            [configs.configs.commands.vrap, "--version"],
+            capture_output=True,
+            check=True,
+        )
         vrap_version = vrap_run.stdout.decode().split()[-1]
         return {"vrap_version": vrap_version}
 

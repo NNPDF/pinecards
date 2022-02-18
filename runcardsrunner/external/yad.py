@@ -7,7 +7,7 @@ import yadism
 import yadism.output
 import yaml
 
-from .. import log, paths, tools
+from .. import configs, log, tools
 from . import interface
 
 
@@ -22,7 +22,7 @@ def is_dis(name):
         name : str
             dataset name
     """
-    return (paths.runcards / name / "observable.yaml").exists()
+    return (configs.configs.paths.runcards / name / "observable.yaml").exists()
 
 
 class Yadism(interface.External):
@@ -30,7 +30,7 @@ class Yadism(interface.External):
         super().__init__(*args, **kwargs)
 
         # load runcards
-        with open(paths.runcards / self.name / "observable.yaml") as o:
+        with open(configs.configs.paths.runcards / self.name / "observable.yaml") as o:
             self.obs = yaml.safe_load(o)
 
     def run(self):

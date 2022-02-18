@@ -2,6 +2,7 @@
 import pathlib
 import shutil
 import tempfile
+import typing
 
 import rich
 
@@ -21,7 +22,7 @@ class Configurations:
     def __repr__(self):
         return self._dict.__repr__()
 
-    def __getattribute__(self, name):
+    def __getattribute__(self, name) -> typing.Any:
         if name[0] == "_":
             return super().__getattribute__(name)
 
@@ -121,6 +122,7 @@ def add_commands(configs):
     commands = {}
 
     commands["mg5"] = configs.paths.prefix / "bin" / "mg5_aMC"
+    commands["vrap"] = configs.paths.prefix / "bin" / "Vrap"
     pineappl = shutil.which("pineappl")
     commands["pineappl"] = pathlib.Path(pineappl) if pineappl is not None else None
 

@@ -9,7 +9,7 @@ import pineappl
 import pygit2
 import rich
 
-from . import paths
+from . import configs
 
 
 def create_output_folder(name):
@@ -26,7 +26,9 @@ def create_output_folder(name):
         path to output folder
 
     """
-    target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
+    target = configs.configs.paths.root / (
+        name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S")
+    )
     target.mkdir(exist_ok=True)
     return target
 

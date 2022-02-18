@@ -8,11 +8,8 @@ import numpy as np
 import pandas as pd
 import pineappl
 
-from ... import install, log
-from ... import paths as gpaths
-from ... import tools
+from ... import configs, install, log, tools
 from .. import interface
-from . import paths
 
 
 class Mg5(interface.External):
@@ -43,7 +40,7 @@ class Mg5(interface.External):
 
         # create output folder
         log.subprocess(
-            [str(gpaths.mg5_exe), str(output_file)],
+            [str(configs.configs.commands.mg5), str(output_file)],
             cwd=self.dest,
             out=(self.dest / "output.log"),
         )
@@ -60,7 +57,9 @@ class Mg5(interface.External):
 
         # enforce proper analysis
         # - copy analysis.f
-        analysis = (gpaths.runcards / self.name / "analysis.f").read_text()
+        analysis = (
+            configs.configs.paths.runcards / self.name / "analysis.f"
+        ).read_text()
         (self.mg5_dir / "FixedOrderAnalysis" / f"{self.name}.f").write_text(analysis)
         # - update analysis card
         analysis_card = self.mg5_dir / "Cards" / "FO_analyse_card.dat"
@@ -75,7 +74,9 @@ class Mg5(interface.External):
         # launch file; for the time being we create the file here, but in the
         # future it should be read from the theory database EDIT: now available
         # in self.theory
-        variables = json.loads((gpaths.pkg / "variables.json").read_text())
+        variables = json.loads(
+            (configs.configs.paths.pkg / "variables.json").read_text()
+        )
         variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
@@ -111,7 +112,7 @@ class Mg5(interface.External):
 
         if user_taumin is not None:
             set_tau_min_patch = (
-                (paths.patches / "set_tau_min.patch")
+                (configs.configs.paths.patches / "set_tau_min.patch")
                 .read_text()
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
@@ -129,7 +130,7 @@ class Mg5(interface.External):
 
         if len(enable_patches_list) != 0:
             for patch in enable_patches_list:
-                patch_file = paths.patches / patch
+                patch_file = configs.configs.paths.patches / patch
                 patch_file = patch_file.with_suffix(patch_file.suffix + ".patch")
                 if not patch_file.exists():
                     raise ValueError(
@@ -140,7 +141,7 @@ class Mg5(interface.External):
 
         # launch run
         log.subprocess(
-            [str(gpaths.mg5_exe), str(launch_file)],
+            [str(configs.configs.commands.mg5), str(launch_file)],
             cwd=self.dest,
             out=self.dest / "launch.log",
         )
@@ -207,14 +208,18 @@ class Mg5(interface.External):
         versions = {}
         versions["mg5amc_revno"] = (
             subprocess.run(
-                "brz revno".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
+                "brz revno".split(),
+                cwd=configs.configs.paths.mg5amc,
+                stdout=subprocess.PIPE,
             )
             .stdout.decode()
             .strip()
         )
         mg5amc_repo = (
             subprocess.run(
-                "brz info".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
+                "brz info".split(),
+                cwd=configs.configs.paths.mg5amc,
+                stdout=subprocess.PIPE,
             )
             .stdout.decode()
             .strip()
@@ -248,7 +253,7 @@ def apply_user_cuts(cuts_file, user_cuts):
     marker_pos = find_marker_position("logical function passcuts_user", contents)
     marker_pos = marker_pos + 8
 
-    for fname in paths.cuts_variables.iterdir():
+    for fname in configs.configs.paths.cuts_variables.iterdir():
         name = fname.stem
         if any(i[0].startswith(name) for i in user_cuts):
             contents.insert(marker_pos, fname.read_text())
@@ -273,7 +278,7 @@ def apply_user_cuts(cuts_file, user_cuts):
 
             value = value + "d0"
 
-        code = (paths.cuts_code / f"{name}.f").read_text().format(value)
+        code = (configs.configs.paths.cuts_code / f"{name}.f").read_text().format(value)
         contents.insert(marker_pos, code)
 
     with open(cuts_file, "w") as fd:

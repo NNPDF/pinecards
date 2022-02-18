@@ -26,6 +26,7 @@ class Mg5(interface.External):
 
     @staticmethod
     def install():
+        install.pineappl()
         install.mg5amc()
 
     @property

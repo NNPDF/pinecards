@@ -94,7 +94,6 @@ def install_reqs(runner, pdf):
     install.init_prefix()
     install.update_environ()
     runner.install()
-    install.pineappl()
 
     # install chosen PDF set
     install.lhapdf_conf(pdf)

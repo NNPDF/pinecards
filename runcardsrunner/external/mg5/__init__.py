@@ -58,9 +58,7 @@ class Mg5(interface.External):
 
         # enforce proper analysis
         # - copy analysis.f
-        analysis = (
-            configs.configs.paths.runcards / self.name / "analysis.f"
-        ).read_text()
+        analysis = (self.source / "analysis.f").read_text()
         (self.mg5_dir / "FixedOrderAnalysis" / f"{self.name}.f").write_text(analysis)
         # - update analysis card
         analysis_card = self.mg5_dir / "Cards" / "FO_analyse_card.dat"
@@ -75,9 +73,7 @@ class Mg5(interface.External):
         # launch file; for the time being we create the file here, but in the
         # future it should be read from the theory database EDIT: now available
         # in self.theory
-        variables = json.loads(
-            (configs.configs.paths.pkg / "variables.json").read_text()
-        )
+        variables = json.loads((paths.subpkg.parents[1] / "variables.json").read_text())
         variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
@@ -210,7 +206,7 @@ class Mg5(interface.External):
         versions["mg5amc_revno"] = (
             subprocess.run(
                 "brz revno".split(),
-                cwd=configs.configs.paths.mg5amc,
+                cwd=configs.configs.paths.prefixed.mg5amc,
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()
@@ -219,13 +215,17 @@ class Mg5(interface.External):
         mg5amc_repo = (
             subprocess.run(
                 "brz info".split(),
-                cwd=configs.configs.paths.mg5amc,
+                cwd=configs.configs.paths.prefixed.mg5amc,
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()
             .strip()
         )
-        versions["mg5amc_repo"] = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)[1]
+
+        repo = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)
+        if repo is None:
+            print("Invalid mg5 repository")
+        versions["mg5amc_repo"] = repo[1] if repo is not None else None
         return versions
 
 

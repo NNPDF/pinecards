@@ -124,7 +124,7 @@ def add_prefix_paths(configs):
 def add_commands(configs):
     commands = {}
 
-    commands["mg5"] = configs.paths.prefix / "bin" / "mg5_aMC"
+    commands["mg5"] = configs.paths.prefixed.mg5amc / "bin" / "mg5_aMC"
     commands["vrap"] = configs.paths.prefix / "bin" / "Vrap"
     pineappl = shutil.which("pineappl")
     commands["pineappl"] = pathlib.Path(pineappl) if pineappl is not None else None

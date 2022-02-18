@@ -15,10 +15,6 @@ import requests
 from . import configs, paths, tools
 from .external import vrap
 
-paths.prefix.mkdir(exist_ok=True)
-paths.bin.mkdir(exist_ok=True)
-paths.lib.mkdir(exist_ok=True)
-
 mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.3.1"
 "bazaar/breeze repo location for MG5aMC\\@NLO"
 mg5_convert = """
@@ -30,6 +26,12 @@ quit
 
 pineappl_repo = "git://github.com/N3PDF/pineappl.git"
 "git repo location for pineappl"
+
+
+def init_prefix():
+    configs.configs.prefix.mkdir(exist_ok=True)
+    configs.configs.bin.mkdir(exist_ok=True)
+    configs.configs.lib.mkdir(exist_ok=True)
 
 
 def mg5amc():

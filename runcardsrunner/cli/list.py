@@ -2,7 +2,7 @@
 import rich
 import rich.markdown
 
-from .. import external, paths
+from .. import configs, external
 from ._base import command
 
 
@@ -14,13 +14,13 @@ def subcommand():
 @subcommand.command()
 def runcards():
     """List available runcards."""
-    main(paths.runcards)
+    main(configs.configs.paths.runcards)
 
 
 @subcommand.command()
 def theories():
     """List available theories."""
-    main(paths.theories, files=True, prefix="theory_")
+    main(configs.configs.paths.theories, files=True, prefix="theory_")
 
 
 @subcommand.group()

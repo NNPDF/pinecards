@@ -25,8 +25,6 @@ def command(cfg):
     if cfg is not None:
         print(f"Configurations loaded from '{cfg}'")
 
-    __import__("rich").print(configs.configs)
-
 
 def detect(path=None):
     paths = []

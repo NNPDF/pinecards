@@ -52,6 +52,11 @@ class Configurations:
         rich.print(self._dict)
 
 
+# better to declare immediately the correct type
+configs = Configurations()
+"Holds loaded configurations"
+
+
 def add_scope(base, scope_id, scope):
     "Do not override."
     if scope_id not in base:
@@ -60,10 +65,6 @@ def add_scope(base, scope_id, scope):
         for key, value in scope.items():
             if key not in base[scope_id]:
                 base[scope_id] = value
-
-
-configs = Configurations()
-"Holds loaded configurations"
 
 
 def defaults(base_configs):

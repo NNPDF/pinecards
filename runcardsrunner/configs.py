@@ -85,7 +85,10 @@ def defaults(base_configs):
 
 def add_paths(configs):
     for key, default in dict(
-        runcards="runcards", theories="theories", prefix=".prefix"
+        runcards="runcards",
+        theories="theories",
+        prefix=".prefix",
+        results="results",
     ).items():
         if key not in configs.paths:
             configs.paths[key] = configs.paths.root / default

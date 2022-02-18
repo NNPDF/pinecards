@@ -35,7 +35,9 @@ class External(abc.ABC):
         if timestamp is None:
             self.dest = tools.create_output_folder(self.name)
         else:
-            self.dest = configs.configs.paths.root / (self.name + "-" + self.timestamp)
+            self.dest = configs.configs.paths.results / (
+                self.name + "-" + self.timestamp
+            )
             if not self.grid.exists():
                 tools.decompress(self.grid.with_suffix(".pineappl.lz4"))
 
@@ -109,6 +111,8 @@ class External(abc.ABC):
         #  pineappl = configs.configs.paths.pineappl_exe()
 
         versions = self.collect_versions()
+        # TODO: replace with __version__?
+        #       maybe check if it is a repository or not
         versions["runcard_gitversion"] = pygit2.Repository(
             configs.configs.paths.root
         ).describe(

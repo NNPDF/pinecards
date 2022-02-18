@@ -26,10 +26,10 @@ def create_output_folder(name):
         path to output folder
 
     """
-    target = configs.configs.paths.root / (
+    target = configs.configs.paths.results / (
         name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S")
     )
-    target.mkdir(exist_ok=True)
+    target.mkdir(exist_ok=True, parents=True)
     return target
 
 

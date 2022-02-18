@@ -1,2 +1,3 @@
 [paths]
 runcards = "nnpdf31_proc"
+results = "results"

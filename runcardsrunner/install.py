@@ -171,10 +171,10 @@ def pineappl(capi=True, cli=False):
     """
     # define availability condition
     def installed():
-        pkgconfig.exists("pineappl_capi")
+        return pkgconfig.exists("pineappl_capi")
 
     def cli_installed():
-        shutil.which("pineappl") is not None
+        return shutil.which("pineappl") is not None
 
     # check if there is something to do at all
     if (not capi or installed()) and (not cli or cli_installed()):

@@ -101,7 +101,7 @@ def add_paths(configs):
         else:
             configs["paths"][key] = pathlib.Path(configs["paths"][key])
 
-    configs["paths"]["rust_init"] = tempfile.mktemp()
+    configs["paths"]["rust_init"] = pathlib.Path(tempfile.mktemp())
     configs = add_prefix_paths(configs)
 
     return configs

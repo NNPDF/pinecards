@@ -12,14 +12,17 @@ There is no released version currently.
 
 ### Dev
 
-For development the dependencies can be bootstrapped by running:
+For development you need the following tools:
 
-```sh
-./rr install
-```
+- `poetry`, follow [installation
+  instructions](https://python-poetry.org/docs/#installation)
+- `poetry-dynamic-versioning`, used to manage the version (see
+  [repo](https://github.com/mtkennerly/poetry-dynamic-versioning))
+- `pre-commit`, to run maintenance hooks before commits (see
+  [instructions](https://pre-commit.com/#install))
 
-See [below](#non-python-dependencies) for a few dependencies (already available
-on most systems).
+See [below](#non-python-dependencies) for a few more dependencies (already
+available on most systems).
 
 ## Documentation
 
@@ -39,7 +42,7 @@ Even if the bootstrap script and the installation management try to reduce as
 much as possible the amount of dependencies, still a few ingredients have to be
 available on the system.
 
-To run `./rr install`:
+To run the CLI:
 
 - `python` itself
 - `pip` available as a module of the `python` that is running `rr` (as usually

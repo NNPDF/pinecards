@@ -5,6 +5,7 @@ import click
 import rich
 
 from .. import configs, tools
+from ..external.yad import is_dis
 from ._base import command
 
 
@@ -39,6 +40,9 @@ def runcards(datasets, metadata, kind):
                 info[dataset]["metadata"] = tools.parse_metadata(fd)
 
         if kind:
-            info[dataset]["kind"] = None
+            if is_dis(dataset):
+                info[dataset]["kind"] = "dis"
+            else:
+                info[dataset]["kind"] = "hadronic"
 
     rich.print_json(data=info)

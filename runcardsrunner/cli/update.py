@@ -30,11 +30,8 @@ def main(datasets):
 
         metadata = configs.configs["paths"]["runcards"] / dataset / "metadata.txt"
 
-        entries = {}
         with open(metadata) as fd:
-            for line in fd.readlines():
-                k, v = line.split("=")
-                entries[k] = v
+            entries = tools.parse_metadata(fd)
 
         dest = path.parent / (path.name + ".tmp")
         tools.update_grid_metadata(path, dest, entries)

@@ -29,9 +29,9 @@ pineappl_repo = "git://github.com/N3PDF/pineappl.git"
 
 
 def init_prefix():
-    configs.configs.paths.prefix.mkdir(exist_ok=True)
-    configs.configs.paths.prefixed.bin.mkdir(exist_ok=True)
-    configs.configs.paths.prefixed.lib.mkdir(exist_ok=True)
+    configs.configs["paths"]["prefix"].mkdir(exist_ok=True)
+    configs.configs["paths"]["prefixed"]["bin"].mkdir(exist_ok=True)
+    configs.configs["paths"]["prefixed"]["lib"].mkdir(exist_ok=True)
 
 
 def mg5amc():
@@ -43,7 +43,7 @@ def mg5amc():
         whether the main executable is now existing.
 
     """
-    mg5 = configs.configs.commands.mg5
+    mg5 = configs.configs["commands"]["mg5"]
 
     # define availability condition
 
@@ -59,7 +59,7 @@ def mg5amc():
 
     # download madgraph in prefix (if not present)
     subprocess.run(
-        f"brz branch {mg5_repo} {configs.configs.paths.prefixed.mg5amc}".split()
+        f"brz branch {mg5_repo} {configs.configs['paths']['prefixed']['mg5amc']}".split()
     )
 
     # in case we're using python3, we need to convert the model file
@@ -132,14 +132,14 @@ def cargo():
     if cargo_exe is not None:
         return cargo_exe
 
-    cargo_home = configs.configs.paths.prefixed.cargo
+    cargo_home = configs.configs["paths"]["prefixed"]["cargo"]
 
     # if there is not a user cargo update environment
     os.environ["CARGO_HOME"] = str(cargo_home)
     if cargo_home.is_dir():
         return str(cargo_home / "bin" / "cargo")
 
-    rust_init = configs.configs.paths.rust_init
+    rust_init = configs.configs["paths"]["rust_init"]
 
     # if cargo not available let's install
     with requests.get("https://sh.rustup.rs") as r:
@@ -267,7 +267,7 @@ def lhapdf_conf(pdf):
         except PermissionError:
             pass
 
-    lhapdf_data = configs.configs.paths.prefixed.lhapdf_data_alternative
+    lhapdf_data = configs.configs["paths"]["prefixed"]["lhapdf_data_alternative"]
     lhapdf_data.mkdir(parents=True, exist_ok=True)
     shutil.copy2(
         pathlib.Path(__file__).absolute().parent / "confs" / "lhapdf.conf", lhapdf_data
@@ -297,7 +297,7 @@ def lhapdf():
         return True
 
     version = "LHAPDF-6.4.0"
-    lhapdf_dest = configs.configs.paths.prefixed.lhapdf
+    lhapdf_dest = configs.configs["paths"]["prefixed"]["lhapdf"]
     lhapdf_tar = lhapdf_dest / (version + ".tar.gz")
     lhapdf_code = lhapdf_dest / version
 
@@ -315,7 +315,7 @@ def lhapdf():
     env = os.environ.copy()
     env["PYTHON"] = sys.executable
     subprocess.run(
-        f"./configure --prefix={configs.configs.paths.prefix}".split(),
+        f"./configure --prefix={configs.configs['paths']['prefix']}".split(),
         env=env,
         cwd=lhapdf_code,
     )
@@ -331,14 +331,14 @@ def update_environ():
     def prepend(name, value):
         if name not in os.environ:
             os.environ[name] = ""
-        os.environ[name] = str(value) + configs.configs.pathsep + os.environ[name]
+        os.environ[name] = str(value) + os.pathsep + os.environ[name]
 
-    lib = configs.configs.paths.prefixed.lib
+    lib = configs.configs["paths"]["prefixed"]["lib"]
     pyver = ".".join(sys.version.split(".")[:2])
     prepend(
         "PYTHONPATH",
         lib / f"python{pyver}" / "site-packages",
     )
-    prepend("PATH", configs.configs.paths.prefixed.bin)
+    prepend("PATH", configs.configs["paths"]["prefixed"]["bin"])
     prepend("LD_LIBRARY_PATH", lib)
     prepend("PKG_CONFIG_PATH", lib / "pkgconfig")

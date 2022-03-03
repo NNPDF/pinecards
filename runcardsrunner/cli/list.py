@@ -14,13 +14,13 @@ def subcommand():
 @subcommand.command()
 def runcards():
     """List available runcards."""
-    main(configs.configs.paths.runcards)
+    main(configs.configs["paths"]["runcards"])
 
 
 @subcommand.command()
 def theories():
     """List available theories."""
-    main(configs.configs.paths.theories, files=True, prefix="theory_")
+    main(configs.configs["paths"]["theories"], files=True, prefix="theory_")
 
 
 @subcommand.group()

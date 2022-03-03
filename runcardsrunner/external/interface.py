@@ -35,7 +35,7 @@ class External(abc.ABC):
         if timestamp is None:
             self.dest = tools.create_output_folder(self.name)
         else:
-            self.dest = configs.configs.paths.results / (
+            self.dest = configs.configs["paths"]["results"] / (
                 self.name + "-" + self.timestamp
             )
             if not self.grid.exists():
@@ -44,7 +44,7 @@ class External(abc.ABC):
     @property
     def source(self):
         """Runcard base directory."""
-        return configs.configs.paths.runcards / self.name
+        return configs.configs["paths"]["runcards"] / self.name
 
     @property
     def grid(self):
@@ -108,13 +108,13 @@ class External(abc.ABC):
         """Add version informations as meta data."""
         results_log = self.dest / "results.log"
         # TODO: add pineappl version
-        #  pineappl = configs.configs.paths.pineappl_exe()
+        #  pineappl = configs.configs["commands"]["pineappl"]()
 
         versions = self.collect_versions()
         # TODO: replace with __version__?
         #       maybe check if it is a repository or not
         versions["runcard_gitversion"] = pygit2.Repository(
-            configs.configs.paths.root
+            configs.configs["paths"]["root"]
         ).describe(
             always_use_long_format=True,
             describe_strategy=pygit2.GIT_DESCRIBE_TAGS,

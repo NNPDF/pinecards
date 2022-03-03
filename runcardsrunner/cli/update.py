@@ -28,7 +28,7 @@ def main(datasets):
         if "pineappl" in dataset:
             dataset = pathlib.Path(dataset).stem
 
-        metadata = configs.configs.paths.runcards / dataset / "metadata.txt"
+        metadata = configs.configs["paths"]["runcards"] / dataset / "metadata.txt"
 
         entries = {}
         with open(metadata) as fd:

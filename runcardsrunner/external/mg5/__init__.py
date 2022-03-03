@@ -41,7 +41,7 @@ class Mg5(interface.External):
 
         # create output folder
         log.subprocess(
-            [str(configs.configs.commands.mg5), str(output_file)],
+            [str(configs.configs["commands"]["mg5"]), str(output_file)],
             cwd=self.dest,
             out=(self.dest / "output.log"),
         )
@@ -138,7 +138,7 @@ class Mg5(interface.External):
 
         # launch run
         log.subprocess(
-            [str(configs.configs.commands.mg5), str(launch_file)],
+            [str(configs.configs["commands"]["mg5"]), str(launch_file)],
             cwd=self.dest,
             out=self.dest / "launch.log",
         )
@@ -206,7 +206,7 @@ class Mg5(interface.External):
         versions["mg5amc_revno"] = (
             subprocess.run(
                 "brz revno".split(),
-                cwd=configs.configs.paths.prefixed.mg5amc,
+                cwd=configs.configs["paths"]["prefixed"]["mg5amc"],
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()
@@ -215,7 +215,7 @@ class Mg5(interface.External):
         mg5amc_repo = (
             subprocess.run(
                 "brz info".split(),
-                cwd=configs.configs.paths.prefixed.mg5amc,
+                cwd=configs.configs["paths"]["prefixed"]["mg5amc"],
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()

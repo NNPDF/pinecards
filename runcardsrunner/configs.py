@@ -1,71 +1,75 @@
 # -*- coding: utf-8 -*-
+import copy
 import pathlib
 import shutil
 import tempfile
-import typing
+import warnings
 
-import rich
+import appdirs
+import tomli
 
 name = "runcardsrunner.toml"
 "Name of the config while (wherever it is placed)"
 
 
-class Configurations:
-    def __init__(self, dictionary=None):
-        if isinstance(dictionary, Configurations):
-            self._dict = dictionary._dict
-        elif dictionary is None:
-            self._dict = {}
-        else:
-            self._dict = dictionary
+def detect(path=None):
+    paths = []
 
-    def __repr__(self):
-        return self._dict.__repr__()
+    if path is not None:
+        path = pathlib.Path(path)
+        paths.append(path)
 
-    def __getattribute__(self, name) -> typing.Any:
-        if name[0] == "_":
-            return super().__getattribute__(name)
+    paths.append(pathlib.Path.cwd())
+    paths.append(pathlib.Path.home())
+    paths.append(pathlib.Path(appdirs.user_config_dir()))
+    paths.append(pathlib.Path(appdirs.site_config_dir()))
 
-        value = self._dict[name]
-        if isinstance(value, dict):
-            value = Configurations(value)
-        return value
+    for p in paths:
+        configs_file = p / name if p.is_dir() else p
 
-    def __getitem__(self, key):
-        return self.__getattribute__(key)
+        if configs_file.is_file():
+            return configs_file
 
-    def __setattribute__(self, name, value):
-        self._dict[name] = value
+        if p == path:
+            warnings.warn("Configuration path specified is not valid.")
 
-    def __setitem__(self, key, value):
-        if key[0] == "_":
-            raise LookupError(
-                "Elements with leading '_' can not be retrieved later, so you"
-                f" can not set (attempted: '{key}')"
-            )
+    raise FileNotFoundError("No configurations file detected.")
 
-        self._dict[key] = value
 
-    def __contains__(self, item):
-        return item in self._dict
+def load(path=None):
+    if path is None:
+        warnings.warn("Using default minimal configuration ('root = $PWD').")
+        return {"paths": {"root": pathlib.Path.cwd()}}
 
-    def _pprint(self):
-        rich.print(self._dict)
+    with open(path, "rb") as fd:
+        loaded = tomli.load(fd)
+
+    if "root" not in loaded["paths"]:
+        loaded["paths"]["root"] = pathlib.Path(path).parent
+
+    return loaded
 
 
 # better to declare immediately the correct type
-configs = Configurations()
+configs = {}
 "Holds loaded configurations"
 
 
-def add_scope(base, scope_id, scope):
+def add_scope(parent, scope_id, scope):
     "Do not override."
-    if scope_id not in base:
-        base[scope_id] = scope
+    newparent = copy.deepcopy(parent)
+    # if the id not present, append the scope all at once
+    if scope_id not in newparent:
+        newparent[scope_id] = scope
+    # if the id already present, preserve existing values
     else:
         for key, value in scope.items():
-            if key not in base[scope_id]:
-                base[scope_id] = value
+            # if already specified, do not override
+            if key not in newparent[scope_id]:
+                # else, add the default
+                newparent[scope_id] = value
+
+    return newparent
 
 
 def defaults(base_configs):
@@ -75,12 +79,12 @@ def defaults(base_configs):
     ----
     The general rule is to never replace user provided input.
     """
-    configs = Configurations(base_configs)
+    configs = copy.deepcopy(base_configs)
 
     configs = add_paths(configs)
     configs = add_commands(configs)
 
-    return Configurations(configs)
+    return configs
 
 
 def add_paths(configs):
@@ -90,21 +94,22 @@ def add_paths(configs):
         prefix=".prefix",
         results="results",
     ).items():
-        if key not in configs.paths:
-            configs.paths[key] = configs.paths.root / default
-        elif pathlib.Path(configs.paths[key]).anchor == "":
-            configs.paths[key] = configs.paths.root / configs.paths[key]
+        if key not in configs["paths"]:
+            configs["paths"][key] = configs["paths"]["root"] / default
+        elif pathlib.Path(configs["paths"][key]).anchor == "":
+            configs["paths"][key] = configs["paths"]["root"] / configs["paths"][key]
         else:
-            configs.paths[key] = pathlib.Path(configs.paths[key])
+            configs["paths"][key] = pathlib.Path(configs["paths"][key])
 
-    configs.paths["rust_init"] = tempfile.mktemp()
+    configs["paths"]["rust_init"] = tempfile.mktemp()
     configs = add_prefix_paths(configs)
 
     return configs
 
 
 def add_prefix_paths(configs):
-    prefix = configs.paths.prefix
+    configs = copy.deepcopy(configs)
+    prefix = configs["paths"]["prefix"]
     paths = {}
 
     paths["bin"] = prefix / "bin"
@@ -116,19 +121,17 @@ def add_prefix_paths(configs):
     paths["lhapdf_data_alternative"] = prefix / "share" / "LHAPDF"
 
     prefix_scope = "prefixed"
-    add_scope(configs.paths, prefix_scope, paths)
 
+    configs["paths"] = add_scope(configs["paths"], prefix_scope, paths)
     return configs
 
 
 def add_commands(configs):
     commands = {}
 
-    commands["mg5"] = configs.paths.prefixed.mg5amc / "bin" / "mg5_aMC"
-    commands["vrap"] = configs.paths.prefix / "bin" / "Vrap"
+    commands["mg5"] = configs["paths"]["prefixed"]["mg5amc"] / "bin" / "mg5_aMC"
+    commands["vrap"] = configs["paths"]["prefix"] / "bin" / "Vrap"
     pineappl = shutil.which("pineappl")
     commands["pineappl"] = pathlib.Path(pineappl) if pineappl is not None else None
 
-    add_scope(configs, "commands", commands)
-
-    return configs
+    return add_scope(configs, "commands", commands)

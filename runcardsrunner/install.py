@@ -24,7 +24,7 @@ quit
 """
 "instructions to set the correct model for MG5aMC\\@NLO"
 
-pineappl_repo = "git://github.com/N3PDF/pineappl.git"
+pineappl_repo = "https://github.com/N3PDF/pineappl.git"
 "git repo location for pineappl"
 
 

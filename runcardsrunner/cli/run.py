@@ -62,14 +62,17 @@ def main(dataset, theory, pdf):
     rich.print(dataset)
 
     if yad.is_dis(dataset):
-        rich.print(f"Computing [red]{dataset}[/]...")
-        runner = yad.Yadism(dataset, theory, pdf, timestamp=timestamp)
+        color = "red"
+        external = yad.Yadism
     elif positivity.is_positivity(dataset):
-        rich.print(f"Computing [yellow]{dataset}[/]...")
-        runner = positivity.Positivity(dataset, theory, pdf, timestamp=timestamp)
+        color = "yellow"
+        external = positivity.Positivity
     else:
-        rich.print(f"Computing [blue]{dataset}[/]...")
-        runner = mg5.Mg5(dataset, theory, pdf, timestamp=timestamp)
+        color = "blue"
+        external = mg5.Mg5
+
+    rich.print(f"Computing [{color}]{dataset}[/]...")
+    runner = external(dataset, theory, pdf, timestamp=timestamp)
 
     install_reqs(runner, pdf)
     run_dataset(runner)

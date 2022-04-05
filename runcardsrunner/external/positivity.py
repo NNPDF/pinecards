@@ -85,9 +85,9 @@ class Positivity(interface.External):
         pdf = lhapdf.mkPDF(self.pdf)
         d = {
             'result': [pdf.xfxQ2(self.pid, x, self.q2) / x for x in self.xgrid],
-            'error': [0.0] * len(self.xgrid),
-            'sv_min': [0.0] * len(self.xgrid),
-            'sv_max': [0.0] * len(self.xgrid),
+            'error': [1e-15] * len(self.xgrid),
+            'sv_min': [np.amin([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) / x for x in self.xgrid],
+            'sv_max': [np.amax([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) / x for x in self.xgrid],
         }
         results = pd.DataFrame(data=d)
 

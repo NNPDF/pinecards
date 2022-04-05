@@ -7,7 +7,7 @@ import rich
 import yaml
 
 from .. import install, log, table, tools
-from ..external import mg5, yad
+from ..external import mg5, positivity, yad
 from ._base import command
 
 
@@ -64,6 +64,9 @@ def main(dataset, theory, pdf):
     if yad.is_dis(dataset):
         rich.print(f"Computing [red]{dataset}[/]...")
         runner = yad.Yadism(dataset, theory, pdf, timestamp=timestamp)
+    elif positivity.is_positivity(dataset):
+        rich.print(f"Computing [yellow]{dataset}[/]...")
+        runner = positivity.Positivity(dataset, theory, pdf, timestamp=timestamp)
     else:
         rich.print(f"Computing [blue]{dataset}[/]...")
         runner = mg5.Mg5(dataset, theory, pdf, timestamp=timestamp)

@@ -57,7 +57,7 @@ class Positivity(interface.External):
             limits.append((x, x))
             # delta function
             array = np.zeros(len(self.xgrid))
-            array[bin_] = 1.0
+            array[bin_] = x
             # create and set
             subgrid = pineappl.import_only_subgrid.ImportOnlySubgridV1(
                 array[np.newaxis, :, np.newaxis],
@@ -83,10 +83,10 @@ class Positivity(interface.External):
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
         d = {
-            'result': [pdf.xfxQ2(self.pid, x, self.q2) / x for x in self.xgrid],
+            'result': [pdf.xfxQ2(self.pid, x, self.q2) for x in self.xgrid],
             'error': [1e-15] * len(self.xgrid),
-            'sv_min': [np.amin([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) / x for x in self.xgrid],
-            'sv_max': [np.amax([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) / x for x in self.xgrid],
+            'sv_min': [np.amin([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) for x in self.xgrid],
+            'sv_max': [np.amax([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) for x in self.xgrid],
         }
         results = pd.DataFrame(data=d)
 

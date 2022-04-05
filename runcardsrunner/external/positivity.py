@@ -93,4 +93,4 @@ class Positivity(interface.External):
         return results
 
     def collect_versions(self):
-        return {} # TODO: does that make sense here?
+        return {}

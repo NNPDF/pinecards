@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 import lhapdf
 import numpy as np
 import pandas as pd
@@ -72,10 +74,7 @@ class Positivity(interface.External):
         # set the initial state PDF ids for the grid
         grid.set_key_value("initial_state_1", str(self.hadron_pid))
         grid.set_key_value("initial_state_2", str(self.lepton_pid))
-        grid.set_key_value(
-            "runcard",
-            f"positivity constraint for quark {self.pid}",
-        )
+        grid.set_key_value("runcard", json.dumps(self.runcard))
         grid.set_key_value("lumi_id_types", "pdg_mc_ids")
         grid.optimize()
         grid.write(str(self.grid))

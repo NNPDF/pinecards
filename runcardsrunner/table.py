@@ -65,7 +65,7 @@ def print_table(pineappl_results, external_results, dest):
     comparison["PineAPPL"] = pineappl_results["integ"]
     comparison["MC"] = external_results["result"]
     comparison["sigma 1/100"] = (
-        external_results["error"] / external_results["result"] * 1e2
+        external_results["error"] / abs(external_results["result"]) * 1e2
     )
 
     # ratios

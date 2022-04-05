@@ -37,7 +37,7 @@ class Positivity(interface.External):
         self.xgrid = self.runcard['xgrid']
         self.lepton_pid = self.runcard['lepton_pid']
         self.pid = self.runcard['pid']
-        self.q2 = self.runcard['q'] * self.runcard['q']
+        self.q2 = self.runcard['q2']
         self.hadron_pid = self.runcard['hadron_pid']
 
         # init pineappl objects

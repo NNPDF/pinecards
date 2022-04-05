@@ -1,7 +1,7 @@
 hadron_pid: 2212
 lepton_pid: 11
 pid: 2
-q: 1.5
+q2: 2.25
 xgrid:
   - 0.001
   - 0.002

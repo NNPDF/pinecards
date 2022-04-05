@@ -29,12 +29,14 @@ class Positivity(interface.External):
 
     def run(self):
         with open(paths.runcards / self.name / "positivity.yaml") as o:
-            data = yaml.safe_load(o)
-            self.xgrid = data['xgrid']
-            self.lepton_pid = data['lepton_pid']
-            self.pid = data['pid']
-            self.q2 = data['q'] * data['q']
-            self.hadron_pid = data['hadron_pid']
+            self.runcard = yaml.safe_load(o)
+
+    def generate_pineappl(self):
+        self.xgrid = self.runcard['xgrid']
+        self.lepton_pid = self.runcard['lepton_pid']
+        self.pid = self.runcard['pid']
+        self.q2 = self.runcard['q'] * self.runcard['q']
+        self.hadron_pid = self.runcard['hadron_pid']
 
         # init pineappl objects
         lumi_entries = [pineappl.lumi.LumiEntry([(self.pid, self.lepton_pid, 1.0)])]
@@ -78,8 +80,6 @@ class Positivity(interface.External):
         grid.optimize()
         grid.write(str(self.grid))
 
-    def generate_pineappl(self):
-        pass
 
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)

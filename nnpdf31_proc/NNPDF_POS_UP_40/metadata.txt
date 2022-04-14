@@ -1,3 +1,4 @@
+description=Up-quark positivity
 x1_label=Q2
 x1_label_tex=$Q^2$
 x1_unit=

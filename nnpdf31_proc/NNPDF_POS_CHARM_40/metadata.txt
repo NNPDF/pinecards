@@ -1,7 +1,7 @@
 description=Charm quark positivity
 x1_label=Q2
 x1_label_tex=$Q^2$
-x1_unit=
+x1_unit=GeV^2
 x2_label=x
 x2_label_tex=$x$
 x2_unit=

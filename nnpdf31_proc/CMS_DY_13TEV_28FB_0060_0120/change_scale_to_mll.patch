@@ -1,0 +1,141 @@
+--- CMSDY2D11/SubProcesses/setscales.f  2020-05-21 17:23:55.126143088 +0200
++++ CMSDY2D11/SubProcesses/setscales.f.new  2020-05-21 17:27:26.262700419 +0200
+@@ -527,6 +527,17 @@
+       integer i,j
+       character*80 temp_scale_id
+       common/ctemp_scale_id/temp_scale_id
++      integer iPDG_reco(nexternal)
++      double precision ppl(0:3), pplb(0:3), ppv(0:3), xmll
++      double precision p_reco(0:4,nexternal), p_in(0:4,nexternal)
++c     les houches accord stuff to identify particles
++c
++      integer idup(nexternal,maxproc),mothup(2,nexternal,maxproc),
++     &        icolup(2,nexternal,maxflow),niprocs
++      common /c_leshouche_inc/idup,mothup,icolup,niprocs
++c Masses of external particles
++      double precision pmass(nexternal)
++      common/to_mass/pmass
+ c
+       tmp=0
+       if(ickkw.eq.-1)then
+@@ -568,10 +579,116 @@
+ cc                 dynamical_scale_choice = 10                                   cc
+ cc      in the run_card (run_card.dat)                                           cc
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+-         write(*,*) "User-defined scale not set"
+-         stop 1
+-         temp_scale_id='User-defined dynamical scale' ! use a meaningful string
+-         tmp = 0d0
++         temp_scale_id='Mll' ! use a meaningful string
++         tmp = -1d0
++         do i=1,nexternal
++           p_in(0:3,i) = pp(0:3,i)
++           p_in(4,i) = pmass(i)
++         enddo
++         call recombine_momenta(rphreco, etaphreco, lepphreco, quarkphreco,
++     $                          p_in, idup(1,1), p_reco, iPDG_reco)
++
++         do j = nincoming+1, nexternal
++           if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
++           if (iPDG_reco(j).eq.-13) pplb(0:3)=p_reco(0:3,j)
++         enddo
++         do i=0,3
++           ppv(i)=ppl(i)+pplb(i)
++         enddo
++
++         xmll=sqrt(ppv(0)**2-ppv(1)**2-ppv(2)**2-ppv(3)**2)
++
++         if (xmll.lt.15d0) then
++           write (*,*) "error: event outside bins", xmll
++         else if (xmll.lt.20d0) then
++           tmp=0.5*(15d0+20d0)
++         else if (xmll.lt.25d0) then
++           tmp=0.5*(20d0+25d0)
++         else if (xmll.lt.30d0) then
++           tmp=0.5*(25d0+30d0)
++         else if (xmll.lt.35d0) then
++           tmp=0.5*(30d0+35d0)
++         else if (xmll.lt.40d0) then
++           tmp=0.5*(35d0+40d0)
++         else if (xmll.lt.45d0) then
++           tmp=0.5*(45d0+40d0)
++         else if (xmll.lt.50d0) then
++           tmp=0.5*(45d0+50d0)
++         else if (xmll.lt.55d0) then
++           tmp=0.5*(50d0+55d0)
++         else if (xmll.lt.60d0) then
++           tmp=0.5*(55d0+60d0)
++         else if (xmll.lt.64d0) then
++           tmp=0.5*(60d0+64d0)
++         else if (xmll.lt.68d0) then
++           tmp=0.5*(64d0+68d0)
++         else if (xmll.lt.72d0) then
++           tmp=0.5*(68d0+72d0)
++         else if (xmll.lt.76d0) then
++           tmp=0.5*(72d0+76d0)
++         else if (xmll.lt.81d0) then
++           tmp=0.5*(76d0+81d0)
++         else if (xmll.lt.86d0) then
++           tmp=0.5*(81d0+86d0)
++         else if (xmll.lt.91d0) then
++           tmp=0.5*(86d0+91d0)
++         else if (xmll.lt.96d0) then
++           tmp=0.5*(91d0+96d0)
++         else if (xmll.lt.101d0) then
++           tmp=0.5*(96d0+101d0)
++         else if (xmll.lt.106d0) then
++           tmp=0.5*(101d0+106d0)
++         else if (xmll.lt.110d0) then
++           tmp=0.5*(106d0+110d0)
++         else if (xmll.lt.115d0) then
++           tmp=0.5*(110d0+115d0)
++         else if (xmll.lt.120d0) then
++           tmp=0.5*(115d0+120d0)
++         else if (xmll.lt.126d0) then
++           tmp=0.5*(120d0+126d0)
++         else if (xmll.lt.133d0) then
++           tmp=0.5*(126d0+133d0)
++         else if (xmll.lt.141d0) then
++           tmp=0.5*(133d0+141d0)
++         else if (xmll.lt.150d0) then
++           tmp=0.5*(141d0+150d0)
++         else if (xmll.lt.160d0) then
++           tmp=0.5*(150d0+160d0)
++         else if (xmll.lt.171d0) then
++           tmp=0.5*(160d0+171d0)
++         else if (xmll.lt.185d0) then
++           tmp=0.5*(171d0+185d0)
++         else if (xmll.lt.200d0) then
++           tmp=0.5*(185d0+200d0)
++         else if (xmll.lt.220d0) then
++           tmp=0.5*(200d0+220d0)
++         else if (xmll.lt.243d0) then
++           tmp=0.5*(220d0+243d0)
++         else if (xmll.lt.273d0) then
++           tmp=0.5*(243d0+273d0)
++         else if (xmll.lt.320d0) then
++           tmp=0.5*(273d0+320d0)
++         else if (xmll.lt.380d0) then
++           tmp=0.5*(320d0+380d0)
++         else if (xmll.lt.440d0) then
++           tmp=0.5*(380d0+440d0)
++         else if (xmll.lt.510d0) then
++           tmp=0.5*(440d0+510d0)
++         else if (xmll.lt.600d0) then
++           tmp=0.5*(510d0+600d0)
++         else if (xmll.lt.700d0) then
++           tmp=0.5*(600d0+700d0)
++         else if (xmll.lt.830d0) then
++           tmp=0.5*(700d0+830d0)
++         else if (xmll.lt.1000d0) then
++           tmp=0.5*(830d0+1000d0)
++         else if (xmll.lt.1500d0) then
++           tmp=0.5*(1000d0+1500d0)
++         else if (xmll.lt.3000d0) then
++           tmp=0.5*(1500d0+3000d0)
++         else
++           write (*,*) "error: event outside bins", xmll
++         endif
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+ cc      USER-DEFINED SCALE: END OF USER CODE                                     cc
+ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc

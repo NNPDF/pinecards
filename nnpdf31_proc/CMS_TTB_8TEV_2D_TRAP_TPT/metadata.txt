@@ -1,0 +1,13 @@
+arxiv=1703.01630
+description=CMS two-dimensional differential ttbar cross section at 8 TeV
+hepdata=10.17182/hepdata.77008.v1/t1
+nnpdf_id=CMS_TTBAR_2D_DIFF_PT_TRAP_NORM
+x1_label=yt
+x1_label_tex=$y_{\mathrm{t}}$
+x1_unit=
+x2_label=ptt
+x2_label_tex=$p_{\mathrm{T},\mathrm{t}}$
+x2_unit=GeV
+y_label=d2sig/dyt/dptt
+y_label_tex=$\frac{\mathrm{d}^2\sigma}{\mathrm{d}y_{\mathrm{t}}\mathrm{d}p_{\mathrm{T},\mathrm{t}}}$
+y_unit=pb/GeV

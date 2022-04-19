@@ -1,6 +1,0 @@
-arxiv=1406.5375, 1603.02303
-description=ATLAS and CMS ttbar total cross section at 8 TeV
-hepdata=10.17182/hepdata.65210.v1/t3, 10.17182/hepdata.74208.v1/t2
-y_label=sig
-y_label_tex=$\sigma$
-y_unit=pb

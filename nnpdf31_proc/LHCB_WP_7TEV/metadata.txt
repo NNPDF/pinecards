@@ -1,0 +1,10 @@
+arxiv=1505.07024
+description=LHCb differential W-boson production cross section at 7 TeV
+hepdata=10.17182/hepdata.2114.v1/t4
+nnpdf_id=LHCBWZMU7TEV
+x1_label=etal
+x1_label_tex=$\eta_{\bar{\ell}}$
+x1_unit=
+y_label=dsig/detal
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}\eta_{\bar{\ell}}}$
+y_unit=pb

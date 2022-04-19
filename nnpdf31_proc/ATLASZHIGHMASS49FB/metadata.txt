@@ -1,9 +1,0 @@
-arxiv=1305.4192
-description=ATLAS high-mass differential Drell–Yan cross section at 7 TeV
-hepdata=10.17182/hepdata.61422.v1/t1
-x1_label=Mll
-x1_label_tex=$M_{\ell\bar{\ell}}$
-x1_unit=GeV
-y_label=dsig/dMll
-y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}M_{\ell\bar{\ell}}}$
-y_unit=pb/GeV

@@ -1,9 +1,0 @@
-arxiv=1803.08856
-description=CMS ttbar differential cross section at 13 TeV
-hepdata=10.17182/hepdata.85696.v2/t178
-x1_label=ptt
-x1_label_tex=$p_{\mathrm{T},\mathrm{t}}$
-x1_unit=GeV
-y_label=dsig/dptt
-y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T},\mathrm{t}}}$
-y_unit=pb/GeV

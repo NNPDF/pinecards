@@ -1,0 +1,28 @@
+launch @OUTPUT@
+fixed_order = ON
+set maxjetflavor 5
+set gf @GF@
+set mh @MH@
+set mt @MT@
+set mw @MW@
+set mz @MZ@
+set wh @WH@
+set wt @WT@
+set ww @WW@
+set wz @WZ@
+set ebeam1 7000
+set ebeam2 7000
+set pdlabel lhapdf
+set lhaid @LHAPDF_ID@
+set dynamical_scale_choice 10
+set reweight_scale True
+set ptl = 15.0
+set etal = 2.4
+set mll_sf = 40.0
+#user_defined_cut set mmllmax = 120.0
+#user_defined_tau_min 40.0
+set rphreco = 0.1
+set req_acc_FO 0.00005
+set pineappl True
+done
+quit

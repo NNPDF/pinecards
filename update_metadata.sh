@@ -9,7 +9,7 @@ set -o nounset
 # exit if some program in a pipeline fails
 set -o pipefail
 
-for i in $(find -name '*.pineappl.lz4'); do
+for i in $(find "$@" -name '*.pineappl.lz4'); do
     dataset=$(basename $i)
     dataset=${dataset%.pineappl.lz4}
 

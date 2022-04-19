@@ -1,53 +1,48 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import os.path
 import sys
 
 cuts_variables = {
-    'abscoscs': '''c     variables for abscoscs cuts
+    "abscoscs": """c     variables for abscoscs cuts
       real*8 zcoscs,zenl,zptxl,zptyl,zpzl,zenal,zptxal,zptyal,zpzal
       real*8 zpzll,zmll,zp1p,zp1m,zp2p,zp2m,zpt2ll
       integer zlep,zalep
-''',
-    'atlas_dy3d_8tev': '''c variables for atlas_dy3d_8tev cut
+""",
+    "atlas_dy3d_8tev": """c variables for atlas_dy3d_8tev cut
       real*8 ppl(0:3),pplb(0:3)
       real*8 p1p,p1m,p2p,p2m,pzll,pt2ll
       real*8 xmll,xyll,xcos,xlimit
-''',
-    'atlas_wzrap11_cf': '''c variables for atlas_wzrap11_cf cut
+""",
+    "atlas_wzrap11_cf": """c variables for atlas_wzrap11_cf cut
       real*8 ppl(0:4),pplb(0:4)
       real*8 xyll,xeta1,xeta2
-''',
-    'atlas_2jet_7tev_r06': '''c
-      real*8 xystar,xmjj
-''',
-    'cms_2jets_7tev': '''c     variables for cms_2jets_7tev cuts
-      real*8 xymax,xmjj
-''',
-    'atlas_1jet_8tev_r06': '''c     variables for atlas_1jet_8tev_r06 cuts
+""",
+    "atlas_1jet_8tev_r06": """c     variables for atlas_1jet_8tev_r06 cuts
       real*8 xptj,xyj
       logical xjet
-''',
-    'cms_2jet_3d_8tev': '''c
+""",
+    "cms_2jet_3d_8tev": """c
       real*8 xystar,xyboost,xptavg
-''',
-    'ptmiss': '''c variables for ptmiss cut
+""",
+    "ptmiss": """c variables for ptmiss cut
       real*8 xptmiss(1:2)
-''',
-    'mtw': '''c variables for ptmiss cut
+""",
+    "mtw": """c variables for ptmiss cut
       real*8 xmtw
-''',
+""",
 }
 
 cuts_code = {
-    'mjj': '''c     cut on the invariant mass of the leading jets
+    "mjj": """c     cut on the invariant mass of the leading jets
       if (invm2_04(pjet(0,1),pjet(0,2),1d0) .lt. ({})**2) then
         passcuts_user=.false.
         return
       endif
 
-''',
-    'dyjj': '''c     cut on the rapidity separation of the leading jets
+""",
+    "dyjj": """c     cut on the rapidity separation of the leading jets
       tmpvar=atanh(pjet(3,1)/pjet(0,1))
      &      -atanh(pjet(3,2)/pjet(0,2))
       if (abs(tmpvar) .lt. {}) then
@@ -55,8 +50,8 @@ cuts_code = {
         return
       endif
 
-''',
-    'mmllmax': '''c     cut for mmllmax (SFOS lepton pairs)
+""",
+    "mmllmax": """c     cut for mmllmax (SFOS lepton pairs)
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -70,8 +65,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'ptl1min': '''c     cut for ptl1min (leading lepton)
+""",
+    "ptl1min": """c     cut for ptl1min (leading lepton)
       j = 0
       do i=1,nexternal
         if (is_a_lm(i) .or. is_a_lp(i)) then
@@ -85,15 +80,15 @@ cuts_code = {
         return
       endif
 
-''',
-    'ptj1min': '''c     cut for ptl1min (leading jet)
+""",
+    "ptj1min": """c     cut for ptl1min (leading jet)
       if (pt(pjet(0,1)) .lt. {}) then
         passcuts_user=.false.
         return
       endif
 
-''',
-    'yll': '''c     cut on the rapidity of the two leading leptons
+""",
+    "yll": """c     cut on the rapidity of the two leading leptons
       j = 0 ! leading lepton index
       mm = 0 ! subleading lepton index
       do i=1,nexternal
@@ -122,8 +117,8 @@ cuts_code = {
         return
       endif
 
-''',
-    'ptzmin': '''c     cut on the pt of SFOS lepton pairs
+""",
+    "ptzmin": """c     cut on the pt of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -138,8 +133,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'ptzmax': '''c     cut on the pt of SFOS lepton pairs
+""",
+    "ptzmax": """c     cut on the pt of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -154,8 +149,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'yz': '''c     cut on the rapidity of SFOS lepton pairs
+""",
+    "yz": """c     cut on the rapidity of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -170,8 +165,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'yh': '''c     cut on Higgs particles
+""",
+    "yh": """c     cut on Higgs particles
       do i=1,nexternal
         if (ipdg_reco(i) .eq. 25) then
           if (abs(atanh(p_reco(3,i)/p_reco(0,i)))
@@ -182,8 +177,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'yt': '''c     cut on top particles
+""",
+    "yt": """c     cut on top particles
       do i=1,nexternal
         if (ipdg_reco(i).eq.6 .or. ipdg_reco(i).eq.-6) then
           if (abs(atanh(p_reco(3,i)/p_reco(0,i)))
@@ -194,8 +189,8 @@ cuts_code = {
         endif
       enddo
 
-''',
-    'abscoscsmin': '''c     cut on the minimum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
+""",
+    "abscoscsmin": """c     cut on the minimum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -236,8 +231,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       enddo
 
-''',
-    'minetal': '''c     cut on the minimum pseudorapidity of leptons
+""",
+    "minetal": """c     cut on the minimum pseudorapidity of leptons
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           if (abs(atanh(p_reco(3,i)/sqrt(p_reco(1,i)**2+p_reco(2,i)**2+
@@ -248,8 +243,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       enddo
 
-''',
-    'abscoscsmax': '''c     cut on the maximum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
+""",
+    "abscoscsmax": """c     cut on the maximum of the absolute value of the cosine of the Collins-Soper angle of SFOS pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -290,8 +285,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       enddo
 
-''',
-    'yzmin': '''c     cut on the rapidity of SFOS lepton pairs
+""",
+    "yzmin": """c     cut on the rapidity of SFOS lepton pairs
       do i=1,nexternal-1
         if (is_a_lm(i) .or. is_a_lp(i)) then
           do j=i+1,nexternal
@@ -306,8 +301,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
         endif
       enddo
 
-''',
-    'atlas_dy3d_8tev': '''c
+""",
+    "atlas_dy3d_8tev": """c
       if ({}) then
         do j = nincoming+1, nexternal
           if (iPDG_reco(j).eq.13) ppl(0:3)=p_reco(0:3,j)
@@ -438,8 +433,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           return
         endif
       endif
-''',
-    'atlas_wzrap11_cf': '''c
+""",
+    "atlas_wzrap11_cf": """c
       if ({}) then
         do i = nincoming+1, nexternal
           if (iPDG_reco(i).eq.13) then
@@ -473,56 +468,140 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
           return
         endif
       endif
-''',
-    'atlas_2jet_7tev_r06': '''c
+""",
+    "atlas_2jet_7tev_r06_0005": """c
       if ({}) then
-        if (njet.lt.2) then
+        if (njet < 2) then
           passcuts_user=.false.
           return
         endif
 
-        xystar = 0.5d0 * dabs(atanh(pjet(3,1)/pjet(0,1))-
-     $                        atanh(pjet(3,2)/pjet(0,2)))
-        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+        block
+          real*8 xystar, xmjj
 
-        if (xystar.lt.0.5d0) then
-          if (xmjj.lt.260d0 .or. xmjj.gt.4270d0) then
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar > 0.5d0 .or. xmjj < 260d0 .or. xmjj > 4270d0) then
             passcuts_user=.false.
             return
           endif
-        else if (xystar.lt.1.0d0) then
-          if (xmjj.lt.310d0 .or. xmjj.gt.4270d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.1.5d0) then
-          if (xmjj.lt.510d0 .or. xmjj.gt.4640d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.2.0d0) then
-          if (xmjj.lt.760d0 .or. xmjj.gt.4640d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.2.5d0) then
-          if (xmjj.lt.1310d0 .or. xmjj.gt.5040d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xystar.lt.3.0d0) then
-          if (xmjj.lt.2120d0 .or. xmjj.gt.5040d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else
-          passcuts_user=.false.
-          return
-        endif
+        end block
       endif
 
-''',
-    'atlas_1jet_8tev_r06': '''c
+""",
+    "atlas_2jet_7tev_r06_0510": """c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 0.5d0 .or. xystar > 1.0d0 .or. xmjj < 310d0 .or. xmjj > 4270d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+""",
+    "atlas_2jet_7tev_r06_1015": """c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 1.0d0 .or. xystar > 1.5d0 .or. xmjj < 510d0 .or. xmjj > 4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+""",
+    "atlas_2jet_7tev_r06_1520": """c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 1.5d0 .or. xystar > 2.0d0 .or. xmjj < 760d0 .or. xmjj > 4640d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+""",
+    "atlas_2jet_7tev_r06_2025": """c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 2.0d0 .or. xystar > 2.5d0 .or. xmjj < 1310d0 .or. xmjj > 5040d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+""",
+    "atlas_2jet_7tev_r06_2530": """c
+      if ({}) then
+        if (njet < 2) then
+          passcuts_user=.false.
+          return
+        endif
+
+        block
+          real*8 xystar, xmjj
+
+          xystar = 0.5d0 * abs(atanh(pjet(3,1)/pjet(0,1))-
+     $                         atanh(pjet(3,2)/pjet(0,2)))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xystar < 2.5d0 .or. xystar > 3.0d0 .or. xmjj < 2120d0 .or. xmjj > 5040d0) then
+            passcuts_user=.false.
+            return
+          endif
+        end block
+      endif
+
+""",
+    "atlas_1jet_8tev_r06": """c
       if ({}) then
         xjet=.false.
 
@@ -569,51 +648,118 @@ c             exit
         endif
       endif
 
-''',
-    'cms_2jets_7tev': '''c
+""",
+    "cms_2jets_7tev_0005": """c
       if ({}) then
-        if (njet.lt.2) then
-          passcuts_user=.false.
-          return
-        endif
+        block
+          real*8 xymax, xmjj
 
-        xymax = max(dabs(atanh(pjet(3,1)/pjet(0,1))),
-     $              dabs(atanh(pjet(3,2)/pjet(0,2))))
-        xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
 
-        if (xymax.lt.0.5d0) then
-          if (xmjj.lt.197d0 .or. xmjj.gt.4010d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xymax.lt.1.0d0) then
-          if (xmjj.lt.270d0 .or. xmjj.gt.4010d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xymax.lt.1.5d0) then
-          if (xmjj.lt.419d0 .or. xmjj.gt.4509d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xymax.lt.2.0d0) then
-          if (xmjj.lt.565d0 .or. xmjj.gt.5058d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else if (xymax.lt.2.5d0) then
-          if (xmjj.lt.1000d0 .or. xmjj.gt.5058d0) then
-            passcuts_user=.false.
-            return
-          endif
-        else
-          passcuts_user=.false.
-          return
-        endif
-      endif
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
 
-''',
-    'cms_2jet_3d_8tev': '''c
+          if (xymax > 0.5d0 .or. xmjj < 197d0 .or. xmjj > 4010d0) then
+            passcuts_user=.false.
+            return
+          end if
+        end block
+      end if
+
+""",
+    "cms_2jets_7tev_0510": """c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 0.5d0 .or. xymax > 1.0d0 .or. xmjj < 270d0 .or. xmjj > 4010d0) then
+            passcuts_user=.false.
+            return
+          end if
+        end block
+      end if
+
+""",
+    "cms_2jets_7tev_1015": """c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 1.0d0 .or. xymax > 1.5d0 .or. xmjj < 419d0 .or. xmjj > 4509d0) then
+            passcuts_user=.false.
+            return
+          end if
+        end block
+      end if
+
+""",
+    "cms_2jets_7tev_1520": """c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 1.5d0 .or. xymax > 2.0d0 .or. xmjj < 565d0 .or. xmjj > 5058d0) then
+            passcuts_user=.false.
+            return
+          end if
+        end block
+      end if
+
+""",
+    "cms_2jets_7tev_2025": """c
+      if ({}) then
+        block
+          real*8 xymax, xmjj
+
+          if (njet < 2) then
+            passcuts_user = .false.
+            return
+          end if
+
+          xymax = max(abs(atanh(pjet(3,1)/pjet(0,1))),
+     $                abs(atanh(pjet(3,2)/pjet(0,2))))
+          xmjj = sqrt(invm2_04(pjet(0,1),pjet(0,2),1d0))
+
+          if (xymax < 2.0d0 .or. xymax > 2.5d0 .or. xmjj < 1000d0 .or. xmjj > 5058d0) then
+            passcuts_user=.false.
+            return
+          end if
+        end block
+      end if
+
+""",
+    "cms_2jet_3d_8tev": """c
       if ({}) then
         if (njet.lt.2) then
           passcuts_user=.false.
@@ -682,8 +828,8 @@ c             exit
         endif
       endif
 
-''',
-    'ptmiss': '''c     cut on the sum of all missing transverse momentum
+""",
+    "ptmiss": """c     cut on the sum of all missing transverse momentum
       xptmiss=0d0
 
       do i=3,nexternal
@@ -700,8 +846,8 @@ c             exit
         return
       endif
 
-''',
-    'mtw': '''c     cut on the transverse mass of W bosons
+""",
+    "mtw": """c     cut on the transverse mass of W bosons
       do i=3,nexternal
         do j=i+1,nexternal
           if (is_a_lm(i) .or. is_a_lp(i) .or.
@@ -719,19 +865,19 @@ c             exit
         enddo
       enddo
 
-''',
+""",
 }
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) < 5:
-        print('Error: wrong number of arguments: {}'.format(sys.argv))
+        print("Error: wrong number of arguments: {}".format(sys.argv))
         exit(1)
 
     # the name of the file we want to patch
     filename = sys.argv[1]
 
     if not os.path.exists(filename):
-        print('Error: cut file `{}` does not exist'.format(filename))
+        print("Error: cut file `{}` does not exist".format(filename))
         exit(2)
 
     for i in zip(sys.argv[2::3], sys.argv[3::3], sys.argv[4::3]):
@@ -739,17 +885,17 @@ if __name__ == '__main__':
 
         # check if the cut is recognised
         if not name in cuts_code:
-            print('Error: unrecognised cut: {}'.format(name))
+            print("Error: unrecognised cut: {}".format(name))
             exit(3)
 
-        if i[1] != '=':
-            print('Error: wrong argument format')
+        if i[1] != "=":
+            print("Error: wrong argument format")
             exit(4)
 
-    with open(filename, 'r') as fd:
+    with open(filename, "r") as fd:
         contents = fd.readlines()
 
-    insertion_marker = 'logical function passcuts_user'
+    insertion_marker = "logical function passcuts_user"
     marker_pos = -1
 
     for lineno, value in enumerate(contents):
@@ -758,8 +904,11 @@ if __name__ == '__main__':
             break
 
     if marker_pos == -1:
-        print('Error: could not find insertion marker `{}` in cut file `{}`'
-            .format(insertion_marker, filename))
+        print(
+            "Error: could not find insertion marker `{}` in cut file `{}`".format(
+                insertion_marker, filename
+            )
+        )
         exit(5)
 
     marker_pos = marker_pos + 8
@@ -768,7 +917,7 @@ if __name__ == '__main__':
         if any(i[0].startswith(name) for i in zip(sys.argv[2::3])):
             contents.insert(marker_pos, cuts_variables[name])
 
-    insertion_marker = 'USER-DEFINED CUTS'
+    insertion_marker = "USER-DEFINED CUTS"
     marker_pos = -1
 
     for lineno, value in enumerate(contents):
@@ -777,32 +926,36 @@ if __name__ == '__main__':
             break
 
     if marker_pos == -1:
-        print('Error: could not find insertion marker `{}` in cut file `{}`'
-            .format(insertion_marker, filename))
+        print(
+            "Error: could not find insertion marker `{}` in cut file `{}`".format(
+                insertion_marker, filename
+            )
+        )
         exit(5)
 
     # skip some lines with comments
     marker_pos = marker_pos + 4
     # insert and empty line
-    contents.insert(marker_pos - 1, '\n')
+    contents.insert(marker_pos - 1, "\n")
 
     for i in zip(reversed(sys.argv[2::3]), reversed(sys.argv[4::3])):
         name = i[0]
         value = i[1]
 
-        try:
-            value = float(value)
-        except ValueError:
-            if value == "True":
-                value = ".true."
-            elif value == "False":
-                value = ".false."
-            else:
-                print('Error: format of value `{}` not understood'.format(value))
+        if value == "True":
+            value = ".true."
+        elif value == "False":
+            value = ".false."
+        else:
+            try:
+                float(value)
+            except ValueError:
+                print("Error: format of value `{}` not understood".format(value))
                 exit(6)
+            value = value + "d0"
 
         code = cuts_code[name].format(value)
         contents.insert(marker_pos, code)
 
-    with open(filename, 'w') as fd:
+    with open(filename, "w") as fd:
         fd.writelines(contents)

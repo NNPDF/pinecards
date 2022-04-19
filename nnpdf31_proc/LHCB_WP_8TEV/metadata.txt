@@ -1,0 +1,10 @@
+arxiv=1511.08039
+description=LHCb differential W-boson production cross section at 8 TeV
+hepdata=10.17182/hepdata.71419.v1/t1
+nnpdf_id=LHCBWZMU8TEV
+x1_label=etal
+x1_label_tex=$\eta_{\bar{\ell}}$
+x1_unit=
+y_label=dsig/detal
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}\eta_{\bar{\ell}}}$
+y_unit=pb

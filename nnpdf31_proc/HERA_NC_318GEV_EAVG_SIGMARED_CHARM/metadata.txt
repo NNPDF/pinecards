@@ -1,0 +1,15 @@
+arxiv=1804.01019
+description=HERA NC reduced charm cross section at 318 GeV
+hepdata=
+data_url=
+nnpdf_id=HERACOMB_SIGMARED_C
+fktable_id=HERACOMB_SIGMARED_C
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=x
+x2_label_tex=$x$
+x2_unit=
+y_label=sigr
+y_label_tex=$\sigma_{\mathrm{red},\mathrm{c}\bar{\mathrm{c}}}$
+y_unit=

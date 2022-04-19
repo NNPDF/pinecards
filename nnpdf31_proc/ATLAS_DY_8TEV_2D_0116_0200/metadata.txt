@@ -1,0 +1,13 @@
+arxiv=1606.01736
+description=ATLAS double-differential Drell–Yan cross section at 8 TeV
+hepdata=10.17182/hepdata.75023.v1/t30, 10.17182/hepdata.75023.v1/t31, 10.17182/hepdata.75023.v1/t32, 10.17182/hepdata.75023.v1/t33, 10.17182/hepdata.75023.v1/t34
+nnpdf_id=ATLAS_DY2D_8TEV
+x1_label=Mll
+x1_label_tex=$M_{\ell\bar{\ell}}$
+x1_unit=GeV
+x2_label=yll
+x2_label_tex=$y_{\ell\bar{\ell}}$
+x2_unit=
+y_label=d2sig/dMll/dyll
+y_label_tex=$\frac{\mathrm{d}^2\sigma}{\mathrm{d}M_{\ell\bar{\ell}}\mathrm{d}y_{\ell\bar{\ell}}}$
+y_unit=pb/GeV

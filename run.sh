@@ -2,6 +2,8 @@
 
 prefix=$(pwd)/.prefix
 
+export LC_ALL=C
+
 yesno() {
     echo -n "$@" "[Y/n]"
     read -r reply
@@ -24,7 +26,7 @@ install_mg5amc() {(
     bzr=$(which bzr 2> /dev/null || true)
     pip=$(which pip 2> /dev/null || true)
 
-    repo=lp:~maddevelopers/mg5amcnlo/3.0.4
+    repo=lp:~maddevelopers/mg5amcnlo/3.2.1
 
     if [[ -x ${pip} ]] && [[ ! -x ${brz} ]] && [[ ! -x ${bzr} ]]; then
         pyver=$(python --version | cut -d' ' -f 2 | cut -d. -f1,2)
@@ -103,7 +105,7 @@ check_args_and_cd_output() {
         echo "Usage: ./run.sh [dataset]" >&2
         echo "  The following datasets are available:" >&2
 
-        for i in $(ls -d nnpdf31_proc/*); do
+        for i in nnpdf31_proc/*; do
             echo "  - ${i##*/}" >&2
         done
 
@@ -146,7 +148,7 @@ check_args_and_cd_output() {
     fi
 
     if [[ -n ${install_mg5amc}${install_pineappl} ]]; then
-        if yesno 'Do you want to install the missing dependencies (into `.prefix`)?'; then
+        if yesno "Do you want to install the missing dependencies (into \`.prefix\`)?"; then
             if [[ -n ${install_mg5amc} ]]; then
                 install_mg5amc
             fi
@@ -177,7 +179,9 @@ check_args_and_cd_output() {
         echo "The binary \`pineappl\` wasn't found. Something went wrong" >&2
         exit 1
     fi
+}
 
+output_and_launch() {
     # name of the directory where the output is written to
     output="${dataset}"-$(date +%Y%m%d%H%M%S)
 
@@ -189,21 +193,20 @@ check_args_and_cd_output() {
 
     mkdir "${output}"
     cd "${output}"
-}
 
-main() {
     # copy the output file to the directory and replace the variables
     output_file=output.txt
     cp ../nnpdf31_proc/"${dataset}"/output.txt "${output_file}"
     sed -i "s/@OUTPUT@/${dataset}/g" "${output_file}"
 
     # create output folder
-    python2 "${mg5amc}" "${output_file}" |& tee output.log
+    "${mg5amc}" "${output_file}" |& tee output.log
 
-    # copy patches if there are any
-    for i in $(find ../nnpdf31_proc/"${dataset}" -name '*.patch'); do
-        patch -p1 -d "${dataset}" < $i
-    done
+    # copy patches if there are any; use xargs to properly signal failures
+    cd "${dataset}"
+    find ../../nnpdf31_proc/"${dataset}" -name '*.patch' -print0 | \
+        xargs -0 -I file sh -c 'patch -p1 < file'
+    cd -
 
     # enforce proper analysis
     cp ../nnpdf31_proc/"${dataset}"/analysis.f "${dataset}"/FixedOrderAnalysis/"${dataset}".f
@@ -217,16 +220,15 @@ main() {
     # TODO: write a list with variables that should be replaced in the launch file; for the time
     # being we create the file here, but in the future it should be read from the theory database
     cat > variables.txt <<EOF
-GF 1.16639e-5
+GF 1.1663787e-5
 MH 125.0
-MT 173.3
-MW 80.419
-MZ 91.176
+MT 172.5
+MW 80.352
+MZ 91.1535
 WH 4.07468e-3
 WT 1.37758
-WW 2.09291
-WZ 2.49877
-YMT 173.3
+WW 2.084
+WZ 2.4943
 EOF
 
     # replace the variables with their values
@@ -262,34 +264,67 @@ EOF
     user_defined_cuts=$(grep '^#user_defined_cut' launch.txt || true)
 
     # if there are user-defined cuts, implement them
-    if [[ -n ${user_defined_cuts[@]} ]]; then
-        user_defined_cuts=( $(echo "${user_defined_cuts[@]}" | grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)') )
-        ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${user_defined_cuts[@]}"
+    if [[ -n ${user_defined_cuts} ]]; then
+        cuts=()
+        mapfile -d ' ' -t cuts < <(
+            echo "${user_defined_cuts[@]}" | \
+            grep -Eo '\w+[[:blank:]]+=[[:blank:]]+([+-]?[0-9]+([.][0-9]+)?|True|False)' | \
+            tr '\n' ' '
+        )
+        ../run_implement_user_defined_cuts.py "${dataset}"/SubProcesses/cuts.f "${cuts[@]}"
+    fi
+
+    # parse launch file for user-defined minimum tau
+    user_defined_tau_min=$(grep '^#user_defined_tau_min' launch.txt || true)
+
+    # if there is one, implement it
+    if [[ -n ${user_defined_tau_min} ]]; then
+        user_defined_tau_min=( ${user_defined_tau_min} )
+        sed "s/@TAU_MIN@/${user_defined_tau_min[1]}d0/" ../patches/set_tau_min.patch > \
+            set_tau_min.patch
+        patch -p1 -d "${dataset}" < set_tau_min.patch
+    fi
+
+    # parse launch file for other patches
+    enable_patches=$(grep '^#enable_patch' launch.txt || true)
+
+    if [[ -n ${enable_patches} ]]; then
+        while IFS= read -r line; do
+            patch=( $line )
+
+            patch -p1 -d "${dataset}" < ../patches/"${patch[1]}".patch
+        done < <(printf '%s\n' "${enable_patches}")
     fi
 
     # launch run
-    python2 "${mg5amc}" "${launch_file}" |& tee launch.log
+    "${mg5amc}" "${launch_file}" |& tee launch.log
+}
 
+merge() {
     # TODO: the following assumes that all observables belong to the same distribution
 
     grid="${dataset}".pineappl
 
+    # sort the file we want to merge into an array properly (1 2 3 ... 10 11 instead of 1 10 11 ...)
+    merge=()
+    mapfile -t merge < <(printf "%s\n" "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl | sort -V)
+
     # merge the final bins
-    "${pineappl}" merge "${grid}" $(ls -v "${dataset}"/Events/run_01*/amcblast_obs_*.pineappl)
+    "${pineappl}" merge "${grid}" "${merge[@]}"
 
     # optimize the grids
     "${pineappl}" optimize "${grid}" "${grid}".tmp
     mv "${grid}".tmp "${grid}"
 
     # add metadata
-    runcard="${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt
+    runcard=( "${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt )
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
-        eval $(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
+        eval "$(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
                               { printf \"--entry %s '%s' \", \$1, \$2 }
-                        END   { printf \"--entry_from_file runcard ${runcard}\\n\" }" \
-            ../nnpdf31_proc/"${dataset}"/metadata.txt)
+                        END   { printf \"--entry_from_file runcard ${runcard[0]}\\n\" }" \
+            ../nnpdf31_proc/"${dataset}"/metadata.txt)"
     else
-        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard ${runcard}
+        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard "${runcard[0]}"
     fi
     mv "${grid}".tmp "${grid}"
 
@@ -302,7 +337,8 @@ EOF
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
     # (re-)produce predictions
-    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute > pineappl.convolute
+    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute --integrated \
+        > pineappl.convolute
     "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
     "${pineappl}" pdf_uncertainty --threads=1 "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
@@ -310,8 +346,8 @@ EOF
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the integrated results from the PineAPPL grid
-    cat pineappl.convolute | head -n -2 | tail -n +5 | \
-        awk '{ print $5, $6, $7, $8, $9, $10, $11, $12, $13, $14 }' > results.grid
+    head -n -2 pineappl.convolute | tail -n +5 | \
+        awk '{ print $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
     paste -d ' ' results.grid results.mg5_aMC | awk \
@@ -340,11 +376,11 @@ EOF
              if (x9 < result) { result = x9; }
              return result;
          }
-         BEGIN { print "-----------------------------------------------------------------------"
-                 print "   PineAPPL         MC         sigma   diff.   central    min      max "
-                 print "                                       sigma   1/1000   1/1000   1/1000"
-                 print "-----------------------------------------------------------------------" }
-         { printf "% e % e %7.3f%% %7.3f %8.4f %8.4f %8.4f\n",
+         BEGIN { print "----------------------------------------------------------------------"
+                 print "   PineAPPL         MC        sigma      central         min      max "
+                 print "                              1/100   sigma   1/1000   1/1000   1/1000"
+                 print "----------------------------------------------------------------------" }
+         { printf "% e % e %7.3f %7.3f %8.4f %8.4f %8.4f\n",
                   $1,
                   $13,
                   $13 != 0.0 ? $14/$13*100 : 0.0,
@@ -359,16 +395,16 @@ EOF
 
     bzr=$(which bzr 2> /dev/null || which brz 2> /dev/null || true)
 
-    if [[ -x "${bzr}" ]]; then
+    if [[ -x "${bzr}" ]] && "${bzr}" info "$(dirname "${mg5amc}")"/.. &>/dev/null; then
         pushd . > /dev/null
-        cd $(dirname "${mg5amc}")/..
+        cd "$(dirname "${mg5amc}")"/..
 
         mg5amc_revno=$("${bzr}" revno)
         mg5amc_repo=$("${bzr}" info | grep 'parent branch' | sed 's/[[:space:]]*parent branch:[[:space:]]*//')
 
         popd > /dev/null
     else
-        echo 'warning: `bzr` not found, could not extract mg5_aMC@NLO version information'
+        echo "warning: couldn't extract mg5_aMC@NLO repository information"
 
         mg5amc_revno=""
         mg5amc_repo=""
@@ -378,7 +414,8 @@ EOF
         --entry_from_file results results.log \
         --entry runcard_gitversion "${runcard_gitversion}" \
         --entry mg5amc_revno "${mg5amc_revno}" \
-        --entry mg5amc_repo "${mg5amc_repo}"
+        --entry mg5amc_repo "${mg5amc_repo}" \
+        --entry lumi_id_types pdg_mc_ids
     mv "${grid}".tmp "${grid}"
 
     # if there is anything to do after the run, do it!
@@ -398,8 +435,24 @@ EOF
 
 check_args_and_cd_output "$@"
 
-# record the time and write it to stdout and `time.log`
-{ { time { main 2>&3; } } 2>time.log; } 3>&2
-cat time.log
+if [[ -d $1 ]]; then
+    if yesno "Shall I regenerate the grid in ``$1``?"; then
+        cd "$1"
+        dataset=${1%-[0-9]*}
+        launch_file=launch.txt
+        output=$1
+    fi
+else
+    # TODO: fix location of `time.log`
+
+    # record the time and write it to `time.log`
+    { { time { output_and_launch 2>&3; } } 2>time.log; } 3>&2
+fi
+
+merge
+
+if [[ -e time.log ]]; then
+    cat time.log
+fi
 
 echo "Output stored in ${output}"

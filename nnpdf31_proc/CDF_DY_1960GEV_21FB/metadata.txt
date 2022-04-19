@@ -6,4 +6,4 @@ x1_label_tex=$y_{\ell\bar{\ell}}$
 x1_unit=GeV
 y_label=dsig/dyll
 y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}y_{\ell\bar{\ell}}}$
-y_unit=pb/GeV
+y_unit=pb

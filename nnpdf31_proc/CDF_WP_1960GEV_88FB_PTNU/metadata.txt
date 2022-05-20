@@ -1,0 +1,9 @@
+arxiv=
+description=
+hepdata=
+x1_label=ptnu
+x1_label_tex=$p_{\mathrm{T},\nu}$
+x1_unit=GeV
+y_label=dsig/dptnu
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T},\nu}}$
+y_unit=pb/GeV

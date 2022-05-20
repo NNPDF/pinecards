@@ -27,6 +27,7 @@ set etal = 1.0
 #user_defined_cut set ptmissmax = 55.0
 #user_defined_cut set mtwmin = 60.0
 #user_defined_cut set mtwmax = 100.0
+#user_defined_cut set ptwmax = 15.0
 set rphreco = 0.2
 set req_acc_FO 0.0005
 set pineappl True

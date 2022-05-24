@@ -7,7 +7,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       character*(*) weights_info(*)
 
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'ptl', 100, 30d0, 55d0)
+      call HwU_book(1,'ptl', 64, 32d0, 48d0)
       return
       end
 

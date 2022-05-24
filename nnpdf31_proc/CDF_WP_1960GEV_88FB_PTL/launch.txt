@@ -20,9 +20,9 @@ set fixed_fac_scale True
 set mur_ref_fixed @MW@
 set muf_ref_fixed @MW@
 set reweight_scale True
-set ptl = 30.0
+set ptl = 32.0
 set etal = 1.0
-#user_defined_cut set ptlmax = 55.0
+#user_defined_cut set ptlmax = 48.0
 #user_defined_cut set ptmissmin = 30.0
 #user_defined_cut set ptmissmax = 55.0
 #user_defined_cut set mtwmin = 60.0

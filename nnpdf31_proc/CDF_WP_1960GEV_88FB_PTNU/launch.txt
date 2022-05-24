@@ -23,8 +23,8 @@ set reweight_scale True
 set ptl = 30.0
 set etal = 1.0
 #user_defined_cut set ptlmax = 55.0
-#user_defined_cut set ptmissmin = 30.0
-#user_defined_cut set ptmissmax = 55.0
+#user_defined_cut set ptmissmin = 32.0
+#user_defined_cut set ptmissmax = 48.0
 #user_defined_cut set mtwmin = 60.0
 #user_defined_cut set mtwmax = 100.0
 #user_defined_cut set ptwmax = 15.0

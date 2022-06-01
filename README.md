@@ -21,8 +21,8 @@ For development you need the following tools:
 - `pre-commit`, to run maintenance hooks before commits (see
   [instructions](https://pre-commit.com/#install))
 
-See [below](.gihub/CONTRIBUTING.md#non-python-dependencies) for a few more dependencies (already
-available on most systems).
+See [below](.github/CONTRIBUTING.md#non-python-dependencies) for a few more
+dependencies (already available on most systems).
 
 ## Documentation
 

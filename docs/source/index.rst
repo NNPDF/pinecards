@@ -28,6 +28,30 @@ There are two ways of installing ``rr``, that are:
   and in this case, ``rr`` to be used is always the one provided as executable.
   in the repository.
 
+Non Python dependencies
+-----------------------
+
+Even if the bootstrap script and the installation management try to reduce as
+much as possible the amount of dependencies, still a few ingredients have to be
+available on the system.
+
+To run the CLI:
+
+- ``python`` itself
+- ``pip`` available as a module of the ``python`` that is running ``rr`` (as usually
+  is)
+- ``curl``
+
+To install ``pineappl``:
+
+- ``pkg-config``
+- ``openssl.pc`` (e.g. on Debian available in the ``libssl-dev`` package)
+
+To install ``mg5amc@nlo`` and its dependencies:
+
+- ``gfortran``
+- ``wget``
+
 
 .. toctree::
    :maxdepth: 1

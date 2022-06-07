@@ -16,11 +16,10 @@ set pdlabel lhapdf
 set lhaid @LHAPDF_ID@
 set dynamical_scale_choice 10
 set reweight_scale True
-set ptl = 0.0
-#user_defined_cut set yll = 1.0
-set etal = 0.0
+set ptl = 10.0
+set etal = 2.4
 set mll_sf = 5000.0
-set req_acc_FO 0.001
+set req_acc_FO 0.0005
 set pineappl True
 done
 quit

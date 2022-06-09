@@ -16,7 +16,8 @@ c
         xmll=sqrt((ppl(0)+pplb(0))**2-(ppl(1)+pplb(1))**2-
      &            (ppl(2)+pplb(2))**2-(ppl(3)+pplb(3))**2)
         xyll=abs(atanh((ppl(3)+pplb(3))/(ppl(0)+pplb(0))))
-        xcos = sign((p1p*p2m-p1m*p2p)/sqrt(xmll*xmll+pt2ll)/xmll,pzll)
+        xcos = (p1p*p2m-p1m*p2p)/sqrt(xmll*xmll+pt2ll)/xmll*
+     &         sign(1d0,pzll)
 
         if (xmll.lt.46d0) then
           passcuts_user=.false.

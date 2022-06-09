@@ -27,8 +27,8 @@ c             implementation of first formula on page 6 of https://arxiv.org/abs
               zpt2ll=(zptxl+zptxal)*(zptxl+zptxal)+
      &               (zptyl+zptyal)*(zptyl+zptyal)
               zmll=sqrt((zenl+zenal)*(zenl+zenal)-(zpt2ll+zpzll*zpzll))
-              zcoscs=sign((zp1p*zp2m-zp1m*zp2p)/
-     &                    sqrt(zmll*zmll+zpt2ll)/zmll,zpzll)
+              zcoscs=(zp1p*zp2m-zp1m*zp2p)/
+     &                    sqrt(zmll*zmll+zpt2ll)/zmll*sign(1d0,zpzll)
 
               if (abs(zcoscs) .lt. {}) then
                 passcuts_user=.false.

@@ -78,7 +78,8 @@ c     implementation of first formula on page 6 of https://arxiv.org/abs/1710.05
       pt2ll = (ptxl + ptxal) * (ptxl + ptxal) +
      &        (ptyl + ptyal) * (ptyl + ptyal)
       mll = sqrt((enl + enal) * (enl + enal) - (pt2ll + pzll * pzll))
-      getcostheta = sign((p1p*p2m-p1m*p2p)/sqrt(mll*mll+pt2ll)/mll,pzll)
+      getcostheta = (p1p*p2m-p1m*p2p)/sqrt(mll*mll+pt2ll)/mll*
+     &              sign(1d0,pzll)
 
       if (abs(getcostheta) > 1d0) then
         print *, 'Calculating cos with cos > 1'

@@ -1,0 +1,9 @@
+arxiv=
+description=
+hepdata=
+x1_label=mt
+x1_label_tex=$M_{\mathrm{T}}$
+x1_unit=GeV
+y_label=dsig/dmt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}M_{\mathrm{T}}}$
+y_unit=pb/GeV

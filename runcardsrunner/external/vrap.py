@@ -2,7 +2,7 @@
 """
     Runner for vrap producing pineappl grids
 
-    Uses a modified version of pineappl https://github.com/NNPDF/hawaiian_vrap
+    Uses a modified version of vrap https://github.com/NNPDF/hawaiian_vrap
     which produces pineappl grids. It has been tested for FT DY kinematics
 """
 import subprocess as sp

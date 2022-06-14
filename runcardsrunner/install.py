@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import tempfile
 
 import lhapdf_management
 import pkgconfig
@@ -55,6 +56,42 @@ def mg5amc():
     subprocess.run(f"{paths.mg5_exe}", input=mg5_convert, encoding="ascii")
 
     # retest availability
+    return condition()
+
+
+def hawaiian_vrap():
+    """Install a version of vrap flavoured with pineappl
+    from https://github.com/NNPDF/hawaiian_vrap
+
+    Returns
+    -------
+    bool
+        whether vrap is now installed
+    """
+    condition = lambda: paths.vrap_exe.exists() and os.access(paths.vrap_exe, os.X_OK)
+
+    if condition():
+        print("✓ Found vrap")
+        return True
+
+    print("Installing...")
+
+    # Download the right? version of vrap to /tmp and install from there
+    tmp = pathlib.Path(tempfile.mkdtemp())
+    version = "https://github.com/NNPDF/hawaiian_vrap/archive/refs/tags/1.0.tar.gz"
+    subprocess.run(["wget", version], cwd=tmp)
+
+    with tarfile.open(tmp / "1.0.tar.gz") as tar:
+        tar.extractall(tmp)
+
+    # Compile vrap
+    tmp_vrap = tmp / "hawaiian_vrap-1.0"
+    subprocess.run("autoreconf -fiv", cwd=tmp_vrap / "src", shell=True)
+    build_dir = tmp_vrap / "build"
+    build_dir.mkdir(exist_ok=True)
+    subprocess.run(["../src/configure", "--prefix", paths.prefix], cwd=build_dir)
+    subprocess.run(["make", "install"], cwd=build_dir)
+
     return condition()
 
 

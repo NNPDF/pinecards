@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import mg5, yad
+from . import mg5, vrap, yad

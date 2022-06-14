@@ -7,7 +7,7 @@ import rich
 import yaml
 
 from .. import install, log, table, tools
-from ..external import mg5, positivity, yad
+from ..external import mg5, positivity, vrap, yad
 from ._base import command
 
 
@@ -67,6 +67,9 @@ def main(dataset, theory, pdf):
     elif positivity.is_positivity(dataset):
         color = "yellow"
         external = positivity.Positivity
+    elif vrap.is_vrap(dataset):
+        color = "green"
+        external = vrap.Vrap
     else:
         color = "blue"
         external = mg5.Mg5

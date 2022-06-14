@@ -97,7 +97,7 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        return {"version": str(VERSION)}
+        return {"vrap_version": str(VERSION)}
 
     @staticmethod
     def install():

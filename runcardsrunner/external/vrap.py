@@ -16,6 +16,7 @@ from .. import install, paths
 from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
+VERSION = 1.0
 
 
 def is_vrap(name):
@@ -88,7 +89,8 @@ class Vrap(interface.External):
         return pd.DataFrame(data=d)
 
     def collect_versions(self):
-        return {}
+        """Currently the version is defined by this file"""
+        return {"version": VERSION}
 
     @staticmethod
     def install():

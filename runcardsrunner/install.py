@@ -13,6 +13,7 @@ import pygit2
 import requests
 
 from . import paths, tools
+from .external import vrap
 
 paths.prefix.mkdir(exist_ok=True)
 paths.bin.mkdir(exist_ok=True)
@@ -74,23 +75,28 @@ def hawaiian_vrap():
         print("✓ Found vrap")
         return True
 
-    print("Installing...")
+    version = vrap.VERSION
+    url = f"https://github.com/NNPDF/hawaiian_vrap/archive/refs/tags/{version}.tar.gz"
+    print(f"Installing vrap version {version} from {url}")
 
-    # Download the right? version of vrap to /tmp and install from there
-    tmp = pathlib.Path(tempfile.mkdtemp())
-    version = "https://github.com/NNPDF/hawaiian_vrap/archive/refs/tags/1.0.tar.gz"
-    subprocess.run(["wget", version], cwd=tmp)
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = pathlib.Path(tmp)
+        vrap_tar = tmp_path / "vrap.tar.gz"
+        with requests.get(url) as r:
+            vrap_tar.write_bytes(r.content)
 
-    with tarfile.open(tmp / "1.0.tar.gz") as tar:
-        tar.extractall(tmp)
+        with tarfile.open(vrap_tar, "r:gz") as tar:
+            tar.extractall(tmp_path)
 
-    # Compile vrap
-    tmp_vrap = tmp / "hawaiian_vrap-1.0"
-    subprocess.run("autoreconf -fiv", cwd=tmp_vrap / "src", shell=True)
-    build_dir = tmp_vrap / "build"
-    build_dir.mkdir(exist_ok=True)
-    subprocess.run(["../src/configure", "--prefix", paths.prefix], cwd=build_dir)
-    subprocess.run(["make", "install"], cwd=build_dir)
+        # Compile vrap
+        tmp_vrap = tmp_path / f"hawaiian_vrap-{version}"
+        subprocess.run("autoreconf -fiv", cwd=tmp_vrap / "src", shell=True, check=True)
+        build_dir = tmp_vrap / "build"
+        build_dir.mkdir(exist_ok=True)
+        subprocess.run(
+            ["../src/configure", "--prefix", paths.prefix], cwd=build_dir, check=True
+        )
+        subprocess.run(["make", "install"], cwd=build_dir, check=True)
 
     return condition()
 

@@ -1,0 +1,14 @@
+description=Drell-Yan experiment E605
+hepdata=10.17182/hepdata.22831
+data_url=
+nnpdf_id=DYE605
+fktable_id=DYE605
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=y
+x2_label_tex=$y$
+x2_unit=
+y_label=F2d
+y_label_tex=$10^{4*y_{bin}} d\sigma_{pp}/dM$
+y_unit=pb GeV2

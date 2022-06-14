@@ -26,6 +26,17 @@ def is_vrap(name):
     return (paths.runcards / name / "vrap.yaml").exists()
 
 
+def yaml_to_vrapcard(yaml_file, pdf, output_file):
+    """
+    Converts a `vrap.yaml` file into a vrap runcard
+    """
+    input_yaml = yaml.safe_load(yaml_file.open("r", encoding="utf-8"))
+    # Load the run-specific options
+    input_yaml["PDFfile"] = f"{pdf}.LHgrid"
+    as_lines = [f"{k} {v}" for k, v in input_yaml.items()]
+    output_file.write_text("\n".join(as_lines))
+
+
 class Vrap(interface.External):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,14 +54,10 @@ class Vrap(interface.External):
                 f"No vrap input card found for {self.name}: {input_card}"
             )
 
-        # Load the run-specific options
-        input_yaml = yaml.safe_load(input_card.open("r", encoding="utf-8"))
-        input_yaml["PDFfile"] = f"{self.pdf}.LHgrid"
-
         # Write the input card in the vrap format
         self._input_card = (self.dest / self.name).with_suffix(".dat")
-        as_lines = [f"{k} {v}" for k, v in input_yaml.items()]
-        self._input_card.write_text("\n".join(as_lines))
+        yaml_to_vrapcard(input_card, self.pdf, self._input_card)
+
         self._subgrids = []
 
     def run(self):
@@ -90,7 +97,7 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        return {"version": VERSION}
+        return {"version": str(VERSION)}
 
     @staticmethod
     def install():

@@ -1,5 +1,5 @@
 description='E605 Fixed-Target Drell-Yan cross section measurement with nuclear copper target'
-hepdata=10.17182/hepdata.22831
+hepdata=10.17182/hepdata.22831/t1-t8
 data_url=
 nnpdf_id=DYE605
 fktable_id=DYE605

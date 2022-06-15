@@ -1,0 +1,15 @@
+description=Drell-Yan experiment E906 (SeaQuest) deuterium target
+arxiv=2103.04024
+hepdata=
+data_url=
+nnpdf_id=DYE906R
+fktable_id=DYE906R
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=y
+x2_label_tex=$y$
+x2_unit=
+y_label=E906
+y_label_tex=$d\sigma_{pd}$
+y_unit=pb

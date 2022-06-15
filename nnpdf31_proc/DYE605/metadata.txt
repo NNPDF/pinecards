@@ -9,6 +9,6 @@ x1_unit=GeV^2
 x2_label=y
 x2_label_tex=$y$
 x2_unit=
-y_label=F2d
+y_label=E605
 y_label_tex=$10^{4*y_{bin}} d\sigma_{pp}/dM$
 y_unit=pb GeV2

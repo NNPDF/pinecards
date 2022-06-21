@@ -14,7 +14,7 @@ UseOtherPDF: "yes"
 PDFset: 0
 AlphasZ: 0.118
 Order: LO
-positivity_flavors: [2, -2]
+positivity_pdf: "pos_uub"
 
 PrintDirection: Forward
 NNLO_only: "No"

@@ -20,6 +20,7 @@ import tempfile
 import numpy as np
 import pandas as pd
 import yaml
+from ekobox import genpdf
 from pineappl.bin import BinRemapper
 from pineappl.grid import Grid
 
@@ -37,13 +38,17 @@ def is_vrap(name):
     return (paths.runcards / name / "vrap.yaml").exists()
 
 
-def yaml_to_vrapcard(yaml_file, pdf, output_file):
+def yaml_to_vrapcard(yaml_dict, pdf, output_file):
     """
-    Converts a `vrap.yaml` file into a vrap runcard
+    Converts the dictionary from `vrap.yaml` file into a vrap runcard
     """
-    input_yaml = yaml.safe_load(yaml_file.open("r", encoding="utf-8"))
+    input_yaml = dict(yaml_dict)
     # Load the run-specific options
     input_yaml["PDFfile"] = f"{pdf}.LHgrid"
+    # Remove possible spurious options
+    if "positivity_flavors" in input_yaml:
+        input_yaml.pop("positivity_flavors")
+
     as_lines = [f"{k} {v}" for k, v in input_yaml.items()]
     output_file.write_text("\n".join(as_lines))
 
@@ -80,7 +85,16 @@ class Vrap(interface.External):
 
         # Write the input card in the vrap format
         self._input_card = (self.dest / self.name).with_suffix(".dat")
-        yaml_to_vrapcard(input_card, self.pdf, self._input_card)
+        yaml_dict = yaml.safe_load(input_card.open("r", encoding="utf-8"))
+
+        # If this is a positivity runcard, generate the fake pdf
+        if "positivity_flavors" in yaml_dict:
+            pdfname = "fakepdf"
+            genpdf.generate_pdf(pdfname, yaml_dict["positivity_flavors"])
+            genpdf.install_pdf(pdfname)
+            self.pdf = pdfname
+
+        yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card)
 
         self._partial_grids = []
         self._partial_results = []

@@ -21,7 +21,6 @@ Nf: 5
 ######################################################
 UseOtherPDF: "yes"
 PDFset: 0
-PDFfile: NNPDF31_nnlo_as_0118.LHgrid
 AlphasZ: 0.118
 Order: NLO
 

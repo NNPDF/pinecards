@@ -1,6 +1,6 @@
 Collider: piso
 E_CM: 38.8
-jacobian866: "Yes"
+jacobianTau2M: "Yes"
 
 Alphat: 0.00757002271
 

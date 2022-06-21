@@ -27,7 +27,6 @@ from .. import install, paths
 from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
-VERSION = 1.0
 
 
 def is_vrap(name):
@@ -103,13 +102,14 @@ class Vrap(interface.External):
                 pinename = self.dest / f"{self.name}_bin_{b}.pineappl.lz4"
 
             # Read the MC results for later comparison
-            _, _, cv = np.loadtxt(self.dest / "results.out", unpack=True)
+            _, _, cv, stat = np.loadtxt(self.dest / "results.out", unpack=True)
 
             # Apply cfactors if necessary
             if self._cfactors is not None:
                 cfs = self._cfactors[b]
                 for cf in cfs:
                     cv *= cf
+                    stat *= cf
                     grid.scale_by_bin(cf.flatten())
 
             # Now optimize the grid
@@ -120,7 +120,7 @@ class Vrap(interface.External):
             self._partial_grids.append(pinename)
 
             # Apply cfactors if needed
-            self._partial_results.append((cv, np.zeros_like(cv)))
+            self._partial_results.append((cv, stat))
 
     def generate_pineappl(self):
         """If the run contain more than one grid, merge them all"""
@@ -144,10 +144,11 @@ class Vrap(interface.External):
         """Loads the results as reported by vrap in results.out"""
         cv, stat_errors = zip(*self._partial_results)
         final_cv = np.sum(cv, axis=0)
+        final_stat = np.sqrt(np.sum(np.power(stat_errors, 2), axis=0))
 
         d = {
             "result": final_cv,
-            "error": np.zeros_like(final_cv),
+            "error": final_stat,
             "sv_min": np.zeros_like(final_cv),
             "sv_max": np.zeros_like(final_cv),
         }
@@ -161,7 +162,11 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        return {"vrap_version": str(VERSION)}
+        vrap_run = sp.run(
+            [paths.vrap_exe, "--version"], capture_output=True, check=True
+        )
+        vrap_version = vrap_run.stdout.decode().split()[-1]
+        return {"vrap_version": vrap_version}
 
     @staticmethod
     def install():

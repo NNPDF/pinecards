@@ -57,7 +57,7 @@ class Vrap(interface.External):
         kin_cards = list(self.source.glob(f"{self.name}*.dat"))
         if not kin_cards:
             raise FileNotFoundError(f"No kinematic cards found for {self.name}")
-        self._kin_cards = sorted(kin_cards)[:4]
+        self._kin_cards = sorted(kin_cards)
 
         input_card = self.source / "vrap.yaml"
         if not input_card.exists():
@@ -82,7 +82,8 @@ class Vrap(interface.External):
         self._input_card = (self.dest / self.name).with_suffix(".dat")
         yaml_to_vrapcard(input_card, self.pdf, self._input_card)
 
-        self._subgrids = []
+        self._partial_grids = []
+        self._partial_results = []
 
     def run(self):
         """Run vrap for the given runcards"""
@@ -101,10 +102,14 @@ class Vrap(interface.External):
             else:
                 pinename = self.dest / f"{self.name}_bin_{b}.pineappl.lz4"
 
+            # Read the MC results for later comparison
+            _, _, cv = np.loadtxt(self.dest / "results.out", unpack=True)
+
             # Apply cfactors if necessary
             if self._cfactors is not None:
                 cfs = self._cfactors[b]
                 for cf in cfs:
+                    cv *= cf
                     grid.scale_by_bin(cf.flatten())
 
             # Now optimize the grid
@@ -112,18 +117,21 @@ class Vrap(interface.External):
             grid.write(pinename)
             tmppine.unlink()
 
-            self._subgrids.append(pinename)
+            self._partial_grids.append(pinename)
+
+            # Apply cfactors if needed
+            self._partial_results.append((cv, np.zeros_like(cv)))
 
     def generate_pineappl(self):
         """If the run contain more than one grid, merge them all"""
-        if len(self._subgrids) > 1:
+        if len(self._partial_grids) > 1:
             # Use the first subgrid as main grid
-            main_grid = Grid.read(self._subgrids[0].as_posix())
+            main_grid = Grid.read(self._partial_grids[0].as_posix())
             n = len(main_grid.bin_left(0))
             rebin = BinRemapper(np.ones(n), [(i, i) for i in range(n)])
             main_grid.set_remapper(rebin)
             with tempfile.TemporaryDirectory() as tmp:
-                for i, grid_path in enumerate(self._subgrids[1:]):
+                for i, grid_path in enumerate(self._partial_grids[1:]):
                     tmp_output = f"{tmp}/bin_{i}.pineappl.lz4"
                     tmp_grid = Grid.read(grid_path.as_posix())
                     tmp_grid.set_remapper(rebin)
@@ -134,13 +142,14 @@ class Vrap(interface.External):
 
     def results(self):
         """Loads the results as reported by vrap in results.out"""
-        _, _, cv = np.loadtxt(self.dest / "results.out", unpack=True)
+        cv, stat_errors = zip(*self._partial_results)
+        final_cv = np.sum(cv, axis=0)
 
         d = {
-            "result": cv,
-            "error": np.zeros_like(cv),
-            "sv_min": np.zeros_like(cv),
-            "sv_max": np.zeros_like(cv),
+            "result": final_cv,
+            "error": np.zeros_like(final_cv),
+            "sv_min": np.zeros_like(final_cv),
+            "sv_max": np.zeros_like(final_cv),
         }
 
         if self._cfactors is not None:

@@ -13,7 +13,7 @@ Nf: 5
 UseOtherPDF: "yes"
 PDFset: 0
 AlphasZ: 0.118
-Order: LO
+Order: NLO
 positivity_pdf: "pos_uub"
 
 PrintDirection: Forward

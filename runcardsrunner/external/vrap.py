@@ -55,14 +55,14 @@ def yaml_to_vrapcard(yaml_dict, pdf, output_file):
     output_file.write_text("\n".join(as_lines))
 
 
-def gen_pos_pdf(pdfname):
+def gen_pos_pdf(pdfname, base_pdf="NNPDF40_nnlo_as_01180"):
     """
     Generate ``pdfname`` according to the rules in _POSITIVITY_PDFS
     """
     # If the pdfname does not exist, generate it
     if not (environment.datapath / pdfname).exists():
         pdflabels = _POSITIVITY_PDFS[pdfname]
-        genpdf.generate_pdf(pdfname, pdflabels, install=True)
+        genpdf.generate_pdf(pdfname, pdflabels, install=True, parent_pdf_set=base_pdf)
 
 
 class Vrap(interface.External):

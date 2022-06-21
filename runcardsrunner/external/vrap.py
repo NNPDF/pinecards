@@ -85,7 +85,11 @@ class Vrap(interface.External):
         self._partial_results = []
 
     def run(self):
-        """Run vrap for the given runcards"""
+        """Run vrap for the given runcards
+        After running vrap, the resulting grid will be optimized, cfactors
+        (for instance, ACCEPTANCE factors) applied.
+        The MC results for each run (writen to results.out) will be read
+        """
         for b, kin_card in enumerate(self._kin_cards):
             sp.run(
                 [paths.vrap_exe, self._input_card, kin_card], cwd=self.dest, check=True
@@ -141,7 +145,9 @@ class Vrap(interface.External):
             main_grid.write(self.grid)
 
     def results(self):
-        """Loads the results as reported by vrap in results.out"""
+        """Combines the results of the partial runs of vrap
+        in order to compare with the generated grid
+        """
         cv, stat_errors = zip(*self._partial_results)
         final_cv = np.sum(cv, axis=0)
         final_stat = np.sqrt(np.sum(np.power(stat_errors, 2), axis=0))
@@ -152,11 +158,6 @@ class Vrap(interface.External):
             "sv_min": np.zeros_like(final_cv),
             "sv_max": np.zeros_like(final_cv),
         }
-
-        if self._cfactors is not None:
-            print(
-                "\n > NOTE: Runs containing cfactors won't agree with the MC result\n"
-            )
 
         return pd.DataFrame(data=d)
 

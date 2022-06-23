@@ -30,7 +30,7 @@ from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
 VERSION = "1.2"
-_POSITIVITY_PDFS = {"pos_uub": [2, -2]}
+_POSITIVITY_PDFS = {"pos_uub": [2, -2, 21]}
 
 
 def is_vrap(name):

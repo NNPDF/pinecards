@@ -1,0 +1,10 @@
+description=ssb quark luminosity positivity computed with vrap
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=y
+x2_label_tex=$y$
+x2_unit=
+y_label_tex=$M^3*\frac{d^2\sigma_{d}}{dMdy}$
+y_label=$M^3\frac{d^2\sigma_{u\bar{u}}}{dMdy}$
+y_unit=pb GeV^2

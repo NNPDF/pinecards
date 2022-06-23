@@ -30,7 +30,11 @@ from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
 VERSION = "1.2"
-_POSITIVITY_PDFS = {"pos_uub": [2, -2, 21]}
+_POSITIVITY_PDFS = {
+    "pos_ddb": [1, -1, 21],
+    "pos_uub": [2, -2, 21],
+    "pos_ssb": [3, -3, 21],
+}
 
 
 def is_vrap(name):
@@ -189,9 +193,7 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        vrap_run = sp.run(
-            [paths.vrap_exe, "--version"], capture_output=True, check=True
-        )
+        vrap_run = sp.run([paths.vrap_exe, "--version"], capture_output=True, check=True)
         vrap_version = vrap_run.stdout.decode().split()[-1]
         return {"vrap_version": vrap_version}
 

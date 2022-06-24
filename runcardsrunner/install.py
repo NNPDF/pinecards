@@ -75,12 +75,12 @@ def hawaiian_vrap():
         print("✓ Found vrap")
         return True
 
-    url = "https://github.com/NNPDF/hawaiian_vrap/releases/latest/download/vrap.tar.gz"
-    print(f"Installing the latest version of vrap from {url}")
+    url = f"https://github.com/NNPDF/hawaiian_vrap/archive/refs/tags/{vrap.VERSION}.tar.gz"
+    print(f"Installing the version {vrap.VERSION} of vrap from {url}")
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = pathlib.Path(tmp)
-        vrap_tar = tmp_path / "vrap.tar.gz"
+        vrap_tar = tmp_path / f"hawaiian_vrap-{vrap.VERSION}.tar.gz"
         with requests.get(url) as r:
             vrap_tar.write_bytes(r.content)
 
@@ -88,7 +88,7 @@ def hawaiian_vrap():
             tar.extractall(tmp_path)
 
         # Compile vrap
-        tmp_vrap = tmp_path / f"hawaiian_vrap"
+        tmp_vrap = tmp_path / f"hawaiian_vrap-{vrap.VERSION}"
         subprocess.run("autoreconf -fiv", cwd=tmp_vrap / "src", shell=True, check=True)
         build_dir = tmp_vrap / "build"
         build_dir.mkdir(exist_ok=True)

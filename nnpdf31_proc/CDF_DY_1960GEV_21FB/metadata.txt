@@ -1,0 +1,9 @@
+arxiv=0908.3914
+description=CDF differential Drell–Yan cross section at 1.96 TeV
+hepdata=10.17182/hepdata.52674.v1/t2
+x1_label=yll
+x1_label_tex=$y_{\ell\bar{\ell}}$
+x1_unit=GeV
+y_label=dsig/dyll
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}y_{\ell\bar{\ell}}}$
+y_unit=pb

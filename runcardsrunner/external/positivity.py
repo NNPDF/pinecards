@@ -34,11 +34,11 @@ class Positivity(interface.External):
             self.runcard = yaml.safe_load(o)
 
     def generate_pineappl(self):
-        self.xgrid = self.runcard['xgrid']
-        self.lepton_pid = self.runcard['lepton_pid']
-        self.pid = self.runcard['pid']
-        self.q2 = self.runcard['q2']
-        self.hadron_pid = self.runcard['hadron_pid']
+        self.xgrid = self.runcard["xgrid"]
+        self.lepton_pid = self.runcard["lepton_pid"]
+        self.pid = self.runcard["pid"]
+        self.q2 = self.runcard["q2"]
+        self.hadron_pid = self.runcard["hadron_pid"]
 
         # init pineappl objects
         lumi_entries = [pineappl.lumi.LumiEntry([(self.pid, self.lepton_pid, 1.0)])]
@@ -79,14 +79,31 @@ class Positivity(interface.External):
         grid.optimize()
         grid.write(str(self.grid))
 
-
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
         d = {
-            'result': [pdf.xfxQ2(self.pid, x, self.q2) for x in self.xgrid],
-            'error': [1e-15] * len(self.xgrid),
-            'sv_min': [np.amin([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) for x in self.xgrid],
-            'sv_max': [np.amax([pdf.xfxQ2(self.pid, x, 0.25 * self.q2), pdf.xfxQ2(self.pid, x, self.q2), pdf.xfxQ2(self.pid, x, 4.0 * self.q2)]) for x in self.xgrid],
+            "result": [pdf.xfxQ2(self.pid, x, self.q2) for x in self.xgrid],
+            "error": [1e-15] * len(self.xgrid),
+            "sv_min": [
+                np.amin(
+                    [
+                        pdf.xfxQ2(self.pid, x, 0.25 * self.q2),
+                        pdf.xfxQ2(self.pid, x, self.q2),
+                        pdf.xfxQ2(self.pid, x, 4.0 * self.q2),
+                    ]
+                )
+                for x in self.xgrid
+            ],
+            "sv_max": [
+                np.amax(
+                    [
+                        pdf.xfxQ2(self.pid, x, 0.25 * self.q2),
+                        pdf.xfxQ2(self.pid, x, self.q2),
+                        pdf.xfxQ2(self.pid, x, 4.0 * self.q2),
+                    ]
+                )
+                for x in self.xgrid
+            ],
         }
         results = pd.DataFrame(data=d)
 

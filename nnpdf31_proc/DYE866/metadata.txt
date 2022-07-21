@@ -1,0 +1,16 @@
+description='E866 (NuSea) Fixed-Target Drell-Yan cross section measurement'
+arxiv=hep-ex/0302019
+hepdata=10.17182/hepdata.41970.v1
+inspirehep=613362
+data_url=
+nnpdf_id=DYE866
+fktable_id=DYE866
+x1_label=M
+x1_label_tex=$M$
+x1_unit=GeV
+x2_label=y
+x2_label_tex=$y$
+x2_unit=
+y_label_tex=$M^3*\frac{d^2\sigma_{d}}{dMdy}$
+y_label=M^3*d^2sigma/dM/dy
+y_unit=pb GeV^2

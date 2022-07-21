@@ -7,25 +7,22 @@ import rich
 import yaml
 
 from .. import install, log, table, tools
-from ..external import mg5, positivity, yad
+from ..external import mg5, positivity, vrap, yad
 from ._base import command
 
 
 @command.command("run")
 @click.argument("dataset")
-@click.argument("theory_path", type=click.Path(exists=True))
+@click.argument("theory-path", type=click.Path(exists=True))
 @click.option("--pdf", default="NNPDF31_nlo_as_0118_luxqed")
 def subcommand(dataset, theory_path, pdf):
     """Compute a dataset and compare using a given PDF.
 
-    Parameters
-    ----------
-    dataset : str
-        dataset name
-    theory_path : str
-        path to theory runcard
-    pdf : str
-        pdf name
+    Given a DATASET name and a THEORY-PATH, a runcard is executed with the
+    suitable external (self-determined).
+
+    The given PDF (default: `NNPDF31_nlo_as_0118_luxqed`) will be used to
+    compare original results with PineAPPL interpolation.
 
     """
     # read theory card from file
@@ -67,6 +64,9 @@ def main(dataset, theory, pdf):
     elif positivity.is_positivity(dataset):
         color = "yellow"
         external = positivity.Positivity
+    elif vrap.is_vrap(dataset):
+        color = "green"
+        external = vrap.Vrap
     else:
         color = "blue"
         external = mg5.Mg5

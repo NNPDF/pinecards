@@ -23,3 +23,10 @@ def mg5amc():
     """Install MG5aMC@NLO."""
     install.update_environ()
     install.mg5amc()
+
+
+@subcommand.command()
+def vrap():
+    """Install Hawaiian VRAP."""
+    install.update_environ()
+    install.hawaiian_vrap()

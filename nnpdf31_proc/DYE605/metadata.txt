@@ -1,0 +1,14 @@
+description='E605 Fixed-Target Drell-Yan cross section measurement with nuclear copper target'
+hepdata=10.17182/hepdata.22831/t1-t8
+data_url=
+nnpdf_id=DYE605
+fktable_id=DYE605
+x1_label=sqrt(tau)
+x1_label_tex=$\sqrt(\tau)$
+x1_unit=
+x2_label=y
+x2_label_tex=$y$
+x2_unit=
+y_label_tex = $s*\frac{d^2\sigma}{d\sqrt(\tau)dy}$
+y_label=s*d^2sigma/dsqrt(tau)/dy
+y_unit=pb GeV^2

@@ -41,7 +41,7 @@ def is_vrap(name):
     """
     Checks whether this is a dataset to be run with vrap
     """
-    return (configs.configs.paths.runcards / name / "vrap.yaml").exists()
+    return (configs.configs["paths"]["runcards"] / name / "vrap.yaml").exists()
 
 
 def yaml_to_vrapcard(yaml_dict, pdf, output_file):
@@ -122,7 +122,7 @@ class Vrap(interface.External):
         """
         for b, kin_card in enumerate(self._kin_cards):
             sp.run(
-                [configs.configs.commands.vrap, self._input_card, kin_card],
+                [configs.configs["commands"]["vrap"], self._input_card, kin_card],
                 cwd=self.dest,
                 check=True,
             )
@@ -196,7 +196,7 @@ class Vrap(interface.External):
     def collect_versions(self):
         """Currently the version is defined by this file"""
         vrap_run = sp.run(
-            [configs.configs.commands.vrap, "--version"],
+            [configs.configs["commands"]["vrap"], "--version"],
             capture_output=True,
             check=True,
         )

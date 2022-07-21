@@ -80,8 +80,8 @@ def hawaiian_vrap():
     """
 
     def condition():
-        return configs.configs.paths.vrap_exe.exists() and os.access(
-            configs.configs.paths.vrap_exe, os.X_OK
+        return configs.configs["paths"]["vrap"].exists() and os.access(
+            configs.configs["paths"]["vrap"], os.X_OK
         )
 
     if condition():
@@ -106,7 +106,7 @@ def hawaiian_vrap():
         build_dir = tmp_vrap / "build"
         build_dir.mkdir(exist_ok=True)
         subprocess.run(
-            ["../src/configure", "--prefix", configs.configs.paths.prefix],
+            ["../src/configure", "--prefix", configs.configs["paths"]["prefix"]],
             cwd=build_dir,
             check=True,
         )
@@ -188,11 +188,11 @@ def pineappl(capi=True, cli=False):
 
     if capi and not installed():
         try:
-            repo = pygit2.Repository(configs.configs.paths.pineappl)
+            repo = pygit2.Repository(configs.configs["paths"]["pineappl"])
             tools.git_pull(repo)
         except pygit2.GitError:
             repo = pygit2.clone_repository(
-                pineappl_repo, configs.configs.paths.pineappl
+                pineappl_repo, configs.configs["paths"]["pineappl"]
             )
 
         cargo_exe = cargo()
@@ -202,10 +202,10 @@ def pineappl(capi=True, cli=False):
             [cargo_exe]
             + "cinstall --release --prefix".split()
             + [
-                str(configs.configs.paths.prefix),
+                str(configs.configs["paths"]["prefix"]),
                 "--manifest-path=pineappl_capi/Cargo.toml",
             ],
-            cwd=configs.configs.paths.pineappl,
+            cwd=configs.configs["paths"]["pineappl"],
         )
 
     if cli and not cli_installed():
@@ -213,8 +213,8 @@ def pineappl(capi=True, cli=False):
         subprocess.run(
             [cargo_exe]
             + "install --path pineappl_cli --root".split()
-            + [str(configs.configs.paths.prefix)],
-            cwd=configs.configs.paths.pineappl,
+            + [str(configs.configs["paths"]["prefix"])],
+            cwd=configs.configs["paths"]["pineappl"],
         )
         configs.configs["commands"]["pineappl"] = shutil.which("pineappl")
 

@@ -10,6 +10,7 @@ import pineappl
 
 from ... import configs, install, log, tools
 from .. import interface
+from . import paths
 
 
 class Mg5(interface.External):
@@ -109,7 +110,7 @@ class Mg5(interface.External):
 
         if user_taumin is not None:
             set_tau_min_patch = (
-                (configs.configs.paths.patches / "set_tau_min.patch")
+                (paths.patches / "set_tau_min.patch")
                 .read_text()
                 .replace("@TAU_MIN@", f"{user_taumin}d0")
             )
@@ -127,7 +128,7 @@ class Mg5(interface.External):
 
         if len(enable_patches_list) != 0:
             for patch in enable_patches_list:
-                patch_file = configs.configs.paths.patches / patch
+                patch_file = paths.patches / patch
                 patch_file = patch_file.with_suffix(patch_file.suffix + ".patch")
                 if not patch_file.exists():
                     raise ValueError(
@@ -254,7 +255,7 @@ def apply_user_cuts(cuts_file, user_cuts):
     marker_pos = find_marker_position("logical function passcuts_user", contents)
     marker_pos = marker_pos + 8
 
-    for fname in configs.configs.paths.cuts_variables.iterdir():
+    for fname in paths.cuts_variables.iterdir():
         name = fname.stem
         if any(i[0].startswith(name) for i in user_cuts):
             contents.insert(marker_pos, fname.read_text())
@@ -279,7 +280,7 @@ def apply_user_cuts(cuts_file, user_cuts):
 
             value = value + "d0"
 
-        code = (configs.configs.paths.cuts_code / f"{name}.f").read_text().format(value)
+        code = (paths.cuts_code / f"{name}.f").read_text().format(value)
         contents.insert(marker_pos, code)
 
     with open(cuts_file, "w") as fd:

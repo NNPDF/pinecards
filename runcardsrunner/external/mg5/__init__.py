@@ -207,7 +207,7 @@ class Mg5(interface.External):
         versions["mg5amc_revno"] = (
             subprocess.run(
                 "brz revno".split(),
-                cwd=configs.configs["paths"]["prefixed"]["mg5amc"],
+                cwd=configs.configs["paths"]["mg5amc"],
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()
@@ -216,7 +216,7 @@ class Mg5(interface.External):
         mg5amc_repo = (
             subprocess.run(
                 "brz info".split(),
-                cwd=configs.configs["paths"]["prefixed"]["mg5amc"],
+                cwd=configs.configs["paths"]["mg5amc"],
                 stdout=subprocess.PIPE,
             )
             .stdout.decode()

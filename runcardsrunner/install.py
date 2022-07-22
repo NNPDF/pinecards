@@ -30,8 +30,8 @@ pineappl_repo = "https://github.com/N3PDF/pineappl.git"
 
 def init_prefix():
     configs.configs["paths"]["prefix"].mkdir(exist_ok=True)
-    configs.configs["paths"]["prefixed"]["bin"].mkdir(exist_ok=True)
-    configs.configs["paths"]["prefixed"]["lib"].mkdir(exist_ok=True)
+    configs.configs["paths"]["bin"].mkdir(exist_ok=True)
+    configs.configs["paths"]["lib"].mkdir(exist_ok=True)
 
 
 def mg5amc():
@@ -132,7 +132,7 @@ def cargo():
     if cargo_exe is not None:
         return cargo_exe
 
-    cargo_home = configs.configs["paths"]["prefixed"]["cargo"]
+    cargo_home = configs.configs["paths"]["cargo"]
 
     # if there is not a user cargo update environment
     os.environ["CARGO_HOME"] = str(cargo_home)
@@ -267,7 +267,7 @@ def lhapdf_conf(pdf):
         except PermissionError:
             pass
 
-    lhapdf_data = configs.configs["paths"]["prefixed"]["lhapdf_data_alternative"]
+    lhapdf_data = configs.configs["paths"]["lhapdf_data_alternative"]
     lhapdf_data.mkdir(parents=True, exist_ok=True)
     shutil.copy2(
         pathlib.Path(__file__).absolute().parent / "confs" / "lhapdf.conf", lhapdf_data
@@ -297,7 +297,7 @@ def lhapdf():
         return True
 
     version = "LHAPDF-6.4.0"
-    lhapdf_dest = configs.configs["paths"]["prefixed"]["lhapdf"]
+    lhapdf_dest = configs.configs["paths"]["lhapdf"]
     lhapdf_tar = lhapdf_dest / (version + ".tar.gz")
     lhapdf_code = lhapdf_dest / version
 
@@ -333,12 +333,12 @@ def update_environ():
             os.environ[name] = ""
         os.environ[name] = str(value) + os.pathsep + os.environ[name]
 
-    lib = configs.configs["paths"]["prefixed"]["lib"]
+    lib = configs.configs["paths"]["lib"]
     pyver = ".".join(sys.version.split(".")[:2])
     prepend(
         "PYTHONPATH",
         lib / f"python{pyver}" / "site-packages",
     )
-    prepend("PATH", configs.configs["paths"]["prefixed"]["bin"])
+    prepend("PATH", configs.configs["paths"]["bin"])
     prepend("LD_LIBRARY_PATH", lib)
     prepend("PKG_CONFIG_PATH", lib / "pkgconfig")

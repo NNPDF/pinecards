@@ -4,11 +4,11 @@ import pathlib
 import click
 import rich
 
-from .. import configs, tools
-from ..external.yad import is_dis
+from .. import configs, info, tools
 from ._base import command
 
 
+# Meta-function to generate the group `info`
 @command.group("info")
 def subcommand():
     """Retrieve information about managed objects."""
@@ -23,26 +23,25 @@ def runcards(datasets, metadata, kind):
 
     Obtain information about DATASET runcard.
     """
-    info = {}
+    # collect requested info in a dictionary
+    infod = {}
 
     for dataset in datasets:
         dataset = pathlib.Path(dataset).name
-        info[dataset] = {}
+        infod[dataset] = {}
+        datainfo = infod[dataset]
 
         path = configs.configs["paths"]["runcards"] / dataset
 
         if path.is_dir():
-            info[dataset]["path"] = str(path.absolute())
+            datainfo["path"] = str(path.absolute())
 
         if metadata:
             metadata = path / "metadata.txt"
             with open(metadata, encoding="utf-8") as fd:
-                info[dataset]["metadata"] = tools.parse_metadata(fd)
+                datainfo["metadata"] = tools.parse_metadata(fd)
 
         if kind:
-            if is_dis(dataset):
-                info[dataset]["kind"] = "dis"
-            else:
-                info[dataset]["kind"] = "hadronic"
+            datainfo["kind"] = info.label(dataset).kind.name
 
-    rich.print_json(data=info)
+    rich.print_json(data=infod)

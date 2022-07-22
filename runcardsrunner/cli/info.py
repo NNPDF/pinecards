@@ -22,19 +22,23 @@ def runcards(datasets, metadata, kind):
     """Inspect runcards.
 
     Obtain information about DATASET runcard.
+
     """
     # collect requested info in a dictionary
     infod = {}
 
     for dataset in datasets:
+        # if does not contain `/`, it is just an identity
         dataset = pathlib.Path(dataset).name
-        infod[dataset] = {}
-        datainfo = infod[dataset]
-
         path = configs.configs["paths"]["runcards"] / dataset
 
-        if path.is_dir():
-            datainfo["path"] = str(path.absolute())
+        if not path.is_dir():
+            # if not found, set empty and keep going with the others
+            infod[dataset] = None
+            continue
+
+        infod[dataset] = dict(path=str(path.absolute()))
+        datainfo = infod[dataset]
 
         if metadata:
             metadata = path / "metadata.txt"

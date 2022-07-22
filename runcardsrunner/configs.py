@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import copy
+import os
 import pathlib
 import shutil
 import tempfile
 import warnings
+from typing import Optional
 
 import appdirs
 import tomli
@@ -12,7 +14,25 @@ name = "runcardsrunner.toml"
 """Name of the config while (wherever it is placed)"""
 
 
-def detect(path=None):
+def detect(path: Optional[os.PathLike] = None) -> pathlib.Path:
+    """Detect configuration files.
+
+    Parameters
+    ----------
+    path: os.PathLike or None
+        optional explicit path to file to be used as configs (default: `None`)
+
+    Returns
+    -------
+    pathlib.Path
+        configuration file path
+
+    Raises
+    ------
+    FileNotFoundError
+        in case no valid configuration file is found
+
+    """
     paths = []
 
     if path is not None:
@@ -36,7 +56,23 @@ def detect(path=None):
     raise FileNotFoundError("No configurations file detected.")
 
 
-def load(path=None):
+def load(path: Optional[os.PathLike] = None) -> dict:
+    """Load configuration file.
+
+    If no path is explicitly passed, a minimal configuration is used instead
+    (just setting root folder to the current one).
+
+    Parameters
+    ----------
+    path: os.PathLike or None
+        the path to the configuration file (default: `None`)
+
+    Returns
+    -------
+    dict
+        loaded configurations
+
+    """
     if path is None:
         warnings.warn("Using default minimal configuration ('root = $PWD').")
         return {"paths": {"root": pathlib.Path.cwd()}}

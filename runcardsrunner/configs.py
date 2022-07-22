@@ -45,7 +45,6 @@ def detect(path: Optional[os.PathLike] = None) -> pathlib.Path:
     paths.append(pathlib.Path.cwd())
     paths.append(pathlib.Path.home())
     paths.append(pathlib.Path(appdirs.user_config_dir()))
-    paths.append(pathlib.Path(appdirs.site_config_dir()))
 
     for p in paths:
         configs_file = p / NAME if p.is_dir() else p

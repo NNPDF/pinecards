@@ -65,7 +65,7 @@ def add_scope(parent, scope_id, scope):
     else:
         for key, value in scope.items():
             # if already specified, do not override
-            newparent[scope_id].setdefault(value)
+            newparent[scope_id].setdefault(key, value)
 
     return newparent
 

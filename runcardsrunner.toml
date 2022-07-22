@@ -1,3 +1,4 @@
 [paths]
+# paths relative to the location of this file 
 runcards = "nnpdf31_proc"
 results = "results"

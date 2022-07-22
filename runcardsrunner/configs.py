@@ -9,7 +9,7 @@ import appdirs
 import tomli
 
 name = "runcardsrunner.toml"
-"Name of the config while (wherever it is placed)"
+"""Name of the config while (wherever it is placed)"""
 
 
 def detect(path=None):

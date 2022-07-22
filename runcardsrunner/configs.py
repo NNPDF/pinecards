@@ -10,8 +10,11 @@ from typing import Optional
 import appdirs
 import tomli
 
-name = "runcardsrunner.toml"
+NAME = "runcardsrunner.toml"
 """Name of the config while (wherever it is placed)"""
+
+configs = {}
+"Holds loaded configurations"
 
 
 def detect(path: Optional[os.PathLike] = None) -> pathlib.Path:
@@ -45,7 +48,7 @@ def detect(path: Optional[os.PathLike] = None) -> pathlib.Path:
     paths.append(pathlib.Path(appdirs.site_config_dir()))
 
     for p in paths:
-        configs_file = p / name if p.is_dir() else p
+        configs_file = p / NAME if p.is_dir() else p
 
         if configs_file.is_file():
             return configs_file
@@ -84,11 +87,6 @@ def load(path: Optional[os.PathLike] = None) -> dict:
         loaded["paths"]["root"] = pathlib.Path(path).parent
 
     return loaded
-
-
-# better to declare immediately the correct type
-configs = {}
-"Holds loaded configurations"
 
 
 def add_scope(parent, scope_id, scope):

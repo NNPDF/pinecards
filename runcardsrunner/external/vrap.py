@@ -20,6 +20,8 @@ import tempfile
 import numpy as np
 import pandas as pd
 import yaml
+from ekobox import genpdf
+from lhapdf_management import environment
 from pineappl.bin import BinRemapper
 from pineappl.grid import Grid
 
@@ -28,6 +30,11 @@ from . import interface
 
 _PINEAPPL = "test.pineappl.lz4"
 VERSION = "1.2"
+_POSITIVITY_PDFS = {
+    "pos_ddb": [1, -1, 21],
+    "pos_uub": [2, -2, 21],
+    "pos_ssb": [3, -3, 21],
+}
 
 
 def is_vrap(name):
@@ -37,15 +44,29 @@ def is_vrap(name):
     return (paths.runcards / name / "vrap.yaml").exists()
 
 
-def yaml_to_vrapcard(yaml_file, pdf, output_file):
+def yaml_to_vrapcard(yaml_dict, pdf, output_file):
     """
-    Converts a `vrap.yaml` file into a vrap runcard
+    Converts the dictionary from `vrap.yaml` file into a vrap runcard
     """
-    input_yaml = yaml.safe_load(yaml_file.open("r", encoding="utf-8"))
+    input_yaml = dict(yaml_dict)
     # Load the run-specific options
     input_yaml["PDFfile"] = f"{pdf}.LHgrid"
+    # Remove possible spurious options
+    if "positivity_pdf" in input_yaml:
+        input_yaml.pop("positivity_pdf")
+
     as_lines = [f"{k} {v}" for k, v in input_yaml.items()]
     output_file.write_text("\n".join(as_lines))
+
+
+def gen_pos_pdf(pdfname, base_pdf="NNPDF40_nnlo_as_01180"):
+    """
+    Generate ``pdfname`` according to the rules in _POSITIVITY_PDFS
+    """
+    # If the pdfname does not exist, generate it
+    if not (environment.datapath / pdfname).exists():
+        pdflabels = _POSITIVITY_PDFS[pdfname]
+        genpdf.generate_pdf(pdfname, pdflabels, install=True, parent_pdf_set=base_pdf)
 
 
 class Vrap(interface.External):
@@ -80,7 +101,15 @@ class Vrap(interface.External):
 
         # Write the input card in the vrap format
         self._input_card = (self.dest / self.name).with_suffix(".dat")
-        yaml_to_vrapcard(input_card, self.pdf, self._input_card)
+        yaml_dict = yaml.safe_load(input_card.open("r", encoding="utf-8"))
+
+        # If this is a positivity runcard, generate the fake pdf
+        if "positivity_pdf" in yaml_dict:
+            pdfname = yaml_dict["positivity_pdf"]
+            gen_pos_pdf(pdfname)
+            self.pdf = pdfname
+
+        yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card)
 
         self._partial_grids = []
         self._partial_results = []
@@ -164,9 +193,7 @@ class Vrap(interface.External):
 
     def collect_versions(self):
         """Currently the version is defined by this file"""
-        vrap_run = sp.run(
-            [paths.vrap_exe, "--version"], capture_output=True, check=True
-        )
+        vrap_run = sp.run([paths.vrap_exe, "--version"], capture_output=True, check=True)
         vrap_version = vrap_run.stdout.decode().split()[-1]
         return {"vrap_version": vrap_version}
 

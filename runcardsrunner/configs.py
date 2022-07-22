@@ -65,9 +65,7 @@ def add_scope(parent, scope_id, scope):
     else:
         for key, value in scope.items():
             # if already specified, do not override
-            if key not in newparent[scope_id]:
-                # else, add the default
-                newparent[scope_id] = value
+            newparent[scope_id].setdefault(value)
 
     return newparent
 
@@ -78,40 +76,28 @@ def defaults(base_configs):
     Note
     ----
     The general rule is to never replace user provided input.
-    """
-    configs = copy.deepcopy(base_configs)
 
-    configs = add_paths(configs)
+    """
+    configs = add_paths(base_configs)
     configs = add_commands(configs)
 
     return configs
 
 
 def add_paths(configs):
-    for key, default in dict(
-        runcards="runcards",
-        theories="theories",
-        prefix=".prefix",
-        results="results",
-    ).items():
-        if key not in configs["paths"]:
-            configs["paths"][key] = configs["paths"]["root"] / default
-        elif pathlib.Path(configs["paths"][key]).anchor == "":
-            configs["paths"][key] = configs["paths"]["root"] / configs["paths"][key]
-        else:
-            configs["paths"][key] = pathlib.Path(configs["paths"][key])
+    root = configs["paths"]["root"]
 
-    configs["paths"]["rust_init"] = pathlib.Path(tempfile.mktemp())
-    configs = add_prefix_paths(configs)
-
-    return configs
-
-
-def add_prefix_paths(configs):
-    configs = copy.deepcopy(configs)
-    prefix = configs["paths"]["prefix"]
     paths = {}
 
+    paths["root"] = root
+    paths["runcards"] = root / "runcards"
+    paths["theories"] = root / "theories"
+    paths["prefix"] = root / ".prefix"
+    paths["results"] = root / "results"
+
+    paths["rust_init"] = pathlib.Path(tempfile.mktemp())
+
+    prefix = paths["prefix"]
     paths["bin"] = prefix / "bin"
     paths["lib"] = prefix / "lib"
     paths["mg5amc"] = prefix / "mg5amc"
@@ -120,10 +106,7 @@ def add_prefix_paths(configs):
     paths["lhapdf"] = prefix / "lhapdf"
     paths["lhapdf_data_alternative"] = prefix / "share" / "LHAPDF"
 
-    prefix_scope = "prefixed"
-
-    configs["paths"] = add_scope(configs["paths"], prefix_scope, paths)
-    return configs
+    return add_scope(configs, "paths", paths)
 
 
 def add_commands(configs):

@@ -6,7 +6,7 @@ import subprocess
 
 import pygit2
 
-from .. import configs, tools
+from .. import __version__, configs, tools
 
 
 class External(abc.ABC):
@@ -107,12 +107,11 @@ class External(abc.ABC):
     def annotate_versions(self):
         """Add version informations as meta data."""
         results_log = self.dest / "results.log"
-        # TODO: add pineappl version
-        #  pineappl = configs.configs["commands"]["pineappl"]()
 
         versions = self.collect_versions()
-        # TODO: replace with __version__?
-        #       maybe check if it is a repository or not
+        # the rr version will also pin pineappl_py version and all the other
+        # python dependencies versions
+        versions["rr"] = __version__
         versions["runcard_gitversion"] = pygit2.Repository(
             configs.configs["paths"]["root"]
         ).describe(
@@ -121,6 +120,9 @@ class External(abc.ABC):
             dirty_suffix="-dirty",
             show_commit_oid_as_fallback=True,
         )
+        # TODO: add pineappl version
+        #  pineappl = configs.configs["commands"]["pineappl"]()
+        versions["pineappl_capi"] = "???"
 
         entries = {}
         entries.update(versions)

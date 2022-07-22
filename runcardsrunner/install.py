@@ -15,16 +15,16 @@ import requests
 from . import configs, tools
 from .external import vrap
 
-mg5_repo = "lp:~maddevelopers/mg5amcnlo/3.3.1"
+MG5_REPO = "lp:~maddevelopers/mg5amcnlo/3.3.1"
 "bazaar/breeze repo location for MG5aMC\\@NLO"
-mg5_convert = """
+MG5_CONVERT = """
 set auto_convert_model True
 import model loop_qcd_qed_sm_Gmu
 quit
 """
 "instructions to set the correct model for MG5aMC\\@NLO"
 
-pineappl_repo = "https://github.com/N3PDF/pineappl.git"
+PINEAPPL_REPO = "https://github.com/N3PDF/pineappl.git"
 "git repo location for pineappl"
 
 
@@ -32,6 +32,12 @@ def init_prefix():
     configs.configs["paths"]["prefix"].mkdir(exist_ok=True)
     configs.configs["paths"]["bin"].mkdir(exist_ok=True)
     configs.configs["paths"]["lib"].mkdir(exist_ok=True)
+
+
+def is_exe(command: os.PathLike) -> bool:
+    """Check if given path exists and is executable."""
+    command = pathlib.Path(command)
+    return command.exists() and os.access(command, os.X_OK)
 
 
 def mg5amc():
@@ -45,13 +51,7 @@ def mg5amc():
     """
     mg5 = configs.configs["commands"]["mg5"]
 
-    # define availability condition
-
-    def condition():
-        return mg5.exists() and os.access(mg5, os.X_OK)
-
-    # immediately test it
-    if condition():
+    if is_exe(mg5):
         print("✓ Found mg5amc")
         return True
 
@@ -59,14 +59,14 @@ def mg5amc():
 
     # download madgraph in prefix (if not present)
     subprocess.run(
-        f"brz branch {mg5_repo} {configs.configs['paths']['prefixed']['mg5amc']}".split()
+        f"brz branch {MG5_REPO} {configs.configs['paths']['prefixed']['mg5amc']}".split()
     )
 
     # in case we're using python3, we need to convert the model file
-    subprocess.run(f"{mg5}", input=mg5_convert, encoding="ascii")
+    subprocess.run(f"{mg5}", input=MG5_CONVERT, encoding="ascii")
 
     # retest availability
-    return condition()
+    return is_exe(mg5)
 
 
 def hawaiian_vrap():
@@ -78,13 +78,9 @@ def hawaiian_vrap():
     bool
         whether vrap is now installed
     """
+    vrapx = configs.configs["paths"]["vrap"]
 
-    def condition():
-        return configs.configs["paths"]["vrap"].exists() and os.access(
-            configs.configs["paths"]["vrap"], os.X_OK
-        )
-
-    if condition():
+    if is_exe(vrapx):
         print("✓ Found vrap")
         return True
 
@@ -112,7 +108,7 @@ def hawaiian_vrap():
         )
         subprocess.run(["make", "install"], cwd=build_dir, check=True)
 
-    return condition()
+    return is_exe(vrapx)
 
 
 def cargo():
@@ -192,7 +188,7 @@ def pineappl(capi=True, cli=False):
             tools.git_pull(repo)
         except pygit2.GitError:
             repo = pygit2.clone_repository(
-                pineappl_repo, configs.configs["paths"]["pineappl"]
+                PINEAPPL_REPO, configs.configs["paths"]["pineappl"]
             )
 
         cargo_exe = cargo()

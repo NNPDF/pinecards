@@ -49,3 +49,10 @@ def runcards(datasets, metadata, kind):
             datainfo["kind"] = info.label(dataset).kind.name
 
     rich.print_json(data=infod)
+
+
+@subcommand.command("configs")
+def subconfigs():
+    """Inspect loaded configs."""
+
+    rich.print_json(data=configs.raw(configs.configs))

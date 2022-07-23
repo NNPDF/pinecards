@@ -221,3 +221,54 @@ def force_paths():
 
         for key, val in configs[sec].items():
             configs[sec][key] = pathlib.Path(val).absolute()
+
+
+def rawscalar(value):
+    """Turn scalar into serializable equivalent.
+
+    Available conversions::
+
+        pathlib.Path -> str
+
+    Parameters
+    ----------
+    value: any
+        value to convert
+
+    Returns
+    -------
+    any
+        converted value, if no converter available the original one
+
+    """
+    if isinstance(value, pathlib.Path):
+        return str(value)
+
+    return value
+
+
+def raw(original: dict) -> dict:
+    """Convert configs (or dict) into serializable equivalent.
+
+    Parameters
+    ----------
+    original: dict
+        original dictionary to convert
+
+    Returns
+    -------
+    dict
+        converted dictionary
+
+    See Also
+    --------
+    :func:`rawscalar`, used to convert individual elements
+
+    """
+    rawd = copy.deepcopy(original)
+
+    for key, val in rawd.items():
+        val = rawscalar(val)
+        rawd[key] = val if not isinstance(val, dict) else raw(val)
+
+    return rawd

@@ -109,6 +109,21 @@ def nestupdate(base: dict, update: dict):
 
     that will make a single copy.
 
+    Note
+    ----
+    Another option could appear to be using something like
+    :class:`collections.ChainMap`. This is a smart way to implement cascade
+    configurations, but it is not going to support nesting::
+
+        configs = ChainMap({'a': {'b': 0}}, {'a': {'c': 1}})
+
+    in this case, even if there is no clash for ``configs['a']['c']``, this
+    would result in a :class:`KeyError` (since once ``configs['a']`` is
+    executed, the result is just a normal :class:`dict`, and the first one
+    encountered).
+    Any refinement would involve a custom :meth:`__geitem__`, with even more
+    complicate logic.
+
     Parameters
     ----------
     base: dict

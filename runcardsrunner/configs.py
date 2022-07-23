@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import copy
 import os
 import pathlib
 import shutil
@@ -11,6 +12,9 @@ import tomli
 
 NAME = "runcardsrunner.toml"
 """Name of the config while (wherever it is placed)"""
+
+PATHS_SECTIONS = ("paths", "commands")
+"""Sections containing only paths"""
 
 configs = {}
 "Holds loaded configurations"
@@ -157,23 +161,12 @@ def nestupdate(base: dict, update: dict):
             base[key] = val
 
 
-def defaults(base_configs):
-    """Provide additional defaults.
+def basic_paths(root: pathlib.Path) -> dict:
+    """Build all defaut independent paths.
 
-    Note
-    ----
-    The general rule is to never replace user provided input.
+    Independent on anything but ``root``.
 
     """
-    configs = {}
-
-    configs["paths"] = add_paths(base_configs["paths"]["root"])
-    configs["commands"] = add_commands(configs["paths"])
-
-    return configs
-
-
-def add_paths(root):
     paths = {}
 
     paths["root"] = root
@@ -183,6 +176,13 @@ def add_paths(root):
     paths["results"] = root / "results"
 
     paths["rust_init"] = pathlib.Path(tempfile.mktemp())
+
+    return paths
+
+
+def paths(paths: dict) -> dict:
+    """Build all default dependent paths."""
+    paths = copy.deepcopy(paths)
 
     prefix = paths["prefix"]
     paths["bin"] = prefix / "bin"
@@ -196,12 +196,28 @@ def add_paths(root):
     return paths
 
 
-def add_commands(paths):
+def commands(paths: dict) -> dict:
+    """Set all default commands."""
     commands = {}
 
     commands["mg5"] = paths["mg5amc"] / "bin" / "mg5_aMC"
     commands["vrap"] = paths["prefix"] / "bin" / "Vrap"
     pineappl = shutil.which("pineappl")
-    commands["pineappl"] = pathlib.Path(pineappl) if pineappl is not None else None
+    commands["pineappl"] = (
+        pathlib.Path(pineappl)
+        if pineappl is not None
+        else paths["prefix"] / "bin" / "pineappl"
+    )
 
     return commands
+
+
+def force_paths():
+    """Convert values in chosen sections to paths."""
+    for sec in PATHS_SECTIONS:
+        # robust to early usage
+        if sec not in configs:
+            continue
+
+        for key, val in configs[sec].items():
+            configs[sec][key] = pathlib.Path(val).absolute()

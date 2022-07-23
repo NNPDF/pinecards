@@ -26,9 +26,19 @@ def command(cfg):
         cfgpath = None
 
     base_configs = configs.load(cfgpath)
-    configs.configs = configs.defaults(base_configs)
+    configs.configs["paths"] = configs.basic_paths(base_configs["paths"]["root"])
 
+    # update once, to make all paths pathlib objects
     configs.nestupdate(configs.configs, base_configs)
+    configs.force_paths()
+
+    # set all the other defaults, they might depend on paths
+    configs.configs["paths"] = configs.paths(configs.configs["paths"])
+    configs.configs["commands"] = configs.commands(configs.configs["paths"])
+
+    # final update
+    configs.nestupdate(configs.configs, base_configs)
+    configs.force_paths()
 
     if cfg is not None:
         print(f"Configurations loaded from '{cfg}'")

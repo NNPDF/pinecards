@@ -1,6 +1,13 @@
+# No configuration value is mandatory, those uncommented are just those needed
+# to run with the current repository layourt.
+# Not even the file itself is mandatory, if not present, root is simply set to
+# $PWD.
+# Values specified (both uncommented and commented) are defaults, if not
+# explicitly declared to be different.
+
 [paths]
 # paths relative to the location of this file
-runcards = "nnpdf31_proc"
+runcards = "nnpdf31_proc" # defaut: "runcards"
 results = "results"
 # theories = "theories"
 # prefix = ".prefix"

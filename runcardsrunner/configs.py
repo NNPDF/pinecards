@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import copy
 import os
 import pathlib
 import shutil
@@ -88,19 +87,28 @@ def load(path: Optional[os.PathLike] = None) -> dict:
     return loaded
 
 
-def add_scope(parent, scope_id, scope):
-    "Do not override."
-    newparent = copy.deepcopy(parent)
-    # if the id not present, append the scope all at once
-    if scope_id not in newparent:
-        newparent[scope_id] = scope
-    # if the id already present, preserve existing values
-    else:
-        for key, value in scope.items():
-            # if already specified, do not override
-            newparent[scope_id].setdefault(key, value)
+def nestupdate(base: dict, update: dict):
+    """Merge nested dictionaries.
 
-    return newparent
+    Pay attention, `base` will be mutated in place.
+
+    Parameters
+    ----------
+    base: dict
+        dictionary to be updated
+    update: dict
+        dictionary containing update
+
+    """
+    for key, val in update.items():
+        oldval = base[key]
+
+        if isinstance(val, dict):
+            if not isinstance(oldval, dict):
+                raise ValueError()
+            base[key] = nestupdate(oldval, val)
+        else:
+            base[key] = val
 
 
 def defaults(base_configs):
@@ -111,15 +119,17 @@ def defaults(base_configs):
     The general rule is to never replace user provided input.
 
     """
-    configs = add_paths(base_configs)
-    configs = add_commands(configs)
+    configs = {}
+
+    configs["paths"] = add_paths(base_configs["paths"]["root"])
+    configs["commands"] = add_commands(configs["paths"])
+
+    nestupdate(configs, base_configs)
 
     return configs
 
 
-def add_paths(configs):
-    root = configs["paths"]["root"]
-
+def add_paths(root):
     paths = {}
 
     paths["root"] = root
@@ -139,15 +149,15 @@ def add_paths(configs):
     paths["lhapdf"] = prefix / "lhapdf"
     paths["lhapdf_data_alternative"] = prefix / "share" / "LHAPDF"
 
-    return add_scope(configs, "paths", paths)
+    return paths
 
 
-def add_commands(configs):
+def add_commands(paths):
     commands = {}
 
-    commands["mg5"] = configs["paths"]["mg5amc"] / "bin" / "mg5_aMC"
-    commands["vrap"] = configs["paths"]["prefix"] / "bin" / "Vrap"
+    commands["mg5"] = paths["mg5amc"] / "bin" / "mg5_aMC"
+    commands["vrap"] = paths["prefix"] / "bin" / "Vrap"
     pineappl = shutil.which("pineappl")
     commands["pineappl"] = pathlib.Path(pineappl) if pineappl is not None else None
 
-    return add_scope(configs, "commands", commands)
+    return commands

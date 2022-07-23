@@ -27,5 +27,8 @@ def command(cfg):
 
     base_configs = configs.load(cfgpath)
     configs.configs = configs.defaults(base_configs)
+
+    configs.nestupdate(configs.configs, base_configs)
+
     if cfg is not None:
         print(f"Configurations loaded from '{cfg}'")

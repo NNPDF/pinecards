@@ -91,6 +91,23 @@ def nestupdate(base: dict, update: dict):
     """Merge nested dictionaries.
 
     Pay attention, `base` will be mutated in place.
+    So the second one will overwrite the first.
+
+    Note
+    ----
+    Modifying in place avoids a lot of copies.
+    But not being performance intensive, it would be possible to obtain a non
+    in-place alternative just adding a first line::
+
+        base = copy.deepcopy(base)
+
+    but it would be called at every recursion (the lots of copies above).
+    A simpler alternative is just to copy before calling, if needed::
+
+        mycopy = copy.deepcopy(mydict)
+        nestupdate(mycopy, update)
+
+    that will make a single copy.
 
     Parameters
     ----------
@@ -100,14 +117,28 @@ def nestupdate(base: dict, update: dict):
         dictionary containing update
 
     """
-    for key, val in update.items():
-        oldval = base[key]
 
-        if isinstance(val, dict):
-            if not isinstance(oldval, dict):
-                raise ValueError()
-            base[key] = nestupdate(oldval, val)
-        else:
+    def newval(old, val):
+        """Build new value.
+
+        If one of the two is not a dictionary, simply use update value `val`.
+        If they are both dictionaries, start recursion.
+
+        """
+        if not isinstance(val, dict) or not isinstance(old, dict):
+            return val
+
+        nestupdate(old, val)
+        return old
+
+    # add every value of update into base
+    for key, val in update.items():
+        try:
+            # attempt to merge update value with old one
+            old = base[key]
+            base[key] = newval(old, val)
+        except KeyError:
+            # if value did not exist, simply add it
             base[key] = val
 
 
@@ -123,8 +154,6 @@ def defaults(base_configs):
 
     configs["paths"] = add_paths(base_configs["paths"]["root"])
     configs["commands"] = add_commands(configs["paths"])
-
-    nestupdate(configs, base_configs)
 
     return configs
 

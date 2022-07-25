@@ -21,5 +21,5 @@ results = "results"
 
 [commands]
 # mg5 =  ".prefix/mg5amc/bin/mg5_aMC"
-# vrap = ".prefix/bin/ "Vrap"
+# vrap = ".prefix/bin/Vrap"
 # pineappl = ".prefix/bin/pineappl"

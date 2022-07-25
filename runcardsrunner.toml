@@ -7,7 +7,7 @@
 
 [paths]
 # paths relative to the location of this file
-runcards = "nnpdf31_proc" # defaut: "runcards"
+runcards = "nnpdf31_proc" # default: "runcards"
 results = "results"
 # theories = "theories"
 # prefix = ".prefix"

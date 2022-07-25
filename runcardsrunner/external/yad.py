@@ -35,6 +35,10 @@ class Yadism(interface.External):
         ) as o:
             self.obs = yaml.safe_load(o)
 
+    @property
+    def output(self):
+        return self.grid.with_suffix(".tar")
+
     def run(self):
         print("Running yadism...")
 
@@ -47,17 +51,17 @@ class Yadism(interface.External):
                 raise log.WhileRedirectedError(file=run_log)
 
         # dump output
-        out.dump_yaml_to_file(self.grid.with_suffix(".yaml"))
+        out.dump_tar(self.output)
 
     def generate_pineappl(self):
-        out = yadism.output.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
+        out = yadism.output.Output.load_tar(self.output)
         out.dump_pineappl_to_file(
             str(self.grid), next(iter(self.obs["observables"].keys()))
         )
 
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
-        out = yadism.output.Output.load_yaml_from_file(self.grid.with_suffix(".yaml"))
+        out = yadism.output.Output.load_tar(self.output)
         pdf_out = out.apply_pdf_alphas_alphaqed_xir_xif(
             pdf,
             lambda muR: lhapdf.mkAlphaS(self.pdf).alphasQ(muR),

@@ -162,7 +162,7 @@ def nestupdate(base: dict, update: dict):
 
 
 def basic_paths(root: pathlib.Path) -> dict:
-    """Build all defaut independent paths.
+    """Build all default independent paths.
 
     Independent on anything but ``root``.
 

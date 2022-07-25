@@ -21,7 +21,7 @@ class Info:
 
 
 def label(dataset: str) -> Info:
-    if yad.is_dis(set):
+    if yad.is_dis(dataset):
         return Info(color="red", external=yad.Yadism, kind=Kind.dis)
     if positivity.is_positivity(dataset):
         return Info(

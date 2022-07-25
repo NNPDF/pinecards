@@ -81,7 +81,7 @@ def hawaiian_vrap():
     bool
         whether vrap is now installed
     """
-    vrapx = configs.configs["paths"]["vrap"]
+    vrapx = configs.configs["commands"]["vrap"]
 
     if is_exe(vrapx):
         print("✓ Found vrap")

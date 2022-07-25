@@ -22,10 +22,13 @@ set auto_convert_model True
 import model loop_qcd_qed_sm_Gmu
 quit
 """
-"instructions to set the correct model for MG5aMC\\@NLO"
+"Instructions to set the correct model for MG5aMC\\@NLO."
 
 PINEAPPL_REPO = "https://github.com/N3PDF/pineappl.git"
-"git repo location for pineappl"
+"Git repo location for pineappl."
+
+LHAPDF_VERSION = "LHAPDF-6.4.0"
+"Version of LHAPDF to be used by default (if not already available)."
 
 
 def init_prefix():
@@ -292,10 +295,9 @@ def lhapdf():
         print("✓ Found lhapdf")
         return True
 
-    version = "LHAPDF-6.4.0"
     lhapdf_dest = configs.configs["paths"]["lhapdf"]
-    lhapdf_tar = lhapdf_dest / (version + ".tar.gz")
-    lhapdf_code = lhapdf_dest / version
+    lhapdf_tar = lhapdf_dest / (LHAPDF_VERSION + ".tar.gz")
+    lhapdf_code = lhapdf_dest / LHAPDF_VERSION
 
     lhapdf_dest.mkdir(exist_ok=True)
     with requests.get(

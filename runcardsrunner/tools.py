@@ -9,7 +9,7 @@ import pineappl
 import pygit2
 import rich
 
-from . import paths
+from . import configs
 
 
 def create_output_folder(name):
@@ -26,8 +26,10 @@ def create_output_folder(name):
         path to output folder
 
     """
-    target = paths.root / (name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S"))
-    target.mkdir(exist_ok=True)
+    target = configs.configs["paths"]["results"] / (
+        name + datetime.datetime.now().strftime("-%Y%m%d%H%M%S")
+    )
+    target.mkdir(exist_ok=True, parents=True)
     return target
 
 
@@ -256,3 +258,28 @@ def common_substring(s1, s2, *sn):
         # sort by length and take the first
         shortest = min(enumerate(len(s) for s in ss), key=lambda el: el[1])[0]
         return ss[shortest]
+
+
+def parse_metadata(file):
+    """Parse metadata file.
+
+    Parameters
+    ----------
+    file : io.TextIOBase
+        the file to read
+
+    Returns
+    -------
+    dict
+        the metadata entries
+
+    """
+    entries = {}
+    for line in file.readlines():
+        if line[-1] == "\n":
+            line = line[:-1]
+
+        k, v = line.split("=")
+        entries[k] = v
+
+    return entries

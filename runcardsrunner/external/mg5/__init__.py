@@ -8,9 +8,7 @@ import numpy as np
 import pandas as pd
 import pineappl
 
-from ... import install, log
-from ... import paths as gpaths
-from ... import tools
+from ... import configs, install, log, tools
 from .. import interface
 from . import paths
 
@@ -29,6 +27,7 @@ class Mg5(interface.External):
 
     @staticmethod
     def install():
+        install.pineappl()
         install.mg5amc()
 
     @property
@@ -43,7 +42,7 @@ class Mg5(interface.External):
 
         # create output folder
         log.subprocess(
-            [str(gpaths.mg5_exe), str(output_file)],
+            [str(configs.configs["commands"]["mg5"]), str(output_file)],
             cwd=self.dest,
             out=(self.dest / "output.log"),
         )
@@ -60,7 +59,7 @@ class Mg5(interface.External):
 
         # enforce proper analysis
         # - copy analysis.f
-        analysis = (gpaths.runcards / self.name / "analysis.f").read_text()
+        analysis = (self.source / "analysis.f").read_text()
         (self.mg5_dir / "FixedOrderAnalysis" / f"{self.name}.f").write_text(analysis)
         # - update analysis card
         analysis_card = self.mg5_dir / "Cards" / "FO_analyse_card.dat"
@@ -75,7 +74,7 @@ class Mg5(interface.External):
         # launch file; for the time being we create the file here, but in the
         # future it should be read from the theory database EDIT: now available
         # in self.theory
-        variables = json.loads((gpaths.pkg / "variables.json").read_text())
+        variables = json.loads((paths.subpkg.parents[1] / "variables.json").read_text())
         variables["LHAPDF_ID"] = self.pdf_id
 
         # replace the variables with their values
@@ -140,7 +139,7 @@ class Mg5(interface.External):
 
         # launch run
         log.subprocess(
-            [str(gpaths.mg5_exe), str(launch_file)],
+            [str(configs.configs["commands"]["mg5"]), str(launch_file)],
             cwd=self.dest,
             out=self.dest / "launch.log",
         )
@@ -207,19 +206,27 @@ class Mg5(interface.External):
         versions = {}
         versions["mg5amc_revno"] = (
             subprocess.run(
-                "brz revno".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
+                "brz revno".split(),
+                cwd=configs.configs["paths"]["mg5amc"],
+                stdout=subprocess.PIPE,
             )
             .stdout.decode()
             .strip()
         )
         mg5amc_repo = (
             subprocess.run(
-                "brz info".split(), cwd=gpaths.mg5amc, stdout=subprocess.PIPE
+                "brz info".split(),
+                cwd=configs.configs["paths"]["mg5amc"],
+                stdout=subprocess.PIPE,
             )
             .stdout.decode()
             .strip()
         )
-        versions["mg5amc_repo"] = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)[1]
+
+        repo = re.search(r"\s*parent branch:\s*(.*)", mg5amc_repo)
+        if repo is None:
+            print("Invalid mg5 repository")
+        versions["mg5amc_repo"] = repo[1] if repo is not None else None
         return versions
 
 

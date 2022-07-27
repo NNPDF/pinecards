@@ -6,7 +6,7 @@ import subprocess
 
 import pygit2
 
-from .. import paths, tools
+from .. import __version__, configs, tools
 
 
 class External(abc.ABC):
@@ -35,14 +35,16 @@ class External(abc.ABC):
         if timestamp is None:
             self.dest = tools.create_output_folder(self.name)
         else:
-            self.dest = paths.root / (self.name + "-" + self.timestamp)
+            self.dest = configs.configs["paths"]["results"] / (
+                self.name + "-" + self.timestamp
+            )
             if not self.grid.exists():
                 tools.decompress(self.grid.with_suffix(".pineappl.lz4"))
 
     @property
     def source(self):
         """Runcard base directory."""
-        return paths.runcards / self.name
+        return configs.configs["paths"]["runcards"] / self.name
 
     @property
     def grid(self):
@@ -91,7 +93,7 @@ class External(abc.ABC):
         """
 
     @abc.abstractmethod
-    def collect_versions(self):
+    def collect_versions(self) -> dict:
         """Collect necessary version informations.
 
         Returns
@@ -105,16 +107,22 @@ class External(abc.ABC):
     def annotate_versions(self):
         """Add version informations as meta data."""
         results_log = self.dest / "results.log"
-        # TODO: add pineappl version
-        #  pineappl = paths.pineappl_exe()
 
         versions = self.collect_versions()
-        versions["runcard_gitversion"] = pygit2.Repository(paths.root).describe(
+        # the rr version will also pin pineappl_py version and all the other
+        # python dependencies versions
+        versions["rr"] = __version__
+        versions["runcard_gitversion"] = pygit2.Repository(
+            configs.configs["paths"]["root"]
+        ).describe(
             always_use_long_format=True,
             describe_strategy=pygit2.GIT_DESCRIBE_TAGS,
             dirty_suffix="-dirty",
             show_commit_oid_as_fallback=True,
         )
+        # TODO: add pineappl version
+        #  pineappl = configs.configs["commands"]["pineappl"]()
+        versions["pineappl_capi"] = "???"
 
         entries = {}
         entries.update(versions)

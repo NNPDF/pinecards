@@ -6,8 +6,8 @@ import click
 import rich
 import yaml
 
-from .. import install, log, table, tools
-from ..external import mg5, positivity, vrap, yad
+from .. import info, install, log, table, tools
+from ..external import mg5
 from ._base import command
 
 
@@ -50,7 +50,7 @@ def main(dataset, theory, pdf):
     if "-" in dataset:
         try:
             dataset, timestamp = dataset.split("-")
-        except:
+        except ValueError:
             raise ValueError(
                 f"'{dataset}' not valid. '-' is only allowed once,"
                 " to separate dataset name from timestamp."
@@ -58,21 +58,10 @@ def main(dataset, theory, pdf):
 
     rich.print(dataset)
 
-    if yad.is_dis(dataset):
-        color = "red"
-        external = yad.Yadism
-    elif positivity.is_positivity(dataset):
-        color = "yellow"
-        external = positivity.Positivity
-    elif vrap.is_vrap(dataset):
-        color = "green"
-        external = vrap.Vrap
-    else:
-        color = "blue"
-        external = mg5.Mg5
+    datainfo = info.label(dataset)
 
-    rich.print(f"Computing [{color}]{dataset}[/]...")
-    runner = external(dataset, theory, pdf, timestamp=timestamp)
+    rich.print(f"Computing [{datainfo.color}]{dataset}[/]...")
+    runner = datainfo.external(dataset, theory, pdf, timestamp=timestamp)
 
     install_reqs(runner, pdf)
     run_dataset(runner)
@@ -91,9 +80,9 @@ def install_reqs(runner, pdf):
     """
     t0 = time.perf_counter()
 
+    install.init_prefix()
     install.update_environ()
     runner.install()
-    install.pineappl()
 
     # install chosen PDF set
     install.lhapdf_conf(pdf)

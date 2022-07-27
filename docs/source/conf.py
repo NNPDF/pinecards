@@ -115,7 +115,7 @@ html_static_path = ["_static"]
 # Thanks https://github.com/bskinn/sphobjinv
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy", None),
     "numpy": ("https://numpy.org/doc/stable", None),
     "pygit2": ("https://www.pygit2.org/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),

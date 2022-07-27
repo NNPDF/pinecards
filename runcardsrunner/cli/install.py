@@ -8,14 +8,16 @@ from ._base import command
 @command.group("install")
 def subcommand():
     """Install utilities."""
+    install.init_prefix()
 
 
 @subcommand.command()
+@click.option("--capi", is_flag=True, default=True, help="install PineAPPL CAPI")
 @click.option("--cli", is_flag=True, help="install PineAPPL CLI as well")
-def pineappl(cli):
-    """Install pineappl."""
+def pineappl(capi, cli):
+    """Install PineAPPL."""
     install.update_environ()
-    install.pineappl(cli)
+    install.pineappl(capi=capi, cli=cli)
 
 
 @subcommand.command()
@@ -30,3 +32,10 @@ def vrap():
     """Install Hawaiian VRAP."""
     install.update_environ()
     install.hawaiian_vrap()
+
+
+@subcommand.command()
+def lhapdf():
+    """Install LHAPDF."""
+    install.update_environ()
+    install.lhapdf()

@@ -5,14 +5,18 @@ import shutil
 import click
 import rich
 
-from .. import paths, tools
+from .. import configs, tools
 from ._base import command
 
 
 @command.command("update")
 @click.argument("datasets", nargs=-1)
 def subcommand(datasets):
-    """Update datasets metadata."""
+    """Update datasets metadata.
+
+    DATASETS are an arbitrary number of datasets to be updated (if empty, do
+    nothing).
+    """
     main(datasets)
 
 
@@ -24,13 +28,10 @@ def main(datasets):
         if "pineappl" in dataset:
             dataset = pathlib.Path(dataset).stem
 
-        metadata = paths.runcards / dataset / "metadata.txt"
+        metadata = configs.configs["paths"]["runcards"] / dataset / "metadata.txt"
 
-        entries = {}
         with open(metadata) as fd:
-            for line in fd.readlines():
-                k, v = line.split("=")
-                entries[k] = v
+            entries = tools.parse_metadata(fd)
 
         dest = path.parent / (path.name + ".tmp")
         tools.update_grid_metadata(path, dest, entries)

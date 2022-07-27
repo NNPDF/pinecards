@@ -85,7 +85,9 @@ def load(path: Optional[os.PathLike] = None) -> dict:
     with open(path, "rb") as fd:
         loaded = tomli.load(fd)
 
-    if "root" not in loaded["paths"]:
+    try:
+        loaded["paths"]["root"] = pathlib.Path(loaded["paths"]["root"])
+    except KeyError:
         loaded["paths"]["root"] = pathlib.Path(path).parent
 
     return loaded

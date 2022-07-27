@@ -62,7 +62,7 @@ def mg5amc():
 
     # download madgraph in prefix (if not present)
     subprocess.run(
-        f"brz branch {MG5_REPO} {configs.configs['paths']['prefixed']['mg5amc']}".split()
+        f"brz branch {MG5_REPO} {configs.configs['paths']['mg5amc']}".split()
     )
 
     # in case we're using python3, we need to convert the model file

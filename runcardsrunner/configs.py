@@ -85,10 +85,25 @@ def load(path: Optional[os.PathLike] = None) -> dict:
     with open(path, "rb") as fd:
         loaded = tomli.load(fd)
 
+    # ensure root
     try:
-        loaded["paths"]["root"] = pathlib.Path(loaded["paths"]["root"])
+        root = pathlib.Path(loaded["paths"]["root"])
     except KeyError:
-        loaded["paths"]["root"] = pathlib.Path(path).parent
+        root = pathlib.Path(path).parent
+    root = root.absolute()
+    loaded["paths"]["root"] = root
+
+    # make all paths actual path objects, relative to root, if appropriate
+    for sec in PATHS_SECTIONS:
+        # all sections are optional in configs file (while root is filled in any
+        # case above), thus skip those not present
+        if sec not in loaded:
+            continue
+
+        for key, value in loaded[sec].items():
+            path = pathlib.Path(value)
+            # if `path` is absolute, `root` will be simply ignored
+            loaded[sec][key] = root / path
 
     return loaded
 

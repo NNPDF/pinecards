@@ -1,7 +1,7 @@
 External runners
 ================
 
-The ``rr run`` is mainly a uniform interface to some Monte Carlo (and non)
+The ``pinefarm run`` is mainly a uniform interface to some Monte Carlo (and non)
 generator that are able to produce PineAPPL grids.
 
 Internally the runners are managed through a class system, with a base class
@@ -19,7 +19,7 @@ Attributes:
 Computed attributes:
 
 - ``dest``: folder used for all the output
-- ``source``: folder containing runcard
+- ``source``: folder containing pinecard
 - ``grid``: path of the computed grid
 - ``gridtmp``: path used for auxiliary grid (removed at the end of the run)
 
@@ -37,5 +37,5 @@ Steps:
 - :meth:`~pinefarm.external.interface.External.annotate_versions`: collect
   versions of all the program used to compute the results (for reproducibility)
 - :meth:`~pinefarm.external.interface.External.postprocess`: apply any
-  further step specified in :doc:`postprocess file <../runcards/postrun>`, save
-  :doc:`metadata <../runcards/metadata>`, and compress the final grid
+  further step specified in :doc:`postprocess file <../pinecards/postrun>`, save
+  :doc:`metadata <../pinecards/metadata>`, and compress the final grid

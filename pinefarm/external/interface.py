@@ -109,10 +109,10 @@ class External(abc.ABC):
         results_log = self.dest / "results.log"
 
         versions = self.collect_versions()
-        # the rr version will also pin pineappl_py version and all the other
-        # python dependencies versions
-        versions["rr"] = __version__
-        versions["runcard_gitversion"] = pygit2.Repository(
+        # the pinefarm version will also pin pineappl_py version and all the
+        # other python dependencies versions
+        versions["pinefarm"] = __version__
+        versions["pinecard"] = pygit2.Repository(
             configs.configs["paths"]["root"]
         ).describe(
             always_use_long_format=True,

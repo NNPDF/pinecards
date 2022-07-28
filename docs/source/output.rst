@@ -1,13 +1,13 @@
 What is all the output?
 =======================
 
-After having run ``rr run DATASET THEORY`` (see :doc:`cli`), the script prints a table,
-which is useful to quickly validate the MC uncertainty and the interpolation
-error of PineAPPL. The last line shows the directory where all results are
-stored, which has the form ``DATASET-DATE``, where ``DATASET`` is the value given
-to the run script and ``DATE`` is a numerical date when the generation was
-started. The date is added so runs for the same dataset do not overwrite each
-other's output.
+After having run ``pinefarm run DATASET THEORY`` (see :doc:`cli`), the script
+prints a table, which is useful to quickly validate the MC uncertainty and the
+interpolation error of PineAPPL. The last line shows the directory where all
+results are stored, which has the form ``DATASET-DATE``, where ``DATASET`` is
+the value given to the run script and ``DATE`` is a numerical date when the
+generation was started. The date is added so runs for the same dataset do not
+overwrite each other's output.
 
 The most important file in the output directory is
 
@@ -50,9 +50,9 @@ The remaining contents of this directory are useful for testing and debugging:
     PineAPPL grid with the PDF selected in ``launch.txt``. This is the same table
     printed at the end by ``run.sh``, and is used to verify the contents of each
     grid. It also stores the MC uncertainties.
-  - ``runcard``: Madgraph5_aMC\@NLO's runcard that was used to generate the grid.
+  - ``pinecard``: Madgraph5_aMC\@NLO's pinecard that was used to generate the grid.
     Here all parameters are documented.
-  - ``runcard_gitversion``: The git version of this repository that was used to
+  - ``pinecard_gitversion``: The git version of this repository that was used to
     generate the grid.
   - ``yadism_version`` (only :doc:`external/yadism` grids): The |yadism| version
     used to generate the grid (if not a released version have been used it

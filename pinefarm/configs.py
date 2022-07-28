@@ -10,7 +10,7 @@ from typing import Optional
 import appdirs
 import tomli
 
-NAME = "runcardsrunner.toml"
+NAME = "pinefarm.toml"
 """Name of the config while (wherever it is placed)"""
 
 PATHS_SECTIONS = ("paths", "commands")

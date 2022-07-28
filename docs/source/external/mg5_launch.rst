@@ -2,7 +2,7 @@ Launch
 ======
 
 Here is briefly recapped |mg5|'s '``launch.txt`` syntax and described the
-special syntax that is allowed for (and introduced by) runcards.
+special syntax that is allowed for (and introduced by) pinecards.
 
 Relevant native syntax
 ----------------------

@@ -8,7 +8,7 @@ SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 
-RROUT = $(SOURCEDIR)/modules
+PINEFARMOUT = $(SOURCEDIR)/modules
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -25,7 +25,7 @@ clean:
 	rm -rf _build
 
 cleanall: clean
-	rm -rf $(RROUT)
+	rm -rf $(PINEFARMOUT)
 
 .PHONY: help Makefile
 

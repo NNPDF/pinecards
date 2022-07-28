@@ -5,13 +5,13 @@ To generate a PineAPPL grid run:
 
 .. code-block:: sh
 
-   rr run <RUNCARD> <THEORY>
+   pinefarm run <RUNCARD> <THEORY>
 
-In order to get a list of available runcards run:
+In order to get a list of available pinecards run:
 
 .. code-block:: sh
 
-   rr list runcards
+   pinefarm list pinecards
 
 .. note::
 
@@ -22,7 +22,7 @@ Analogously for theories:
 
 .. code-block:: sh
 
-   rr list theories
+   pinefarm list theories
 
 If any software is missing, it will be installed on the fly, including:
 
@@ -31,4 +31,4 @@ If any software is missing, it will be installed on the fly, including:
 
 .. note::
 
-   Only the code relevant to run the selected runcard will be installed.
+   Only the code relevant to run the selected pinecard will be installed.

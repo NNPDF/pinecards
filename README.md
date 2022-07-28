@@ -1,9 +1,9 @@
 # Runcards for NNPDF
 
-This repository stores all runcards needed to generate PineAPPL grids for the
+This repository stores all pinecards needed to generate PineAPPL grids for the
 processes included in NNPDF.
 
-Moreover, it contains the tool (`rr` script and `runcardsrunner` package) to
+Moreover, it contains the tool (`pinefarm` script and `pinefarm` package) to
 generate the corresponding PineAPPL grids.
 
 ## Installation

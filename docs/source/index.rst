@@ -1,32 +1,36 @@
-##########################################
-Welcome to runcardsrunner's documentation!
-##########################################
+####################################
+Welcome to pinefarm's documentation!
+####################################
 
 This documentation is about the python package used to generate the PineAPPL
-grids out of the proper runcards, called `runcardsrunner` (and its CLI ``rr``),
-and it covers as well the runcards format.
+grids out of the proper pinecards, called `pinefarm` (and its CLI ``pinefarm``),
+and it covers as well the pinecards format.
 
-Install ``rr``
-==============
+Install ``pinefarm``
+====================
 
-There are two ways of installing ``rr``, that are:
+There are two ways of installing ``pinefarm``, that are:
 
 - **production**: used by *final user*, simply run
 
   .. code-block:: sh
 
-     pip install runcardsrunner
+     pip install pinefarm
 
-  and then use ``rr`` as a command available in ``PATH``
+  and then use ``pinefarm`` as a command available in ``PATH``
 
-- **develop**: used by the tools developer, bootstrap with
+- **develop**: used by the tools developer
 
   .. code-block:: sh
 
-     ./rr install
+     poetry install
 
-  and in this case, ``rr`` to be used is always the one provided as executable.
-  in the repository.
+  Then run with:
+
+  .. code-block:: sh
+
+     poetry run pinefarm <args>
+
 
 Non Python dependencies
 -----------------------
@@ -38,8 +42,8 @@ available on the system.
 To run the CLI:
 
 - ``python`` itself
-- ``pip`` available as a module of the ``python`` that is running ``rr`` (as usually
-  is)
+- ``pip`` available as a module of the ``python`` that is running ``pinefarm``
+  (as usually is)
 - ``curl``
 
 To install ``pineappl``:
@@ -67,9 +71,9 @@ To install ``mg5amc@nlo`` and its dependencies:
    :hidden:
    :caption: Runcards
 
-   runcards/index
-   runcards/metadata
-   runcards/postrun
+   pinecards/index
+   pinecards/metadata
+   pinecards/postrun
 
 .. toctree::
    :maxdepth: 1
@@ -85,5 +89,5 @@ To install ``mg5amc@nlo`` and its dependencies:
    :hidden:
    :caption: Implementation
 
-   API <modules/runcardsrunner/runcardsrunner>
+   API <modules/pinefarm/pinefarm>
    indices

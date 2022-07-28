@@ -1,9 +1,9 @@
-##########################################
-Welcome to runcardsrunner's documentation!
-##########################################
+####################################
+Welcome to pinefarm's documentation!
+####################################
 
 This documentation is about the python package used to generate the PineAPPL
-grids out of the proper runcards, called `runcardsrunner` (and its CLI ``rr``),
+grids out of the proper runcards, called `pinefarm` (and its CLI ``rr``),
 and it covers as well the runcards format.
 
 Install ``rr``
@@ -15,7 +15,7 @@ There are two ways of installing ``rr``, that are:
 
   .. code-block:: sh
 
-     pip install runcardsrunner
+     pip install pinefarm
 
   and then use ``rr`` as a command available in ``PATH``
 
@@ -85,5 +85,5 @@ To install ``mg5amc@nlo`` and its dependencies:
    :hidden:
    :caption: Implementation
 
-   API <modules/runcardsrunner/runcardsrunner>
+   API <modules/pinefarm/pinefarm>
    indices

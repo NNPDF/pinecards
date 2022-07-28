@@ -23,9 +23,9 @@ here = pathlib.Path(__file__).absolute().parent
 
 # -- Project information -----------------------------------------------------
 
-project = "runcardsrunner"
-copyright = "2021, the runcardsrunner team"
-author = "the runcardsrunner team"
+project = "pinefarm"
+copyright = "2021, the pinefarm team"
+author = "the pinefarm team"
 
 
 # -- General configuration ---------------------------------------------------
@@ -135,6 +135,7 @@ mathjax3_config = {
     }
 }
 
+
 # https://github.com/readthedocs/readthedocs.org/issues/1139#issuecomment-312626491
 def run_apidoc(_):
     from sphinx.ext.apidoc import main  # pylint: disable=import-outside-toplevel
@@ -142,8 +143,8 @@ def run_apidoc(_):
     sys.path.append(str(here.parent))
 
     # analyse 'pineappl'
-    docs_dest = here / "modules" / "runcardsrunner"
-    package = here.parents[1] / "runcardsrunner"
+    docs_dest = here / "modules" / "pinefarm"
+    package = here.parents[1] / "pinefarm"
     main(["--module-first", "-o", str(docs_dest), str(package)])
     (docs_dest / "modules.rst").unlink()
 

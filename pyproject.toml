@@ -49,7 +49,7 @@ pinefarm = "pinefarm:command"
 test = "pytest tests"
 coverage = "$BROWSER htmlcov/index.html"
 test-cov = ["test", "coverage"]
-lint = "pylint runcardsrunner"
+lint = "pylint pinefarm"
 ipy = "ipython"
 test-mg5 = "pinefarm run TEST_RUN_SH theories/theory_213.yaml"
 test-yad = "pinefarm run HERA_CC_318GEV_EM_SIGMARED theories/theory_213.yaml"
@@ -73,3 +73,20 @@ addopts = [
   '--cov-report=xml',
   '--strict-markers',
 ]
+
+[tool.pylint.master]
+# extensions not to check
+extension-pkg-whitelist = ["numpy", "numba", "lhapdf", "pegasus"]
+ignore-paths = ["benchmarks/", "doc/", "tests/"]
+
+[tool.pylint.messages_control]
+disable = ["invalid-name", "fixme"]
+
+[tool.pylint.reports]
+output-format = "colorized"
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.design]
+max-args = 10

@@ -30,7 +30,8 @@ eko = { extras = ["box"], version = "^0.9.4" }
 
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
 pylint = "^2.11.1"
 pdbpp = "^0.10.3"
 ipython = "^8.0"
@@ -45,6 +46,9 @@ docs = ["sphinx", "sphinx-rtd-theme", "sphinxcontrib-bibtex"]
 pinefarm = "pinefarm:command"
 
 [tool.poe.tasks]
+test = "pytest tests"
+coverage = "$BROWSER htmlcov/index.html"
+test-cov = ["test", "coverage"]
 lint = "pylint runcardsrunner"
 ipy = "ipython"
 test-mg5 = "pinefarm run TEST_RUN_SH theories/theory_213.yaml"
@@ -57,3 +61,15 @@ docs-cleanall = { "shell" = "cd docs; make cleanall" }
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ['tests/', 'benchmarks/']
+python_files = ['test_*.py', 'benchmark_*.py']
+python_classes = ['Test*', 'Benchmark*']
+python_functions = ['test_*', 'benchmark_*']
+addopts = [
+  '--cov=pinefarm',
+  '--cov-report=html',
+  '--cov-report=xml',
+  '--strict-markers',
+]

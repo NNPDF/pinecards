@@ -76,7 +76,7 @@ addopts = [
 
 [tool.pylint.master]
 # extensions not to check
-extension-pkg-whitelist = ["numpy", "numba", "lhapdf", "pegasus"]
+extension-pkg-whitelist = ["numpy", "lhapdf", "pygit2"]
 ignore-paths = ["benchmarks/", "doc/", "tests/"]
 
 [tool.pylint.messages_control]

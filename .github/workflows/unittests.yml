@@ -1,0 +1,19 @@
+name: tests
+
+on: push
+
+jobs:
+  py38:
+    uses: N3PDF/workflows/.github/workflows/python-poetry-tests.yml@main
+    with:
+      python-version: "3.8"
+
+  py39:
+    uses: N3PDF/workflows/.github/workflows/python-poetry-tests.yml@main
+    with:
+      python-version: "3.9"
+
+  py310:
+    uses: N3PDF/workflows/.github/workflows/python-poetry-tests.yml@main
+    with:
+      python-version: "3.10"

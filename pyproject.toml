@@ -16,6 +16,10 @@ classifiers = [
 ]
 repository = "https://github.com/NNPDF/runcards"
 
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 click = "^8.0.1"
@@ -40,7 +44,6 @@ sphinx-rtd-theme = { version = "^1.0.0", optional = true }
 sphinxcontrib-bibtex = { version = "^2.4.1", optional = true }
 eko = { extras = ["box"], version = "^0.9.4" }
 
-
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
@@ -57,6 +60,15 @@ docs = ["sphinx", "sphinx-rtd-theme", "sphinxcontrib-bibtex"]
 [tool.poetry.scripts]
 pinefarm = "pinefarm:command"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+dirty = true
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["pinefarm/__init__.py"]
+
 [tool.poe.tasks]
 test = "pytest tests"
 coverage = "$BROWSER htmlcov/index.html"
@@ -71,10 +83,6 @@ docs-view = { "shell" = "cd docs; make view" }
 docs-clean = { "shell" = "cd docs; make clean" }
 docs-cleanall = { "shell" = "cd docs; make cleanall" }
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.pytest.ini_options]
 testpaths = ['tests/', 'benchmarks/']
 python_files = ['test_*.py', 'benchmark_*.py']
@@ -88,7 +96,6 @@ addopts = [
 ]
 
 [tool.pylint.master]
-# extensions not to check
 extension-pkg-whitelist = ["numpy", "lhapdf", "pygit2"]
 ignore-paths = ["benchmarks/", "doc/", "tests/"]
 

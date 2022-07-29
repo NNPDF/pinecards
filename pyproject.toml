@@ -2,7 +2,19 @@
 name = "pinefarm"
 version = "0.0.0"
 description = "Generate PineAPPL grids from PineCards."
-authors = ["Alessandro Candido <candido.ale@gmail.com>"]
+authors = [
+  "Alessandro Candido <candido.ale@gmail.com>",
+  "Juan Cruz Martinez <juan.cruz@mi.infn.it>",
+  "Felix Hekhorn <felix.hekhorn@mi.infn.it>",
+  "Christopher Schwan <handgranaten-herbert@posteo.de>",
+]
+readme = "README.md"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Physics",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+]
+repository = "https://github.com/NNPDF/runcards"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"

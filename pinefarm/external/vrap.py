@@ -16,6 +16,7 @@
 """
 import subprocess as sp
 import tempfile
+import warnings
 
 import numpy as np
 import pandas as pd
@@ -121,6 +122,11 @@ class Vrap(interface.External):
             pdfname = yaml_dict["positivity_pdf"]
             gen_pos_pdf(pdfname)
             self.pdf = pdfname
+            if vrap_order != "NLO":
+                warnings.warn("Positivity DY observables are only computed at NLO")
+                vrap_order = "NLO"
+
+
 
         yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card, order=vrap_order)
 

@@ -44,7 +44,7 @@ def is_vrap(name):
     return (configs.configs["paths"]["runcards"] / name / "vrap.yaml").exists()
 
 
-def yaml_to_vrapcard(yaml_dict, pdf, output_file):
+def yaml_to_vrapcard(yaml_dict, pdf, output_file, order="NLO"):
     """
     Converts the dictionary from `vrap.yaml` file into a vrap runcard
     """
@@ -54,6 +54,9 @@ def yaml_to_vrapcard(yaml_dict, pdf, output_file):
     # Remove possible spurious options
     if "positivity_pdf" in input_yaml:
         input_yaml.pop("positivity_pdf")
+
+    # Set the order according to the runcard
+    input_yaml["Order"] = order
 
     as_lines = [f"{k} {v}" for k, v in input_yaml.items()]
     output_file.write_text("\n".join(as_lines))
@@ -70,8 +73,18 @@ def gen_pos_pdf(pdfname, base_pdf="NNPDF40_nnlo_as_01180"):
 
 
 class Vrap(interface.External):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, pinecard, theorycard, *args, **kwargs):
+        super().__init__(pinecard, theorycard, *args, **kwargs)
+
+        order = theorycard.get("PTO")
+        if order == 0:
+            vrap_order = "LO"
+        elif order == 1:
+            vrap_order = "NLO"
+        elif order >= 2:
+            vrap_order = "NNLO"
+        else:
+            raise ValueError(f"Order PTO={order} not understood by vrap runner")
 
         # For FTDY due to the strange acceptance cuts
         # we can have many kinematics, therefore:
@@ -109,7 +122,7 @@ class Vrap(interface.External):
             gen_pos_pdf(pdfname)
             self.pdf = pdfname
 
-        yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card)
+        yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card, order=vrap_order)
 
         self._partial_grids = []
         self._partial_results = []

@@ -35,6 +35,10 @@ class Yadism(interface.External):
         ) as o:
             self.obs = yaml.safe_load(o)
 
+        # deactivate TMC for positivity observables
+        if self.obs["NCPositivityCharge"] is not None:
+            self.theory["TMC"] = 0
+
     @property
     def output(self):
         return self.grid.with_suffix(".tar")

@@ -9,7 +9,6 @@ import pandas as pd
 import pineappl
 import yaml
 from eko import basis_rotation as br
-
 from .. import configs
 from . import interface
 
@@ -42,7 +41,6 @@ class _IntegrabilityRuncard:
     hadron_pid: int
     lepton_pid: int
     flavour: int
-    q2: float
     xgrid: typing.List[float]
 
     def asdict(self):
@@ -55,6 +53,7 @@ class Integrability(interface.External):
 
         input_card = self.source / _RUNCARD
         yaml_dict = yaml.safe_load(input_card.open("r", encoding="utf-8"))
+        self._q2 = np.power(self.theory["Q0"], 2)
         self._info = _IntegrabilityRuncard(**yaml_dict)
         self._evo2fl = evolution_to_flavour(self._info.flavour)
 
@@ -79,7 +78,7 @@ class Integrability(interface.External):
         # use subgrid because fill doesn't work?
         x = self._info.xgrid
         w = np.array(x).reshape((1, -1, 1))
-        sg = pineappl.import_only_subgrid.ImportOnlySubgridV1(w, [self._info.q2], x, x)
+        sg = pineappl.import_only_subgrid.ImportOnlySubgridV1(w, [self._q2], x, x)
         grid.set_subgrid(0, 0, 0, sg)
         grid.write(self.grid)
 
@@ -89,7 +88,7 @@ class Integrability(interface.External):
     def results(self):
         pdf = lhapdf.mkPDF(self.pdf)
         final_result = 0.0
-        q2 = self._info.q2 * np.ones_like(self._info.xgrid)
+        q2 = self._q2 * np.ones_like(self._info.xgrid)
 
         for fl, w in self._evo2fl:
             final_result += w * np.sum(pdf.xfxQ2(fl, self._info.xgrid, q2))

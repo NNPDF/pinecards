@@ -3,7 +3,7 @@ import dataclasses
 import enum
 import typing
 
-from .external import interface, mg5, positivity, vrap, yad, integrability
+from .external import integrability, interface, mg5, positivity, vrap, yad
 
 
 class Kind(enum.Enum):
@@ -31,6 +31,8 @@ def label(dataset: str) -> Info:
     if vrap.is_vrap(dataset):
         return Info(color="green", external=vrap.Vrap, kind=Kind.ftdy)
     if integrability.is_integrability(dataset):
-        return Info(color="brown", external=integrability.Integrability, kind=Kind.integrability)
+        return Info(
+            color="brown", external=integrability.Integrability, kind=Kind.integrability
+        )
 
     return Info(color="blue", external=mg5.Mg5, kind=Kind.hadronic)

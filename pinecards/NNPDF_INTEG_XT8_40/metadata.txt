@@ -1,10 +1,4 @@
 description=Integrability for T8
-x1_label=Q2
-x1_label_tex=$Q^2$
-x1_unit=GeV^2
-x2_label=T8
-x2_label_tex=$\sum_i(x_i T_8(x_i))^2$
-x2_unit=
-y_label=xfx
-y_label_tex=$xf(x)$
+y_label=xT8
+y_label_tex=$\sum_i(x_i T_8(x_i))$
 y_unit=

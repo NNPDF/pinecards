@@ -71,7 +71,7 @@ class Integrability(interface.External):
         # Fill grid with x*T8
         # use subgrid because fill doesn't work?
         x = self._info.xgrid
-        w = np.array(x).reshape(1, -1, 1)
+        w = np.array(x).reshape((1, -1, 1))
         sg = pineappl.import_only_subgrid.ImportOnlySubgridV1(
             w, [self._info.q2], x, np.ones_like(x)
         )

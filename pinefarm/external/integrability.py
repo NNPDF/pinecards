@@ -1,6 +1,7 @@
 import yaml
+import json
 import typing
-from dataclasses import dataclass
+import dataclasses
 
 import numpy as np
 import pandas as pd
@@ -35,13 +36,16 @@ def evolution_to_flavour(evol_fl):
     return lumis
 
 
-@dataclass
+@dataclasses.dataclass
 class _IntegrabilityRuncard:
     hadron_pid: int
     lepton_pid: int
     flavour: int
     q2: float
     xgrid: typing.List[float]
+
+    def asdict(self):
+        return dataclasses.asdict(self)
 
 
 class Integrability(interface.External):
@@ -68,13 +72,13 @@ class Integrability(interface.External):
         grid = pineappl.grid.Grid.create(luminosities, orders, [0.0, 1.0], params)
         grid.set_key_value("initial_state_1", str(self._info.hadron_pid))
         grid.set_key_value("initial_state_2", str(self._info.lepton_pid))
+        grid.set_key_value("runcard", json.dumps(self._info.asdict()))
+        grid.set_key_value("lumi_id_types", "pdg_mc_ids")
         # Fill grid with x*T8
         # use subgrid because fill doesn't work?
         x = self._info.xgrid
         w = np.array(x).reshape((1, -1, 1))
-        sg = pineappl.import_only_subgrid.ImportOnlySubgridV1(
-            w, [self._info.q2], x, np.ones_like(x)
-        )
+        sg = pineappl.import_only_subgrid.ImportOnlySubgridV1(w, [self._info.q2], x, x)
         grid.set_subgrid(0, 0, 0, sg)
         grid.write(self.grid)
 

@@ -1,0 +1,5 @@
+hadron_pid: 2212
+lepton_pid: 11
+flavour: 108
+xgrid:
+  - 1.0e-9

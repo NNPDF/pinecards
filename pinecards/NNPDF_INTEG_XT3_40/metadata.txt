@@ -1,0 +1,4 @@
+description=Integrability for T3
+y_label=xT3
+y_label_tex=$\sum_i(x_i T_3(x_i))$
+y_unit=

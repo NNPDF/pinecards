@@ -1,0 +1,4 @@
+description=Integrability for T8
+y_label=xT8
+y_label_tex=$\sum_i(x_i T_8(x_i))$
+y_unit=

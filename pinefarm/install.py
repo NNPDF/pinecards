@@ -81,6 +81,10 @@ def hawaiian_vrap():
     bool
         whether vrap is now installed
     """
+    # Ensure that pineappl and lhapdf are installed
+    _ = lhapdf()
+    _ = pineappl(capi=True)
+
     vrapx = configs.configs["commands"]["vrap"]
 
     if is_exe(vrapx):
@@ -181,9 +185,8 @@ def pineappl(capi=True, cli=False):
         return True
 
     print("Installing...")
-
-    if not pkgconfig.exists("lhapdf"):
-        lhapdf()
+    # Ensure lhapdf is installed
+    _ = lhapdf()
 
     if capi and not installed():
         try:

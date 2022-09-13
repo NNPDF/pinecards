@@ -12,6 +12,23 @@ from ... import configs, install, log, tools
 from .. import interface
 from . import paths
 
+URL = "https://launchpad.net/mg5amcnlo/{major}.0/{major}.{minor}.x/+download/MG5_aMC_v{version}.tar.gz"
+"URL template for MG5aMC\\@NLO release"
+VERSION = "3.4.1"
+"Version in use"
+CONVERT_MODEL = """
+set auto_convert_model True
+import model loop_qcd_qed_sm_Gmu
+quit
+"""
+"Instructions to set the correct model for MG5aMC\\@NLO."
+
+
+def url():
+    """Compute actual download URL."""
+    major, minor, _ = VERSION.split(".")
+    return URL.format(version=VERSION, major=major, minor=minor)
+
 
 class Mg5(interface.External):
     def __init__(self, *args, **kwargs):

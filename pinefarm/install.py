@@ -13,16 +13,7 @@ import pygit2
 import requests
 
 from . import configs, tools
-from .external import vrap
-
-MG5_REPO = "lp:~maddevelopers/mg5amcnlo/3.3.1"
-"bazaar/breeze repo location for MG5aMC\\@NLO"
-MG5_CONVERT = """
-set auto_convert_model True
-import model loop_qcd_qed_sm_Gmu
-quit
-"""
-"Instructions to set the correct model for MG5aMC\\@NLO."
+from .external import vrap, mg5
 
 PINEAPPL_REPO = "https://github.com/N3PDF/pineappl.git"
 "Git repo location for pineappl."
@@ -52,24 +43,36 @@ def mg5amc():
         whether the main executable is now existing.
 
     """
-    mg5 = configs.configs["commands"]["mg5"]
+    mg5_exe = configs.configs["commands"]["mg5"]
 
-    if is_exe(mg5):
+    if is_exe(mg5_exe):
         print("✓ Found mg5amc")
         return True
 
     print("Installing...")
 
+    dest = configs.configs["paths"]["mg5amc"]
+
     # download madgraph in prefix (if not present)
-    subprocess.run(
-        f"brz branch {MG5_REPO} {configs.configs['paths']['mg5amc']}".split()
-    )
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmpdir = pathlib.Path(tmpdir)
+        mg5_tar = tmpdir / pathlib.Path(mg5.url()).name
+
+        # download
+        with requests.get(mg5.url()) as r:
+            mg5_tar.write_bytes(r.content)
+
+        # extract
+        with tarfile.open(mg5_tar) as tar:
+            tar.extractall(dest)
+
+        shutil.rmtree(tmpdir)
 
     # in case we're using python3, we need to convert the model file
-    subprocess.run(f"{mg5}", input=MG5_CONVERT, encoding="ascii")
+    subprocess.run(f"{mg5_exe}", input=mg5.CONVERT_MODEL, encoding="ascii")
 
     # retest availability
-    return is_exe(mg5)
+    return is_exe(mg5_exe)
 
 
 def hawaiian_vrap():

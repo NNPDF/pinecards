@@ -15,6 +15,6 @@ AlphasZ: 0.118
 Order: NLO
 
 PrintDirection: Forward
-NNLO_only: "No"
+NNLO_only: "no"
 
 RandomSeed: 22334

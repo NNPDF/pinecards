@@ -68,6 +68,14 @@ def mg5amc():
 
         shutil.rmtree(tmpdir)
 
+    # check if the archive was wrapping a single folder
+    content = list(dest.iterdir())
+    if len(content) == 1:
+        # in case, remove the intermediate layer
+        for el in content[0].iterdir():
+            shutil.move(el, dest)
+        content[0].rmdir()
+
     # in case we're using python3, we need to convert the model file
     subprocess.run(f"{mg5_exe}", input=mg5.CONVERT_MODEL, encoding="ascii")
 

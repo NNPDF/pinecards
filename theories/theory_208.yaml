@@ -45,3 +45,5 @@ EScaleVar: 1
 kDIScThr: 1.0
 kDISbThr: 1.0
 kDIStThr: 1.0
+RenScaleVar: true
+FactScaleVar: true

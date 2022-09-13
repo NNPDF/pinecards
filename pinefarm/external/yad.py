@@ -36,6 +36,7 @@ class Yadism(interface.External):
             self.obs = yaml.safe_load(o)
 
         # deactivate TMC for positivity observables
+        # (see also minutes of 2022-07-29)
         if self.obs["NCPositivityCharge"] is not None:
             self.theory["TMC"] = 0
 

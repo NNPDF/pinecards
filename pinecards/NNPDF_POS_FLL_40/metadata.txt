@@ -1,5 +1,5 @@
 arxiv=
-description=DIS positivity for FL_light
+description=DIS positivity for light longitudinal structure function
 hepdata=
 data_url=
 nnpdf_id=POSFLL

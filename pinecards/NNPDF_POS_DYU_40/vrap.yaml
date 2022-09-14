@@ -1,6 +1,6 @@
 Collider: pp
 E_CM: 23.57
-jacobianTau2M: "Yes"
+jacobianTau2M: "yes"
 
 Alphat: 0.00757002271
 
@@ -18,6 +18,6 @@ Order: NLO
 positivity_pdf: "pos_uub"
 
 PrintDirection: Forward
-NNLO_only: "No"
+NNLO_only: "no"
 
 RandomSeed: 22334

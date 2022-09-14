@@ -1,6 +1,6 @@
 Collider: piso
 E_CM: 15.06
-jacobianTau2M: "Yes"
+jacobianTau2M: "yes"
 
 Alphat: 0.00757002271
 
@@ -17,6 +17,6 @@ AlphasZ: 0.118
 Order: NLO
 
 PrintDirection: Forward
-NNLO_only: "No"
+NNLO_only: "no"
 
 RandomSeed: 22334

@@ -3,6 +3,7 @@ from functools import reduce
 
 import lhapdf
 import pandas as pd
+import yadbox.export
 import yadism
 import yadism.output
 import yaml
@@ -60,8 +61,8 @@ class Yadism(interface.External):
 
     def generate_pineappl(self):
         out = yadism.output.Output.load_tar(self.output)
-        out.dump_pineappl_to_file(
-            str(self.grid), next(iter(self.obs["observables"].keys()))
+        yadbox.export.dump_pineappl_to_file(
+            out, str(self.grid), next(iter(self.obs["observables"].keys()))
         )
 
     def results(self):

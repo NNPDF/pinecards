@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     Runner for vrap producing pineappl grids
 
@@ -125,8 +124,6 @@ class Vrap(interface.External):
             if vrap_order != "NLO":
                 warnings.warn("Positivity DY observables are only computed at NLO")
                 vrap_order = "NLO"
-
-
 
         yaml_to_vrapcard(yaml_dict, self.pdf, self._input_card, order=vrap_order)
 

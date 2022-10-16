@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pathlib
 
 subpkg = pathlib.Path(__file__).absolute().parent

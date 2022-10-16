@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import re
 import subprocess
@@ -265,7 +264,7 @@ def find_marker_position(insertion_marker, contents):
 
 def apply_user_cuts(cuts_file, user_cuts):
     """Apply a user defined cut, patching a suitable cuts file"""
-    with open(cuts_file, "r") as fd:
+    with open(cuts_file) as fd:
         contents = fd.readlines()
 
     # insert variable declaration

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import pathlib
 import shutil
@@ -13,7 +12,7 @@ import pygit2
 import requests
 
 from . import configs, tools
-from .external import vrap, mg5
+from .external import mg5, vrap
 
 PINEAPPL_REPO = "https://github.com/N3PDF/pineappl.git"
 "Git repo location for pineappl."

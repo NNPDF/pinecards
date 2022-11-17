@@ -111,14 +111,17 @@ class External(abc.ABC):
         # the pinefarm version will also pin pineappl_py version and all the
         # other python dependencies versions
         versions["pinefarm"] = __version__
-        versions["pinecard"] = pygit2.Repository(
-            configs.configs["paths"]["root"]
-        ).describe(
-            always_use_long_format=True,
-            describe_strategy=pygit2.GIT_DESCRIBE_TAGS,
-            dirty_suffix="-dirty",
-            show_commit_oid_as_fallback=True,
-        )
+        try:
+            versions["pinecard"] = pygit2.Repository(
+                configs.configs["paths"]["root"]
+            ).describe(
+                always_use_long_format=True,
+                describe_strategy=pygit2.GIT_DESCRIBE_TAGS,
+                dirty_suffix="-dirty",
+                show_commit_oid_as_fallback=True,
+            )
+        except pygit2.GitError :
+            versions["pinecard"] = "???"
         # TODO: add pineappl version
         #  pineappl = configs.configs["commands"]["pineappl"]()
         versions["pineappl_capi"] = "???"

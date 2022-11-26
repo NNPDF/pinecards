@@ -16,6 +16,8 @@ if [[ ! -d ${card_dir} ]]; then
     exit 1
 fi
 
+card_dir=$(cd "${card_dir}" && pwd)
+
 if [[ ! -x ${matrix_dir}/matrix ]]; then
     echo >&2 "matrix binary not found"
     exit 1
@@ -39,26 +41,39 @@ if [[ ! -x ${matrix_dir}/bin/${process} ]]; then
     cd -
 fi
 
-mkdir -p "${cwd}"/{input,log,result}
-cp "${card_dir}"/{distribution,model,parameter}.dat "${cwd}"/input/
-cp "${matrix_dir}"/run/${process}_MATRIX/input/default.input.MATRIX/runtime.dat "${cwd}"/input/
-
+mkdir "${cwd}"
 cd "${cwd}"
 # we need an absoute path here
 cwd=$(pwd)
 
 cd ${matrix_dir}/run/${process}_MATRIX
 
-run_dir=$(mktemp -du run_XXXXXXXXXX)
+# log files aren't cleaned, so we should avoid overwriting those. Pick the last
+# log file with an integer in its name
+last_run=$(cd log && for i in run_*.log; do
+    i=${i#run_}
+    i=${i%.log}
+    if [[ $i =~ ^[0-9]+$ ]]; then
+        echo $i
+    fi
+done | sort -n | tail -n1)
+
+# increase the integer found by one and pad with zeros
+run_dir=run_$(printf "%03d" $(( $((last_run)) + 1)))
+
+mkdir -p input/${run_dir}
+
+# copy input files
+cp "${card_dir}"/{distribution,model,parameter}.dat input/${run_dir}/
 
 # run MATRIX
-bin/run_process --run_mode run --input_dir ${cwd}/input ${run_dir}
+bin/run_process --run_mode run ${run_dir}
 
 # copy results
-mv "${run_dir}" "${cwd}"/
-mv result/${run_dir} "${cwd}"/result/
-mv log/${run_dir} "${cwd}"/log/
-mv log/${run_dir}.log "${cwd}"/log/
+bin/run_process --run_mode tar_run ${run_dir}
 
-# we already have the input files
-rm -r input/${run_dir}
+# clean up
+bin/run_process --run_mode delete_run ${run_dir}
+
+# copy the tar'ed results
+mv ${run_dir}.tar "${cwd}"/

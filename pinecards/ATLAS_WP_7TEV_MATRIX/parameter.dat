@@ -5,7 +5,7 @@
 #----------------------\
 # General run settings |
 #----------------------/
-process_class    =  pp-emve~+X  #  process id
+process_class    =  pp-epve+X  #  process id
 E                =  3500.0     #  energy per beam
 coll_choice      =  1          #  (1) PP collider; (2) PPbar collider
 switch_PineAPPL  =  1          #  

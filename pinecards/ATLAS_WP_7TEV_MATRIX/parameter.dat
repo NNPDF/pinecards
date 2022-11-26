@@ -19,8 +19,8 @@ approx_ckm_EW    =  1          #  trivial CKM for (1) 1-loop EW correction or (2
 #----------------\
 # Scale settings |
 #----------------/
-scale_ren         =  80.385    #  renormalization (muR) scale
-scale_fact        =  80.385    #  factorization (muF) scale
+scale_ren         =  80.352    #  renormalization (muR) scale
+scale_fact        =  80.352    #  factorization (muF) scale
 dynamic_scale     =  0         #  dynamic ren./fac. scale
                                #  0: fixed scale above
                                #  1: invariant mass (Q) of system (of the colourless final states)

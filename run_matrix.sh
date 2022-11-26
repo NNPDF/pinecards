@@ -48,15 +48,21 @@ cwd=$(pwd)
 
 cd ${matrix_dir}/run/${process}_MATRIX
 
-# log files aren't cleaned, so we should avoid overwriting those. Pick the last
-# log file with an integer in its name
-last_run=$(cd log && for i in run_*.log; do
-    i=${i#run_}
-    i=${i%.log}
-    if [[ $i =~ ^[0-9]+$ ]]; then
-        echo $i
-    fi
-done | sort -n | tail -n1)
+last_run=0
+
+if [[ -d log ]]; then
+    cd log
+    # log files aren't cleaned, so we should avoid overwriting those. Pick the last
+    # log file with an integer in its name
+    last_run=$(for i in run_*.log; do
+        i=${i#run_}
+        i=${i%.log}
+        if [[ $i =~ ^[0-9]+$ ]]; then
+            echo $i
+        fi
+    done | sort -n | tail -n1)
+    cd -
+fi
 
 # increase the integer found by one and pad with zeros
 run_dir=run_$(printf "%03d" $(( $((last_run)) + 1)))

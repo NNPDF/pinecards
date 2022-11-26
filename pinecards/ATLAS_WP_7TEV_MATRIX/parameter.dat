@@ -8,12 +8,12 @@
 process_class    =  pp-epve+X  #  process id
 E                =  3500.0     #  energy per beam
 coll_choice      =  1          #  (1) PP collider; (2) PPbar collider
-switch_PineAPPL  =  1          #  
+switch_PineAPPL  =  1          #
 use_TSV          =  1          #  switch to use new TSV scale variation instead of CV (1) or in addition to CV (2)
 extrapolate_binwise = 1        #  switch for bin-wise r_cut extrapolation of distributions
 photon_induced   =  1          #  switch to turn on (1) and off (0) photon-induced contributions
 enhance_tails    =  0          #  switch to improve statistics in tail of distributions (a factor of two slower)
-approx_ckm_EW    =  1          #  trivial CKM for (1) 1-loop EW correction or (2) whole NLO EW correction  
+approx_ckm_EW    =  1          #  trivial CKM for (1) 1-loop EW correction or (2) whole NLO EW correction
 
 
 #----------------\
@@ -41,7 +41,7 @@ precision_LO       =  1.e-2    #  precision of LO cross section
 
 # NLO-run
 run_NLO_QCD        =  0        #  switch for NLO QCD cross section (1) on; (0) off
-run_NLO_EW         =  0        #  switch for NLO EW cross section (1) on; (0) off 
+run_NLO_EW         =  0        #  switch for NLO EW cross section (1) on; (0) off
 LHAPDF_NLO         =  NNPDF31_nnlo_as_0118_luxqed  #  NLO LHAPDF set
 PDFsubset_NLO      =  0        #  member of NLO PDF set
 precision_NLO_QCD  =  1.e-2    #  precision of NLO QCD cross section
@@ -49,7 +49,7 @@ precision_NLO_EW   =  1.e-2    #  precision of NLO EW correction
 NLO_subtraction_method = 1     #  switch to use (2) qT subtraction (1) Catani-Seymour at NLO
 
 # NNLO-run
-run_NNLO_QCD       =  0        #  switch for NNLO QCD cross section (1) on; (0) off 
+run_NNLO_QCD       =  0        #  switch for NNLO QCD cross section (1) on; (0) off
 add_NLO_EW         =  0        #  switch to add NLO EW cross section to NNLO run (1) on; (0) off
                                #  note: can be added only if also running NNLO
 LHAPDF_NNLO        =  NNPDF31_nnlo_as_0118_luxqed  #  NNLO LHAPDF set

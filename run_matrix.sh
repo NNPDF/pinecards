@@ -56,6 +56,8 @@ if [[ -d log ]]; then
     # log file with an integer in its name
     last_run=$(for i in run_*.log; do
         i=${i#run_}
+        i=${i#0}
+        i=${i#0}
         i=${i%.log}
         if [[ $i =~ ^[0-9]+$ ]]; then
             echo $i

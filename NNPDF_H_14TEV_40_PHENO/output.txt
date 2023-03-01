@@ -1,5 +1,5 @@
-#set complex_mass_scheme True
 import model HC_NLO_X0-heft
+#set complex_mass_scheme True
 #define p = p b b~
 #define j = p
 generate p p > x0 / t QNP=1 [QCD]

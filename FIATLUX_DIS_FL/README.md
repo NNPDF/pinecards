@@ -1,4 +1,4 @@
-The runcard is generated through the following script
+`observable.yaml` is generated through the following script
 
 ```
 import numpy as np

@@ -11,5 +11,5 @@ x2_label=x
 x2_label_tex=$x$
 x2_unit=
 y_label=F2c
-y_label_tex=$F_2^{c}$
+y_label_tex=$F_2^{W^+,c}$
 y_unit=

@@ -1,5 +1,5 @@
 arxiv=
-description=DIS positivity for charm quark
+description=positivity for CC DIS anti-charm quark production
 hepdata=
 data_url=
 nnpdf_id=POSF2C_CCP

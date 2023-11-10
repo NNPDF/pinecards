@@ -1,6 +1,6 @@
 NCPositivityCharge: all
 PolarizationDIS: 0.0
-ProjectileDIS: electron
+ProjectileDIS: positron
 PropagatorCorrection: 0.0
 TargetDIS: proton
 interpolation_is_log: true
@@ -57,7 +57,7 @@ interpolation_xgrid:
 - 0.9309440808717544
 - 1
 observables:
-  FL_light:
+  F2_charm:
   - Q2: 5.0
     x: 5.0e-07
     y: 1.0
@@ -109,13 +109,4 @@ observables:
   - Q2: 5.0
     x: 0.66
     y: 1.0
-  - Q2: 5.0
-    x: 0.74
-    y: 1.0
-  - Q2: 5.0
-    x: 0.82
-    y: 1.0
-  - Q2: 5.0
-    x: 0.9
-    y: 1.0
-prDIS: EM
+prDIS: CC

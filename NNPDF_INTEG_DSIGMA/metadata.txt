@@ -1,0 +1,4 @@
+description=Integrability for $\Delta \Sigma$
+y_label=x$\Delta \Sigma$
+y_label_tex=$\sum_i(x_i $\Delta \Sigma$(x_i))$
+y_unit=

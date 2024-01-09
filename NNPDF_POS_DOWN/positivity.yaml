@@ -1,7 +1,7 @@
 hadron_pid: 2212
 lepton_pid: 11
 pid: 1
-q2: 1.0
+q2: 5.0
 polarized: 'False'
 xgrid:
  - 0.001

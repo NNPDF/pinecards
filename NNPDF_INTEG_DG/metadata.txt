@@ -1,0 +1,4 @@
+description=Integrability for $\Delta$g
+y_label=x$\Delta$g
+y_label_tex=$\sum_i(x_i $\Delta$ g(x_i))$
+y_unit=

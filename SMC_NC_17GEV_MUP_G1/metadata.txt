@@ -1,0 +1,15 @@
+arxiv=
+description=
+hepdata=
+data_url=
+nnpdf_id=smc_mup_g1
+fktable_id=smc_mup_g1
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=x
+x2_label_tex=$x$
+x2_unit=
+y_label=
+y_label_tex=
+y_unit=

@@ -313,18 +313,18 @@ merge() {
     "${pineappl}" merge "${grid}" "${merge[@]}"
 
     # optimize the grids
-    "${pineappl}" optimize "${grid}" "${grid}".tmp
+    "${pineappl}" write --optimize "${grid}" "${grid}".tmp
     mv "${grid}".tmp "${grid}"
 
     # add metadata
     runcard=( "${dataset}"/Events/run_01*/run_01*_tag_1_banner.txt )
     if [[ -f ../nnpdf31_proc/"${dataset}"/metadata.txt ]]; then
-        eval "$(awk -F= "BEGIN { printf \"pineappl set ${grid} ${grid}.tmp \" }
-                              { printf \"--entry %s '%s' \", \$1, \$2 }
-                        END   { printf \"--entry_from_file runcard ${runcard[0]}\\n\" }" \
+        eval "$(awk -F= "BEGIN { printf \"pineappl write ${grid} ${grid}.tmp \" }
+                              { printf \"--set-key-value %s '%s' \", \$1, \$2 }
+                        END   { printf \"--set-key-file runcard ${runcard[0]}\\n\" }" \
             ../nnpdf31_proc/"${dataset}"/metadata.txt)"
     else
-        "${pineappl}" set "${grid}" "${grid}".tmp --entry_from_file runcard "${runcard[0]}"
+        "${pineappl}" write "${grid}" "${grid}".tmp --set-key-file runcard "${runcard[0]}"
     fi
     mv "${grid}".tmp "${grid}"
 
@@ -332,16 +332,16 @@ merge() {
     pdfstring=$(grep "set lhaid" "${launch_file}" | sed 's/set lhaid \([0-9]\+\)/\1/')
 
     # (re-)produce predictions
-    "${pineappl}" convolute "${grid}" "${pdfstring}" --scales 9 --absolute --integrated \
+    "${pineappl}" --silence-lhapdf uncert "${grid}" "${pdfstring}" --scale-abs=9 --integrated \
         > pineappl.convolute
-    "${pineappl}" orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
-    "${pineappl}" pdf_uncertainty --threads=1 "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
+    "${pineappl}" --silence-lhapdf orders "${grid}" "${pdfstring}" --absolute > pineappl.orders
+    "${pineappl}" --silence-lhapdf uncert --pdf "${grid}" "${pdfstring}" > pineappl.pdf_uncertainty
 
     # extract the numerical results from mg5_aMC
     sed '/^  [+-]/!d' "${dataset}"/Events/run_01*/MADatNLO.HwU > results.mg5_aMC
 
     # extract the integrated results from the PineAPPL grid
-    head -n -2 pineappl.convolute | tail -n +5 | \
+    tail -n +4 pineappl.convolute | \
         awk '{ print $4, $5, $6, $7, $8, $9, $10, $11, $12, $13 }' > results.grid
 
     # compare the results from the grid and from mg5_aMC
@@ -405,12 +405,12 @@ merge() {
         mg5amc_repo=""
     fi
 
-    "${pineappl}" set "${grid}" "${grid}".tmp \
-        --entry_from_file results results.log \
-        --entry runcard_gitversion "${runcard_gitversion}" \
-        --entry mg5amc_revno "${mg5amc_revno}" \
-        --entry mg5amc_repo "${mg5amc_repo}" \
-        --entry lumi_id_types pdg_mc_ids
+    "${pineappl}" write "${grid}" "${grid}".tmp \
+        --set-key-file results results.log \
+        --set-key-value runcard_gitversion "${runcard_gitversion}" \
+        --set-key-value mg5amc_revno "${mg5amc_revno}" \
+        --set-key-value mg5amc_repo "${mg5amc_repo}" \
+        --set-key-value lumi_id_types pdg_mc_ids
     mv "${grid}".tmp "${grid}"
 
     # if there is anything to do after the run, do it!

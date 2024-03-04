@@ -303,7 +303,7 @@ EOF
 merge() {
     # TODO: the following assumes that all observables belong to the same distribution
 
-    grid="${dataset}".pineappl
+    grid="${dataset}".pineappl.lz4
 
     # sort the file we want to merge into an array properly (1 2 3 ... 10 11 instead of 1 10 11 ...)
     merge=()
@@ -417,14 +417,6 @@ merge() {
     if [[ -x ../nnpdf31_proc/"${dataset}"/postrun.sh ]]; then
         cp ../nnpdf31_proc/"${dataset}"/postrun.sh .
         GRID=$grid ./postrun.sh
-    fi
-
-    lz4=$(which lz4 2> /dev/null || true)
-
-    # compress the grid with `lz4` if it's available
-    if [[ -x ${lz4} ]]; then
-        lz4 -9 "${grid}"
-        rm "${grid}"
     fi
 }
 

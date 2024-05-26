@@ -1,0 +1,4 @@
+description=Integrability for V8
+y_label=xV8
+y_label_tex=$\sum_i(x_i V_8(x_i))$
+y_unit=

@@ -1,0 +1,4 @@
+description=Integrability for V
+y_label=xV
+y_label_tex=$\sum_i(x_i V(x_i))$
+y_unit=

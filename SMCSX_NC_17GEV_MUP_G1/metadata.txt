@@ -1,6 +1,6 @@
-arxiv=
-description=polarized structure function $g_1$ in HERMES with proton target
-hepdata=https://www.hepdata.net/record/ins726689
+arxiv=https://inspirehep.net/literature/499139
+description=small-$x$ polarized structure function $g_1$ in the SMC experiment with proton target
+hepdata=
 data_url=
 nnpdf_id=
 fktable_id=

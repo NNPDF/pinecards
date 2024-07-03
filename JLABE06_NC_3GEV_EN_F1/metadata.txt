@@ -1,6 +1,6 @@
-arxiv=
-description=unpolarized structure function $F_1$ in E155 with neutron target
-hepdata=https://www.hepdata.net/record/ins530798
+arxiv=https://arxiv.org/abs/1603.03612
+description=unpolarized structure function $F_1$ in JLABE06 with neutron target
+hepdata=
 data_url=
 nnpdf_id=
 fktable_id=

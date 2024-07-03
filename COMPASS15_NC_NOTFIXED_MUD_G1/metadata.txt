@@ -1,6 +1,6 @@
 arxiv=
-description=polarized structure function $g_1$ in HERMES with proton target
-hepdata=https://www.hepdata.net/record/ins726689
+description=polarized structure function $g_1$ in COMPASS with deuteron target and 2015 data
+hepdata=https://www.hepdata.net/record/ins1501480
 data_url=
 nnpdf_id=
 fktable_id=

@@ -1,0 +1,4 @@
+description=Integrability for $\Delta V$
+y_label=x$\Delta V$
+y_label_tex=$\sum_i(x_i $\Delta V$(x_i))$
+y_unit=

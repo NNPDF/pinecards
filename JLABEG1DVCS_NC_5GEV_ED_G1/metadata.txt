@@ -1,0 +1,15 @@
+arxiv=
+description=polarized structure function $g_1$ in JLABEG1DVCS with deuteron target
+hepdata=https://www.hepdata.net/record/ins1292133
+data_url=
+nnpdf_id=
+fktable_id=
+x1_label=Q2
+x1_label_tex=$Q^2$
+x1_unit=GeV^2
+x2_label=x
+x2_label_tex=$x$
+x2_unit=
+y_label=2xg1
+y_label_tex=$2xg_1$
+y_unit=

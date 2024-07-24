@@ -3,4 +3,4 @@ lepton_pid: 11
 flavour: 21
 xgrid:
   - 1.0e-5
-polarized: 'True'
+convolution_type: 'PolPDF'

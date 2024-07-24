@@ -1,0 +1,6 @@
+hadron_pid: 2212
+lepton_pid: 11
+flavour: 200
+xgrid:
+  - 1.0e-5
+convolution_type: 'PolPDF'

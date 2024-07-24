@@ -1,0 +1,4 @@
+description=Integrability for $\Delta V3$
+y_label=x$\Delta V3$
+y_label_tex=$\sum_i(x_i $\Delta V3$(x_i))$
+y_unit=

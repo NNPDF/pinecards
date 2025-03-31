@@ -5,6 +5,8 @@
 # the previous set of NNPDF grids 
 # (which were called CMSZDIFF12-CMSZDIFF12-BINX)
 #
+# It uses an external $PINECARD environment variable which should point to the PINECARD folder
+#
 # For this script to be able to finalize the grid correctly (with all metadata)
 # it needs access to the folder (remote or local) in which the grids were combined.
 # Please modify the remote_path directory below accordingly.
@@ -15,6 +17,17 @@
 # If the lowPT region has not been run separately set the following flag to false
 #
 # Note 2: this script only works with pineappl >= 1
+
+if [[ -z $PINECARD ]]
+then
+    # If the external PINECARD variable is not set, set it to the cwd
+    PINECARD="."
+fi
+
+if [[ -z $FAILFAST ]]
+then
+    FAILFAST=true
+fi
 
 
 remote_path=""
@@ -30,17 +43,15 @@ get_results() {
     fi
 }
 
-# In principle, if there was no local modification we can autogenerate the LO runcard
-# this is enough for NNLOJET dokan to run the calculation again
-nnlojet_runcard=LO/runcard_production.run
+# This script assumes that there is a .run runcard available
+nnlojet_runcard=$(ls *.run)
 
 SEPARATED_LOWPT=true
 low_pt_grid=CMS_Z0J_8TEV_PT-Y-LOWPT.NNLO.abs_yz.pineappl.lz4
 
-pinecard=$(ls *.yaml)
+pinecard=$(ls ${PINECARD}/*.yaml)
 results_pdf=NNPDF40_nnlo_as_01180
 
-nnlojet_runcard=runcard.run
 results=results.dat
 
 for i in {0..4}

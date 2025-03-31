@@ -1,0 +1,278 @@
+# arXiv number: 1512.02192, hepdata entry: https://www.hepdata.net/record/ins1408516 
+# Mass distribution (tables: [35, 36, 37, 38, 40])
+# Rapidity distribution (tables: [29, 30, 31, 32, 33, 34])
+# The fine-grained pt distribution: table 27
+#
+# NOTE: this includes both the PT-Y and PT-MLL datasets in one single run
+#       the low-pt region is separated in order not to skew the statistics
+#       The low-pt .yaml runcard is provided for reference
+
+runname: ATLAS_Z0J_8TEV_PT
+
+process:
+    proc: ZJ
+    sqrts: 8000.0
+
+pdf: NNPDF40_nnlo_as_01180
+
+techcut: 1e-07
+
+histograms:
+  - name: pT_mll_46_66
+    observable: ptz
+    bins: &hipt
+      - 30.0
+      - 37.0
+      - 45.0
+      - 55.0
+      - 65.0
+      - 75.0
+      - 85.0
+      - 105.0
+      - 150.0
+      - 200.0
+      - 900.0
+    extra_selectors:
+      - observable: mll
+        min: 46.0
+        max: 66.0
+  
+  - name: pT_mll_116_150
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: mll
+        min: 116.0
+        max: 150.0
+  
+  - name: pt_mll_66_116_y_0.0_0.4
+    observable: ptz
+    bins: *hipt 
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.0
+        max: 0.4
+      - &central_mll
+        observable: mll
+        min: 66.0
+        max: 116.0
+  
+  - name: pt_mll_66_116_y_0.4_0.8
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.4
+        max: 0.8
+      - *central_mll
+  
+  - name: pt_mll_66_116_y_0.8_1.2
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.8
+        max: 1.2
+      - *central_mll
+  
+  - name: pt_mll_66_116_y_1.2_1.6
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.2
+        max: 1.6
+      - *central_mll
+  
+  - name: pt_mll_66_116_y_1.6_2.0
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.6
+        max: 2.0
+      - *central_mll
+  
+  - name: pt_mll_66_116_y_2.0_2.4
+    observable: ptz
+    bins: *hipt
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.0
+        max: 2.4
+      - *central_mll
+
+  - name: pt_mll_66_116_y_0.0_2.4
+    observable: ptz
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.0
+        max: 2.4
+      - *central_mll
+    bins: 
+      - 30.0
+      - 33.0
+      - 36.0
+      - 39.0
+      - 42.0
+      - 45.0
+      - 48.0
+      - 51.0
+      - 54.0
+      - 57.0
+      - 61.0
+      - 65.0
+      - 70.0
+      - 75.0
+      - 80.0
+      - 85.0
+      - 95.0
+      - 105.0
+      - 125.0
+      - 150.0
+      - 175.0
+      - 200.0
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+
+multi_channel: 0
+
+parameters:
+    MASS[Z]: 91.1876
+    MASS[W]: 80.379
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663787d-5
+
+selectors:
+  - observable: ptz
+    min: 30.0
+    max: 900.0
+  - observable: abs_yz
+    min: 0.0
+    max: 2.4
+  - observable: mll
+    min: 46.0
+    max: 150.0
+  - observable: abs_ylp
+    max: 2.4
+  - observable: abs_ylm
+    max: 2.4
+  - observable: ptlp
+    min: 20.0
+  - observable: ptlm
+    min: 20.0
+
+scales:
+    mur: etz
+    muf: etz
+
+channels:
+    LO: LO
+    R: R
+    V: V
+    RRa_1: "163 177 191 205 206 245 246 285 301"  # channel: [10,0]
+    RRa_2: "164 178 192 207 208 247 248 286 302"  # channel: [20,0]
+    RRa_3: "165 179 193 217 218 257 258 287 303"  # channel: [10,-10]
+    RRa_4: "166 180 194 219 220 259 260 288 304"  # channel: [20,-20]
+    RRa_5: "167 181 195 221 222 261 262 291 307"  # channel: [0,10]
+    RRa_6: "168 182 196 223 224 263 264 292 308"  # channel: [0,20]
+    RRa_7: "169 183 197 225 226 265 266 293 309"  # channel: [-10,10]
+    RRa_8: "170 184 198 227 228 267 268 294 310"  # channel: [-20,20]
+    RRa_9: "173 187 201 229 230 269 270 295 311"  # channel: [0,-10]
+    RRa_10: "174 188 202 231 232 271 272 296 312"  # channel: [0,-20]
+    RRa_11: "175 189 203 233 234 273 274 297 313"  # channel: [-10,0]
+    RRa_12: "176 190 204 235 236 275 276 298 314"  # channel: [-20,0]
+    RRa_13: "171 172 185 186 199 200"  # channel: [0,0]
+    RRa_14: "209 249"  # channel: [11,-11]
+    RRa_15: "210 250"  # channel: [11,-21]
+    RRa_16: "211 251"  # channel: [21,-11]
+    RRa_17: "212 252"  # channel: [21,-21]
+    RRa_18: "213 253"  # channel: [11,11]
+    RRa_19: "214 254"  # channel: [11,21]
+    RRa_20: "215 255"  # channel: [21,11]
+    RRa_21: "216 256"  # channel: [21,21]
+    RRa_22: "237 277"  # channel: [-11,-11]
+    RRa_23: "238 278"  # channel: [-11,-21]
+    RRa_24: "239 279"  # channel: [-21,-11]
+    RRa_25: "240 280"  # channel: [-21,-21]
+    RRa_26: "241 281"  # channel: [-11,11]
+    RRa_27: "242 282"  # channel: [-11,21]
+    RRa_28: "243 283"  # channel: [-21,11]
+    RRa_29: "244 284"  # channel: [-21,21]
+    RRa_30: "289 305"  # channel: [10,10]
+    RRa_31: "290 306"  # channel: [20,20]
+    RRa_32: "299 315"  # channel: [-10,-10]
+    RRa_33: "300 316"  # channel: [-20,-20]
+    RRb_1: "163 177 191 205 206 245 246 285 301"  # channel: [10,0]
+    RRb_2: "164 178 192 207 208 247 248 286 302"  # channel: [20,0]
+    RRb_3: "165 179 193 217 218 257 258 287 303"  # channel: [10,-10]
+    RRb_4: "166 180 194 219 220 259 260 288 304"  # channel: [20,-20]
+    RRb_5: "167 181 195 221 222 261 262 291 307"  # channel: [0,10]
+    RRb_6: "168 182 196 223 224 263 264 292 308"  # channel: [0,20]
+    RRb_7: "169 183 197 225 226 265 266 293 309"  # channel: [-10,10]
+    RRb_8: "170 184 198 227 228 267 268 294 310"  # channel: [-20,20]
+    RRb_9: "173 187 201 229 230 269 270 295 311"  # channel: [0,-10]
+    RRb_10: "174 188 202 231 232 271 272 296 312"  # channel: [0,-20]
+    RRb_11: "175 189 203 233 234 273 274 297 313"  # channel: [-10,0]
+    RRb_12: "176 190 204 235 236 275 276 298 314"  # channel: [-20,0]
+    RRb_13: "171 172 185 186 199 200"  # channel: [0,0]
+    RRb_14: "209 249"  # channel: [11,-11]
+    RRb_15: "210 250"  # channel: [11,-21]
+    RRb_16: "211 251"  # channel: [21,-11]
+    RRb_17: "212 252"  # channel: [21,-21]
+    RRb_18: "213 253"  # channel: [11,11]
+    RRb_19: "214 254"  # channel: [11,21]
+    RRb_20: "215 255"  # channel: [21,11]
+    RRb_21: "216 256"  # channel: [21,21]
+    RRb_22: "237 277"  # channel: [-11,-11]
+    RRb_23: "238 278"  # channel: [-11,-21]
+    RRb_24: "239 279"  # channel: [-21,-11]
+    RRb_25: "240 280"  # channel: [-21,-21]
+    RRb_26: "241 281"  # channel: [-11,11]
+    RRb_27: "242 282"  # channel: [-11,21]
+    RRb_28: "243 283"  # channel: [-21,11]
+    RRb_29: "244 284"  # channel: [-21,21]
+    RRb_30: "289 305"  # channel: [10,10]
+    RRb_31: "290 306"  # channel: [20,20]
+    RRb_32: "299 315"  # channel: [-10,-10]
+    RRb_33: "300 316"  # channel: [-20,-20]
+    RV_1: "317 347 377 391 405 435 481 482 521 522 561 562 581 597 613"  # channel: [10,0]
+    RV_2: "318 348 378 392 406 436 483 484 523 524 563 564 582 598 614"  # channel: [20,0]
+    RV_3: "319 349 379 393 407 437 457 458 497 498 537 538 569 585 601"  # channel: [10,-10]
+    RV_4: "320 350 380 394 408 438 459 460 499 500 539 540 570 586 602"  # channel: [20,-20]
+    RV_5: "321 351 381 395 409 439 473 474 513 514 553 554 577 593 609"  # channel: [0,10]
+    RV_6: "322 352 382 396 410 440 475 476 515 516 555 556 578 594 610"  # channel: [0,20]
+    RV_7: "323 353 383 397 411 441 461 462 501 502 541 542 573 589 605"  # channel: [-10,10]
+    RV_8: "324 354 384 398 412 442 463 464 503 504 543 544 574 590 606"  # channel: [-20,20]
+    RV_9: "327 357 387 401 415 445 477 478 517 518 557 558 579 595 611"  # channel: [0,-10]
+    RV_10: "328 358 388 402 416 446 479 480 519 520 559 560 580 596 612"  # channel: [0,-20]
+    RV_11: "329 359 389 403 417 447 485 486 525 526 565 566 583 599 615"  # channel: [-10,0]
+    RV_12: "330 360 390 404 418 448 487 488 527 528 567 568 584 600 616"  # channel: [-20,0]
+    RV_13: "325 326 355 356 385 386 399 400 413 414 443 444"  # channel: [0,0]
+    RV_14: "335 365 423 449 489 529"  # channel: [11,-11]
+    RV_15: "336 366 424 450 490 530"  # channel: [11,-21]
+    RV_16: "337 367 425 451 491 531"  # channel: [21,-11]
+    RV_17: "338 368 426 452 492 532"  # channel: [21,-21]
+    RV_18: "331 361 419 453 493 533"  # channel: [11,11]
+    RV_19: "332 362 420 454 494 534"  # channel: [11,21]
+    RV_20: "333 363 421 455 495 535"  # channel: [21,11]
+    RV_21: "334 364 422 456 496 536"  # channel: [21,21]
+    RV_22: "343 373 431 465 505 545"  # channel: [-11,-11]
+    RV_23: "344 374 432 466 506 546"  # channel: [-11,-21]
+    RV_24: "345 375 433 467 507 547"  # channel: [-21,-11]
+    RV_25: "346 376 434 468 508 548"  # channel: [-21,-21]
+    RV_26: "339 369 427 469 509 549"  # channel: [-11,11]
+    RV_27: "340 370 428 470 510 550"  # channel: [-11,21]
+    RV_28: "341 371 429 471 511 551"  # channel: [-21,11]
+    RV_29: "342 372 430 472 512 552"  # channel: [-21,21]
+    RV_30: "571 587 603"  # channel: [10,10]
+    RV_31: "572 588 604"  # channel: [20,20]
+    RV_32: "575 591 607"  # channel: [-10,-10]
+    RV_33: "576 592 608"  # channel: [-20,-20]
+    VV: VV

@@ -90,5 +90,11 @@ do
 
     intermediate_name=${high_pt_grid/.NNLO./.}
     final_name=ATLASZPT8TEVYDIST-ATLASZPT8TEVYDIST-BIN${i}_ptZ.pineappl.lz4
-    mv ${intermediate_name} ${final_name}
+
+    # Add a 0 pt bin at the beginning
+    rm -f ${tmp_name}
+    bins=$(pineappl read ${intermediate_name} --bins | awk 'END{print $1}')
+    pineappl write ${intermediate_name} --delete-bins 1-${bins} --scale 0.0 --set-bins 0,2 ${tmp_name}
+    pineappl merge ${final_name} ${tmp_name} ${intermediate_name}
+    rm -f ${tmp_name}
 done

@@ -33,6 +33,7 @@ pinecard=$(ls ${PINECARD}/*.yaml)
 # This script assumes that there is a .run runcard available in the run folder
 nnlojet_runcard=$(ls *.run)
 results_pdf="NNPDF40_nnlo_as_01180"
+tmp_name="merged.lz4"
 
 merge_and_finalize() {
     # usage: merge_and_finalize $high_pt_grid
@@ -40,8 +41,20 @@ merge_and_finalize() {
     # Takes a high pt grid, autogenerates the naming for the low pt one
     # then merges them together and finally puts in all the metadata that it can find
     high_pt_grid=${1}
-    tmp_name="merged.lz4"
+
+    if [[ ! -f ${high_pt_grid} ]]
+    then
+        echo ${high_pt_grid} not found
+        if [[ ${FAILFAST} == true ]]
+        then
+            echo "Fail and exit"
+            exit -1
+        fi
+        return 0
+    fi
+
     rm -f ${tmp_name}
+
 
 
     prefix=${high_pt_grid%.NNLO*}
@@ -53,6 +66,7 @@ merge_and_finalize() {
     final_grid=${prefix}${suffix}
 
 	pineappl write ${tmp_name} --set-key-value nnlojet_runcard "$(cat $nnlojet_runcard)" --set-key-value pinecard "$(cat $pinecard)" --set-key-value results "$(cat $results)" --set-key-value results_pdf ${results_pdf} ${final_grid}
+    echo Written ${final_grid}
     
     rm -f ${tmp_name}
 }
@@ -62,6 +76,8 @@ merge_and_finalize() {
 # In this case the NNPDF grids already start with a pT cut (for mll > 46 GeV, pt > 30  GeV)
 # As a result, if we want to consider bins with lower pT, we need to use a `legacy_theory` implementation anyway.
 # Therefore, while they are keep here for reference, the old names are not being used
+
+# Bins that have changed
 bin_1=("ATLAS_Z0J_8TEV_PT.NNLO.pT_mll_46_66.pineappl.lz4" "ATLASZPT8TEVMDIST-ATLASZPT8TEV-MLLBIN4_ptZ.pineappl.lz4")
 bin_2=("ATLAS_Z0J_8TEV_PT.NNLO.pT_mll_116_150.pineappl.lz4" "ATLASZPT8TEVMDIST-ATLASZPT8TEV-MLLBIN6_ptZ.pineappl.lz4")
 # 
@@ -72,6 +88,27 @@ do
 #
     merge_and_finalize ${bin_ref[0]}
 done
+
+# Bins that are kept the same (but we keep the new names anyway)
+bin_1=("ATLAS_Z0J_8TEV_PT.NNLO.pT_mll_12_20.pineappl.lz4" "ATLASZPT8TEVMDIST-ATLASZPT8TEV-MLLBIN1_ptZ.pineappl.lz4")
+bin_2=("ATLAS_Z0J_8TEV_PT.NNLO.pT_mll_20_30.pineappl.lz4" "ATLASZPT8TEVMDIST-ATLASZPT8TEV-MLLBIN2_ptZ.pineappl.lz4")
+bin_3=("ATLAS_Z0J_8TEV_PT.NNLO.pT_mll_30_46.pineappl.lz4" "ATLASZPT8TEVMDIST-ATLASZPT8TEV-MLLBIN3_ptZ.pineappl.lz4")
+for bin in bin_1 bin_2 bin_3
+do
+    rm -f ${tmp_name}
+    declare -n high_pt_grid=${bin}
+
+    # For these three there's no need to do any merging, just add the metadata
+    prefix=${high_pt_grid%.NNLO*}
+    suffix=${high_pt_grid#*.NNLO}
+    results=Final/NNLO${suffix%.pineappl*}.dat
+    final_grid=${prefix}${suffix}
+
+	pineappl write ${high_pt_grid} --set-key-value nnlojet_runcard "$(cat $nnlojet_runcard)" --set-key-value pinecard "$(cat $pinecard)" --set-key-value results "$(cat $results)" --set-key-value results_pdf ${results_pdf} ${final_grid}
+
+    echo Written ${final_grid}
+done
+
 
 ## PT-Y distribution
 # In this case the old names will  used: ATLASZPT8TEVYDIST-ATLASZPT8TEVYDIST-BIN${i}_ptZ.pineappl.lz4

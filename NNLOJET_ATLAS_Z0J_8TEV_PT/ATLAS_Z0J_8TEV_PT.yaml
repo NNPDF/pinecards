@@ -6,6 +6,7 @@
 # NOTE: this includes both the PT-Y and PT-MLL datasets in one single run
 #       the low-pt region is separated in order not to skew the statistics
 #       The low-pt .yaml runcard is provided for reference
+#       The bins at low mass are better run separately as well to avoid needing extreme statistics
 
 runname: ATLAS_Z0J_8TEV_PT
 
@@ -18,6 +19,39 @@ pdf: NNPDF40_nnlo_as_01180
 techcut: 1e-07
 
 histograms:
+  - name: pT_mll_12_20
+    observable: ptz
+    bins: &lomass
+      - 45.0
+      - 55.0
+      - 65.0
+      - 75.0
+      - 85.0
+      - 105.0
+      - 150.0
+      - 200.0
+      - 900.0
+    extra_selectors:
+      - observable: mll
+        min: 12.0
+        max: 20.0
+
+  - name: pT_mll_20_30
+    observable: ptz
+    bins: *lowmass
+    extra_selectors:
+      - observable: mll
+        min: 20.0
+        max: 30.0
+
+  - name: pT_mll_30_46
+    observable: ptz
+    bins: *lowmass
+    extra_selectors:
+      - observable: mll
+        min: 30.0
+        max: 46.0
+
   - name: pT_mll_46_66
     observable: ptz
     bins: &hipt
@@ -152,13 +186,16 @@ parameters:
 selectors:
   - observable: ptz
     min: 30.0
+    #min: 45.0
     max: 900.0
   - observable: abs_yz
     min: 0.0
     max: 2.4
   - observable: mll
-    min: 46.0
+    min: 12.0
+    #min: 46.0
     max: 150.0
+    #max: 46.0
   - observable: abs_ylp
     max: 2.4
   - observable: abs_ylm

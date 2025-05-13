@@ -85,8 +85,17 @@ for bin in bin_1 bin_2
 do
     rm -f ${tmp_name}
     declare -n bin_ref=$bin
-#
+
+    high_pt_grid=${bin_ref[0]}
+    final_name=${high_pt_grid/.NNLO./.}
+
     merge_and_finalize ${bin_ref[0]}
+
+    mv ${final_name} ${tmp_name}
+    bins=$(pineappl read ${tmp_name} --bins | awk 'END{print $1}')
+    pineappl write ${tmp_name} --delete-bins 1-${bins} --scale 0.0 --set-bins 0,2 empty_bin_${tmp_name}
+    pineappl merge ${final_name} empty_bin_${tmp_name} ${tmp_name}
+    rm -f ${tmp_name} empty_bin_${tmp_name}
 done
 
 # Bins that are kept the same (but we keep the new names anyway)

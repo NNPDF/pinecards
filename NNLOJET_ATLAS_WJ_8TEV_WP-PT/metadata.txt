@@ -1,0 +1,12 @@
+arxiv=1711.03296
+hepdata=https://www.hepdata.net/record/ins1635273
+nnpdf_id=ATLAS_WJ_8TEV_WP-PT
+description=
+x1_label=
+x1_label_tex=
+x2_label=
+x2_label_tex=
+x2_unit=
+y_label=
+y_label_tex=
+y_unit=

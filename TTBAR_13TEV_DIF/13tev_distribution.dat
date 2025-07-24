@@ -1,0 +1,219 @@
+################ LHC TTBAR 13 TEV ##############
+
+# keys: catr- convert absolute to regular
+
+########### 1d distributions
+
+# atlas_l+j
+
+distributionname = ATLAS_TTBAR_13TEV_LJ_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 325:400:480:580:700:860:1020:1250:1500:2000
+
+distributionname = ATLAS_TTBAR_13TEV_LJ_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:50:100:160:225:300:360:475:1000
+
+distributionname = ATLAS_TTBAR_13TEV_LJ_DIF_YT
+distributiontype = absy
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:0.4:0.8:1.2:1.7:2.5
+
+distributionname = ATLAS_TTBAR_13TEV_LJ_DIF_YTTBAR
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.25:0.5:0.8:1.1:1.4:1.8:2.5
+
+# atlas hadr.
+
+distributionname = ATLAS_TTBAR_13TEV_HADR_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 325.0:458.75:565.75:646.0:753.0:860.0:967.0:1100.75:1261.25:3000.0
+
+distributionname = ATLAS_TTBAR_13TEV_HADR_DIF_YTTBAR
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.12:0.24:0.36:0.49:0.62:0.76:0.91:1.06:1.21:1.39:1.59:2.4
+
+
+# cms 2l
+
+distributionname = CMS_TTBAR_13TEV_2L_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 300:380:470:620:820:1100:1500:2500
+
+distributionname = CMS_TTBAR_13TEV_2L_138FB-1_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:55:100:165:240:330:440:600
+
+
+# (convert absolute to regular)
+distributionname = CMS_TTBAR_13TEV_2L_DIF_YTTBAR_catr
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.4:0.8:1.2:1.6:2.6
+
+distributionname = CMS_TTBAR_13TEV_2L_DIF_YT
+distributiontype = y
+particle 1       = top 1
+binningtype      = irregular
+edges            = -2.6:-1.8:-1.35:-0.9:-0.45:0:0.45:0.9:1.35:1.8:2.6
+
+distributionname = CMS_TTBAR_13TEV_2L_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:65:125:200:290:400:550
+
+# cms l+j
+
+distributionname = CMS_TTBAR_13TEV_LJ_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 250:400:480:560:640:720:800:900:1000:1150:1300:1500:1700:2000:2300:3500
+
+distributionname = CMS_TTBAR_13TEV_LJ_DIF_YTTBAR
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.2:0.4:0.6:0.8:1:1.2:1.4:1.6:1.8:2.4
+
+distributionname = CMS_TTBAR_13TEV_LJ_DIF_YT
+distributiontype = absy
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:0.2:0.4:0.6:0.8:1:1.2:1.4:1.6:1.8:2:2.5
+
+distributionname = CMS_TTBAR_13TEV_LJ_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:40:80:120:160:200:250:300:350:400:450:500:600:700:850:1000:1500
+
+########### 1d distributions of the 2d distributions
+
+# atlas l+j
+
+distributionname = atl_lj_2d_yt_ptt-yt
+distributiontype = absy
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:0.75:1.5:2.5
+
+distributionname = atl_lj_2d_ptt_ptt-yt
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:85:175:285:300:390:1000
+
+distributionname = atl_lj_2d_mttb_mttb-ptt
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 325:500:700:1000:2000
+
+distributionname = atl_lj_2d_ptt_mttb-ptt
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:80:90:170:180:270:280:370:1000
+
+# atlas hadr.
+
+distributionname = atl_hadr_2d_m1_ttx
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:700.0
+
+distributionname = atl_hadr_2d_m2_ttx
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 700.0:970.0
+
+distributionname = atl_hadr_2d_m3_ttx
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 970.0:3000.0
+
+distributionname = atl_hadr_2d_ym1_ttx
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.46:0.91:1.55:2.5
+
+distributionname = atl_hadr_2d_ym2_ttx
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.33:0.62:0.95:2.5
+
+distributionname = atl_hadr_2d_ym3_ttx
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.4:0.79:2.5
+
+# cms l+j
+
+distributionname = cms_lj_2d_mttbar
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 250:420:520:620:800:1000:3500
+
+distributionname = cms_lj_2d_yttbar
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.3:0.6:0.9:1.2:1.5:2.5
+
+# cms 2l
+
+distributionname = cms_2l_2d_mttbar
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 300:400:500:650:1500
+
+distributionname = cms_2l_2d_yttbar
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0.0:0.35:0.75:1.15:2.50

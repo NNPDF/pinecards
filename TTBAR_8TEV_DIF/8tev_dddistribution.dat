@@ -1,0 +1,17 @@
+################ LHC TTBAR 8 TEV ##############
+
+########### 2d distributions
+
+# cms_2l
+
+dddistributionname = CMS_TTBAR_8TEV_2L_DIF_PTT-YT
+distributionname_1 = cms_2l_yt
+distributionname_2 = cms_2l_pTt
+
+dddistributionname = CMS_TTBAR_8TEV_2L_DIF_MTTBAR-YT
+distributionname_1 = cms_2l_mttbar
+distributionname_2 = cms_2l_yt
+
+dddistributionname = CMS_TTBAR_8TEV_2L_DIF_MTTBAR-YTTBAR
+distributionname_1 = cms_2l_mttbar
+distributionname_2 = cms_2l_yttbar

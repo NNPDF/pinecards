@@ -1,0 +1,108 @@
+################ LHC TTBAR 8 TEV ##############
+
+# keys: catr- convert absolute to regular
+
+########### 1d distributions
+
+# atlas_2l
+
+distributionname = ATLAS_TTBAR_8TEV_2L_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 250:450:570:700:850:1000:2700
+
+distributionname = ATLAS_TTBAR_8TEV_2L_DIF_YTTBAR
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.4:0.8:1.2:2:2.8 
+
+# atlas_lj
+
+distributionname = ATLAS_TTBAR_8TEV_LJ_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 345:400:470:550:650:800:1100:1600
+
+distributionname = ATLAS_TTBAR_8TEV_LJ_DIF_YTTBAR
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.3:0.6:0.9:1.3:2.5
+
+distributionname = ATLAS_TTBAR_8TEV_LJ_DIF_YT
+distributiontype = absy
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:0.4:0.8:1.2:1.6:2.5
+
+distributionname = ATLAS_TTBAR_8TEV_LJ_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:60:100:150:200:260:320:400:500
+
+# cms_lj
+
+distributionname = CMS_TTBAR_8TEV_LJ_DIF_MTTBAR
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 345:400:470:550:650:800:1100:1600
+
+# (convert absolute to regular)
+distributionname = CMS_TTBAR_8TEV_LJ_DIF_YTTBAR_catr
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.3:0.6:0.9:1.3:2.5
+
+distributionname = CMS_TTBAR_8TEV_LJ_DIF_YT
+distributiontype = y
+particle 1       = top 1
+binningtype      = irregular
+edges            = -2.5:-1.6:-1.2:-0.8:-0.4:0:0.4:0.8:1.2:1.6:2.5
+
+distributionname = CMS_TTBAR_8TEV_LJ_DIF_PTT
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:60:100:150:200:260:320:400:500
+
+########### 1d distributions of the 2d distributions
+
+# cms_2l
+
+distributionname = cms_2l_mttbar
+distributiontype = m
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 340:400:500:650:1500
+
+distributionname = cms_2l_yttbar
+distributiontype = absy
+particle 1       = top 1
+particle 1       = atop 1
+binningtype      = irregular
+edges            = 0:0.35:0.75:1.15:2.5
+
+distributionname = cms_2l_yt
+distributiontype = absy
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:0.35:0.85:1.45:2.5
+
+distributionname = cms_2l_pTt
+distributiontype = pT
+particle 1       = top 1
+binningtype      = irregular
+edges            = 0:80:150:250:600

@@ -1,0 +1,41 @@
+################ LHC TTBAR 13 TEV ##############
+
+# keys: gm- grids to be merged, bm- bins to be merged
+
+########### 2d distributions
+
+# atlas_l+j (merge the bins according to exp. data)
+
+dddistributionname = ATLAS_TTBAR_13TEV_LJ_DIF_PTT-YT_bm
+distributionname_1 = atl_lj_2d_yt_ptt-yt
+distributionname_2 = atl_lj_2d_ptt_ptt-yt
+
+dddistributionname = ATLAS_TTBAR_13TEV_LJ_DIF_MTTBAR-PTT_bm
+distributionname_1 = atl_lj_2d_mttb_mttb-ptt
+distributionname_2 = atl_lj_2d_ptt_mttb-ptt
+
+# atlas hadr. (merge the grids)
+
+dddistributionname      =       ATLAS_TTBAR_13TEV_HADR_DIF_MTTBAR-YTTBAR_gm1
+distributionname_1      =       atl_hadr_2d_m1_ttx
+distributionname_2      =       atl_hadr_2d_ym1_ttx
+
+dddistributionname      =       ATLAS_TTBAR_13TEV_HADR_DIF_MTTBAR-YTTBAR_gm2
+distributionname_1      =       atl_hadr_2d_m2_ttx
+distributionname_2      =       atl_hadr_2d_ym2_ttx
+
+dddistributionname      =       ATLAS_TTBAR_13TEV_HADR_DIF_MTTBAR-YTTBAR_gm3
+distributionname_1      =       atl_hadr_2d_m3_ttx
+distributionname_2      =       atl_hadr_2d_ym3_ttx
+
+# cms l+j
+
+dddistributionname      =       CMS_TTBAR_13TEV_LJ_DIF_MTTBAR-YTTBAR
+distributionname_1      =       cms_lj_2d_mttbar
+distributionname_2      =       cms_lj_2d_yttbar
+
+# cms 2l
+
+dddistributionname      =       CMS_TTBAR_13TEV_2L_138FB-1_DIF_MTTBAR-YTTBAR
+distributionname_1      =       cms_2l_2d_mttbar
+distributionname_2      =       cms_2l_2d_yttbar

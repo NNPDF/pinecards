@@ -2,6 +2,7 @@ hadron_pid: 2212
 lepton_pid: 11
 pid: -2
 q2: 10000.0
+convolution_type: 'UnpolPDF'
 xgrid:
   - 4.9999999999999998e-07
   - 1.9407667236782136e-06

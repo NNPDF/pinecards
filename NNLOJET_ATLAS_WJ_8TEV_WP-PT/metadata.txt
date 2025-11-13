@@ -1,0 +1,9 @@
+arxiv=1711.03296
+hepdata=https://www.hepdata.net/record/ins1635273
+nnpdf_id=ATLAS_WJ_8TEV_WP-PT
+description="W+ pT differencial distribution"
+x1_label=pT_W
+x1_label_tex="pT_W (GeV)"
+x1_unit=GeV
+y_label=diff
+y_unit=fb/GeV

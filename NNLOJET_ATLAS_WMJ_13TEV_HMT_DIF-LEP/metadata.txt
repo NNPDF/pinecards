@@ -1,6 +1,6 @@
 arxiv=2502.21088
 hepdata=https://www.hepdata.net/record/ins2895869
-nnpdf_id=ATLAS_WJ_13TEV_HMT_DIF-LEP
+nnpdf_id=ATLAS_WPWMJ_13TEV_HMT_DIF-LEP
 description=
 x1_label=
 x1_label_tex=

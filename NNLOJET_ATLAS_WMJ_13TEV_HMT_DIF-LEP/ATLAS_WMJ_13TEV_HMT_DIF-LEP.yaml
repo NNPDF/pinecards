@@ -1,0 +1,146 @@
+# arXiv number: 2502.21088, hepdata entry: https://www.hepdata.net/record/ins2895869 (tables: [38, 39])
+
+runname: ATLAS_WJ_13TEV_HMT_DIF-LEP-WM
+
+process:
+    proc: WMJ
+    sqrts: 13000.0
+    jet: antikt[0.4]
+
+pdf: NNPDF40_nnlo_as_01180
+# Check rapidity
+techcut: 1e-07
+
+histograms:
+  - name: mt
+    observable: mt
+    bins:
+      - 200.0
+      - 250.0
+      - 300.0
+      - 350.0
+      - 425.0
+      - 500.0
+      - 600.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1400.0
+      - 2000.0
+      - 5000.0
+  - name: eta_bin_0
+    observable: ylm
+    bins:
+      - 0.0
+      - 0.2
+      - 0.4
+      - 0.6
+      - 0.8
+      - 1.0
+      - 1.2
+      - 1.4
+      - 1.6
+      - 1.8
+      - 2.0
+      - 2.2
+      - 2.4
+    extra_selectors:
+      - observable: mt
+        min: 200.0
+        max: 300.0
+  - name: eta_bin_1
+    observable: ylm
+    bins:
+      - 0.0
+      - 0.2
+      - 0.4
+      - 0.6
+      - 0.8
+      - 1.0
+      - 1.2
+      - 1.4
+      - 1.6
+      - 1.8
+      - 2.0
+      - 2.2
+      - 2.4
+    extra_selectors:
+      - observable: mt
+        min: 300.0
+        max: 425.0
+  - name: eta_bin_2
+    observable: ylm
+    bins:
+      - 0.0
+      - 0.4
+      - 0.8
+      - 1.2
+      - 1.6
+      - 2.0
+      - 2.4
+    extra_selectors:
+      - observable: mt
+        min: 425.0
+        max: 600.0
+  - name: eta_bin_3
+    observable: ylm
+    bins:
+      - 0.0
+      - 0.4
+      - 0.8
+      - 1.2
+      - 1.6
+      - 2.0
+      - 2.4
+    extra_selectors:
+      - observable: mt
+        min: 600.0
+        max: 900.0
+  - name: eta_bin_4
+    observable: ylm
+    bins:
+      - 0.0
+      - 0.6
+      - 1.2
+      - 1.8
+      - 2.4
+    extra_selectors:
+      - observable: mt
+        min: 900.0
+        max: 2000.0
+
+multi_channel: 0
+
+channels:
+    LO: LO
+    R: R
+    V: V
+    RR: RR
+    RV: RV
+    VV: VV
+
+parameters:
+    MASS[Z]: 91.1876
+    MASS[W]: 80.379
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663787d-5
+
+selectors:
+  - observable: abs_ylm
+    min: 0.0
+    max: 2.5
+  - observable: ptlm
+    min: 65.0
+  - observable: mt
+    min: 200.0
+    max: 5000.0
+  - observable: jets_pt
+    min: 25.0
+  - observable: etmiss
+    min: 85.0
+
+scales:
+    mur: etw
+    muf: etw

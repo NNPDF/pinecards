@@ -130,7 +130,7 @@ parameters:
 selectors:
   - observable: abs_ylm
     min: 0.0
-    max: 2.5
+    max: 2.4
   - observable: ptlm
     min: 65.0
   - observable: mt
@@ -140,6 +140,8 @@ selectors:
     min: 25.0
   - observable: etmiss
     min: 85.0
+  - observable: jets_abs_y
+    max: 2.5
 
 scales:
     mur: etw

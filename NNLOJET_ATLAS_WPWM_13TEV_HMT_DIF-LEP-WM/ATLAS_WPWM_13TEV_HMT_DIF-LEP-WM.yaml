@@ -1,14 +1,13 @@
 # arXiv number: 2502.21088, hepdata entry: https://www.hepdata.net/record/ins2895869 (tables: [38, 39])
 
-runname: ATLAS_WJ_13TEV_HMT_DIF-LEP-WM
+runname: ATLAS_WPWM_13TEV_HMT_DIF-LEP-WM
 
 process:
-    proc: WMJ
+    proc: WM
     sqrts: 13000.0
-    jet: antikt[0.4]
 
 pdf: NNPDF40_nnlo_as_01180
-# Check rapidity
+
 techcut: 1e-07
 
 histograms:
@@ -136,12 +135,8 @@ selectors:
   - observable: mt
     min: 200.0
     max: 5000.0
-  - observable: jets_pt
-    min: 25.0
   - observable: etmiss
     min: 85.0
-  - observable: jets_abs_y
-    max: 2.5
 
 scales:
     mur: etw

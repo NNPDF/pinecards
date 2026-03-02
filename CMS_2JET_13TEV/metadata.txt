@@ -1,0 +1,6 @@
+arxiv=2312.16669
+description=CMS double and triple differential dijet cross sections
+comments=this is the full color card. To get the grids, run download_ploughshare.sh
+hepdata=10.17182/hepdata.146075.v1/t5, 10.17182/hepdata.146075.v1/t13
+ploughshare=https://ploughshare.web.cern.ch/ploughshare/record.php?dataset=applfast-cms-dijets-v2-fc-fnlo-arxiv-2312.16669
+nnpdf_id=CMS_2JET_13TEV

@@ -1,0 +1,9 @@
+arxiv=2205.04897
+description=CMS transverse momentum of the Z boson at 13 TeV
+hepdata=10.17182/hepdata.115656.v1/t{1,3,5,7}
+x1_label=ptll
+x1_label_tex=$p_{\mathrm{T},\ell\bar{\ell}}$
+x1_unit=GeV
+y_label=dsig/dptll
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T},\ell\bar{\ell}}}$
+y_unit=pb/GeV

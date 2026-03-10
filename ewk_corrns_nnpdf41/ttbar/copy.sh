@@ -12,16 +12,9 @@ for dir in */; do
     if [ -d "$dir" ]; then
         echo "Processing $dir"
 
-        cp "$TEMPLATE_DIR/output.txt"   "$dir/"
-        cp "$TEMPLATE_DIR/launch.txt"   "$dir/"
-        cp "$TEMPLATE_DIR/run.sh"       "$dir/"
-        cp "$TEMPLATE_DIR/setscales.f"  "$dir/"
-
-        # Replace TEMPLATE with dataset name
-        sed -i "s/TEMPLATE/$dir/g" "$dir/output.txt"
-        sed -i "s/TEMPLATE/$dir/g" "$dir/launch.txt"
-        sed -i "s/TEMPLATE/$dir/g" "$dir/run.sh"
-        sed -i "s/TEMPLATE/$dir/g" "$dir/setscales.f"
+        cp "$TEMPLATE_DIR/output.txt"                 "$dir/"
+        cp "$TEMPLATE_DIR/launch.txt"                 "$dir/"
+        cp "$TEMPLATE_DIR/change_scale_to_ht4.patch"  "$dir/"
 
         # Set ebeam values depending on energy in directory name
         ebeam=""

@@ -1,6 +1,7 @@
+ploughshare=https://ploughshare.web.cern.ch/ploughshare/record.php?dataset=applfast-cms-dijets-v2-fc-fnlo-arxiv-1212.6660
 arxiv=1212.6660
-comments=this is a leading color (legacy) card. For full color, see CMS_2JET_7TEV_M12-Y
 description=CMS double-differential jet cross section at 7 TeV
+comments=this is the full color card. To get the grids, run download_ploughshare.sh
 hepdata=10.17182/hepdata.66887.v1/t6, 10.17182/hepdata.66887.v1/t7, 10.17182/hepdata.66887.v1/t8, 10.17182/hepdata.66887.v1/t9, 10.17182/hepdata.66887.v1/t10
 nnpdf_id=CMS_2JET_7TEV
 x1_label=ymax

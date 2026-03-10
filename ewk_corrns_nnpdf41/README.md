@@ -19,5 +19,5 @@ finally pasted in the relevant theories.
 N.B. Running madgraph, especially with high Monte Carlo precision, may require
 quite some time, depending on the process. The numerical precision, as all of
 the madgraph input, is controlled by modifying the files in the `TEMPLATE`
-folder. Tjis repository is meant for long-term reproducibility, not for
+folder. This repository is meant for long-term reproducibility, not for
 production, which had been handled by ERN once and for all.

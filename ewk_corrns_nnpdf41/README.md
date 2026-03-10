@@ -1,14 +1,17 @@
 # ewk_corrns_nnpdf41
 
-This folder contains the material to generate EWK K-factors using madgraph
-(v6.7). All the madgraph input is contained in folders called with the same
+This folder contains the (madgraph) pinecards needed to generate pineappl grids
+accurate to NLO QCD LO EWK (with mixed corrections) together with some
+additional scripts to streamline the process, the validation of the results,
+the computaiton of EWK K-factors and the analyses of the EWK corrections.
+These runcards have been tested with madgraph v6.7 pineappl v.0.8.7 and
+pinefarm v0.4.1. Runcards are contained in folders called with the same
 name as the relevant nnpdf4.1 data sets, which are placed in folders called
-`<process_name>_ewk_corrns`. The user has to take the following actions.
-- Go into the `<process_name>_ewk_corrns` folder and run
+`<process_name>`. The user has to take the following actions.
+- Go into the `<process_name>` folder and run
 `./copy.sh`
-`./run_all.sh`
-Individual data sets can be run with the `run.sh` script within each data set
-folder. The commands above generate pineappl grids that incorporate EW and
+- Run `pinefarm`
+The commands above generate pineappl grids that incorporate EW and
 mixed EW-QCD corrections.
 - Run the script `./validate.py`. This will validate the generated pineappl grids against theory 41_000_000. 
 - Run the script `./compute_Kfact.py`. This will generate a folder, called
@@ -20,4 +23,4 @@ N.B. Running madgraph, especially with high Monte Carlo precision, may require
 quite some time, depending on the process. The numerical precision, as all of
 the madgraph input, is controlled by modifying the files in the `TEMPLATE`
 folder. This repository is meant for long-term reproducibility, not for
-production, which had been handled by ERN once and for all.
+production, which was handled by ERN once and for all.

@@ -1,0 +1,140 @@
+
+!###############################################!
+!##                                           ##!
+!##     _  ___  ____   ____     ____________  ##!
+!##    / |/ / |/ / /  / __ \__ / / __/_  __/  ##!
+!##   /    /    / /__/ /_/ / // / _/  / /     ##!
+!##  /_/|_/_/|_/____/\____/\___/___/ /_/      ##!
+!##                                           ##!
+!##  Runcard for NNPDF datasets               ##!
+!###############################################!
+
+PROCESS  ZJ
+  collider = pp  sqrts = 13000.0
+  jet = none[0]
+  decay_type = 1
+END_PROCESS
+
+RUN  2408_07622_A4_ZJ_NLO
+  PDF = NNPDF40_nnlo_as_01180[0]
+  tcut = 1e-07
+  scale_coefficients = .true.
+  multi_channel = .false.
+  iseed = 1
+  production = 100000[1]
+END_RUN
+
+PARAMETERS
+MASS[Z] = 91.188
+WIDTH[Z] = 2.4952
+MASS[W] = 80.3692
+WIDTH[W] = 2.085
+SCHEME[alpha] = Gmu
+GF = 1.1663788d-5
+CKM = FULL
+END_PARAMETERS
+
+SELECTORS
+  select mll min = 54
+  select mll max = 150
+END_SELECTORS
+
+HISTOGRAMS
+  mll > mll_bin1_proj [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] fac = proj_A4 grid=mll_bin1_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 0.4
+    select abs_yz min = 0.0
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin1 [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] grid=mll_bin1.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 0.4
+    select abs_yz min = 0.0
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin2_proj [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] fac = proj_A4 grid=mll_bin2_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 0.8
+    select abs_yz min = 0.4
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin2 [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] grid=mll_bin2.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 0.8
+    select abs_yz min = 0.4
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin3_proj [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] fac = proj_A4 grid=mll_bin3_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 1.2
+    select abs_yz min = 0.8
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin3 [54, 66, 76, 82, 86, 89.5, 92.7, 96, 100, 106, 116, 150] grid=mll_bin3.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 1.2
+    select abs_yz min = 0.8
+  END_HISTOGRAM_SELECTORS
+   mll > mll_bin4_proj [54, 66, 76, 86, 96, 106, 116, 150] fac = proj_A4 grid=mll_bin4_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 1.6
+    select abs_yz min = 1.2
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin4 [54, 66, 76, 86, 96, 106, 116, 150] grid=mll_bin4.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 1.6
+    select abs_yz min = 1.2
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin5_proj [54, 66, 76, 86, 96, 106, 116, 150] fac = proj_A4 grid=mll_bin5_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 2.0
+    select abs_yz min = 1.6
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin5 [54, 66, 76, 86, 96, 106, 116, 150] grid=mll_bin5.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 2.0
+    select abs_yz min = 1.6
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin6_proj [54, 66, 76, 86, 96, 106, 116, 150] fac = proj_A4 grid=mll_bin6_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 2.4
+    select abs_yz min = 2.0
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin6 [54, 66, 76, 86, 96, 106, 116, 150] grid=mll_bin6.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 2.4
+    select abs_yz min = 2.0
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin7_proj [66, 86, 96, 116] fac = proj_A4 grid=mll_bin7_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 2.7
+    select abs_yz min = 2.4
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin7 [66, 86, 96, 116] grid=mll_bin7.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 2.7
+    select abs_yz min = 2.4
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin8_proj [66, 86, 96, 116] fac = proj_A4 grid=mll_bin8_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 3.0
+    select abs_yz min = 2.7
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin8 [66, 86, 96, 116] grid=mll_bin8.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 3.0
+    select abs_yz min = 2.7
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin9_proj [66, 86, 96, 116] fac = proj_A4 grid=mll_bin9_proj.pine
+  HISTOGRAM_SELECTORS
+    select abs_yz max = 3.4
+    select abs_yz min = 3.0
+  END_HISTOGRAM_SELECTORS
+  mll > mll_bin9 [66, 86, 96, 116] grid=mll_bin9.pine
+    HISTOGRAM_SELECTORS
+    select abs_yz max = 3.4
+    select abs_yz min = 3.0
+  END_HISTOGRAM_SELECTORS
+END_HISTOGRAMS
+
+SCALES
+  mur = etz  muf = etz
+END_SCALES
+
+CHANNELS
+END_CHANNELS

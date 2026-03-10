@@ -1,0 +1,318 @@
+# arXiv number: 2408.07622, hepdata entry: https://www.hepdata.net/record/ins2818125
+
+runname: CMS_Z0_13TEV_A4
+
+process:
+    proc: ZJ
+    sqrts: 13000.0
+
+pdf: NNPDF40_nnlo_as_01180
+
+techcut: 1e-07
+
+histograms:
+  - name: mll_bin1_proj
+    observable: mll
+    fac: proj_A4  # TODO: might not work in the parser as it expect numbers
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.0
+        max: 0.4
+  - name: mll_bin1
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.0
+        max: 0.4
+  - name: mll_bin2_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.4
+        max: 0.8
+  - name: mll_bin2
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.4
+        max: 0.8
+  - name: mll_bin3_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.8
+        max: 1.2
+  - name: mll_bin3
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 82.0
+      - 86.0
+      - 89.5
+      - 92.7
+      - 96.0
+      - 100.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 0.8
+        max: 1.2
+  - name: mll_bin4_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.2
+        max: 1.6
+  - name: mll_bin4
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.2
+        max: 1.6
+  - name: mll_bin5_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.6
+        max: 2.0
+  - name: mll_bin5
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 1.6
+        max: 2.0
+  - name: mll_bin6_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.0
+        max: 2.4
+  - name: mll_bin6
+    observable: mll
+    bins:
+      - 54.0
+      - 66.0
+      - 76.0
+      - 86.0
+      - 96.0
+      - 106.0
+      - 116.0
+      - 150.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.0
+        max: 2.4
+  - name: mll_bin7_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.4
+        max: 2.7
+  - name: mll_bin7
+    observable: mll
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.4
+        max: 2.7
+  - name: mll_bin8_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.7
+        max: 3.0
+  - name: mll_bin8
+    observable: mll
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 2.7
+        max: 3.0
+  - name: mll_bin9_proj
+    observable: mll
+    fac: proj_A4  # TODO: implement in the parser
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 3.0
+        max: 3.4
+  - name: mll_bin9
+    observable: mll
+    bins:
+      - 66.0
+      - 86.0
+      - 96.0
+      - 116.0
+    extra_selectors:
+      - observable: abs_yz
+        min: 3.0
+        max: 3.4
+
+
+
+multi_channel: 0
+
+channels:
+    LO: LO
+    R: R
+    V: V
+
+parameters:
+    MASS[Z]: 91.188
+    MASS[W]: 80.3692
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663788d-5
+
+selectors:
+  - observable: mll
+    min: 54.0
+    max: 150.0
+
+scales:
+    mur: etz
+    muf: etz

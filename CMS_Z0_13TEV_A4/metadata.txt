@@ -1,0 +1,13 @@
+arxiv=2408.07622
+hepdata=https://www.hepdata.net/record/ins2818125
+nnpdf_id=CMS_Z0_13TEV_A4
+description=Forward backward asymmetry (A4) in NC Drell-Yan production at 13 TeV
+x1_label=Mll
+x1_label_tex=$M_{\ell\bar{\ell}}$
+x1_unit=GeV
+x2_label=yll
+x2_label_tex=$|y_{\ell\bar{\ell}}}$
+x2_unit=
+y_label=A4
+y_label_tex=$A_4$
+y_unit=

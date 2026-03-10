@@ -3,7 +3,7 @@
 runname: CMS_Z0_13TEV_A4
 
 process:
-    proc: Z
+    proc: ZJ
     sqrts: 13000.0
 
 pdf: NNPDF40_nnlo_as_01180

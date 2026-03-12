@@ -1,0 +1,10 @@
+arxiv=1607.07281
+description=ATLAS ttbar differential cross section at 8 TeV
+hepdata=10.17182/hepdata.75323.v1/t10
+nnpdf_id=ATLAS_TOPDIFF_DILEPT_8TEV_TTMNORM
+x1_label=Mtt
+x1_label_tex=$M_{\mathrm{t}\bar{\mathrm{t}}}$
+x1_unit=GeV
+y_label=dsig/dMtt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}M_{\mathrm{t}\bar{\mathrm{t}}}}$
+y_unit=pb/GeV

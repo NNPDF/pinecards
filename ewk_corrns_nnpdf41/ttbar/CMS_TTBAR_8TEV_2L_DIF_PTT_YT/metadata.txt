@@ -1,0 +1,13 @@
+arxiv=1703.01630
+description=CMS ttbar differential cross section at 8 TeV
+hepdata=https://www.hepdata.net/record/ins1516191
+nnpdf_id=CMS_TTBAR_8TEV_2L_DIF_PTT_YT
+x1_label=|yt|
+x1_label_tex=$|y_{\mathrm{t}}|$
+x1_unit=
+x2_label=pTt
+x2_label_tex=$p_{\mathrm{T,t}}$
+x2_unit=GeV
+y_label=dsig/dpTt/d|yt|
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}p_{\mathrm{T,t}}\mathrm{d}|y_{\mathrm{t}}|}$
+y_unit=pb/GeV

@@ -1,0 +1,10 @@
+arxiv=1908.07305
+description=ATLAS ttbar leptons+jet differential cross section at 13 TeV
+hepdata=https://www.hepdata.net/record/ins1750330
+nnpdf_id=ATLAS_TTBAR_13TEV_LJ_DIF_YT
+x1_label=|yt|
+x1_label_tex=$|y_{\mathrm{t}}|$
+x1_unit=
+y_label=dsig/d|yt|
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}|y_{\mathrm{t}}|}$
+y_unit=pb

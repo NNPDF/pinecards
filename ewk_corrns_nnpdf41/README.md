@@ -5,7 +5,7 @@ accurate to NLO QCD LO EWK (with mixed corrections) together with some
 additional scripts to streamline the process, the validation of the results,
 the computaiton of EWK K-factors and the analyses of the EWK corrections.
 These runcards have been tested with madgraph v6.7 pineappl v.0.8.7 and
-pinefarm v0.4.1. Runcards are contained in folders called with the same
+pinefarm v0.3.3. Runcards are contained in folders called with the same
 name as the relevant nnpdf4.1 data sets, which are placed in folders called
 `<process_name>`. The user has to take the following actions.
 - Go into the `<process_name>` folder and run

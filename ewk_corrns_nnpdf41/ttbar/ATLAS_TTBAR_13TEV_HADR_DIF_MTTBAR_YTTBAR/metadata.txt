@@ -1,0 +1,13 @@
+arxiv=2006.09274
+description=ATLAS ttbar double differential cross section at 13 TeV all hadronic state
+hepdata=https://www.hepdata.net/record/ins1801434
+nnpdf_id=ATLAS_TTBAR_13TEV_HADR_DIF_MTTBAR_YTTBAR
+x1_label=mtt
+x1_label_tex=$m_{\mathrm{t}\bar{\mathrm{t}}}$
+x1_unit=GeV
+x2_label=|ytt|
+x2_label_tex=$|y_{\mathrm{t}\bar{\mathrm{t}}}|$
+x2_unit=
+y_label=dsig/dmtt/dytt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}m_{\mathrm{t}\bar{\mathrm{t}}}\mathrm{d}|y_{\mathrm{t}\bar{\mathrm{t}}}|}$
+y_unit=pb/GeV

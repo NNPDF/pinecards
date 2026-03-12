@@ -8,18 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt y ', 1,0.0d0,0.12d0)
-      call HwU_book(2,'tt y ', 1,0.12d0,0.24d0)
-      call HwU_book(3,'tt y ', 1,0.24d0,0.36d0)
-      call HwU_book(4,'tt y ', 1,0.36d0,0.49d0)
-      call HwU_book(5,'tt y ', 1,0.49d0,0.62d0)
-      call HwU_book(6,'tt y ', 1,0.62d0,0.76d0)
-      call HwU_book(7,'tt y ', 1,0.76d0,0.91d0)
-      call HwU_book(8,'tt y ', 1,0.91d0,1.06d0)
-      call HwU_book(9,'tt y ', 1,1.06d0,1.21d0)
-      call HwU_book(10,'tt y ',1,1.21d0,1.39d0) 
-      call HwU_book(11,'tt y ',1,1.39d0,1.59d0)
-      call HwU_book(12,'tt y ',1,1.59d0,2.40d0)
+      call HwU_book(1,'dist',12,0d0,12d0)
       
       return
       end
@@ -49,25 +38,46 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision pttx(0:3), ytt
       double precision getrapidity
       external getrapidity
+      double precision bin
 
       do i=0,3
          pttx(i)=p(i,3)+p(i,4)
       enddo
 
       ytt = getrapidity(pttx(0), pttx(3))
-      
-      call HwU_fill(1,ytt,wgts)
-      call HwU_fill(2,ytt,wgts)
-      call HwU_fill(3,ytt,wgts)
-      call HwU_fill(4,ytt,wgts)
-      call HwU_fill(5,ytt,wgts)
-      call HwU_fill(6,ytt,wgts)
-      call HwU_fill(7,ytt,wgts)
-      call HwU_fill(8,ytt,wgts)
-      call HwU_fill(9,ytt,wgts)
-      call HwU_fill(10,ytt,wgts)
-      call HwU_fill(11,ytt,wgts)
-      call HwU_fill(12,ytt,wgts)
+
+      bin = -1d0
+
+      if(ytt.gt.0d0.and.ytt.lt.0.12d0)then
+         bin = 0.5d0
+      elseif(ytt.gt.0.12d0.and.ytt.lt.0.24d0)then
+         bin = 1.5d0        
+      elseif(ytt.gt.0.24d0.and.ytt.lt.0.36d0)then
+         bin = 2.5d0  
+      elseif(ytt.gt.0.36d0.and.ytt.lt.0.49d0)then
+         bin = 3.5d0        
+      elseif(ytt.gt.0.49d0.and.ytt.lt.0.62d0)then
+         bin = 4.5d0  
+      elseif(ytt.gt.0.62d0.and.ytt.lt.0.76d0)then
+         bin = 5.5d0        
+      elseif(ytt.gt.0.76d0.and.ytt.lt.0.91d0)then
+         bin = 6.5d0  
+      elseif(ytt.gt.0.91d0.and.ytt.lt.1.06d0)then
+         bin = 7.5d0        
+      elseif(ytt.gt.1.06d0.and.ytt.lt.1.21d0)then
+         bin = 8.5d0
+      elseif(ytt.gt.1.21d0.and.ytt.lt.1.39d0)then
+         bin = 9.5d0  
+      elseif(ytt.gt.1.39d0.and.ytt.lt.1.59d0)then
+         bin = 10.5d0        
+      elseif(ytt.gt.1.59d0.and.ytt.lt.2.40d0)then
+         bin = 11.5d0
+      endif
+
+      if (bin.gt.0d0) then
+        call HwU_fill(1,bin,wgts)
+      else
+      endif
       
  999  return      
       end

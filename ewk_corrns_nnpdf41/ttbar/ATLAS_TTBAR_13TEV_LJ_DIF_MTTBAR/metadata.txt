@@ -1,0 +1,10 @@
+arxiv=1908.07305
+description=ATLAS ttbar leptons+jet differential cross section at 13 TeV
+hepdata=https://www.hepdata.net/record/ins1750330
+nnpdf_id=ATLAS_TTBAR_13TEV_LJ_DIF_MTTBAR
+x1_label=Mtt
+x1_label_tex=$M_{\mathrm{t}\bar{\mathrm{t}}}$
+x1_unit=GeV
+y_label=dsig/dMtt
+y_label_tex=$\frac{\mathrm{d}\sigma}{\mathrm{d}M_{\mathrm{t}\bar{\mathrm{t}}}}$
+y_unit=pb/GeV

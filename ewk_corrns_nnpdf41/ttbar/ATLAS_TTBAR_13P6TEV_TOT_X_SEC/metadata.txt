@@ -1,0 +1,7 @@
+arxiv=/2308.09529
+description=ATLAS ttbar total cross section at 13.6 TeV
+hepdata=n/a
+nnpdf_id=ATLAS_TTBAR_13P6TEV_TOT
+y_label=sigma tot
+y_label_tex=$\sigma$
+y_unit=pb

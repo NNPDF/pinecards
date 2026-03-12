@@ -8,9 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt y ', 10,0.0d0,2.0d0) 
-      call HwU_book(2,'tt y ',  1,2.0d0,2.5d0)
+      call HwU_book(1,'total rate', 1,0.5d0,1.5d0)
       
       return
       end
@@ -37,35 +35,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       integer i
       double precision p(0:4,nexternal)
       double precision wgts(*)
-      double precision pttx(0:3), yt
-      double precision getrapidity
-      external getrapidity
+      double precision var
 
-      yt = getrapidity(p(0,4), p(3,4))
+      var = 1d0
       
-      call HwU_fill(1,yt,wgts)
-      call HwU_fill(2,yt,wgts)
-      
+      call HwU_fill(1,var,wgts)
+
  999  return      
       end
 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-
-      function getrapidity(en,pl)
-      implicit none
-      real*8 getrapidity,en,pl,tiny,xplus,xminus,y
-      parameter (tiny=1.d-8)
-      xplus=en+pl
-      xminus=en-pl
-      if(xplus.gt.tiny.and.xminus.gt.tiny)then
-         if( (xplus/xminus).gt.tiny.and.(xminus/xplus).gt.tiny)then
-            y=0.5d0*log( xplus/xminus  )
-         else
-            y=sign(1.d0,pl)*1.d8
-         endif
-      else 
-         y=sign(1.d0,pl)*1.d8
-      endif
-      getrapidity=y
-      return
-      end
+      

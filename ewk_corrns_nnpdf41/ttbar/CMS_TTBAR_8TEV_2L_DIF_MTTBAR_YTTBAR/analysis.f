@@ -45,7 +45,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       enddo
       
       mtt = dsqrt(dot(pttx, pttx))
-      ytt = getrapidity(pttx(0), pttx(3))
+      ytt = dabs(getrapidity(pttx(0), pttx(3)))
 
       bin = -1d0
 

@@ -40,7 +40,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision bin
 
       ptt = dsqrt(p(1,3)**2 + p(2,3)**2)
-      yt = getrapidity(p(0,4), p(3,4))
+      yt = dabs(getrapidity(p(0,4), p(3,4)))
 
       bin = -1d0
 

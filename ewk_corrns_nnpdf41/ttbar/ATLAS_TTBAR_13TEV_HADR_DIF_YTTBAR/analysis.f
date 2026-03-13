@@ -44,7 +44,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          pttx(i)=p(i,3)+p(i,4)
       enddo
 
-      ytt = getrapidity(pttx(0), pttx(3))
+      ytt = dabs(getrapidity(pttx(0), pttx(3)))
 
       bin = -1d0
 

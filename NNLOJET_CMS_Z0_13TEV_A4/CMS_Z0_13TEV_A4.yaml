@@ -13,7 +13,7 @@ techcut: 1e-07
 histograms:
   - name: mll_bin1_proj
     observable: mll
-    fac: proj_A4  # TODO: might not work in the parser as it expect numbers
+    fac: proj_A4
     bins:
       - 54.0
       - 66.0

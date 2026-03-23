@@ -8,16 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt y ', 1,0.0d0,0.2d0)
-      call HwU_book(2,'tt y ', 1,0.2d0,0.4d0)
-      call HwU_book(3,'tt y ', 1,0.4d0,0.6d0)
-      call HwU_book(4,'tt y ', 1,0.6d0,0.8d0)
-      call HwU_book(5,'tt y ', 1,0.8d0,1.0d0)
-      call HwU_book(6,'tt y ', 1,1.0d0,1.2d0)
-      call HwU_book(7,'tt y ', 1,1.2d0,1.4d0)
-      call HwU_book(8,'tt y ', 1,1.4d0,1.6d0)
-      call HwU_book(9,'tt y ', 1,1.6d0,1.8d0)
-      call HwU_book(10,'tt y ', 1,1.8d0,2.4d0)     
+      call HwU_book(1,'tt y ', 9,0.0d0,1.8d0)
+      call HwU_book(2,'tt y ', 1,1.8d0,2.4d0)     
       
       return
       end
@@ -52,18 +44,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          pttx(i)=p(i,3)+p(i,4)
       enddo
 
-      ytt = getrapidity(pttx(0), pttx(3))
+      ytt = dabs(getrapidity(pttx(0), pttx(3)))
       
       call HwU_fill(1,ytt,wgts)
       call HwU_fill(2,ytt,wgts)
-      call HwU_fill(3,ytt,wgts)
-      call HwU_fill(4,ytt,wgts)
-      call HwU_fill(5,ytt,wgts)
-      call HwU_fill(6,ytt,wgts)
-      call HwU_fill(7,ytt,wgts)
-      call HwU_fill(8,ytt,wgts)
-      call HwU_fill(9,ytt,wgts)
-      call HwU_fill(10,ytt,wgts)
       
  999  return      
       end

@@ -54,7 +54,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          elseif(ptt.gt.250d0.and.ptt.lt.600d0) then
             bin = 3.5d0        
          endif
-      elseif (yt.gt.0.35d0.and.yt.lt.0.80d0) then
+      elseif (yt.gt.0.35d0.and.yt.lt.0.85d0) then
          if(ptt.gt.0d0.and.ptt.lt.80d0) then
             bin = 4.5d0
          elseif(ptt.gt.80d0.and.ptt.lt.150d0) then

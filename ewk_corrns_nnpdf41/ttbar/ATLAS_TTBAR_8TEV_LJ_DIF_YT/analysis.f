@@ -8,11 +8,8 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'yt ', 1,0.0d0,0.4d0)
-      call HwU_book(2,'yt ', 1,0.4d0,0.8d0)
-      call HwU_book(3,'yt ', 1,0.8d0,1.2d0)
-      call HwU_book(4,'yt ', 1,1.2d0,1.6d0)
-      call HwU_book(5,'yt ', 1,1.6d0,2.5d0)
+      call HwU_book(1,'yt ', 4,0.0d0,1.6d0)
+      call HwU_book(2,'yt ', 1,1.6d0,2.5d0)
       
       return
       end
@@ -43,13 +40,10 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision getrapidity
       external getrapidity
 
-      yt = getrapidity(p(0,4), p(3,4))
+      yt = dabs(getrapidity(p(0,4), p(3,4)))
       
       call HwU_fill(1,yt,wgts)
       call HwU_fill(2,yt,wgts)
-      call HwU_fill(3,yt,wgts)
-      call HwU_fill(4,yt,wgts)
-      call HwU_fill(5,yt,wgts)
       
  999  return      
       end

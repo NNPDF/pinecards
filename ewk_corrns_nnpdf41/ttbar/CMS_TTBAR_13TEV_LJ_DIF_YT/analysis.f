@@ -41,7 +41,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       double precision getrapidity
       external getrapidity
 
-      yt = getrapidity(p(0,4), p(3,4))
+      yt = dabs(getrapidity(p(0,4), p(3,4)))
       
       call HwU_fill(1,yt,wgts)
       call HwU_fill(2,yt,wgts)

@@ -8,7 +8,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt m ', 1,200d0,380d0)
+      call HwU_book(1,'tt m ', 1,300d0,380d0)
       call HwU_book(2,'tt m ', 1,380d0,470d0)
       call HwU_book(3,'tt m ', 1,470d0,620d0)
       call HwU_book(4,'tt m ', 1,620d0,820d0)

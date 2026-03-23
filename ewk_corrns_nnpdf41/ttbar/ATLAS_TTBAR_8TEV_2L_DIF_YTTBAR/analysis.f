@@ -9,11 +9,9 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call set_error_estimation(1)
       call HwU_inithist(nwgt,weights_info)
       call HwU_inithist(nwgt,weights_info)
-      call HwU_book(1,'tt y ', 1,0.0d0,0.4d0)
-      call HwU_book(2,'tt y ', 1,0.4d0,0.8d0)
-      call HwU_book(3,'tt y ', 1,0.8d0,1.2d0)
-      call HwU_book(4,'tt y ', 1,1.2d0,2.0d0)
-      call HwU_book(5,'tt y ', 1,2.0d0,2.8d0)
+      call HwU_book(1,'tt y ', 3,0.0d0,1.2d0)
+      call HwU_book(2,'tt y ', 1,1.2d0,2.0d0)
+      call HwU_book(3,'tt y ', 1,2.0d0,2.8d0)
       
       return
       end
@@ -53,8 +51,6 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       call HwU_fill(1,ytt,wgts)
       call HwU_fill(2,ytt,wgts)
       call HwU_fill(3,ytt,wgts)
-      call HwU_fill(4,ytt,wgts)
-      call HwU_fill(5,ytt,wgts)
       
  999  return      
       end

@@ -1,0 +1,12 @@
+arxiv=2112.07458
+hepdata=https://www.hepdata.net/record/ins1990313
+nnpdf_id=LHCB_Z0_13TEV_2022_DIMUON-Y
+description=
+x1_label=
+x1_label_tex=
+x2_label=
+x2_label_tex=
+x2_unit=
+y_label=
+y_label_tex=
+y_unit=

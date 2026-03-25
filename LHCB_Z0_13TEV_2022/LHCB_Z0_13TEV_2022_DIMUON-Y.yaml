@@ -1,0 +1,65 @@
+# arxiv number: 2112.07458, hepdata entry: https://www.hepdata.net/record/ins1990313
+
+runname: LHCB_Z0_13TEV_2022_DIMUON-Y
+
+process:
+    proc: Z
+    sqrts: 13000.0
+
+pdf: NNPDF40_nnlo_as_01180
+
+techcut: 1e-07
+
+selectors:
+    - observable: yz
+      min: 2.0
+      max: 4.5
+    - observable: abs_ylp  
+      min: 2.0
+      max: 4.5
+    - observable: abs_ylm 
+      min: 2.0 
+      max: 4.5
+    - observable: ptl2
+      min: 20.0
+    - observable: mll  
+      min: 60.0 
+      max: 120.0
+
+histograms:
+  - name: yz
+    observable: yz
+    bins:
+      - 2.0 
+      - 2.125
+      - 2.25
+      - 2.375
+      - 2.5
+      - 2.625
+      - 2.75
+      - 2.875
+      - 3.0
+      - 3.125
+      - 3.25
+      - 3.375
+      - 3.5
+      - 3.625
+      - 3.75
+      - 3.875
+      - 4.0
+      - 4.25
+      - 4.5
+
+
+parameters:
+    MASS[Z]: 91.1876
+    WIDTH[Z]:  2.4952
+    MASS[W]: 80.398
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663787d-5
+    CKM: FULL
+
+scales:
+    mur: etz
+    muf: etz

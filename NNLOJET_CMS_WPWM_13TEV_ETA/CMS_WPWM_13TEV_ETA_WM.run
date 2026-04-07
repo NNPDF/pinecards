@@ -1,0 +1,54 @@
+
+!###############################################!
+!##                                           ##!
+!##     _  ___  ____   ____     ____________  ##!
+!##    / |/ / |/ / /  / __ \__ / / __/_  __/  ##!
+!##   /    /    / /__/ /_/ / // / _/  / /     ##!
+!##  /_/|_/_/|_/____/\____/\___/___/ /_/      ##!
+!##                                           ##!
+!##  Runcard for NNPDF datasets               ##!
+!###############################################!
+
+PROCESS  WM
+  collider = pp  sqrts = 13000.0
+  jet = none[0]
+  decay_type = 1
+END_PROCESS
+
+RUN  CMS_WPWM_13TEV_ETA_WM
+  PDF = NNPDF40_nnlo_as_01180[0]
+  tcut = 1e-07
+  scale_coefficients = .true.
+  multi_channel = .false.
+  iseed = 1
+  production = 10000[1]
+END_RUN
+
+PARAMETERS
+MASS[Z] = 91.188
+WIDTH[Z] = 2.4952
+MASS[W] = 80.3692
+WIDTH[W] = 2.085
+SCHEME[alpha] = Gmu
+GF = 1.1663787d-5
+CKM = FULL
+END_PARAMETERS
+
+SELECTORS
+  select abs_ylm  min = 0.0 max = 2.4
+  select ptlm  min = 26.0
+  select etmiss  min = 20.0
+END_SELECTORS
+
+HISTOGRAMS
+  ylm > eta [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 1.7, 1.9, 2.1, 2.4] grid=eta.pine
+
+END_HISTOGRAMS
+
+SCALES
+  mur = etw  muf = etw
+END_SCALES
+
+CHANNELS 
+  LO
+END_CHANNELS

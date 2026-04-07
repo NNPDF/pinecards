@@ -1,0 +1,12 @@
+arxiv=2008.04174
+hepdata=https://www.hepdata.net/record/ins1810913
+nnpdf_id=CMS_WPWM_13TEV_ETA
+description=CMS 13 TeV, differential cross section in W+ > l+ v boson pseudo rapidity. Combination of muon and electron channel
+x1_label=eta
+x1_label_tex=
+x2_label=
+x2_label_tex=
+x2_unit=
+y_label=
+y_label_tex=r"$d\\sigma/d|\eta|$"
+y_unit="[pb]"

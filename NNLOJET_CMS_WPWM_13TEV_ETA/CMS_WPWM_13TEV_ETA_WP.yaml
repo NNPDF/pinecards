@@ -1,0 +1,67 @@
+# arXiv number: 2008.04174, hepdata entry: https://www.hepdata.net/record/ins1810913
+
+runname: CMS_WPWM_13TEV_ETA_WP
+
+process:
+    proc: WP
+    sqrts: 13000.0
+
+pdf: NNPDF40_nnlo_as_01180
+
+techcut: 1e-07
+
+histograms:
+  - name: ylp
+    observable: eta
+    bins:
+      - 0.0
+      - 0.1
+      - 0.2
+      - 0.3
+      - 0.4
+      - 0.5
+      - 0.6
+      - 0.7
+      - 0.8
+      - 0.9
+      - 1.0
+      - 1.1
+      - 1.2
+      - 1.3
+      - 1.5
+      - 1.7
+      - 1.9
+      - 2.1
+      - 2.4
+  
+
+multi_channel: 0
+
+channels:
+    LO: LO
+    R: R
+    V: V
+    RR: RR
+    RV: RV
+    VV: VV
+
+parameters:
+    MASS[Z]: 91.188
+    MASS[W]: 80.3692
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663787d-5
+
+selectors:
+  - observable: abs_ylp
+    min: 0.0
+    max: 2.4
+  - observable: ptlp
+    min: 26.0
+  - observable: etmiss
+    min: 20.0
+
+scales:
+    mur: etw
+    muf: etw

@@ -1,0 +1,14 @@
+arxiv=1609.05331
+ploughshare=https://ploughshare.web.cern.ch/ploughshare/db/applfast/applfast-cms-incjets-appl-arxiv-1609.05331/applfast-cms-incjets-appl-arxiv-1609.05331.tgz
+description=CMS double-differential inclusive jet cross section at 8 TeV. Downloaded from ploughshare, central scale mu=HT_parton.
+hepdata=10.17182/hepdata.77222.v1/t1, 10.17182/hepdata.77222.v1/t2, 10.17182/hepdata.77222.v1/t3, 10.17182/hepdata.77222.v1/t4, 10.17182/hepdata.77222.v1/t5, 10.17182/hepdata.77222.v1/t6, 10.17182/hepdata.77222.v1/t7
+nnpdf_id=CMS_1JET_8TEV
+x1_label=yj
+x1_label_tex=$y_{\mathrm{jet}}$
+x1_unit=
+x2_label=ptj
+x2_label_tex=$p_{\mathrm{T},\mathrm{jet}}$
+x2_unit=GeV
+y_label=d^2sig/dptdy
+y_label_tex=$\frac{\mathrm{d}^2\sigma}{\mathrm{d}p_{\mathrm{T},\mathrm{jet}\mathrm{d}y}$
+y_unit=pb/GeV

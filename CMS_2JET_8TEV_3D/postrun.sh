@@ -12,7 +12,7 @@ bins[6]="y_b=2.5, y*=0.5"
 # Convert the grids to pineappl format under the right names
 for i in {0..5}; do
     j=$((i+1))
-    src="grid_${i}.tab.gz"
+    src="grid_00${i}.tab.gz"
     temp_dst="tmp/CMS_2JET_8TEV_3D_BIN${j}.pineappl.lz4"
     dst="CMS_2JET_8TEV_3D_BIN${j}.pineappl.lz4"
     pineappl import "$src" "$temp_dst" NNPDF40_nnlo_as_01180

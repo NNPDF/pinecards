@@ -44,3 +44,4 @@ done
 rm -r $STEP1
 rm -r $STEP2
 rm *.tab.gz
+rm *.appl

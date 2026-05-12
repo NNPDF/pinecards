@@ -9,7 +9,7 @@ bins[4]="1.5 < y < 2.0"
 bins[5]="2.0 < y < 2.5"
 
 # Convert the grids to pineappl format under the right names
-for i in {0..5}; do
+for i in {0..4}; do
     j=$((i+1))
     src="grid_00${i}.tab.gz"
     dst="CMS_2JET_7TEV_M12Y_BIN${j}.pineappl.lz4"

@@ -1,19 +1,21 @@
 #!/bin/bash
+
 mkdir tmp
 
 # Bin mapping
-bins[1]="y_b=0.5, y*=0.5"
-bins[2]="y_b=0.5, y*=1.5"
-bins[3]="y_b=0.5, y*=2.5"
-bins[4]="y_b=1.5, y*=0.5"
-bins[5]="y_b=1.5, y*=1.5"
-bins[6]="y_b=2.5, y*=0.5"
+bins[1]="y*=0.25"
+bins[2]="y*=0.75"
+bins[3]="y*=1.25"
+bins[4]="y*=1.75"
+bins[5]="y*=2.25"
+bins[6]="y*=2.75"
 
 # Convert the grids to pineappl format under the right names
+# also, add bin info
 for i in {0..5}; do
     j=$((i+1))
     src="grid_00${i}.tab.gz"
-    dst="CMS_2JET_8TEV_3D_BIN${j}.pineappl.lz4"
+    dst="ATLAS_2JET_7TEV_R06_M12Y_BIN${j}.pineappl.lz4"
     temp_dst="tmp/${dst}"
     pineappl import "$src" "$temp_dst" NNPDF40_nnlo_as_01180
     current_bin=${bins[$j]}

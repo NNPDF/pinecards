@@ -1,0 +1,4 @@
+arxiv=2312.16669
+description=CMS double differential dijet cross section with R=0.8. Full colour grid from ploughshare.
+hepdata=10.17182/hepdata.146075.v1/t5
+nnpdf_id=CMS_2JET_13TEV

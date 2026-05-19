@@ -1,5 +1,4 @@
 arxiv=1706.03192
-ploughshare=https://ploughshare.web.cern.ch/ploughshare/db/applfast/applfast-atlas-incjets-appl-arxiv-1706.03192/applfast-atlas-incjets-appl-arxiv-1706.03192.tgz
 description=ATLAS double-differential inclusive jet cross section at 8 TeV. Downloaded from ploughshare, central scale mu=HT_parton.
 hepdata=10.17182/hepdata.76967.v1/t1, 10.17182/hepdata.76967.v1/t2, 10.17182/hepdata.76967.v1/t3, 10.17182/hepdata.76967.v1/t4, 10.17182/hepdata.76967.v1/t5, 10.17182/hepdata.76967.v1/t6
 nnpdf_id=ATLAS_1JET_8TEV_R06

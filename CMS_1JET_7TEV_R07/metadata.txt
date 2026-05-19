@@ -1,5 +1,4 @@
 arxiv=1212.6660, 1406.0324
-ploughshare=https://ploughshare.web.cern.ch/ploughshare/db/applfast/applfast-cms-incjets-appl-arxiv-1212.6660/applfast-cms-incjets-appl-arxiv-1212.6660.tgz
 description=CMS single double differential inclusive jet cross section at 7 TeV. Downloaded from ploughshare, central scale mu=HT_parton.
 implementation=measurements from 1406.0324, grids from 1212.6660. Intersection of datapoints taken.
 hepdata=10.17182/hepdata.68020.v1/t7, 10.17182/hepdata.68020.v1/t8, 10.17182/hepdata.68020.v1/t9, 10.17182/hepdata.68020.v1/t10, 10.17182/hepdata.68020.v1/t11

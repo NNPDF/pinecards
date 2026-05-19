@@ -1,7 +1,6 @@
 arxiv=1711.02692
 description=ATLAS double differential cross section w.r.t. m_jj and y* at 13 TeV. Full colour grid from ploughshare.
 hepdata=10.17182/hepdata.79952.v1/t1, 10.17182/hepdata.79952.v1/t2, 10.17182/hepdata.79952.v1/t3, 10.17182/hepdata.79952.v1/t4, 10.17182/hepdata.79952.v1/t5, 10.17182/hepdata.79952.v1/t6
-ploughshare=https://ploughshare.web.cern.ch/ploughshare/db/applfast/applfast-atlas-dijets-v2-fc-fnlo-arxiv-1711.02692/applfast-atlas-dijets-v2-fc-fnlo-arxiv-1711.02692.tgz
 nnpdf_id= ATLAS_2JET_13TEV_DIF
 y_label=d2sig/dmjjdy*
 y_label_tex='$\frac{d^2\sigma}{dm_{jj} d|y^*|}$ ($\frac{pb}{GeV}$)'

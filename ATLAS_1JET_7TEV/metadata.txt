@@ -1,0 +1,13 @@
+arxiv=1410.8857
+description=ATLAS double-differential inclusive jet cross section at 7 TeV jet radius R=0.6. Downloaded from ploughshare, central scale mu=HT_parton.
+hepdata=10.17182/hepdata.69343.v1/t7, 10.17182/hepdata.69343.v1/t8, 10.17182/hepdata.69343.v1/t9, 10.17182/hepdata.69343.v1/t10, 10.17182/hepdata.69343.v1/t11, 10.17182/hepdata.69343.v1/t12
+nnpdf_id=ATLAS_1JET_7TEV
+x1_label=yj
+x1_label_tex=$y_{\mathrm{jet}}$
+x1_unit=
+x2_label=ptj
+x2_label_tex=$p_{\mathrm{T},\mathrm{jet}}$
+x2_unit=GeV
+y_label=d^2sig/dptdy
+y_label_tex=$\frac{\mathrm{d}^2\sigma}{\mathrm{d}p_{\mathrm{T},\mathrm{jet}\mathrm{d}y}$
+y_unit=pb/GeV

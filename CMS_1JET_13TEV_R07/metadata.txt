@@ -1,0 +1,12 @@
+arxiv=2111.10431
+description=CMS double-differential inclusive jet cross section at 13 TeV jet radius R=0.7. Downloaded from ploughshare, central scale mu=HT_parton.
+hepdata=10.17182/hepdata.115022.v2/t21, 10.17182/hepdata.115022.v2/t2210.17182/hepdata.115022.v2/t2310.17182/hepdata.115022.v2/t24
+x1_label=yj
+x1_label_tex=$y_{\mathrm{jet}}$
+x1_unit=
+x2_label=ptj
+x2_label_tex=$p_{\mathrm{T},\mathrm{jet}}$
+x2_unit=GeV
+y_label=d^2sig/dptdy
+y_label_tex=$\frac{\mathrm{d}^2\sigma}{\mathrm{d}p_{\mathrm{T},\mathrm{jet}\mathrm{d}y}$
+y_unit=pb/GeV

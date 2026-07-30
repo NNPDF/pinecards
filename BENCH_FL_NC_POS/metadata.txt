@@ -1,9 +1,9 @@
 arxiv=
-description=DIS prediction for F2 intended use N3LO benchmark
+description=DIS prediction for FL e+p full NC intended use N3LO benchmark
 hepdata=
 data_url=
-nnpdf_id=BENCHF2C
-fktable_id=BENCHF2C
+nnpdf_id=BENCHFL_NC_POS
+fktable_id=BENCHFL_NC_POS
 x1_label=Q2
 x1_label_tex=$Q^2$
 x1_unit=GeV^2

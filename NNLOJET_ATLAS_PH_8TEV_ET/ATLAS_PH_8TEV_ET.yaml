@@ -1,0 +1,141 @@
+# arXiv number: 1605.03495, hepdata entry: https://www.hepdata.net/record/ins1457605 (tables: [1, 2, 3])
+
+runname: ATLASPHT12
+
+process:
+    proc: GJ
+    sqrts: 8000.0
+    jet: none[0]
+    photon_isolation: hybrid_smooth[R=0.4, ET_const=4.8, ETmax_epsilon=0.1, R_inner=0.1,n=2]
+    photon_fragmentation: BFG2
+
+pdf: NNPDF40MC_nnlo_as_01180
+
+techcut: 1e-07
+
+histograms:
+  - name: ET_bin_1
+    grid_name: ET_1bin
+    observable: pt_gam
+    bins:
+      - 25.0
+      - 35.0
+      - 45.0
+      - 55.0
+      - 65.0
+      - 75.0
+      - 85.0
+      - 105.0
+      - 125.0
+      - 150.0
+      - 175.0
+      - 200.0
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1500.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 0.0
+        max: 0.6
+
+  - name: ET_bin_2
+    grid_name: ET_2bin
+    observable: pt_gam
+    bins:
+      - 25.0
+      - 35.0
+      - 45.0
+      - 55.0
+      - 65.0
+      - 75.0
+      - 85.0
+      - 105.0
+      - 125.0
+      - 150.0
+      - 175.0
+      - 200.0
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 0.6
+        max: 1.37
+
+  - name: ET_bin_3
+    grid_name: ET_3bin
+    observable: pt_gam
+    bins:
+      - 25.0
+      - 35.0
+      - 45.0
+      - 55.0
+      - 65.0
+      - 75.0
+      - 85.0
+      - 105.0
+      - 125.0
+      - 150.0
+      - 175.0
+      - 200.0
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 1.56
+        max: 1.81
+
+multi_channel: 0
+
+channels:
+    LO: LO
+    R: R
+    V: V
+    RR: RR
+    RV: RV
+    VV: VV
+
+parameters:
+    MASS[Z]: 91.1876
+    MASS[W]: 80.379
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    CKM: FULL
+    GF: 1.1663787d-5
+
+selectors:
+  - observable: njets
+    min: 0
+  - observable: pt_gam
+    min: 25.0
+  - observable: abs_y_gam
+    max: 1.81
+  - action: reject
+    observable: abs_y_gam
+    min: 1.37
+    max: 1.56
+
+scales:
+    mur: pt_gam
+    muf: pt_gam

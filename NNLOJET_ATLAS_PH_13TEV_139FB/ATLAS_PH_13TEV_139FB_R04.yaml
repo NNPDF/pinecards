@@ -1,0 +1,159 @@
+# arXiv number: 2302.00510, hepdata entry: https://www.hepdata.net/record/ins2628741  (tables: [1, 2, 3, 4, 5, 6])
+
+runname: ATLAS_PH_13TEV_139FB
+
+process:
+    proc: GJ
+    sqrts: 13000.0
+    jet: antikt[0.4]
+    photon_isolation: hybrid_smooth[R=0.4, ET_const=4.8, ETmax_epsilon=0.1, R_inner=0.1,n=2]
+
+pdf: NNPDF40MC_nnlo_as_01180
+
+techcut: 1e-07
+
+histograms:
+  - name: ET_bin_0
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1500.0
+      - 2000.0
+      - 2500.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 0.0
+        max: 0.6
+  - name: ET_bin_1
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1500.0
+      - 2000.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 0.6
+        max: 0.8
+  - name: ET_bin_2
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1500.0
+      - 2000.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 0.8
+        max: 1.37
+  - name: ET_bin_3
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+      - 1500.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 1.56
+        max: 1.81
+  - name: ET_bin_4
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 1.81
+        max: 2.01
+  - name: ET_bin_5
+    observable: pt_gam
+    bins:
+      - 250.0
+      - 300.0
+      - 350.0
+      - 400.0
+      - 470.0
+      - 550.0
+      - 650.0
+      - 750.0
+      - 900.0
+      - 1100.0
+    extra_selectors:
+      - observable: abs_y_gam
+        min: 2.01
+        max: 2.37
+
+multi_channel: 0
+
+channels:
+    LO: LO
+    R: R
+    V: V
+    RR: RR
+    RV: RV
+    VV: VV
+
+parameters:
+    MASS[Z]: 91.1876
+    MASS[W]: 80.379
+    WIDTH[Z]: 2.4952
+    WIDTH[W]: 2.085
+    SCHEME[alpha]: Gmu
+    GF: 1.1663787d-5
+
+selectors:
+  - observable: njets
+    min: 0
+  - observable: pt_gam
+    min: 250
+  - observable: abs_y_gam
+    max: 2.37
+  - action: reject
+    observable: abs_y_gam
+    min: 1.37
+    max: 1.56
+
+scales:
+    mur: pt_gam
+    muf: pt_gam

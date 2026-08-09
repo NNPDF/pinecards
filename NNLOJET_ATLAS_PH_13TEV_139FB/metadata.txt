@@ -1,0 +1,10 @@
+arxiv=2302.00510
+description=ATLAS direct photon production cross section at 13 TeV
+hepdata=https://www.hepdata.net/record/ins2628741
+nnpdf_id=ATLAS_PH_13TEV_139FB
+x1_label=ET
+x1_label_tex=$E_{\mathrm{T}}^{\gamma}$
+x1_unit=GeV
+y_label=dsig/dET
+y_label_tex=$\frac{\mathrm{d}\sigma_{\gamma}}{\mathrm{d}E_{\mathrm{T}}^{\gamma}}$
+y_unit=fb/GeV
